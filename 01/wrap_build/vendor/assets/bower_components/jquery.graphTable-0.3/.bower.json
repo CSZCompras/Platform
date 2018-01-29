@@ -1,0 +1,13 @@
+{
+  "name": "jquery.graphTable-0.3",
+  "_cacheHeaders": {
+    "ETag": "\"a61a4f425bfa197b3562ff918a6248ad0d149942\"",
+    "Content-Length": "6576",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:a61a4f425",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/sithmel/graphTable/master/jquery.graphTable-0.3.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/sithmel/graphTable/master/jquery.graphTable-0.3.js"
+}

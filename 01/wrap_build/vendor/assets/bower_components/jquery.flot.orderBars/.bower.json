@@ -1,0 +1,13 @@
+{
+  "name": "jquery.flot.orderBars",
+  "_cacheHeaders": {
+    "ETag": "\"a3f8daad573bd07b3662488547649c4c337c87de\"",
+    "Content-Length": "6839",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:a3f8daad5",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/emmerich/flot-orderBars/master/js/jquery.flot.orderBars.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/emmerich/flot-orderBars/master/js/jquery.flot.orderBars.js"
+}

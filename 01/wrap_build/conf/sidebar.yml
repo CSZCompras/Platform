@@ -1,0 +1,221 @@
+dashboard:
+  text: Dashboard
+  icon: "icm icm-screen4"
+  href: /htmls/dashboard.html
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      A mashup of components, mainly visual indicators.
+widgets:
+  text: Widgets
+  caption: "<span class='badge badge-primary oc-nav-caption'>18</span>"
+  icon: "icm icm-grid"
+  href: /htmls/widgets.html
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      A mashup of components that you can easily drop in your project.
+ui_elements:
+  text: UI Elements
+  icon: "icm icm-html5"
+  highlight: !ruby/regexp '/^htmls\/elements\//'
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      We styled the Bootstrap elements beautifuly, and added several of our own!
+  children:
+    cards:
+      text: Motion cards
+      caption: "<span class='label label-inverse oc-nav-caption'>New</span>"
+      highlight: !ruby/regexp '/^htmls\/elements\/cards\//'
+      children:
+        turbocards:
+          text: Turbo cards
+          tip: Click one
+          href: /htmls/elements/cards/turbocards.html
+        captionable:
+          text: Captionable cards
+          tip: Hover one
+          caption: "<span class='badge badge-info oc-nav-caption'>12</span>"
+          href: /htmls/elements/cards/captionable.html
+        actionable:
+          text: Actionable card
+          tip: Submit it
+          href: /htmls/elements/cards/actionable.html
+    offcanvas:
+      text: Offcanvas
+      highlight: !ruby/regexp '/^htmls\/elements\/offcanvas\//'
+      children:
+        squeeze-squeeze:
+          text: Squeeze squeeze
+          href: /htmls/elements/offcanvas/squeeze-squeeze.html
+        squeeze-push:
+          text: Squeeze push
+          href: /htmls/elements/offcanvas/squeeze-push.html
+    typography:
+      text: Typography
+      href: /htmls/elements/typography.html
+    buttons:
+      text: Buttons
+      href: /htmls/elements/buttons.html
+    nav:
+      text: Navigation
+      href: /htmls/elements/nav.html
+    icons:
+      text: Icons
+      caption: "<span class='label label-danger oc-nav-caption'>New</span>"
+      href: /htmls/elements/icons.html
+    modals:
+      text: Modals & Notifications
+      href: /htmls/elements/modal.html
+    trees:
+      text: Trees and nesting
+      href: /htmls/elements/tree.html
+    components:
+      text: Other components
+      href: /htmls/elements/components.html
+    jquery_ui:
+      text: JQuery UI
+      href: /htmls/elements/jquery-ui.html
+    multi_level_menu:
+      text: Multi level menu
+      children:
+        multi_level_menu:
+          text: Multi level menu
+          children:
+            multi_level_menu:
+              text: Multi level menu
+              children:
+                multi_level_menu:
+                  text: Multi level menu
+                  children:
+                    six_level_menu:
+                      text: Multi level menu
+                      children:
+                        six_level_menu:
+                          text: Multi level menu
+charts:
+  text: Charts
+  icon: "icm icm-chart"
+  href: /htmls/charts.html
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      Visual indicators like charts and graphs, bars, pies, gauges and more.
+forms:
+  text: Forms
+  caption: "<i class='icm icm-star6 text-warning oc-nav-caption'></i>"
+  icon: "icm icm-clipboard3"
+  href: /htmls/forms.html
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      Forms and inputs, validations, form extensions and custom controll
+      for all your data needs, easy peasy.
+tables:
+  text: Tables
+  icon: "icm icm-table2"
+  href: /htmls/tables.html
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      Beautifully crafted tables including responsive and dynamic extensions.
+panels:
+  text: Panels
+  caption: "<span class='label label-success oc-nav-caption'>New</span>"
+  href: /htmls/panels.html
+  icon: "icm icm-insert-template"
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      Panel widgets with dynamic portal-like behaviors.
+      Move them, toggle them, swap tehm, you name it.
+components:
+  text: Components
+  icon: "icm icm-calendar2"
+  highlight: !ruby/regexp '/^htmls\/components\//'
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      A series of ready-made great looking components that 
+      you may need in your projects.
+  children:
+    timeline:
+      text: Timeline
+      href: "/htmls/components/timeline.html"
+    chat:
+      text: Chat
+      href: "#oc-wrapper"
+      attrs:
+        id: "oc-open-chat"
+        data-toggle: "offcanvas"
+        data-control: "right"
+        data-states: "open,hidden"
+    gallery:
+      text: Gallery
+      href: "/htmls/components/gallery.html"
+    calendar:
+      text: Calendar
+      href: "/htmls/components/calendar.html"
+    wizard:
+      text: Wizard
+      href: "/htmls/components/wizard.html"
+
+pages:
+  text: Pages
+  icon: "icm icm-stack2"
+  highlight: !ruby/regexp '/^htmls\/pages\//'
+  attrs:
+    rel: "popover-sidebar"
+    data-container: "body"
+    data-placement: "right"
+    data-content: |
+      We built all common page layouts so you don't have to.
+      You will use these in your next project for sure.
+  children:
+    sign-in:
+      text: Sign In
+      href: /htmls/pages/sign_in.html
+      attrs:
+        data-no-turbolink: true
+    sign-up:
+      text: Sign Up
+      href: /htmls/pages/sign_up.html
+      attrs:
+        data-no-turbolink: true
+    lockscreen:
+      text: Lock Screen
+      href: /htmls/pages/lockscreen.html
+      attrs:
+        data-no-turbolink: true
+    user-profile:
+      text: User Profile
+      href: /htmls/pages/profile.html
+    albums:
+      text: Albums
+      href: /htmls/pages/albums.html
+    invoice:
+      text: Invoice
+      href: /htmls/pages/invoice.html
+    pricing:
+      text: Pricing
+      href: /htmls/pages/pricing.html
+    inbox:
+      text: Inbox
+      href: /htmls/pages/inbox.html

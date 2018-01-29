@@ -1,0 +1,13 @@
+{
+  "name": "jquery.floatThead",
+  "_cacheHeaders": {
+    "ETag": "\"9f5c4e86b26aa8f33a53d447417a875e5a98228e\"",
+    "Content-Length": "27364",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:9f5c4e86b",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/mkoryak/floatThead/master/jquery.floatThead.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/mkoryak/floatThead/master/jquery.floatThead.js"
+}

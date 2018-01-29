@@ -1,0 +1,13 @@
+{
+  "name": "turbolinks.js",
+  "_cacheHeaders": {
+    "ETag": "\"d3d8576e71ba499445638f06b9e1bf2671ce5721\"",
+    "Content-Length": "13490",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:d3d8576e7",
+  "main": "index.coffee",
+  "_source": "https://raw.githubusercontent.com/rails/turbolinks/master/lib/assets/javascripts/turbolinks.js.coffee",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/rails/turbolinks/master/lib/assets/javascripts/turbolinks.js.coffee"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "morris",
+  "_cacheHeaders": {
+    "ETag": "\"3a1a830841bef73bd18cef86c4c51624cd11d8ce\"",
+    "Content-Length": "66047",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:3a1a83084",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/morrisjs/morris.js/master/morris.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/morrisjs/morris.js/master/morris.js"
+}

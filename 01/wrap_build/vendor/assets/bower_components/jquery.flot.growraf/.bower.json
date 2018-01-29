@@ -1,0 +1,13 @@
+{
+  "name": "jquery.flot.growraf",
+  "_cacheHeaders": {
+    "ETag": "\"24209f2d895ac862f54b17e84b0877126a5dacbd\"",
+    "Content-Length": "14291",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:24209f2d8",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/thgreasi/growraf/master/jquery.flot.growraf.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/thgreasi/growraf/master/jquery.flot.growraf.js"
+}

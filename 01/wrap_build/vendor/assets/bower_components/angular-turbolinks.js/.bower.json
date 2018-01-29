@@ -1,0 +1,13 @@
+{
+  "name": "angular-turbolinks.js",
+  "_cacheHeaders": {
+    "ETag": "\"1aca9402f743c3aa40ae35950dd94acab0de300e\"",
+    "Content-Length": "6668",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:1aca9402f",
+  "main": "index.coffee",
+  "_source": "https://raw.githubusercontent.com/cdunn/angular-turbolinks/master/lib/assets/javascripts/angular-turbolinks.js.coffee",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/cdunn/angular-turbolinks/master/lib/assets/javascripts/angular-turbolinks.js.coffee"
+}
