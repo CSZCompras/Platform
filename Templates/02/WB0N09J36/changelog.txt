@@ -1,0 +1,17 @@
+CHANGELOG
+================
+
+v1.3 - 25/01/2018
+- Uncommented the js code that allows horizontal sub-menu work
+
+v1.2 - 30/12/2017
+- Updated tabs and are now functional
+
+v1.1 - 04/12/2017
+- Removed default animation but can still be enabled. See documentation
+- Massive design update. Design is now more sleek and modern.
+- Added Font Awesome
+- Added 3 new Mini Cards
+
+v1.0 - 13/11/2017
+- Initial Release
