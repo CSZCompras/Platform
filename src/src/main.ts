@@ -1,5 +1,6 @@
 import {Aurelia} from 'aurelia-framework'
-import environment from './environment';
+import { PLATFORM } from 'aurelia-pal';
+import environment from './settings/environment' 
 
 
 import 'jquery';
@@ -14,8 +15,14 @@ import 'ie10-viewport';
 
 export function configure(aurelia: Aurelia) {
   aurelia.use
-    .standardConfiguration()
-    .feature('resources');
+    .standardConfiguration()    
+    .feature('resources')
+    /* .plugin('aurelia-autocomplete')
+    .plugin('aurelia-dialog')
+    .plugin('aurelia-validation')*/
+    .plugin('aurelia-api', config => {
+      config.registerEndpoint('fol', environment.apiAddress);
+    });
 
   if (environment.debug) {
     aurelia.use.developmentLogging();
@@ -25,5 +32,5 @@ export function configure(aurelia: Aurelia) {
     aurelia.use.plugin('aurelia-testing');
   }
 
-  aurelia.start().then(() => aurelia.setRoot());
+   aurelia.start().then(() => aurelia.setRoot());
 }
