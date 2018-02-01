@@ -1,7 +1,6 @@
 import {Aurelia} from 'aurelia-framework'
 import { PLATFORM } from 'aurelia-pal';
-import environment from './settings/environment' 
-
+import environment from './environment';
 
 import 'jquery';
 import 'popper.js';
@@ -21,7 +20,7 @@ export function configure(aurelia: Aurelia) {
     .plugin('aurelia-dialog')
     .plugin('aurelia-validation')*/
     .plugin('aurelia-api', config => {
-      config.registerEndpoint('fol', environment.apiAddress);
+      config.registerEndpoint('csz', environment.apiAddress);
     });
 
   if (environment.debug) {

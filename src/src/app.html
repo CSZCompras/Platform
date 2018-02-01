@@ -1,5 +1,5 @@
-<template>
-    <div class="container-fluid">
+<template>    
+    <div class="container-fluid" if.bind="isLogged">
         <div class="row">
             <nav id="sidebar" class="px-0 bg-dark bg-gradient sidebar">
                 <ul class="nav nav-pills flex-column">
@@ -193,7 +193,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
                                     <div class="profile-name">
-                                        Johanna Quinn
+                                        ${identity.name}
                                     </div>
                                     <div class="profile-picture bg-gradient bg-primary has-message float-right">
                                         <img src="assets/img/profile-pic.jpg" width="44" height="44">
@@ -208,7 +208,7 @@
 										</a>
                                     </li>
                                     <li><a class="dropdown-item" href="profiles-member-profile.html">Settings</a></li>
-                                    <li><a class="dropdown-item" href="sisu-lock-screen.html">Logout</a></li>
+                                    <li><a class="dropdown-item" href="#" click.trigger="logout()" >Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -220,4 +220,7 @@
             </div>
         </div>    
     </div>    
+    <div class="container-fluid" if.bind="isLogged == false">
+        <router-view containerless></router-view>
+    </div>
 </template>

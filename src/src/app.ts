@@ -1,8 +1,13 @@
+import { ScriptRunner } from './services/scriptRunner';
+import { Identity } from './domain/identity';
+import { isNullOrUndefined } from 'util';
+import { IdentityService } from './services/identityService';
 import { autoinject, Aurelia } from 'aurelia-framework';
 import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
 import { Rest, Config } from 'aurelia-api';
 import { configure } from './resources';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 import 'jquery';
 import 'popper.js';
@@ -20,7 +25,9 @@ export class App {
   	$ : any;
 	api : Rest; 
 	router : Router; 
-
+	isLogged : boolean;
+	identity : Identity;
+	
 	configureRouter(config: RouterConfiguration, router: Router): void {
 		
 		config = config;
@@ -30,22 +37,45 @@ export class App {
 		this.addRoutes(config, router);
 	}	
 
-	constructor(private aurelia: Aurelia, private config: Config) {
+	constructor(private aurelia: Aurelia, private config: Config, private ea: EventAggregator, private service : IdentityService) {
 
-        this.api = this.config.getEndpoint('fol'); 
+        this.api = this.config.getEndpoint('csz'); 
+		this.isLogged = this.service.isLogged();
+		this.ea.subscribe('loginDone', () => {
+			this.isLogged = this.service.isLogged()
+			this.identity = this.service.getIdentity();
+			ScriptRunner.runScript();
+		});
 
-        let d = new Date(); 
+		if(this.isLogged){
+			this.identity = this.service.getIdentity();
+		}
     }
 
+
+	attached() : void {
+
+		if(! this.isLogged){
+			this.router.navigate('login');
+		}
+		ScriptRunner.runScript();
+	}
 
    addRoutes(config: RouterConfiguration, router: Router) : void { 
 
 		config.map([
 			{ route: '', redirect: 'dashboard' },
-            { route: 'dashboard', name: 'dashboard', moduleId: PLATFORM.moduleName('./views/dashboard') } ,
-            { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./views/cadastro') } 
+            { route: 'dashboard', name: 'dashboard', moduleId: PLATFORM.moduleName('./views/dashboard') },
+            { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./views/cadastro') } ,
+            { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./views/login') } 
         ]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });
+   }
+
+   logout() : void {
+	   this.service.resetIdentity();
+	   this.isLogged = false;
+	   this.router.navigate('login');
    }
 }
