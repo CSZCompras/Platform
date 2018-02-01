@@ -1,3 +1,4 @@
+import { NotificationService } from '../services/notificationService';
 import { ScriptRunner } from '../services/scriptRunner';
 import { IdentityService } from "../services/identityService";
 import { Identity } from '../domain/identity';
@@ -34,7 +35,8 @@ export class Login {
         private aurelia: Aurelia, 
         private loginRepository: LoginRepository, 
         private service : IdentityService, 
-        private ea : EventAggregator) {
+        private ea : EventAggregator ,
+        private nService : NotificationService ) {
     }
 
     doLogin() : void {
@@ -51,7 +53,8 @@ export class Login {
     
 	  
    	attached(): void { 
-		 ScriptRunner.runScript();
+        ScriptRunner.runScript(); 
+        this.nService.notify();
 	}
 
 }

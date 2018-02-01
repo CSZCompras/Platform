@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/toastr": "^2.1.35",
     "aurelia-animator-css": "^1.0.2",
     "aurelia-api": "^3.1.1",
     "aurelia-bootstrapper": "^2.1.1",
@@ -27,6 +28,7 @@
     "require-path": "^0.3.0",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest",
+    "toastr": "^2.1.4",
     "twitter-bootstrap-wizard": "^1.2.0",
     "velocity": "^0.7.2",
     "velocity-animate": "^1.5.1",

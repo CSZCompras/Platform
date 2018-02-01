@@ -175,6 +175,14 @@
             "resources": [
               "prettify.css"
             ]
+          },
+          {
+            "name": "toastr",
+            "main": "toastr.js",
+            "path": "../node_modules/toastr",
+            "resources": [
+              "build/toastr.css"
+            ]
           }
         ]
       }

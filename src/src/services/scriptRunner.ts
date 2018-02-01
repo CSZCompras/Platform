@@ -1,8 +1,10 @@
+import 'velocity';
+
 export class ScriptRunner {
 
-   static runScript() : void{
-	   debugger;
-             $(document).ready(function() {
+   static runScript() : void{ 
+
+       $(document).ready(function() {
 
 
 			/* Defaults */
@@ -231,7 +233,7 @@ export class ScriptRunner {
 				/* Auto-Links */
 				// Allows you to make any element clickable without the affecting the style of the page
 				$('[data-qp-link]').on('click', function(e){
-					window.location = $(this).data('qp-link');
+					( <any> window).location = $(this).data('qp-link');
 					e.preventDefault();
 				});
 
@@ -1093,5 +1095,6 @@ export class ScriptRunner {
 
 			/* DEMO CALLS - END */
 		});  
+		
     }
 }
