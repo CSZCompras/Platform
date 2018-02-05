@@ -47,14 +47,16 @@ export class Login {
                 this.service.setIdentity(identity);
                 this.router.navigate('/#/dashboard');
                 this.ea.publish('loginDone', null);
+            }).catch( e => 
+            {
+                this.nService.presentError(e);
             });
     }
 
     
 	  
    	attached(): void { 
-        ScriptRunner.runScript(); 
-        this.nService.notify();
+        ScriptRunner.runScript();         
 	}
 
 }

@@ -1,3 +1,4 @@
+import { Supplier } from '../domain/supplier';
 import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
 import { Rest, Config } from 'aurelia-api';
@@ -6,7 +7,7 @@ import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
 
 @autoinject
-export class LoginRepository {
+export class SupplierRepository {
 
     api: Rest;
 
@@ -15,11 +16,11 @@ export class LoginRepository {
     }
 
 
-    login(login: Credential) : Promise<Identity> {
+    getSupplier(userId : string) : Promise<Supplier> {
         
         return this.api
-            .post('login', login)
-            .then( (result : Promise<Identity>) => {                 
+            .find('supplier?userId=' + userId)
+            .then( (result : Promise<Supplier>) => {                 
                 return result;
             })
             .catch( (e) => {
@@ -28,9 +29,6 @@ export class LoginRepository {
                     debugger;
                     throw error;
                 }));
-                
             });
-
-        
     }
 }

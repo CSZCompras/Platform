@@ -6,15 +6,24 @@ import { Router } from 'aurelia-router';
 export class NotificationService {
     
 
-    constructor(
-        private router: Router,
-        private aurelia: Aurelia) {
+    constructor( private router: Router, private aurelia: Aurelia) {            
+
+        toastr.options = {
+            closeButton : true,
+            showEasing :  'swing',
+            hideEasing : 'linear',
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut'
+        };
 
     }
 
+    presentError(error : any) : void{
+        if(error.message != null)
+            this.error(error.message)
+    }
 
-    notify(){
- 
-      /*  ( <any> toastr).error('ola'); */
+    error(message : string){
+        toastr.error(message, 'Erro'); 
     }
 }

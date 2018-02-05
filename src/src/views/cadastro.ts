@@ -1,16 +1,26 @@
+import { StateRegistrationRepository } from '../repositories/stateRegistrationRepository';
+import { StateRegistration } from '../domain/stateRegistration';
+import { NotificationService } from '../services/notificationService';
+import { Supplier } from '../domain/supplier';
+import { Identity } from '../domain/identity';
+import { IdentityService } from '../services/identityService';
+import { SupplierRepository } from '../repositories/supplierRepository';
 import { Aurelia, autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
-import { PLATFORM } from 'aurelia-pal';
 import { Rest, Config } from 'aurelia-api';
 import 'twitter-bootstrap-wizard';
 
 @autoinject
 export class Cadastro{
 
-    message : string;
+	supplier : Supplier;
+	stateRegistrations : StateRegistration[];
 
-    constructor() {
-        this.message = 'Hello World';
+    constructor(
+		private repository : SupplierRepository, 
+		private service : IdentityService,
+		private nService : NotificationService,
+		private stateRepo: StateRegistrationRepository ) {
     }
 
 	 /**
@@ -135,8 +145,7 @@ export class Cadastro{
 			}
 		}
 
-    attached() : void{
-        
+	runScript() : void{
 		var thisForm = '#rootwizard-1';
 
 		var outher = this;
@@ -204,8 +213,37 @@ export class Cadastro{
 				return false;
 			}});
 		}
-	
+	}
 
+    attached() : void{
+        
+		this.runScript();
+		this.loadData();
     } 
 
-	} 
+	loadData() : void {
+
+		var identity = this.service.getIdentity();
+
+		this.repository
+            .getSupplier(identity.id)
+            .then( (supplier : Supplier) => 
+			{ 
+                this.supplier = supplier;
+            }).catch( e => 
+            {
+                this.nService.presentError(e);
+            });
+
+		this.stateRepo
+				.getAll()
+				.then( (data : StateRegistration[]) => 
+				{ 
+					this.stateRegistrations = data;
+				}).catch( e => 
+				{
+					this.nService.presentError(e);
+				});
+	}
+
+} 

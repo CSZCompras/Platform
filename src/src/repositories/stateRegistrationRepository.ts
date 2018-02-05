@@ -1,12 +1,11 @@
+import { StateRegistration } from '../domain/stateRegistration';
+import { Supplier } from '../domain/supplier';
 import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-import { Rest, Config } from 'aurelia-api';
-
-import { Identity } from '../domain/identity';
-import { Credential } from "../domain/credential";
+import { Rest, Config } from 'aurelia-api'; 
 
 @autoinject
-export class LoginRepository {
+export class StateRegistrationRepository {
 
     api: Rest;
 
@@ -15,11 +14,11 @@ export class LoginRepository {
     }
 
 
-    login(login: Credential) : Promise<Identity> {
+    getAll() : Promise<StateRegistration[]> {
         
         return this.api
-            .post('login', login)
-            .then( (result : Promise<Identity>) => {                 
+            .find('stateRegistration')
+            .then( (result : Promise<StateRegistration[]>) => {                 
                 return result;
             })
             .catch( (e) => {
@@ -27,10 +26,7 @@ export class LoginRepository {
                 return Promise.resolve(e.json().then( error => {
                     debugger;
                     throw error;
-                }));
-                
+                })); 
             });
-
-        
     }
 }

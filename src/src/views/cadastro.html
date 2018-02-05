@@ -46,11 +46,11 @@
 																<form method="post" id="wizard-stage-1">
 																	<div class="form-group">
 																		<label class="control-label">Razão Social *</label>
-																		<input type="text" class="form-control wizard-stage-1-username" name="username" />
+																		<input type="text" class="form-control wizard-stage-1-username"   value.bind="supplier.name"  />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">CNPJ *</label>
-																		<input type="text" class="form-control wizard-stage-1-email" name="email" />
+																		<input type="text" class="form-control wizard-stage-1-email" value.bind="supplier.CNPJ" />
 																	</div>
 																</form>
 															</div>
@@ -58,11 +58,13 @@
 																<form method="post" id="wizard-stage-1">
 																	<div class="form-group">
 																		<label class="control-label">Nome Fantasia *</label>
-																		<input type="text" class="form-control wizard-stage-1-username" name="username" />
+																		<input type="text" class="form-control wizard-stage-1-username" value.bind="supplier.fantasyName" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Inscrição Estadual</label>
-																		<input type="text" class="form-control wizard-stage-1-email" name="email" />
+																		<select class="form-control">
+																			<option  repeat.for="state of stateRegistrations" value.bind="state.id">${state.name}</option 
+																		</select>
 																	</div>
 																</form>
 															</div>
@@ -74,19 +76,19 @@
 																<form method="post" id="wizard-stage-2">
 																	<div class="form-group">
 																		<label class="control-label">CEP</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-1" name="username" />
+																		<input type="text" class="form-control wizard-stage-2-optional-1" value.bind="supplier.address.cep" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Logradouro</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-2" name="email" />
+																		<input type="text" class="form-control wizard-stage-2-optional-2"  value.bind="supplier.address.logradouro" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Bairro</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-3" ></textarea>
+																		<input type="text" class="form-control wizard-stage-2-optional-3" value.bind="supplier.address.neighborhood" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Estado</label>
-																		<input type="text"  class="form-control wizard-stage-2-optional-3" ></textarea>
+																		<input type="text"  class="form-control wizard-stage-2-optional-3"  value.bind="supplier.address.city.state.name" >
 																	</div>
 																</form>
 															</div> 												
@@ -94,19 +96,19 @@
 																<form method="post" id="wizard-stage-2">								
 																	<div class="form-group">
 																		<label class="control-label">CEP</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-1" name="username" />
+																		<input type="text" class="form-control wizard-stage-2-optional-1"  value.bind="supplier.address.cep" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Número</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-3" ></textarea>
+																		<input type="text" class="form-control wizard-stage-2-optional-3"  value.bind="supplier.address.number" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Cidade</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-3" ></textarea>
+																		<input type="text" class="form-control wizard-stage-2-optional-3"  value.bind="supplier.address.city.name"  />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Complemento</label>
-																		<input type="text"  class="form-control wizard-stage-2-optional-3" ></textarea>
+																		<input type="text"  class="form-control wizard-stage-2-optional-3"  value.bind="supplier.address.complement" />
 																	</div>
 																</form>
 															</div>
@@ -118,15 +120,15 @@
 																<form method="post" id="wizard-stage-2">
 																	<div class="form-group">
 																		<label class="control-label">Nome</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-1" name="username" />
+																		<input type="text" class="form-control wizard-stage-2-optional-1" value.bind="supplier.contact.name" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Telefone Comercial</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-2" name="email" />
+																		<input type="text" class="form-control wizard-stage-2-optional-2" value.bind="supplier.contact.commercialPhone" />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">E-mail</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-3" ></textarea>
+																		<input type="text" class="form-control wizard-stage-2-optional-3" value.bind="supplier.contact.email"/>
 																	</div> 
 																</form>
 															</div>
@@ -134,11 +136,11 @@
 																<form method="post" id="wizard-stage-2">
 																	<div class="form-group">
 																		<label class="control-label">Telefone</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-1" name="username" />
+																		<input type="text" class="form-control wizard-stage-2-optional-1" value.bind="supplier.contact.phone"  />
 																	</div>
 																	<div class="form-group">
 																		<label class="control-label">Telefone Celular</label>
-																		<input type="text" class="form-control wizard-stage-2-optional-2" name="email" />
+																		<input type="text" class="form-control wizard-stage-2-optional-2" value.bind="supplier.contact.personalPhone"/>
 																	</div> 
 																</form>
 															</div>

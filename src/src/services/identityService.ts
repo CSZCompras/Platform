@@ -55,7 +55,7 @@ export class IdentityService {
 
     configureHttpClient(client: HttpClient): void {
 
-        if (client.interceptors && client.interceptors.length > 0) {
+       /* if (client.interceptors && client.interceptors.length > 0) {
             return;
         }
 
@@ -101,7 +101,7 @@ export class IdentityService {
                     return response;
                 }
             });
-        });
+        });*/
     }
 
     changePassword(): void {
