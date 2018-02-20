@@ -1,5 +1,6 @@
 import { Address } from './address';
 import { StateRegistration } from './stateRegistration';
+import { Contact } from "./contact";
 
 export class Supplier {
 
@@ -9,5 +10,5 @@ export class Supplier {
     cnpj : string;
     stateRegistration : StateRegistration;
     address : Address;
-     contact : Contact;
+    contact : Contact;
 }

@@ -28,9 +28,6 @@ export class LoginRepository {
                     debugger;
                     throw error;
                 }));
-                
             });
-
-        
     }
 }

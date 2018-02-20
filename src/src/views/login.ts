@@ -49,7 +49,7 @@ export class Login {
                 this.ea.publish('loginDone', null);
             }).catch( e => 
             {
-                this.nService.presentError(e);
+                this.nService.error(e);
             });
     }
 

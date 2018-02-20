@@ -21,6 +21,7 @@ export function configure(aurelia: Aurelia) {
     .plugin('aurelia-validation')*/
     .plugin('aurelia-api', config => {
       config.registerEndpoint('csz', environment.apiAddress);
+      config.registerEndpoint('viacep', environment.viacepAddress);
     });
 
   if (environment.debug) {

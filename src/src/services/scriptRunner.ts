@@ -2,6 +2,9 @@ import 'velocity';
 
 export class ScriptRunner {
 
+	$ : any;
+	
+
    static runScript() : void{ 
 
        $(document).ready(function() {
@@ -93,7 +96,7 @@ export class ScriptRunner {
 
 						if(clickedLink.closest('li').hasClass('open')){
 							clickedLink.closest('li').removeClass('open');
-							clickedLink.siblings('ul.nav').velocity('slideUp', {
+							(<any> clickedLink.siblings('ul.nav')).velocity('slideUp', {
 								easing: 'easeOutCubic',
 								duration: dynamicDuration,
 								delay: dynamicDelay,
@@ -108,7 +111,7 @@ export class ScriptRunner {
 						}else{
 							// Opens its sub-menu
 							clickedLink.closest('li').addClass('open');
-							clickedLink.siblings('ul.nav').velocity('slideDown', {
+							(<any> clickedLink.siblings('ul.nav')).velocity('slideDown', {
 								easing: 'easeOutCubic',
 								duration: dynamicDuration,
 								delay: dynamicDelay,
@@ -119,7 +122,7 @@ export class ScriptRunner {
 							});
 
 							// Closes the sub-menus' and children sub-menus of other menu items in the same ul parent
-							clickedLink.closest('li').siblings('li.nav-item.open').find('ul.nav').velocity('slideUp', {
+							(<any>  clickedLink.closest('li').siblings('li.nav-item.open').find('ul.nav')).velocity('slideUp', {
 								easing: 'easeOutCubic',
 								duration: dynamicDuration,
 								delay: dynamicDelay,
@@ -132,7 +135,7 @@ export class ScriptRunner {
 							});
 
 							// Closes the sub-menus' and children sub-menus of other menu items in other ul parents
-							clickedLink.closest('ul').siblings('ul.nav').find('ul.nav').velocity('slideUp', {
+							(<any> clickedLink.closest('ul').siblings('ul.nav').find('ul.nav')).velocity('slideUp', {
 								easing: 'easeOutCubic',
 								duration: dynamicDuration,
 								delay: dynamicDelay,
@@ -159,7 +162,7 @@ export class ScriptRunner {
 					$(sidebarNav).height(windowHeight);
 
 					// Destroy old scrollbar if present
-					$(sidebarNav).mCustomScrollbar("destroy");
+					(<any> $(sidebarNav)).mCustomScrollbar("destroy");
 					
 					qp_add_scrollbar('nav.sidebar', 'light');
 
@@ -175,7 +178,7 @@ export class ScriptRunner {
 							$(sidebarNav).height(windowHeight);
 
 							// Destroy old scrollbar if present
-							$(sidebarNav).mCustomScrollbar("destroy");
+							(<any> $(sidebarNav)).mCustomScrollbar("destroy");
 
 							// Destroy Hamburger
 							$('.sidebar .hamburger').remove();
@@ -223,11 +226,11 @@ export class ScriptRunner {
 
 
 				/* Popover */
-				$('[data-toggle="popover"]').popover();
+				( <any> $('[data-toggle="popover"]')).popover();
 
 
 				/* Enable Tooltips */
-				$('[data-toggle="tooltip"]').tooltip();
+				( <any> $('[data-toggle="tooltip"]')).tooltip();
 
 
 				/* Auto-Links */
@@ -278,7 +281,7 @@ export class ScriptRunner {
 				/* CKEditor */
 				var placeholder = '.load-ckeditor';
 				if($(placeholder).length){
-					$(placeholder).ckeditor();
+					(<any> $(placeholder)).ckeditor();
 				}
 
 
@@ -402,7 +405,7 @@ export class ScriptRunner {
 
 					$('[data-qp-animate-type]').each(function(){
 
-						var mainElement = $(this);
+						var mainElement = <any> $(this);
 
 						if(mainElement.visible(true) || mainElement.closest('nav').hasClass('sidebar')){
 							load_animation(mainElement);
@@ -500,7 +503,7 @@ export class ScriptRunner {
 				// Current Color Preset
 				var colorPresetGlobal = $('body').data('color-preset');
 
-				$(scrollContainer).mCustomScrollbar({
+				( <any> $(scrollContainer)).mCustomScrollbar({
 					autoHideScrollbar: true,
 					scrollbarPosition: 'inside',
 					theme: scrollBarTheme,
@@ -542,7 +545,7 @@ export class ScriptRunner {
 
 				if($(timelineContainer).length){
 					$(timelineContainer).each(function(){
-						$(this).timelify({
+						( <any> $(this)).timelify({
 							animRight: "fadeInRight",
 							animLeft: "fadeInLeft",
 							animCenter: "fadeInUp"
@@ -573,7 +576,7 @@ export class ScriptRunner {
 					$("#add-available-event").on("click", function(){
 						// Set variables
 						var eventColorActive = $(this).siblings(".dropdown-menu").find(".legend-block-item.active .legend-block-color-box").data("event-color");
-						var eventName = $(this).parent().siblings("#input-new-event").val().trim();
+						var eventName = ( <any> $(this)).parent().siblings("#input-new-event").val().trim();
 						$(this).parent().siblings("#input-new-event").val("");
 
 						// Actual event creation
@@ -601,7 +604,7 @@ export class ScriptRunner {
 								$(this).data('event', eventObject);
 
 								// make the event draggable using jQuery UI
-								$(this).draggable({
+								( <any> $(this)).draggable({
 									zIndex: 999,
 									revert: true, // will cause the event to go back to its
 									revertDuration: 0 //  original position after the drag
@@ -664,7 +667,7 @@ export class ScriptRunner {
 						});
 
 						// make the event draggable using jQuery UI
-						$(this).draggable({
+						( <any> $(this)).draggable({
 							zIndex: 999,
 							revert: true,      // will cause the event to go back to its
 							revertDuration: 0  //  original position after the drag
@@ -673,7 +676,7 @@ export class ScriptRunner {
 					});
 
 					/* Initialize the calendar */
-					$(calendarContainer).fullCalendar({
+					( <any> $(calendarContainer)).fullCalendar({
 						header: {
 							left: 'prev,next today',
 							center: 'title',
@@ -870,7 +873,7 @@ export class ScriptRunner {
 							if($(this).find('.email-checkbox .custom-control-input').is(':checked')){
 								// $(this).removeClass("email-status-unread");
 
-								$(this).velocity('slideUp', {
+								(<any> $(this)).velocity('slideUp', {
 									easing: 'easeOutCubic',
 									duration: dynamicDuration,
 									delay: dynamicDelay,
@@ -909,7 +912,7 @@ export class ScriptRunner {
 							if($(this).find('.email-checkbox .custom-control-input').is(':checked')){
 								// $(this).removeClass("email-status-unread");
 
-								$(this).velocity('slideUp', {
+								( <any> $(this)).velocity('slideUp', {
 									easing: 'easeOutCubic',
 									duration: dynamicDuration,
 									delay: dynamicDelay,
@@ -974,7 +977,7 @@ export class ScriptRunner {
 
 				if($(placeholder).length){
 					$(placeholder).each(function(){
-						$(this).DataTable();
+						( <any> $(this)).DataTable();
 					});
 				}
 			} 
@@ -1015,7 +1018,7 @@ export class ScriptRunner {
 
 					taskListItem.on('click', function(){
 
-						$(this).button('toggle');
+						( <any> $(this)).button('toggle');
 
 						// Update task count
 						taskCount(undefined);

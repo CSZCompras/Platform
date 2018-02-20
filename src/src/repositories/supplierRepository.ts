@@ -31,4 +31,22 @@ export class SupplierRepository {
                 }));
             });
     }
+
+    save(supplier : Supplier) : Promise<any> {
+        
+        return this.api
+            .post('supplier', supplier)
+            .then( (result : Promise<any>) => {    
+                if(result == null)             
+                    return Promise.resolve();
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    debugger;
+                    throw error;
+                }));
+            });
+    }
 }

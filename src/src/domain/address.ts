@@ -7,6 +7,8 @@ export class Address {
     logradouro : string;
     number : Number;
     neighborhood : string;
-    city : City;
+    /* city : City;*/     
+    city : string;
+    state : string;
     complement : string;
 }

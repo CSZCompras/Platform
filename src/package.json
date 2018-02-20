@@ -19,6 +19,7 @@
     "hamburgers": "^0.9.3",
     "ie10-viewport-bug-workaround.js": "^1.0.0",
     "jquery": "^3.3.1",
+    "jquery-mask-plugin": "^1.14.13",
     "jquery-visible": "^1.2.0",
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "mdb": "^0.1.0",

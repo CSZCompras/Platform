@@ -1,3 +1,5 @@
+import { ConsultaCepResult } from '../domain/consultaCepResult';
+import { ConsultaCEPService } from '../services/consultaCEPService';
 import { StateRegistrationRepository } from '../repositories/stateRegistrationRepository';
 import { StateRegistration } from '../domain/stateRegistration';
 import { NotificationService } from '../services/notificationService';
@@ -9,143 +11,31 @@ import { Aurelia, autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { Rest, Config } from 'aurelia-api';
 import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
 
 @autoinject
 export class Cadastro{
-
+	$ : any;
 	supplier : Supplier;
 	stateRegistrations : StateRegistration[];
+	currentStep : number;
+	totalSteps : number;
 
     constructor(
+		private router: Router, 
 		private repository : SupplierRepository, 
 		private service : IdentityService,
 		private nService : NotificationService,
-		private stateRepo: StateRegistrationRepository ) {
-    }
+		private stateRepo: StateRegistrationRepository, 
+		private consultaCepService : ConsultaCEPService ) {
 
-	 /**
-	 * @param  {string} fieldID:					the ID of the field you are validating
-	 * @param  {string} type:						accepts: [email, numeric, alphanumeric, alphabet, password]
-	 * @param  {int} required:						(optional field) accepts: 0 or 1. whether or not this feild is required
-	 * @param  {integer} lengthMin:					(optional field) the min length of the password
-	 * @param  {integer} lengthMax:					(optional field) the max length of the password
-	 * @return {string, integer or Boolean}			this will return an error message or boolean or integer
-	 */
-	qp_form_validation(fieldID?: any, type?: any, required?: any, lengthMin?: any, lengthMax?: any) : boolean{
-		/* Set defaults */
-		if(required === undefined || !required || required == ""){
-			required = 0;
-		}else{
-			required = 1;
-		}
-		if(lengthMin === undefined || !lengthMin || lengthMin == ""){
-			lengthMin = 6;
-		}
-
-		if(lengthMax === undefined || !lengthMax || lengthMax == ""){
-			lengthMax = 30;
-		}
-
-		var value = $(fieldID).val();
-
-		$(fieldID).closest('form').find('*').removeClass('border-danger');
-		$(fieldID).closest('form').find('*').removeClass('has-danger');
-		$(fieldID).closest('form').find('*').removeClass('text-danger');
-
-		$(fieldID).closest('form').find('.form-control-feedback').remove();
-
-
-				return true;
-	}
-
-	/**
-		 * qp_form_validate_numeric handles numeric validation
-		 * @param  {integer} numeric:	enter numbers only
-		 * @return {boolean}
-		 */
-		qp_form_validate_numeric(numeric) : any{
-			var reg = new RegExp("^[0-9]+$");
-			return reg.test(numeric);
-		}
-		
-		/**
-		 * qp_form_validate_alphanumeric handles text, numbers and space validation
-		 * @param  {string} alphanumeric:	enter text, numbers and space only
-		 * @return {boolean}
-		 */
-		qp_form_validate_alphanumeric(alphanumeric) : any{
-			var reg = new RegExp("^[a-zA-Z 0-9,.]+$");
-			return reg.test(alphanumeric);
-		}
-		
-		/**
-		 * qp_form_validate_alphabet handles text and space
-		 * @param  {string} alphabet:	enter text and space
-		 * @return {boolean}
-		 */
-		qp_form_validate_alphabet(alphabet) : any{
-			var reg = new RegExp("^[a-zA-Z ]+$");
-			return reg.test(alphabet);
-		}
-
-	
-
-		/**
-		 * qp_form_validate_email handles email validation
-		 * @param  {string} email:	enter valid email
-		 * @return {boolean}
-		 */
-		 qp_form_validate_email(email) : any{
-			var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			return re.test(email);
-		}
-
-				/**
-		 * qp_form_validate_password handles password validation
-		 * @param  {string} password:		accepts alphanumeric characters
-		 * @param  {integer} lengthMin:		the minimum length the password should be
-		 * @param  {integer} lengthMax:		the maximum length the password should be
-		 * @return {boolean or string}		returns an error message or the boolean response
-		 */
-		 qp_form_validate_password(password, lengthMin, lengthMax) : any{
-			var passwordLengthStatus = this.qp_form_validate_stringlength(password, lengthMin, lengthMax);
-			if(passwordLengthStatus != true){
-				return passwordLengthStatus;
-			}else{
-				var passwordStatus = this.qp_form_validate_alphanumeric(password);
-				if(passwordStatus == true){
-					return true;
-				}else{
-					var message = "Password field can only contain letters, numbers, commas and fullstops but NO spaces.";
-					return message;
-				}
-			}
-		}
-
-
-
-		/**
-		 * qp_form_validate_stringlength checks the string length
-		 * @param  {string} str				accepts any string
-		 * @param  {integer} lengthMin:		the minimum length the password should be
-		 * @param  {integer} lengthMax:		the maximum length the password should be
-		 * @return {boolean or string}		returns an error message or the boolean response
-		 */
-		 qp_form_validate_stringlength(str, lengthMin, lengthMax) : any {
-			var n = str.length;
-
-			if(n < lengthMin){
-				var message = "This field must be at least " + lengthMin + " characters long";
-				return message;
-			}else if(n > lengthMax){
-				var message = "This field must not be more than " + lengthMax + " characters long";
-				return message;
-			}else{
-				return true;
-			}
-		}
+			this.currentStep = 1;
+			this.totalSteps = 3;
+    } 
+ 
 
 	runScript() : void{
+
 		var thisForm = '#rootwizard-1';
 
 		var outher = this;
@@ -159,35 +49,7 @@ export class Cadastro{
 
 			var wizardStagesTotal = $(thisForm + ' .tab-pane').length;
 			
-			( <any> $)(thisForm).bootstrapWizard({onNext: function(tab, navigation, index) {
-
-				// Note: index is the next frame not the current one
-				if(index == 1) {
-					if(outher.qp_form_validation('#wizard-stage-1 .wizard-stage-1-username', 'alphanumeric', null, null, null) !== true){
-						return false;
-					}
-					if(outher.qp_form_validation('#wizard-stage-1 .wizard-stage-1-email', 'email') !== true){
-						return false;
-					}
-					if(outher.qp_form_validation('#wizard-stage-1 .wizard-stage-1-password', 'password') !== true){
-						return false;
-					}
-
-					// $('#tab1').removeClass('active');
-					// $('#tab2').addClass('active');
-				}
-
-				if(index == 2){
-					$(".form-wizard-review-block").append("<p><strong>Username:</strong> " + $(".wizard-stage-1-username").val() + "</p>");
-					$(".form-wizard-review-block").append("<p><strong>Email:</strong> " + $(".wizard-stage-1-email").val() + "</p>");
-					$(".form-wizard-review-block").append("<p><strong>password:</strong> *******</p>");
-					$(".form-wizard-review-block").append("<p><strong>Telephone:</strong> " + $(".wizard-stage-2-optional-1").val() + "</p>");
-					$(".form-wizard-review-block").append("<p><strong>Your Address:</strong> " + $(".wizard-stage-2-optional-2").val() + "</p>");
-					$(".form-wizard-review-block").append("<p><strong>Write something about yourself:</strong> " + $(".wizard-stage-2-optional-3").val() + "</p>");
-
-					// $('#tab2').removeClass('active');
-					// $('#tab3').addClass('active');
-				}
+			( <any> $)(thisForm).bootstrapWizard({onNext: function(tab, navigation, index) { 
 
 				if(index <= wizardStagesTotal){
 					$(thisForm + ' .tab-pane').eq(index).addClass('active');
@@ -219,6 +81,9 @@ export class Cadastro{
         
 		this.runScript();
 		this.loadData();
+		// $(document).ready(function(){
+		// 	$('.phone_with_ddd').mask('(00) 0000-0000');
+		// });
     } 
 
 	loadData() : void {
@@ -246,4 +111,48 @@ export class Cadastro{
 				});
 	}
 
+	consultaCEP(){
+		
+		if(this.supplier.address.cep.length >= 8){
+
+			this.consultaCepService
+				.findCEP(this.supplier.address.cep)
+				.then( (result : ConsultaCepResult) => {
+
+					if(result != null){
+						
+						this.supplier.address.city = result.localidade;
+						this.supplier.address.neighborhood = result.bairro;
+						this.supplier.address.number = null;
+						this.supplier.address.logradouro = result.logradouro;
+						this.supplier.address.complement = result.complemento;
+					}
+				}).catch( e => 
+				{
+					this.nService.presentError(e);
+				});
+		}
+	}
+
+	advance(){
+		this.currentStep++;
+	}
+
+	back(){
+		this.currentStep--;
+	}
+
+	save(){
+		
+		this.supplier.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.supplier.stateRegistration.id)[0];
+
+		this.repository
+			.save(this.supplier)
+			.then( (identity : Identity) =>{         
+				this.nService.success('Cadastro realizado!')       
+                this.router.navigate('/#/dashboard');                
+            }).catch( e => {
+                this.nService.error(e);
+            });
+	}
 } 

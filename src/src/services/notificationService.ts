@@ -18,12 +18,25 @@ export class NotificationService {
 
     }
 
-    presentError(error : any) : void{
+    error(error : any) : void{
         if(error.message != null)
-            this.error(error.message)
+            this.presentError(error.message)            
+        else
+            this.presentSuccess(error);
     }
 
-    error(message : string){
+    success(success : any) : void{
+        if(success.message != null)
+            this.presentSuccess(success.message)
+        else
+            this.presentSuccess(success)
+    }
+
+    presentError(message : string){
         toastr.error(message, 'Erro'); 
+    }
+
+    presentSuccess(message : string){
+        toastr.success(message, 'Sucesso'); 
     }
 }
