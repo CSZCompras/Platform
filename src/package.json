@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/jquery-mask-plugin": "^1.14.3",
     "@types/toastr": "^2.1.35",
     "aurelia-animator-css": "^1.0.2",
     "aurelia-api": "^3.1.1",
