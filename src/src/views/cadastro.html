@@ -1,8 +1,14 @@
 <template>
 	<require from="./components/attributes/cnpjMask"></require>
+	<require from="./components/attributes/cepMask"></require>
    	<require from="./components/attributes/phoneWithDDDMask"></require>
-   	<require from="./components/valueConverters/phoneWithDDDValueConverter"></require>
-	   <require from="./components/valueConverters/cnpjValueConverter"></require>
+	<require from="./components/attributes/cellPhoneWithDDDMask"></require>
+   		
+	<require from="./components/valueConverters/cnpjValueConverter"></require>
+	<require from="./components/valueConverters/cepValueConverter"></require>
+	<require from="./components/valueConverters/phoneWithDDDValueConverter"></require>
+	<require from="./components/valueConverters/cellPhoneWithDDDValueConverter"></require>
+
    <div class="row mb-5">
       <div class="col-md-12">
          <div class="card">
@@ -46,21 +52,21 @@
                                  <div class="col-md-6">
                                     <div class="form-group">
                                        <label class="control-label">Razão Social *</label>
-                                       <input type="text" class="form-control disabled"   value.bind="supplier.name"  />
+                                       <input type="text" class="form-control disabled " disabled  value.bind="supplier.name"  />
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">CNPJ *</label>
-                                       <input type="text" class="form-control  disabled" cnpj value.bind="supplier.cnpj | cnpj  " />
+                                       <input type="text" class="form-control  disabled" disabled cnpj value.bind="supplier.cnpj | cnpj  " />
                                     </div>
                                  </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
                                        <label class="control-label">Nome Fantasia *</label>
-                                       <input type="text" class="form-control  disabled" value.bind="supplier.fantasyName" />
+                                       <input type="text" class="form-control  disabled" disabled value.bind="supplier.fantasyName" />
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Inscrição Estadual</label>
-                                       <select class="form-control  disabled" value.bind="supplier.stateRegistration.id">
+                                       <select class="form-control  disabled" disabled value.bind="supplier.stateRegistration.id">
                                           <option  repeat.for="state of stateRegistrations" value.bind="state.id">${state.name}</option 
                                        </select>
                                     </div>
@@ -72,19 +78,19 @@
                                  <div class="col-md-6">
                                     <div class="form-group">
                                        <label class="control-label">CEP</label>
-                                       <input type="text" class="form-control " value.bind="supplier.address.cep" change.delegate="consultaCEP()"/>
+                                       <input type="text" class="form-control ${validator.addressValidator.isCepInvalid  ? 'border-danger' : '' } " cep value.bind="supplier.address.cep | cep"  change.delegate="consultaCEP()"/>
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Logradouro</label>
-                                       <input type="text" class="form-control "  value.bind="supplier.address.logradouro" />
+                                       <input type="text" class="form-control ${validator.addressValidator.isLogradouroInvalid  ? 'border-danger' : '' } "  value.bind="supplier.address.logradouro" change.delegate="validator.addressValidator.validateLogradouro()" />
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Bairro</label>
-                                       <input type="text" class="form-control " value.bind="supplier.address.neighborhood" />
+                                       <input type="text" class="form-control ${validator.addressValidator.isNeighborhoodInvalid  ? 'border-danger' : '' } " value.bind="supplier.address.neighborhood" change.delegate="validator.addressValidator.validateNeighborhood()" />
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Estado</label>
-                                       <input type="text"  class="form-control "  value.bind="supplier.address.state" >
+                                       <input type="text"  class="form-control ${validator.addressValidator.isStateInvalid  ? 'border-danger' : '' } "  value.bind="supplier.address.state"  change.delegate="validator.addressValidator.validateState()" />
                                     </div>
                                  </div>
                                  <div class="col-md-6">
@@ -94,11 +100,11 @@
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Número</label>
-                                       <input type="text" class="form-control "  value.bind="supplier.address.number" />
+                                       <input type="text" class="form-control ${validator.addressValidator.isNumberInvalid  ? 'border-danger' : '' }"  value.bind="supplier.address.number"   change.delegate="validator.addressValidator.validateNumber()" />
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Cidade</label>
-                                       <input type="text" class="form-control "  value.bind="supplier.address.city"  />
+                                       <input type="text" class="form-control ${validator.addressValidator.isCityInvalid  ? 'border-danger' : '' }"  value.bind="supplier.address.city"    change.delegate="validator.addressValidator.validateCity()" />
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Complemento</label>
@@ -112,25 +118,25 @@
                                  <div class="col-md-6">
                                     <div class="form-group">
                                        <label class="control-label">Nome</label>
-                                       <input type="text" class="form-control " value.bind="supplier.contact.name" />
+                                       <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" value.bind="supplier.contact.name"  change.delegate="validator.contactValidator.validateName()" />
                                     </div>
                                     <div class="form-group">
-                                       <label class="control-label">Telefone Comercial ${supplier.contact.commercialPhone}</label>
-                                       <input type="text" class="form-control" phone-with-ddd value.bind="supplier.contact.commercialPhone | phoneWithDDD"  placeholder="(01) 1234-5678"/>
+                                       <label class="control-label">Telefone Comercial </label>
+                                       <input type="text" class="form-control " phone-with-ddd value.bind="supplier.contact.commercialPhone | phoneWithDDD"  placeholder="(01) 1234-5678"/>
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">E-mail</label>
-                                       <input type="text" class="form-control "  value.bind="supplier.contact.email"/>
+                                       <input type="text" class="form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' }  "  value.bind="supplier.contact.email" change.delegate="validator.contactValidator.validateEmail()" />
                                     </div>
                                  </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
                                        <label class="control-label">Telefone</label>
-                                       <input type="text" class="form-control " value.bind="supplier.contact.phone"  />
+                                       <input type="text" class="form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } " phone-with-ddd value.bind="supplier.contact.phone | phoneWithDDD"  change.delegate="validator.contactValidator.validatePhone()"  />
                                     </div>
                                     <div class="form-group">
                                        <label class="control-label">Telefone Celular</label>
-                                       <input type="text" class="form-control " value.bind="supplier.contact.personalPhone"/>
+                                       <input type="text" class="form-control "  cell-phone-with-ddd value.bind="supplier.contact.personalPhone | cellPhoneWithDDD" placeholder="(01) 01234-5678"/>
                                     </div>
                                  </div>
                               </div>

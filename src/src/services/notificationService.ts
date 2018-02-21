@@ -22,7 +22,7 @@ export class NotificationService {
         if(error.message != null)
             this.presentError(error.message)            
         else
-            this.presentSuccess(error);
+            this.presentError(error);
     }
 
     success(success : any) : void{

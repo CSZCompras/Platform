@@ -1,6 +1,8 @@
+import { ValidationRules } from 'aurelia-validation';
 import { Address } from './address';
 import { StateRegistration } from './stateRegistration';
 import { Contact } from "./contact";
+
 
 export class Supplier {
 
@@ -10,5 +12,10 @@ export class Supplier {
     cnpj : string;
     stateRegistration : StateRegistration;
     address : Address;
-    contact : Contact;
+    contact : Contact; 
+
+    constructor() {
+         ValidationRules.ensure( (x : Supplier) => x.cnpj).required().on(this);
+        
+    }
 }

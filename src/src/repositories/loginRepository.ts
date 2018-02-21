@@ -25,7 +25,6 @@ export class LoginRepository {
             .catch( (e) => {
                 console.log(e);
                 return Promise.resolve(e.json().then( error => {
-                    debugger;
                     throw error;
                 }));
             });

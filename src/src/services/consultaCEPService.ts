@@ -1,4 +1,3 @@
-import * as Debugger from '_debugger';
 import { Identity } from '../domain/identity';
 import { Aurelia, autoinject } from 'aurelia-framework';
 import { HttpClient, HttpClientConfiguration } from 'aurelia-fetch-client';
@@ -24,13 +23,11 @@ export class ConsultaCEPService {
             this.httpClient
                 .fetch(url)
                 .then( result => {
-                    debugger;
                     return result.json();
                 })
                 .catch( (e) => {
                     console.log(e);
                     return Promise.resolve(e.json().then( error => {
-                        debugger;
                         throw error;
                     }));
                 });

@@ -1,3 +1,6 @@
+import { SupplierValidator } from '../validators/supplierValidator';
+import { CustomValidationRenderer } from '../services/customValidationRenderer';
+import { inject, NewInstance} from 'aurelia-framework';
 import { ConsultaCepResult } from '../domain/consultaCepResult';
 import { ConsultaCEPService } from '../services/consultaCEPService';
 import { StateRegistrationRepository } from '../repositories/stateRegistrationRepository';
@@ -12,25 +15,29 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 import { Rest, Config } from 'aurelia-api';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class Cadastro{
+
 	$ : any;
 	supplier : Supplier;
 	stateRegistrations : StateRegistration[];
 	currentStep : number;
 	totalSteps : number;
+	validator : SupplierValidator
+	
 
-    constructor(
+    constructor(		
 		private router: Router, 
 		private repository : SupplierRepository, 
 		private service : IdentityService,
 		private nService : NotificationService,
 		private stateRepo: StateRegistrationRepository, 
-		private consultaCepService : ConsultaCEPService ) {
+		private consultaCepService : ConsultaCEPService) {
 
-			this.currentStep = 1;
-			this.totalSteps = 3;
+		this.currentStep = 1;
+		this.totalSteps = 3;		
     } 
  
 
@@ -80,10 +87,7 @@ export class Cadastro{
     attached() : void{
         
 		this.runScript();
-		this.loadData();
-		// $(document).ready(function(){
-		// 	$('.phone_with_ddd').mask('(00) 0000-0000');
-		// });
+		this.loadData(); 
     } 
 
 	loadData() : void {
@@ -92,27 +96,26 @@ export class Cadastro{
 
 		this.repository
             .getSupplier(identity.id)
-            .then( (supplier : Supplier) => 
-			{ 
-                this.supplier = supplier;
-            }).catch( e => 
-            {
+            .then( (supplier : Supplier) => { 
+                this.supplier = supplier;				
+				this.validator = new SupplierValidator(this.supplier);						
+            }).catch( e =>  {
                 this.nService.presentError(e);
             });
 
 		this.stateRepo
 				.getAll()
-				.then( (data : StateRegistration[]) => 
-				{ 
+				.then( (data : StateRegistration[]) => { 
 					this.stateRegistrations = data;
-				}).catch( e => 
-				{
+				}).catch( e => {
 					this.nService.presentError(e);
 				});
 	}
 
 	consultaCEP(){
-		
+
+		this.validator.addressValidator.validateCep();
+
 		if(this.supplier.address.cep.length >= 8){
 
 			this.consultaCepService
@@ -126,6 +129,8 @@ export class Cadastro{
 						this.supplier.address.number = null;
 						this.supplier.address.logradouro = result.logradouro;
 						this.supplier.address.complement = result.complemento;
+						this.supplier.address.state = result.uf;
+						this.validator.validate();
 					}
 				}).catch( e => 
 				{
@@ -144,15 +149,25 @@ export class Cadastro{
 
 	save(){
 		
-		this.supplier.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.supplier.stateRegistration.id)[0];
+		var errors = this.validator.validate();
 
-		this.repository
-			.save(this.supplier)
-			.then( (identity : Identity) =>{         
-				this.nService.success('Cadastro realizado!')       
-                this.router.navigate('/#/dashboard');                
-            }).catch( e => {
-                this.nService.error(e);
-            });
+		if(errors.length == 0){
+
+			this.supplier.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.supplier.stateRegistration.id)[0];
+
+			this.repository
+				.save(this.supplier)
+				.then( (identity : Identity) =>{         
+					this.nService.success('Cadastro realizado!')       
+					this.router.navigate('/#/dashboard');                
+				}).catch( e => {
+					this.nService.error(e);
+				});
+		}
+		else{
+			errors.forEach( (error : string) => {
+				this.nService.error(error);
+			});
+		}
 	}
 } 

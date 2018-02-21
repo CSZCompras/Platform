@@ -44,9 +44,9 @@ export class Login {
         this.loginRepository
             .login(this.credential)
             .then( (identity : Identity) =>{ 
-                this.service.setIdentity(identity);
-                this.router.navigate('/#/dashboard');
+                this.service.setIdentity(identity);                                
                 this.ea.publish('loginDone', null);
+                this.router.navigate('/#/dashboard');
             }).catch( e => 
             {
                 this.nService.error(e);
