@@ -71,6 +71,7 @@ export class App {
 			{ route: '', redirect: 'dashboard' },
             { route: 'dashboard', name: 'dashboard', moduleId: PLATFORM.moduleName('./views/dashboard') },
             { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./views/cadastro') } ,
+			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./views/produtos') } ,
 			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./views/regrasDeMercado') } ,
             { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./views/login') } 
         ]);
