@@ -32,10 +32,10 @@ export class IdentityService {
         if (!identity) {
             return;
         }
-
+        debugger;
         IdentityService._identity = identity;
         localStorage.setItem('identity', JSON.stringify(identity)); 
-      //  this.activateAuthorization();
+        this.activateAuthorization();
     }
  
     isLogged() : boolean {
@@ -54,8 +54,10 @@ export class IdentityService {
     }
 
     configureHttpClient(client: HttpClient): void {
+        
+        debugger;
 
-       /* if (client.interceptors && client.interceptors.length > 0) {
+        if (client.interceptors && client.interceptors.length > 0) {
             return;
         }
 
@@ -68,6 +70,7 @@ export class IdentityService {
             });
             config.withInterceptor({
                 request: (request) => {
+                    
                     if (IdentityService._identity) {
                         request.headers.set('authtoken', IdentityService._identity.token);
                     }
@@ -101,7 +104,7 @@ export class IdentityService {
                     return response;
                 }
             });
-        });*/
+        });
     }
 
     changePassword(): void {

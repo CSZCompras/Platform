@@ -1,0 +1,156 @@
+<template>
+  <require from="./components/attributes/moneyMask"></require>
+  <require from="./components/attributes/numberMask"></require>
+  <require from="./components/attributes/timeMask"></require>
+
+  <require from="./components/valueConverters/moneyValueConverter"></require>
+  <require from="./components/valueConverters/numberValueConverter"></require>
+  <require from="./components/valueConverters/timeValueConverter"></require>
+
+   <div class="row mb-5">
+      <div class="col-md-12">
+         <div class="card">
+            <div class="card-header">
+               Regras de Mercado          
+            </div>
+            <div class="card-body">
+               <div class="row">
+                  <div class="col-md-12">
+                     <h2>1. Pedido</h2>
+                     <form class="form-inline">
+                        <div class="col-md-4">
+                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Valor mínimo</label>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="input-group">
+                              <span class="input-group-addon">$</span> 
+                              <input type="text" class="money form-control  ${validator.isMinimumOrderValueInvalid  ? 'border-danger' : '' }  " autocomplete="off" money placeholder="000,00" value.bind="rule.minimumOrderValue | money"  change.delegate="validator.validateMinimumOrderValue()" />
+                           </div>
+                        </div>
+                     </form>
+                     <br />
+                     <br />
+                     <form class="form-inline">
+                        <div class="col-md-4">
+                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Qtde de dias para aceite</label>
+                        </div>
+                        <div class="col-md-2">
+                           <div class="input-group">                               
+                              <input type="text" class="money form-control  ${validator.isnumberOfDaysToAcceptInvalid  ? 'border-danger' : '' } " autocomplete="off"  number value.bind="rule.numberOfDaysToAccept | number"  change.delegate="validator.validateNumberOfDaysToAccept()" />
+                           </div>
+                        </div>
+                     </form>
+                     <br />
+                     <br />
+                     <form class="form-inline">
+                        <div class="col-md-4">
+                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Período de Aceite</label>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="input-group">
+                              <span class="input-group-addon input-group-icon">
+                              <i class="batch-icon batch-icon-clock"></i>
+                              </span>
+                              <input type="text" class="time form-control  ${validator.isPeriodToAcceptOrder1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time value.bind="rule.periodToAcceptOrder1 | time "   change.delegate="validator.validatePeriodToAcceptOrder1()" />
+                              <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                              <span class="input-group-addon input-group-icon">
+                              <i class="batch-icon batch-icon-clock"></i>
+                              </span>
+                              <input type="text" class="time form-control  ${validator.isPeriodToAcceptOrder2Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" maxlength="8" time  value.bind="rule.periodToAcceptOrder2 | time" change.delegate="validator.validatePeriodToAcceptOrder2()" /> 
+                           </div>
+                        </div>
+                     </form>
+                  </div>                  
+                  <div class="col-md-12 mt-5">
+                     <h2>2. Entrega</h2>
+                     <form class="form-inline">
+                        <div class="col-md-4">
+                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Dias de entrega</label>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="input-group">
+                              <div class="form-check form-check-inline">
+                                 <label class="form-check-label  ml-2">                                    
+                                    <input class="form-check-input" type="checkbox" value="0" checked.bind="rule.deliveryOnMonday" /> <span class="badge ${ rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                 </label>											
+                                 <label class="form-check-label  ml-2">
+                                    <input class="form-check-input" type="checkbox" value="1" checked.bind="rule.deliveryOnTuesday" />  <span class="badge  ${ rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                 </label>
+                                 <label class="form-check-label ml-2">
+                                    <input class="form-check-input" type="checkbox" value="2" checked.bind="rule.deliveryOnWednesday" /> <span class="badge ${ rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                 </label>											
+                                 <label class="form-check-label ml-2">
+                                    <input class="form-check-input" type="checkbox" value="3" checked.bind="rule.deliveryOnThursday" /> <span class="badge  ${ rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                 </label>                                                
+                                 <label class="form-check-label ml-2">
+                                    <input class="form-check-input" type="checkbox" value="4" checked.bind="rule.deliveryOnFriday" /> <span class="badge ${ rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
+                                 </label>                                                                                                                                                                                                
+                              </div>
+                           </div>
+                           <br />                           
+                           <div class="input-group">   
+                              <div class="form-check form-check-inline">
+                                 <label class="form-check-label  ml-2">
+                                    <input class="form-check-input" type="checkbox" value="5"  checked.bind="rule.deliveryOnSaturday" />  <span class="badge  ${ rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
+                                 </label>											
+                                 <label class="form-check-label  ml-2">
+                                    <input class="form-check-input" type="checkbox" value="6"  checked.bind="rule.deliveryOnSunday" />   <span class="badge ${ rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
+                                 </label>                                                                                                                                                                                 
+                              </div>
+                           </div>
+                        </div>
+                     </form>
+                     <br />
+                     <br />
+                     <form class="form-inline">
+                        <div class="col-md-4">
+                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Período de Entrega</label>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="input-group">
+                              <span class="input-group-addon input-group-icon">
+                              <i class="batch-icon batch-icon-clock"></i>
+                              </span>
+                              <input type="text" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time"    change.delegate="validator.validateDeliverySchedule1()" /> 
+                              <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                              <span class="input-group-addon input-group-icon">
+                              <i class="batch-icon batch-icon-clock"></i>
+                              </span>
+                              <input type="text" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time"  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="col-md-12 mt-5">
+                     <h2>3. Alertas</h2>
+                     <form class="form-inline">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-6">                           
+                            <label class="form-check-label  ml-2 float-left">                                    
+                                <input class="form-check-input  float-left" type="checkbox" value="0" checked.bind="rule.sendNotificationToNewClient" />                                 
+                                <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Receber notificação de um novo cliente por email</label>
+                            </label>								
+                        </div>
+                     </form>
+                     <br />
+                     <br /> 
+                     <form class="form-inline">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-6">                           
+                            <label class="form-check-label  ml-2 float-left">                                    
+                                <input class="form-check-input  float-left" type="checkbox" value="0" checked.bind="rule.sendNotificationToNewOrder" /> 
+                                <!--<span class="badge ${ rule.sendNotificationToNewOrder ? 'badge-success' : 'badge-warning' }">Receber notificação de um novo pedido por email</span>-->
+                                <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Receber notificação de um novo pedido por email</label>
+                            </label>								
+                        </div>
+                     </form> 
+                  </div>          
+               </div>
+               <div class="row mt-5">
+                   <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light mx-auto"  click.trigger="save()"><span class="gradient">Salvar</span></button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>	  
+</template>

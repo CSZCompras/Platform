@@ -41,15 +41,19 @@ export class App {
 
         this.api = this.config.getEndpoint('csz'); 
 		this.isLogged = this.service.isLogged();
+		
 		this.ea.subscribe('loginDone', () => {
 			this.isLogged = this.service.isLogged()
 			this.identity = this.service.getIdentity();
+			this.service.configureHttpClient(this.api.client);
 			ScriptRunner.runScript();
 		});
 
 		if(this.isLogged){
 			this.identity = this.service.getIdentity();
 		}
+
+		this.service.configureHttpClient(this.api.client);
     }
 
 
@@ -67,6 +71,7 @@ export class App {
 			{ route: '', redirect: 'dashboard' },
             { route: 'dashboard', name: 'dashboard', moduleId: PLATFORM.moduleName('./views/dashboard') },
             { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./views/cadastro') } ,
+			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./views/regrasDeMercado') } ,
             { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./views/login') } 
         ]);
 
@@ -75,7 +80,7 @@ export class App {
 
    logout() : void {
 	   this.service.resetIdentity();
-	   this.isLogged = false;
-	   this.router.navigate('login');
+	   this.isLogged = false;	   
+	   this.router.navigate('login'); 
    }
 }

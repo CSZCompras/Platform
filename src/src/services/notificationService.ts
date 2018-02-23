@@ -19,8 +19,16 @@ export class NotificationService {
     }
 
     error(error : any) : void{
-        if(error.message != null)
-            this.presentError(error.message)            
+        if(error.message != null){
+            
+            if(Array.isArray(error.message)){
+                
+                ( <string[]> error.message).forEach( message => this.presentError(message));
+            }
+            else{
+                this.presentError(error.message)            
+            }
+        }
         else
             this.presentError(error);
     }
