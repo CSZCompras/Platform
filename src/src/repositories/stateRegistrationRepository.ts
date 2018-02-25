@@ -23,8 +23,7 @@ export class StateRegistrationRepository {
             })
             .catch( (e) => {
                 console.log(e);
-                return Promise.resolve(e.json().then( error => {
-                    debugger;
+                return Promise.resolve(e.json().then( error => { 
                     throw error;
                 })); 
             });

@@ -5,8 +5,7 @@ export class CustomValidationRenderer {
      
   $: any;
 
-  render(instruction: RenderInstruction) {
-    debugger;
+  render(instruction: RenderInstruction) { 
         for (let { result, elements } of instruction.unrender) {
           for (let element of elements) {
             this.remove(element, result);

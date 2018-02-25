@@ -31,8 +31,7 @@ export class IdentityService {
 
         if (!identity) {
             return;
-        }
-        debugger;
+        } 
         IdentityService._identity = identity;
         localStorage.setItem('identity', JSON.stringify(identity)); 
         this.activateAuthorization();
@@ -53,9 +52,7 @@ export class IdentityService {
         this.configureHttpClient(this.httpClient);
     }
 
-    configureHttpClient(client: HttpClient): void {
-        
-        debugger;
+    configureHttpClient(client: HttpClient): void { 
 
         if (client.interceptors && client.interceptors.length > 0) {
             return;

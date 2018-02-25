@@ -1,3 +1,43 @@
-<template>
-    atualizacao de preços
+<template> 
+   <require from="../attributes/moneyMask"></require>
+   <require from="../valueConverters/moneyValueConverter"></require>
+   
+   <div class="row">
+      <div class="col-md-12 mt-4 pb-5">
+        <h4>Novos produtos</h4>
+        <p class="text-left">Defina o preço para o(s) produto(s) abaixo</p>
+         <table class="table table-hover">
+            <thead>
+               <tr>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>UM</th> 
+                  <th>Marca</th> 
+                  <th class="text-center">Preço</th> 
+                  <th></th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr repeat.for="supplierProduct of newProducts">
+                  <td>${supplierProduct.product.name}</td>
+                  <td>${supplierProduct.product.category.name}</td>
+                  <td>${supplierProduct.product.unit.name}</td> 
+                  <td></td> 
+                  <td>
+                        <div class="col-md-4 mx-auto">
+                              <input type="text" class="money form-control   " autocomplete="off" money placeholder="000,00"   />
+                        </div>
+                         <!--${validator.isMinimumOrderValueInvalid  ? 'border-danger' : '' }-->
+                               <!--change.delegate="validator.validateMinimumOrderValue()"-->
+                                <!--value.bind="rule.minimumOrderValue | money"-->
+                             
+                  </td> 
+                  <td>
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="addProduct(product)">Adicionar</button>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
 </template>
