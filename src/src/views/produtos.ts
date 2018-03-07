@@ -19,8 +19,8 @@ export class Produtos {
 
     attached(){
 
-      this.ea.subscribe('productAdded', (product : Product) =>{
-        this.productAddedCount++;
+      this.ea.subscribe('newProductsUpdated', (length : number) =>{
+        this.productAddedCount = length;
       })
     }
 } 

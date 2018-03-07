@@ -29,6 +29,7 @@ export class SelecaoDeProdutos{
         
         this.isFiltered = false;
     } 
+    
     attached() : void{ 
 		this.loadData(); 
     } 
