@@ -9,6 +9,7 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { SupplierProductFile } from '../../../domain/supplierProductFile';
 
 @autoinject
 export class ListaDePrecos{
@@ -75,7 +76,6 @@ export class ListaDePrecos{
         }
         
         var ano = data.getFullYear().toString();  
-        debugger;
         if(data.getHours() == 0){
             return dia + "/" + mes + "/" + ano;
         }

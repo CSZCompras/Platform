@@ -1,0 +1,67 @@
+<template>
+        <div class="row">
+           <div class="col-lg-4">
+              <div class="form-group">
+                 <label class="control-label">Categoria</label>
+                 <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+                    <option  value=""></option>
+                    <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+                 </select>
+              </div>
+           </div>
+           <div class="col-lg-4">
+              <div class="form-group">
+                 <label class="control-label">Filtro</label> 
+                 <input type="text" class="form-control "  value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
+              </div>
+           </div>
+        </div> 
+        <div class="row" if.bind="isFiltered">
+           <div class="col-md-12 pb-5"> 
+              <table class="table table-hover">
+                 <thead>
+                    <tr>
+                       <th>Nome</th>
+                       <th>Categoria</th>
+                       <th>UM</th> 
+                       <th>Marca</th>
+                       <th>Lista 01</th>
+                       <th>Lista 02</th>
+                       <th>Lista 03</th> 
+                       <th>
+                              <div class="col-md-6">
+                                    <input type="text" class="form-control "  placeholder="Nova Lista" />
+                              </div>
+                        </th> 
+                    </tr>
+                 </thead>
+                 <tbody>
+                    <tr repeat.for="product of filteredProducts">
+                       <td>${product.name}</td>
+                       <td>${product.category.name}</td>
+                       <td>${product.unit.name}</td> 
+                       <td></td>
+                       <td>
+                              <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span> 
+                              </label>
+                       </td>
+                       <td>
+                              <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span> 
+                              </label>
+                       </td>
+                       <td>
+                              <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span> 
+                              </label>
+                       </td> 
+                    </tr>
+                 </tbody>
+              </table>
+           </div>
+        </div>
+     </template>

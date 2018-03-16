@@ -1,15 +1,16 @@
-import { SupplierValidator } from '../validators/supplierValidator';
-import { CustomValidationRenderer } from '../services/customValidationRenderer';
+import { FoodServiceValidator } from '../../validators/foodServiceValidator';
+import { CustomValidationRenderer } from '../../services/customValidationRenderer';
 import { inject, NewInstance} from 'aurelia-framework';
-import { ConsultaCepResult } from '../domain/consultaCepResult';
-import { ConsultaCEPService } from '../services/consultaCEPService';
-import { StateRegistrationRepository } from '../repositories/stateRegistrationRepository';
-import { StateRegistration } from '../domain/stateRegistration';
-import { NotificationService } from '../services/notificationService';
-import { Supplier } from '../domain/supplier';
-import { Identity } from '../domain/identity';
-import { IdentityService } from '../services/identityService';
-import { SupplierRepository } from '../repositories/supplierRepository';
+import { ConsultaCepResult } from '../../domain/consultaCepResult';
+import { ConsultaCEPService } from '../../services/consultaCEPService';
+import { StateRegistrationRepository } from '../../repositories/stateRegistrationRepository';
+import { StateRegistration } from '../../domain/stateRegistration';
+import { NotificationService } from '../../services/notificationService';
+import { FoodServicerRepository } from '../../repositories/foodServiceRepository';
+import { Identity } from '../../domain/identity';
+import { IdentityService } from '../../services/identityService';
+import { SupplierRepository } from '../../repositories/supplierRepository';
+import { FoodService } from '../../domain/foodService';
 import { Aurelia, autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { Rest, Config } from 'aurelia-api';
@@ -21,16 +22,16 @@ import 'aurelia-validation';
 export class Cadastro{
 
 	$ : any;
-	supplier : Supplier;
+	foodService : FoodService;
 	stateRegistrations : StateRegistration[];
 	currentStep : number;
 	totalSteps : number;
-	validator : SupplierValidator
+	validator : FoodServiceValidator;
 	
 
     constructor(		
 		private router: Router, 
-		private repository : SupplierRepository, 
+		private repository : FoodServicerRepository, 
 		private service : IdentityService,
 		private nService : NotificationService,
 		private stateRepo: StateRegistrationRepository, 
@@ -94,10 +95,11 @@ export class Cadastro{
 		var identity = this.service.getIdentity();
 
 		this.repository
-            .getSupplier(identity.id)
-            .then( (supplier : Supplier) => { 
-                this.supplier = supplier;				
-				this.validator = new SupplierValidator(this.supplier);						
+            .get(identity.id)
+            .then( (supplier : FoodService) => { 
+
+                this.foodService = supplier;				
+				this.validator = new FoodServiceValidator(this.foodService);						
             }).catch( e =>  {
                 this.nService.presentError(e);
             });
@@ -115,20 +117,20 @@ export class Cadastro{
 
 		this.validator.addressValidator.validateCep();
 
-		if(this.supplier.address.cep.length >= 8){
+		if(this.foodService.address.cep.length >= 8){
 
 			this.consultaCepService
-				.findCEP(this.supplier.address.cep)
+				.findCEP(this.foodService.address.cep)
 				.then( (result : ConsultaCepResult) => {
 
 					if(result != null){
 						
-						this.supplier.address.city = result.localidade;
-						this.supplier.address.neighborhood = result.bairro;
-						this.supplier.address.number = null;
-						this.supplier.address.logradouro = result.logradouro;
-						this.supplier.address.complement = result.complemento;
-						this.supplier.address.state = result.uf;
+						this.foodService.address.city = result.localidade;
+						this.foodService.address.neighborhood = result.bairro;
+						this.foodService.address.number = null;
+						this.foodService.address.logradouro = result.logradouro;
+						this.foodService.address.complement = result.complemento;
+						this.foodService.address.state = result.uf;
 						this.validator.validate();
 					}
 				}).catch( e => 
@@ -152,10 +154,10 @@ export class Cadastro{
 
 		if(errors.length == 0){
 
-			this.supplier.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.supplier.stateRegistration.id)[0];
+			this.foodService.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.foodService.stateRegistration.id)[0];
 
 			this.repository
-				.save(this.supplier)
+				.save(this.foodService)
 				.then( (identity : Identity) =>{         
 					this.nService.success('Cadastro realizado!')       
 					this.router.navigate('/#/dashboard');                

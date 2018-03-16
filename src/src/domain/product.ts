@@ -1,5 +1,6 @@
 import { UnitOfMeasurement } from './unitOfMeasurement';
 import { ProductCategory } from './productCategory';
+import { FoodServiceProduct } from './foodServiceProduct';
 
 export class Product{
     id : string;
@@ -8,4 +9,5 @@ export class Product{
     category : ProductCategory;
     unit : UnitOfMeasurement;
     isActive : boolean; 
+    foodServiceProducts : FoodServiceProduct[];
 }

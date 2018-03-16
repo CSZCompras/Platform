@@ -17,14 +17,17 @@ export class AddressValidator {
     }
 
 
-    validate() : Array<string>{        
+    validate() : Array<string>{                
         this.errorMessages = [];
-        this.validateCep();
-        this.validateLogradouro();    
-        this.validateNumber();
-        this.validateNeighborhood();    
-        this.validateCity();
-        this.validateState();
+        if(this.address != null)
+        {
+            this.validateCep();
+            this.validateLogradouro();    
+            this.validateNumber();
+            this.validateNeighborhood();    
+            this.validateCity();
+            this.validateState();
+        }
         return this.errorMessages;
     }
 

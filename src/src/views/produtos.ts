@@ -11,10 +11,9 @@ export class Produtos {
 
     productAddedCount : number;
 
-    constructor(private router: Router, private ea : EventAggregator ,) {
-
+    constructor(private router: Router, private ea : EventAggregator) {
+      
       this.productAddedCount = 0;
-
     } 
 
     attached(){

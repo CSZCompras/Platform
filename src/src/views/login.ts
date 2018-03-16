@@ -46,7 +46,13 @@ export class Login {
             .then( (identity : Identity) =>{ 
                 this.service.setIdentity(identity);                                
                 this.ea.publish('loginDone', null);
-                this.router.navigate('/#/dashboard');
+                if(identity.type == 0){
+                    this.router.navigate('/#/dashboard');
+                }
+                else if(identity.type == 1){
+                    this.router.navigateToRoute('dashboardFoodService');
+                }
+                
             }).catch( e => 
             {
                 this.nService.error(e);

@@ -2,7 +2,8 @@
     <div class="container-fluid" if.bind="isLogged">
         <div class="row">
             <nav id="sidebar" class="px-0 bg-dark bg-gradient sidebar">
-                <ul class="nav nav-pills flex-column">
+                <!-- FORNECEDOR TABS -->
+                <ul class="nav nav-pills flex-column" if.bind="identity.type == 0">
                     <li class="logo-nav-item">
                         <a class="navbar-brand" href="#">
                             <img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro">
@@ -43,6 +44,46 @@
 						</a>
 					</li> 
                 </ul>
+                <!-- FORNECEDOR TABS -->
+
+                <!-- FOOD SERVICE TABS -->
+                <ul class="nav nav-pills flex-column" if.bind="identity.type == 1">
+                    <li class="logo-nav-item">
+                        <a class="navbar-brand" href="#">
+                            <img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro">
+                        </a>
+
+                    </li>
+                    <li>
+                        <h6 class="nav-header">Geral</h6>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#/dashboardFoodService">
+                            <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+					<li class="nav-item">
+						<a class="nav-link"  href="/#/cadastroFoodService">
+							<i class="batch-icon batch-icon-list-alt"></i>Cadastro
+						</a>
+					</li> 
+					<li class="nav-item">
+						<a class="nav-link" href="/#/meusProdutos">
+							<i class="batch-icon batch-icon-layout-center-column"></i>Meus Produtos
+						</a>
+					</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#/produtos">
+                            <i class="batch-icon batch-icon-layout-content-left"></i> Produtos
+                        </a>
+                    </li>
+					<li class="nav-item">
+						<a class="nav-link" href="tables.html">
+							<i class="batch-icon batch-icon-layout-center-column"></i>Pedidos
+						</a>
+					</li> 
+                </ul>
+                <!-- FOOD SERVICE TABS -->
             </nav>
             <div class="right-column">
                 <nav class="navbar navbar-expand-lg navbar-light bg-white">

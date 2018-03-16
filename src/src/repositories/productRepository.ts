@@ -155,8 +155,6 @@ export class ProductRepository{
     }
 
     getAllSuplierProductFiles() : Promise<SupplierProductFile[]>{
-        debugger;
-        
         return this.api
                     .find('supplierProductFile')
                     .then( (result : Promise<SupplierProductFile[]>) => {                 

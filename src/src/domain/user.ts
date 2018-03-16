@@ -1,5 +1,6 @@
 import { UserType } from './userType';
 import { Supplier } from './supplier';
+import { FoodService } from './foodService';
 
 export class User{
     
@@ -11,4 +12,5 @@ export class User{
     updatedOn : Date;
     type : UserType;
     supplier : Supplier;
+    foodService : FoodService;
 }

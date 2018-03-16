@@ -65,7 +65,6 @@ export class HistoricoDeImportacao {
         }
         
         var ano = data.getFullYear().toString();  
-        debugger;
         if(data.getHours() == 0){
             return dia + "/" + mes + "/" + ano;
         }

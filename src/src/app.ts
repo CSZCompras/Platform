@@ -73,7 +73,10 @@ export class App {
             { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./views/cadastro') } ,
 			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./views/produtos') } ,
 			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./views/regrasDeMercado') } ,
-            { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./views/login') } 
+            { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./views/login') },
+			{ route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./views/foodService/dashboard') }, 
+			{ route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./views/foodService/cadastro') }, 
+			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./views/foodService/meusProdutos') } 
         ]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });

@@ -17,9 +17,11 @@ export class ContactValidator {
 
     validate() : Array<string> {                
         this.errorMessages = [];   
-        this.validateName();
-        this.validatePhone();
-        this.validateEmail();
+        if(this.contact != null) {
+            this.validateName();
+            this.validatePhone();
+            this.validateEmail();
+        }
         return this.errorMessages;
     }
 

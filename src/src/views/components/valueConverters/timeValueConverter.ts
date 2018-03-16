@@ -25,7 +25,7 @@ export class TimeValueConverter{
         
         value = value.replace(':','');
 
-        if(value.length == 1 && value > 2){
+    /*    if(value.length == 1 && value > 2){
             value *= 100;
         }
         else if(value.length == 2){
@@ -33,7 +33,7 @@ export class TimeValueConverter{
         }
         else if(value.length == 3){
             value *= 10;
-        }
+        }*/
         
         if(value != null)
             return (''+ value).replace(":","");
