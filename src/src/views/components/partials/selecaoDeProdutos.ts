@@ -7,6 +7,8 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { FoodServiceRepository } from '../../../repositories/foodServiceRepository';
+import { FoodServiceProduct } from '../../../domain/foodServiceProduct';
 
 
 @autoinject
@@ -25,7 +27,8 @@ export class SelecaoDeProdutos{
 		private service : IdentityService,
 		private nService : NotificationService, 
         private ea : EventAggregator ,
-        private repository : ProductRepository) {
+        private  productRepository : ProductRepository,
+        private repository : FoodServiceRepository) {
         
         this.isFiltered = false;
     } 
@@ -36,7 +39,7 @@ export class SelecaoDeProdutos{
 
     loadData(){
 
-        this.repository
+        this. productRepository
             .getAllCategories()
             .then( (data : ProductCategory[]) => { 
                 this.categories = data;
@@ -44,7 +47,7 @@ export class SelecaoDeProdutos{
                 this.nService.presentError(e);
             });
 
-        this.repository
+        this. productRepository
             .getAllProducts()
             .then( (data : Product[]) => { 
                 this.allProducts = data;
@@ -94,18 +97,32 @@ export class SelecaoDeProdutos{
     }
 
     addProduct(product : Product){
+
+        var foodProduct = new FoodServiceProduct();
+        foodProduct.product = product;
+        foodProduct.isActive = true;         
+        this.isFiltered = true;
         
-        this.allProducts = this.allProducts.filter( (x : Product) => {
-            if(x.id != product.id)
-                return x;
-        });
 
-        this.filteredProducts = this.filteredProducts.filter( (x : Product) => {
-            if(x.id != product.id)
-                return x;
-        });
+        this.repository.addProduct(foodProduct)
+                        .then( (data : FoodServiceProduct) => { 
+                        
+                            this.allProducts = this.allProducts.filter( (x : Product) => {
+                                if(x.id != product.id)
+                                    return x;
+                            });
 
-        this.ea.publish('productAdded', product);
+                            this.filteredProducts = this.filteredProducts.filter( (x : Product) => {
+                                if(x.id != product.id)
+                                    return x;
+                            });
+                            this.nService.presentSuccess('Produto incluído com sucesso!'); 
+
+                            this.ea.publish('productAdded', foodProduct);
+                        }).catch( e => {
+                            this.nService.presentError(e);
+                        });
+        
     }
 
 }

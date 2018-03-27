@@ -6,7 +6,7 @@ import { ConsultaCEPService } from '../../services/consultaCEPService';
 import { StateRegistrationRepository } from '../../repositories/stateRegistrationRepository';
 import { StateRegistration } from '../../domain/stateRegistration';
 import { NotificationService } from '../../services/notificationService';
-import { FoodServicerRepository } from '../../repositories/foodServiceRepository';
+import { FoodServiceRepository } from '../../repositories/foodServiceRepository';
 import { Identity } from '../../domain/identity';
 import { IdentityService } from '../../services/identityService';
 import { SupplierRepository } from '../../repositories/supplierRepository';
@@ -31,7 +31,7 @@ export class Cadastro{
 
     constructor(		
 		private router: Router, 
-		private repository : FoodServicerRepository, 
+		private repository : FoodServiceRepository, 
 		private service : IdentityService,
 		private nService : NotificationService,
 		private stateRepo: StateRegistrationRepository, 

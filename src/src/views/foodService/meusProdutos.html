@@ -23,7 +23,7 @@
                              </li>
                              <li class="nav-item waves-effect waves-light">                            
                                  <a class="nav-link" href="#tab-1-2" data-toggle="tab" role="tab" aria-controls="tab-1-2" aria-selected="false" aria-expanded="false">
-                                     Lista de Compras
+                                     Produtos Selecionados
                                      <span class="badge badge-warning" if.bind="productAddedCount > 0">${productAddedCount}</span>
                                  </a>
                              </li>
@@ -37,8 +37,8 @@
                              </div>
                              <div class="tab-pane fade" id="tab-1-2" role="tabpanel" aria-labelledby="tab-1-2" aria-expanded="false">
                                 <p class="p-3">
-                                        <require from="../components/partials/listaDeCompras"></require>
-                                        <lista-de-compras containerless></lista-de-compras>
+                                        <require from="../components/partials/produtosSelecionados"></require>
+                                        <produtos-selecionados containerless></produtos-selecionados>
                                 </p>
                              </div> 
                           </div>
