@@ -2,6 +2,7 @@ import { ValidationRules } from 'aurelia-validation';
 import { Address } from './address';
 import { StateRegistration } from './stateRegistration';
 import { Contact } from "./contact";
+import { FoodServiceSupplier } from './foodServiceSupplier';
 
 
 export class Supplier {
@@ -13,7 +14,8 @@ export class Supplier {
     stateRegistration : StateRegistration;
     address : Address;
     contact : Contact; 
-
+    foodServiceSuppliers : FoodServiceSupplier[];
+    
     constructor() {
          
         

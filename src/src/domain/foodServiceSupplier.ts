@@ -3,9 +3,11 @@ import { FoodService } from "./foodService";
 
 export class FoodServiceSupplier{
 
-    supplier : Supplier;
+    supplier : Supplier[];
     supplierId : string;
 
     foodService : FoodService;
     foodServiceId : string;
+
+    status : number;
 }

@@ -64,7 +64,7 @@ export class ProdutosSelecionados{
             }
             else{
                 this.allProducts.unshift(product);
-            }
+            } 
         });
     } 
 
@@ -107,8 +107,11 @@ export class ProdutosSelecionados{
         this.lists.forEach( (y : BuyList) =>{
 
             y.products.forEach( (z : BuyListProduct) => {
-
-                y[z.foodServiceProduct.product.name + '_' + z.foodServiceProduct.product.unit.name] =  z.isInList;
+                
+                if(z.foodServiceProduct != null){
+                    y[z.foodServiceProduct.product.name + '_' + z.foodServiceProduct.product.unit.name] =  z.isInList;
+                }
+                
             });
 
             // this.allProducts.forEach( (x : FoodServiceProduct) => {

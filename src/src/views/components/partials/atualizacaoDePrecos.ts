@@ -37,12 +37,10 @@ export class AtualizacaoDePrecos{
 
         this.loadData(); 
 
-        this.ea.subscribe('productAdded', (product : Product) =>{
+        this.ea.subscribe('productAdded', (product : SupplierProduct) =>{
             
-            var supplierProduct = new SupplierProduct();
-            supplierProduct.product = product;
-            supplierProduct.isActive = true; 
-            this.newProducts.push(supplierProduct);
+            
+            this.newProducts.push(product);
             this.ea.publish('newProductsUpdated', this.newProducts.length);
         })
         

@@ -1,0 +1,81 @@
+<template>
+        <require from="../components/attributes/cnpjMask"></require>
+        <require from="../components/attributes/phoneWithDDDMask"></require>
+        <div class="row mb-5 task-manager">
+           <div class="col-lg-12">
+              <div class="card">
+                 <div class="card-header">
+                    ${title}
+                    <div class="header-btn-block">                            
+                       <span class="data-range dropdown show">                           
+                          <a href="#" class="btn btn-primary dropdown-toggle" id="navbar-dropdown-sales-overview-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="true"><i class="batch-icon batch-icon-search-alt"></i></a>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-sales-overview-header-button" x-placement="bottom-end" style="position: absolute; transform: translate3d(-191px, 30px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" href="#" click.trigger="alterView(0)">Novos Clientes</a> 
+                                <a class="dropdown-item" href="#" click.trigger="alterView(1)">Aguardando aprovação</a> 
+                                <a class="dropdown-item" href="#" click.trigger="alterView(2)">Meus  Clientes</a> 
+                                <a class="dropdown-item" href="#"  click.trigger="alterView(3)">Clientes Bloqueados</a> 
+                            </div>
+                       </span>
+                    </div>
+                 </div>
+                 <div class="card-body">
+                    <form>
+                       <div class="form-row align-items-center">
+                          <div class="col-lg-3">
+                             <label for="form-control  input-task-priority">Produto ofertado</label>
+                             <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+                                <option  value=""></option>
+                                <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+                             </select>
+                          </div>
+                          <div class="col-lg-3">
+                             <label for="input-task-title" class="active">Nome do fornecedor <span class="required-item">*</span></label>
+                             <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome...">
+                          </div>
+                          <div class="col-lg-3 ml-4 mt-3">
+                             <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
+                          </div>
+                       </div>
+                    </form>
+                 </div>
+                 <div class="card-body">
+                    <table class="table table-hover">
+                       <thead>
+                          <tr>
+                             <th>Nome</th>
+                             <th>Situação Cadastral</th>
+                             <th>Contato</th>
+                             <th>E-mail</th>
+                             <th>Telefone</th>
+                             <th>CNPJ</th>
+                             <th></th>
+                          </tr>
+                       </thead>
+                       <tbody>
+                          <tr repeat.for="x of foodServices">
+                             <td>${x.foodService.name}</td>
+                             <td> 
+                                <span class="badge badge-warning" if.bind="x.status == 1">Cadastro enviado</span>
+                                <span class="badge badge-primary" if.bind="x.status == 2">Aprovado</span>
+                                <span class="badge badge-default" if.bind="x.status == 3">Rejeitado</span>
+                                <span class="badge badge-danger" if.bind="x.status == 4">Bloqueado</span>
+                                <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
+                             </td>
+                             <td>${x.foodService.contact.name}</td>
+                             <td>${x.foodService.contact.email}</td>
+                             <td phone-with-ddd>${x.foodService.contact.phone}</td>
+                             <td cnpj>${x.foodService.cnpj}</td>
+                             <td>
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 1 || x.status == 3" click.trigger="registrationSent(x)">Recebido</button>
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 5 || x.status == 3" click.trigger="approve(x)">Aprovar</button>
+                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2" click.trigger="block(x)">Bloquear</button>
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 4" click.trigger="unblock(x)">Desbloquear</button>
+                             </td>
+                          </tr>
+                       </tbody>
+                    </table>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </template>

@@ -24,15 +24,15 @@
                              <li class="nav-item waves-effect waves-light">                            
                                  <a class="nav-link" href="#tab-1-2" data-toggle="tab" role="tab" aria-controls="tab-1-2" aria-selected="false" aria-expanded="false">
                                      Produtos Selecionados
-                                     <span class="badge badge-warning" if.bind="productAddedCount > 0">${productAddedCount}</span>
+                                     <span class="badge badge-warning" if.bind="productAddedCount > 0">${   }</span>
                                  </a>
                              </li>
                           </ul>
                           <div class="tab-content" id="myTabContent-1">
                              <div class="tab-pane fade active show" id="tab-1-1" role="tabpanel" aria-labelledby="tab-1-1" aria-expanded="true">
                                 <p class="p-3">
-                                    <require from="../components/partials/selecaoDeProdutos"></require>
-                                    <selecao-de-produtos containerless></selecao-de-produtos>
+                                    <require from="../components/partials/selecaoDeProdutosFoodService"></require>
+                                    <selecao-de-produtos-food-service containerless></selecao-de-produtos-food-service>
                                 </p>
                              </div>
                              <div class="tab-pane fade" id="tab-1-2" role="tabpanel" aria-labelledby="tab-1-2" aria-expanded="false">

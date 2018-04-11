@@ -14,7 +14,7 @@ import { SupplierProduct } from '../../../domain/supplierProduct';
 
 
 @autoinject
-export class SelecaoDeProdutos{
+export class SelecaoDeProdutosFoodService{
     
     classes : ProductClass[];
     categories : ProductCategory[];
@@ -30,7 +30,7 @@ export class SelecaoDeProdutos{
 		private nService : NotificationService, 
         private ea : EventAggregator ,
         private  productRepository : ProductRepository,
-        private repository : SupplierRepository) {
+        private repository : FoodServiceRepository) {
         
         this.isFiltered = false;
     } 
@@ -98,17 +98,16 @@ export class SelecaoDeProdutos{
         }
     }
 
-    addProduct(product : Product){ 
+    addProduct(product : Product){
 
-        var supplierProduct = new SupplierProduct();
-        supplierProduct.product = product;
-        supplierProduct.isActive = true;         
+        var foodProduct = new FoodServiceProduct();
+        foodProduct.product = product;
+        foodProduct.isActive = true;         
         this.isFiltered = true;
         
 
-
-        this.repository.addProduct(supplierProduct)
-                        .then( (data : SupplierProduct) => { 
+        this.repository.addProduct(foodProduct)
+                        .then( (data : FoodServiceProduct) => { 
                         
                             this.allProducts = this.allProducts.filter( (x : Product) => {
                                 if(x.id != product.id)
