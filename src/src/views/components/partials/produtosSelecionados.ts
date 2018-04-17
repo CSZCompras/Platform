@@ -74,10 +74,18 @@ export class ProdutosSelecionados{
             .getAllCategories()
             .then( (data : ProductCategory[]) => { 
                 this.categories = data;
+
+                var novo = new ProductCategory();
+                novo.id = '-2';
+                novo.name = "Todos";
+                this.categories.unshift(novo)
+                
                 var novo = new ProductCategory();
                 novo.id = '-1';
                 novo.name = "Novos Produtos";
                 this.categories.unshift(novo)
+
+
             }).catch( e => {
                 this.nService.presentError(e);
             });
@@ -136,41 +144,47 @@ export class ProdutosSelecionados{
             
             this.isFiltered = true;
 
-            this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
+            if(this.selectedCategory == '-2'){
+                this.filteredProducts = this.allProducts;
+            }
+            else { 
 
-                var isFound = true;
+                this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
 
-                if(this.selectedCategory == '-1'){
-                    return  (<any>x).isNew != null && (<any>x).isNew == true;
-                }
-                else{ 
-                    if( (this.selectedCategory != null && this.selectedCategory != '')){ 
-                        if(x.product.category.id == this.selectedCategory){
-                            isFound = true;
-                        }
-                        else {
-                            isFound= false;
-                        }
+                    var isFound = true;
+
+                    if(this.selectedCategory == '-1'){
+                        return  (<any>x).isNew != null && (<any>x).isNew == true;
                     }
-                    
-                    if(isFound){
+                    else{ 
 
-                        if( (this.filter != null && this.filter != '')){ 
-                            if( x.product.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                        if( (this.selectedCategory != null && this.selectedCategory != '')){ 
+                            if(x.product.category.id == this.selectedCategory){
                                 isFound = true;
                             }
                             else {
                                 isFound= false;
                             }
                         }
-                    }
+                        
+                        if(isFound){
 
-                    if(isFound){
-                        return x;
+                            if( (this.filter != null && this.filter != '')){ 
+                                if( x.product.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                    isFound = true;
+                                }
+                                else {
+                                    isFound= false;
+                                }
+                            }
+                        }
+
+                        if(isFound){
+                            return x;
+                        }
                     }
-                }
-            });
-            
+                });
+            }
     }
 
     addProduct(product : Product){

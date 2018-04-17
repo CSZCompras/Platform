@@ -4,8 +4,7 @@
         <div class="row mb-5 task-manager">
            <div class="col-lg-12">
               <div class="card">
-                 <div class="card-header">
-                    ${title}
+                 <div class="card-header">                   
                     <div class="header-btn-block">                            
                        <span class="data-range dropdown show">                           
                           <a href="#" class="btn btn-primary dropdown-toggle" id="navbar-dropdown-sales-overview-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="true"><i class="batch-icon batch-icon-search-alt"></i></a>
@@ -17,20 +16,14 @@
                             </div>
                        </span>
                     </div>
+                    ${title}
                  </div>
                  <div class="card-body">
                     <form>
-                       <div class="form-row align-items-center">
+                       <div class="form-row align-items-center"> 
                           <div class="col-lg-3">
-                             <label for="form-control  input-task-priority">Produto ofertado</label>
-                             <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
-                                <option  value=""></option>
-                                <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
-                             </select>
-                          </div>
-                          <div class="col-lg-3">
-                             <label for="input-task-title" class="active">Nome do fornecedor <span class="required-item">*</span></label>
-                             <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome...">
+                             <label for="input-task-title" class="active">Nome do fornecedor</label>
+                             <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome..."  change.trigger="search()"   value.bind="filter"  />
                           </div>
                           <div class="col-lg-3 ml-4 mt-3">
                              <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
@@ -55,8 +48,8 @@
                           <tr repeat.for="x of foodServices">
                              <td>${x.foodService.name}</td>
                              <td> 
-                                <span class="badge badge-warning" if.bind="x.status == 1">Cadastro enviado</span>
-                                <span class="badge badge-primary" if.bind="x.status == 2">Aprovado</span>
+                                <span class="badge badge-warning" if.bind="x.status == 1">Não cadastrado</span>
+                                <span class="badge badge-success" if.bind="x.status == 2">Cadastrado</span>
                                 <span class="badge badge-default" if.bind="x.status == 3">Rejeitado</span>
                                 <span class="badge badge-danger" if.bind="x.status == 4">Bloqueado</span>
                                 <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
@@ -66,10 +59,11 @@
                              <td phone-with-ddd>${x.foodService.contact.phone}</td>
                              <td cnpj>${x.foodService.cnpj}</td>
                              <td>
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 1 || x.status == 3" click.trigger="registrationSent(x)">Recebido</button>
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 1" click.trigger="registrationSent(x)">Cadastro recebido</button>
                                 <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 5 || x.status == 3" click.trigger="approve(x)">Aprovar</button>
-                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2" click.trigger="block(x)">Bloquear</button>
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 4" click.trigger="unblock(x)">Desbloquear</button>
+                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 5" click.trigger="reject(x)">Rejeitar</button>
+                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2" click.trigger="block(x)">Bloquear</button>                                
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 4" click.trigger="unblock(x)">Desbloquear</button>                                
                              </td>
                           </tr>
                        </tbody>

@@ -19,17 +19,10 @@
                  </div>
                  <div class="card-body">
                     <form>
-                       <div class="form-row align-items-center">
-                          <div class="col-lg-3">
-                             <label for="form-control  input-task-priority">Produto ofertado</label>
-                             <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
-                                <option  value=""></option>
-                                <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
-                             </select>
-                          </div>
+                       <div class="form-row align-items-center"> 
                           <div class="col-lg-3">
                              <label for="input-task-title" class="active">Nome do fornecedor <span class="required-item">*</span></label>
-                             <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome...">
+                             <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome..."   change.trigger="search()"   value.bind="filter" />
                           </div>
                           <div class="col-lg-3 ml-4 mt-3">
                              <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
@@ -51,13 +44,14 @@
                           </tr>
                        </thead>
                        <tbody>
-                          <tr repeat.for="x of suppliers">
+                          <tr repeat.for="x of filteredSuppliers">
                              <td>${x.supplier.name}</td>
                              <td>
-                                <span class="badge badge-success" if.bind="x.status == 0">Disponível</span>
+                                <span class="badge badge-primary" if.bind="x.status == 0">Não cadastrado</span>
                                 <span class="badge badge-warning" if.bind="x.status == 1">Cadastro enviado</span>
-                                <span class="badge badge-success" if.bind="x.status == 2">Aprovado</span>
+                                <span class="badge badge-success" if.bind="x.status == 2">Disponível</span>
                                 <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
+                                <span class="badge badge-danger" if.bind="x.status == 4">Bloqueado</span>
                              </td>
                              <td>${x.supplier.contact.name}</td>
                              <td>${x.supplier.contact.email}</td>

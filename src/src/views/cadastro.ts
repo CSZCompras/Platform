@@ -158,7 +158,7 @@ export class Cadastro{
 				.save(this.supplier)
 				.then( (identity : Identity) =>{         
 					this.nService.success('Cadastro realizado!')       
-					this.router.navigate('/#/dashboard');                
+					this.router.navigate('/#/cadastro');                
 				}).catch( e => {
 					this.nService.error(e);
 				});

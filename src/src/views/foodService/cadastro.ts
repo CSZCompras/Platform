@@ -160,7 +160,7 @@ export class Cadastro{
 				.save(this.foodService)
 				.then( (identity : Identity) =>{         
 					this.nService.success('Cadastro realizado!')       
-					this.router.navigate('/#/dashboard');                
+					this.router.navigate('/#/cadastroFoodService');                
 				}).catch( e => {
 					this.nService.error(e);
 				});

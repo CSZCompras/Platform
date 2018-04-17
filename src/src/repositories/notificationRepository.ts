@@ -1,0 +1,33 @@
+import { PriceList } from '../domain/priceList';
+import { MarketRule } from '../domain/marketRule';
+import { autoinject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-fetch-client';
+import { Rest, Config } from 'aurelia-api';
+import { Identity } from '../domain/identity';
+import { Credential } from "../domain/credential";
+
+@autoinject
+export class NotificationRepository{
+    
+    api: Rest;
+
+    constructor(private config: Config) {
+        this.api = this.config.getEndpoint('csz');
+    }
+
+    getAll() : Promise<PriceList[]> {
+        
+        return this.api
+            .find('notification')
+            .then( (result : Promise<Notification[]>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+}

@@ -16,11 +16,13 @@ import { SupplierViewModel } from '../../domain/supplierViewModel';
 @autoinject
 export class Fornecedores{
 
+        filteredSuppliers : SupplierViewModel[];        
         suppliers : SupplierViewModel[];        
         categories : ProductCategory[];
         selectedCategory : string;
         title : string;
         type : number;
+        filter : string;
 
         constructor(private router: Router, 
                 private repository : SupplierConnectionRepository, 
@@ -72,6 +74,7 @@ export class Fornecedores{
                         .getSuggestedSuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
+                                this.filteredSuppliers = data;
                         });
         }
 
@@ -81,6 +84,7 @@ export class Fornecedores{
                         .getMySuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
+                                this.filteredSuppliers = data;
                         });
         }
 
@@ -90,6 +94,7 @@ export class Fornecedores{
                         .getAllSuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
+                                this.filteredSuppliers = data;
                         });
         }
  
@@ -102,6 +107,31 @@ export class Fornecedores{
                         }).catch( e => {
                                 this.nService.presentError(e);
                         });
+        }
 
+        
+
+        search(){ 
+
+                this.filteredSuppliers = 
+                        this.suppliers.filter( (x : SupplierViewModel) =>{
+
+                                var isFound = true;
+
+                                if( (this.filter != null && this.filter != '')){ 
+                                        
+
+                                        if( x.supplier.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                                return true;
+                                        }
+                                        else {
+                                                return false;
+                                        }
+                                }
+                                else{
+                                         return isFound;
+                                }
+                                
+                        });
         }
 }

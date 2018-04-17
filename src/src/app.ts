@@ -9,6 +9,7 @@ import { Rest, Config } from 'aurelia-api';
 import { configure } from './resources';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
+
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -17,7 +18,9 @@ import 'velocity-animate';
 import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
-import 'ie10-viewport';
+import 'ie10-viewport';  
+import { NotificationService } from './services/notificationService';
+import { MessageService } from './services/messageService';
 
 @autoinject
 export class App {
@@ -26,7 +29,7 @@ export class App {
 	api : Rest; 
 	router : Router; 
 	isLogged : boolean;
-	identity : Identity;
+	identity : Identity;  
 	
 	configureRouter(config: RouterConfiguration, router: Router): void {
 		
@@ -34,10 +37,15 @@ export class App {
 		config.title = 'CSZ Compras Inteligentes';
 
 		this.router = router;
-		this.addRoutes(config, router);
+		this.addRoutes(config, router); 
 	}	
 
-	constructor(private aurelia: Aurelia, private config: Config, private ea: EventAggregator, private service : IdentityService) {
+	constructor(private aurelia: Aurelia, 
+				private config: Config,
+				private ea: EventAggregator,
+				private service : IdentityService, 
+				private nService : NotificationService, 
+				private messageService : MessageService) {
 
         this.api = this.config.getEndpoint('csz'); 
 		this.isLogged = this.service.isLogged();
@@ -54,8 +62,11 @@ export class App {
 		}
 
 		this.service.configureHttpClient(this.api.client);
-    }
-
+		
+		if(this.isLogged){
+			this.messageService.subscribe();
+		}
+	} 
 
 	attached() : void {
 

@@ -15,14 +15,14 @@ import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
 @autoinject
 export class Clientes{
 
+        filteredFoodServices : FoodServiceConnectionViewModel[];
         foodServices : FoodServiceConnectionViewModel[];                
         selectedCategory : string;
         title : string;
         type : number;
+        filter : string;
 
-        constructor(private router: Router,  private repository : FoodServiceConnectionRepository, private nService : NotificationService) {         
-
-             
+        constructor(private router: Router,  private repository : FoodServiceConnectionRepository, private nService : NotificationService) {   
         }
         
         attached(){
@@ -31,19 +31,7 @@ export class Clientes{
         }
 
         loadData() : void {
-
-            this.loadSuppliers();
-                
-            /*   this.loadSuggestedSuppliers();
-
-                this. productRepository
-                    .getAllCategories()
-                    .then( (data : ProductCategory[]) => { 
-                        this.categories = data;
-                    }).catch( e => {
-                        this.nService.presentError(e);
-                    });*/
-        
+            this.loadSuppliers(); 
         }
 
         alterView(type : number){
@@ -72,6 +60,7 @@ export class Clientes{
                         .getSuppliers(this.type)
                         .then( (data : FoodServiceConnectionViewModel[]) =>{
                                 this.foodServices = data;
+                                this.filteredFoodServices = this.foodServices;
                             
                         }).catch( e => {
                             this.nService.presentError(e);
@@ -86,16 +75,9 @@ export class Clientes{
 
                 this.repository
                         .updateConnection(viewModel)
-                        .then( (data : any) =>{
-
-                                x.status = viewModel.status;
-                                if(this.type == 1){
-                                        this.foodServices = this.foodServices.filter( (x : FoodServiceConnectionViewModel) =>{
-                                                if(x.foodService.id != x.foodService.id){
-                                                        return x;
-                                                }
-                                        });
-                                }
+                        .then( (data : any) =>{                                
+                                this.loadData();
+                                this.nService.presentSuccess('Cliente foi aprovado com sucesso!');
                         }).catch( e => {
                             this.nService.presentError(e);
                         });
@@ -119,6 +101,23 @@ export class Clientes{
 
         }
 
+        reject(x : FoodServiceSupplier){
+
+                var viewModel = new FoodServiceConnectionViewModel();
+                viewModel.foodService = x.foodService;                
+                viewModel.status = 3;
+
+                this.repository
+                        .updateConnection(viewModel)
+                        .then( (data : any) =>{
+                                this.loadData();
+                                this.nService.presentSuccess('Status rejeitado com sucesso!');
+                        }).catch( e => {
+                            this.nService.presentError(e);
+                        });
+
+        }
+
         block(x : FoodServiceSupplier){
 
                 var viewModel = new FoodServiceConnectionViewModel();
@@ -128,15 +127,8 @@ export class Clientes{
                 this.repository
                         .updateConnection(viewModel)
                         .then( (data : any) =>{
-
-                                x.status = viewModel.status;
-                                if(this.type == 0 || this.type == 2){
-                                        this.foodServices = this.foodServices.filter( (x : FoodServiceConnectionViewModel) =>{
-                                                if(x.foodService.id != x.foodService.id){
-                                                        return x;
-                                                }
-                                        });
-                                }
+                                this.loadData();
+                                this.nService.presentSuccess('Status bloqueado com sucesso!');
                         }).catch( e => {
                             this.nService.presentError(e);
                         });
@@ -153,16 +145,34 @@ export class Clientes{
                         .updateConnection(viewModel)
                         .then( (data : any) =>{
 
-                                x.status = viewModel.status;
-                                this.foodServices = this.foodServices.filter( (x : FoodServiceConnectionViewModel) =>{
-                                        if(x.foodService.id != x.foodService.id){
-                                                return x;
-                                        }
-                                });
+                                this.loadData();
+                                this.nService.presentSuccess('Status desbloqueado com sucesso!');
                         }).catch( e => {
                             this.nService.presentError(e);
                         });
 
+        }
+
+        search(){ 
+
+                this.filteredFoodServices = 
+                        this.foodServices.filter( (x : FoodServiceConnectionViewModel) =>{
+
+                                var isFound = true;
+
+                                if( (this.filter != null && this.filter != '')){ 
+                                        if( x.foodService.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                                isFound = true;
+                                        }
+                                        else {
+                                                isFound= false;
+                                        }
+                                }
+                                else{
+                                        return isFound;
+                                }
+                                
+                        });
         }
 
 }

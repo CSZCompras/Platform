@@ -13,7 +13,10 @@ export class NotificationService {
             showEasing :  'swing',
             hideEasing : 'linear',
             showMethod: 'fadeIn',
-            hideMethod: 'fadeOut'
+            hideMethod: 'fadeOut',
+            positionClass : 'toast-bottom-right',
+            extendedTimeOut : 0,
+            timeOut : 1000
         };
 
     }

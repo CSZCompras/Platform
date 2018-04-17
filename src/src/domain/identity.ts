@@ -6,4 +6,5 @@ export class Identity {
     name : string;
     email : string;
     type : number;
+    companyId : string;
 }
