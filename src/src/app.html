@@ -96,9 +96,9 @@
                     <div class="navbar-collapse" id="navbar-header-content">
                         <ul class="navbar-nav navbar-language-translation mr-auto">
                         </ul>
-                        <ul class="navbar-nav navbar-notifications float-right">
+                        <ul class="navbar-nav navbar-notifications float-right" >
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="navbar-notification-search" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" id="navbar-notification-search" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false"  href="#" >
                                     <i class="batch-icon batch-icon-search"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-fullscreen" aria-labelledby="navbar-notification-search">
@@ -170,8 +170,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle no-waves-effect" id="navbar-notification-misc" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
+                            <li class="nav-item dropdown" >
+                                <a class="nav-link dropdown-toggle no-waves-effect" id="navbar-notification-misc" click.trigger="updateNotifications()" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
                                     <i class="batch-icon batch-icon-bell"></i>
                                     <span class="notification-number">${unSeenCount}</span>
                                 </a>

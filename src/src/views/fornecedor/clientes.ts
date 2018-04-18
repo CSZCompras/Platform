@@ -22,7 +22,15 @@ export class Clientes{
         type : number;
         filter : string;
 
-        constructor(private router: Router,  private repository : FoodServiceConnectionRepository, private nService : NotificationService) {   
+        constructor(
+                private router: Router,  
+                private repository : FoodServiceConnectionRepository, 
+                private nService : NotificationService, 
+                private ea : EventAggregator) {   
+                
+                this.ea.subscribe( 'RegistrationSent', () =>{
+                        this.loadData();
+                });
         }
         
         attached(){
@@ -60,7 +68,7 @@ export class Clientes{
                         .getSuppliers(this.type)
                         .then( (data : FoodServiceConnectionViewModel[]) =>{
                                 this.foodServices = data;
-                                this.filteredFoodServices = this.foodServices;
+                                this.search();
                             
                         }).catch( e => {
                             this.nService.presentError(e);
@@ -171,7 +179,7 @@ export class Clientes{
                                 else{
                                         return isFound;
                                 }
-                                
+                                return isFound;
                         });
         }
 

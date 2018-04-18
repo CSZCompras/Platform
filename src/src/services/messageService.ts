@@ -1,17 +1,22 @@
 import { IdentityService } from './identityService';
 import { autoinject, Aurelia } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Rest, Config } from 'aurelia-api';
 
 @autoinject
 export class MessageService{
 
-    
-    constructor(private service : IdentityService, 	private ea: EventAggregator){
+	api: Rest;
+
+    constructor(private service : IdentityService, 	private ea: EventAggregator, private config: Config){
+		this.api = this.config.getEndpoint('csz');
     }
 	
 	subscribe(){
 		
-		var ws = new WebSocket(`ws://localhost:49791/hubs/foodServiceSupplierConnection`); 
+		var address = this.config.getEndpoint('csz').client.baseUrl.replace('http://','').replace('/api/','');
+
+		var ws = new WebSocket('ws://'+ address +'/hubs/foodServiceSupplierConnection'); 
         var other = this;
         var user = this.service.getIdentity();
 

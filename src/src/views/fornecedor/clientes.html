@@ -45,7 +45,7 @@
                           </tr>
                        </thead>
                        <tbody>
-                          <tr repeat.for="x of foodServices">
+                          <tr repeat.for="x of filteredFoodServices">
                              <td>${x.foodService.name}</td>
                              <td> 
                                 <span class="badge badge-warning" if.bind="x.status == 1">Não cadastrado</span>

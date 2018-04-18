@@ -27,7 +27,28 @@ export class Fornecedores{
         constructor(private router: Router, 
                 private repository : SupplierConnectionRepository, 
                 private  productRepository : ProductRepository, 
-                private nService : NotificationService) {                
+                private nService : NotificationService,
+                private ea : EventAggregator) {              
+                
+                this.ea.subscribe( 'WaitingToApprove', () =>{
+                        this.loadData();
+                });
+                
+                this.ea.subscribe( 'RegistrationApproved', () =>{
+                        this.loadData();
+                });
+
+                this.ea.subscribe( 'RegistrationRejected', () =>{
+                        this.loadData();
+                });                
+                
+                this.ea.subscribe( 'ClientBlocked', () =>{
+                        this.loadData();
+                });
+                
+                this.ea.subscribe( 'WaitingToApprove', () =>{
+                        this.loadData();
+                });
         }
         
         attached(){
@@ -38,16 +59,11 @@ export class Fornecedores{
 
         loadData() : void {
                 
-               this.loadSuggestedSuppliers();
-
-                this. productRepository
-                    .getAllCategories()
-                    .then( (data : ProductCategory[]) => { 
-                        this.categories = data;
-                    }).catch( e => {
-                        this.nService.presentError(e);
-                    });
-        
+               if(this.type == null || this.type == 0){
+                       this.type = 1;
+               }
+               
+               this.alterView(this.type);
         }
 
         alterView(type : number){
@@ -74,7 +90,7 @@ export class Fornecedores{
                         .getSuggestedSuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
-                                this.filteredSuppliers = data;
+                                this.search();
                         });
         }
 

@@ -72,27 +72,31 @@ export class App {
 		this.service.configureHttpClient(this.api.client);
 		
 		if(this.isLogged){
-			
-			
-			this.notificationRepository
-				.getAll()
-				.then( (notifications : Notification[]) =>{
 
-					this.notifications = notifications;
-					
-					this.ea.subscribe('newNotification', (x : Notification) =>{
-						this.notifications.unshift(x);
-						this.updateUnSeenCount();
-					});
-					
-					this.messageService.subscribe();
-					this.updateUnSeenCount();
+			this.getNotifications();
 
-				}).catch( e =>  {
-					this.nService.presentError(e);
-				});
+			this.ea.subscribe('newNotification', (x : Notification) =>{
+				this.notifications.unshift(x);
+				this.updateUnSeenCount();
+				this.ea.publish(x.eventName);
+			});
 		}
 	} 
+
+	getNotifications(){ 
+			
+		this.notificationRepository
+			.getAll()
+			.then( (notifications : Notification[]) =>{
+
+				this.notifications = notifications; 				
+				this.messageService.subscribe();
+				this.updateUnSeenCount();
+
+			}).catch( e =>  {
+				this.nService.presentError(e);
+			});
+	}
 
 	updateUnSeenCount(){
 		this.unSeenCount = this.notifications.filter( (notification : Notification) => notification.wasSeen ? false : true ).length;
@@ -104,7 +108,9 @@ export class App {
 			this.router.navigate('login');
 		}
 		ScriptRunner.runScript();
-	}
+		
+		var other = this; 
+	}	
 
    addRoutes(config: RouterConfiguration, router: Router) : void { 
 
@@ -129,5 +135,25 @@ export class App {
 	   this.service.resetIdentity();
 	   this.isLogged = false;	   
 	   this.router.navigate('login'); 
+   }
+
+   updateNotifications(){
+	 	if(this.unSeenCount > 0)  {
+
+			var notificationIds = new Array<string>();
+			var unSeenList = this.notifications.filter( (x) => ! x.wasSeen);
+			unSeenList.forEach( (x) => {
+				notificationIds.push(x.id)
+			});
+
+			this.notificationRepository
+				.updateUnseen(notificationIds)
+				.then( () =>{
+					this.unSeenCount = 0;
+					this.getNotifications();
+				}).catch( e =>  {
+					this.nService.presentError(e);
+				});
+		}
    }
 }

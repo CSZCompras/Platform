@@ -31,4 +31,21 @@ export class NotificationRepository{
             });
     }
 
+    updateUnseen(notificationIds : Array<string>) : Promise<Notification[]> {
+        
+        return this.api
+                    .post('seenNotification', notificationIds)
+                    .then( (result : Promise<any>) => {    
+                        if(result == null)             
+                            return Promise.resolve();
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
 }
