@@ -1,11 +1,12 @@
 import { IdentityService } from './identityService';
 import { autoinject, Aurelia } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject
 export class MessageService{
 
     
-    constructor(private service : IdentityService){
+    constructor(private service : IdentityService, 	private ea: EventAggregator){
     }
 	
 	subscribe(){
@@ -23,9 +24,9 @@ export class MessageService{
 					ws.send(JSON.stringify({
 						type: 1,
                         invocationId: user.id,
-                        connctionId : user.id,
+                        xonnectionId : user.id,
 						target: 'Register',
-						arguments: [user.id, user.companyId],
+						arguments: [ user.id],
 						nonBlocking: false
 					})+ "\x1e"); 
             };
@@ -36,13 +37,14 @@ export class MessageService{
 				
 				data = (event.data);
 				
-				data = data.replace('','');
+				data = data.replace('','');			
 
 				var msg = JSON.parse(data);
 
-				/*if(msg.type == 1){
-					other.nService.presentSuccess('Server: ' + msg.arguments[0].msg);
-                }*/
+				if( msg.type == 1){					
+
+					other.ea.publish('newNotification', msg.arguments[0]);
+				}
             };
 			
 			ws.onclose = function (event) {

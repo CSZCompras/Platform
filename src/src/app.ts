@@ -8,7 +8,10 @@ import { PLATFORM } from 'aurelia-pal';
 import { Rest, Config } from 'aurelia-api';
 import { configure } from './resources';
 import { EventAggregator } from 'aurelia-event-aggregator';
-
+import { NotificationService } from './services/notificationService';
+import { MessageService } from './services/messageService';
+import { NotificationRepository } from './repositories/notificationRepository';
+import { Notification } from './domain/notification';
 
 import 'jquery';
 import 'popper.js';
@@ -19,8 +22,7 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';  
-import { NotificationService } from './services/notificationService';
-import { MessageService } from './services/messageService';
+
 
 @autoinject
 export class App {
@@ -30,6 +32,8 @@ export class App {
 	router : Router; 
 	isLogged : boolean;
 	identity : Identity;  
+	notifications : Notification[];
+	unSeenCount : number;
 	
 	configureRouter(config: RouterConfiguration, router: Router): void {
 		
@@ -45,7 +49,11 @@ export class App {
 				private ea: EventAggregator,
 				private service : IdentityService, 
 				private nService : NotificationService, 
-				private messageService : MessageService) {
+				private messageService : MessageService,
+				private notificationRepository : NotificationRepository) {
+
+		this.notifications = [];
+		this.unSeenCount = 0;
 
         this.api = this.config.getEndpoint('csz'); 
 		this.isLogged = this.service.isLogged();
@@ -64,9 +72,31 @@ export class App {
 		this.service.configureHttpClient(this.api.client);
 		
 		if(this.isLogged){
-			this.messageService.subscribe();
+			
+			
+			this.notificationRepository
+				.getAll()
+				.then( (notifications : Notification[]) =>{
+
+					this.notifications = notifications;
+					
+					this.ea.subscribe('newNotification', (x : Notification) =>{
+						this.notifications.unshift(x);
+						this.updateUnSeenCount();
+					});
+					
+					this.messageService.subscribe();
+					this.updateUnSeenCount();
+
+				}).catch( e =>  {
+					this.nService.presentError(e);
+				});
 		}
 	} 
+
+	updateUnSeenCount(){
+		this.unSeenCount = this.notifications.filter( (notification : Notification) => notification.wasSeen ? false : true ).length;
+	}
 
 	attached() : void {
 

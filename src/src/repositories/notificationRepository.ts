@@ -5,6 +5,7 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { Rest, Config } from 'aurelia-api';
 import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
+import { Notification } from "../domain/notification";
 
 @autoinject
 export class NotificationRepository{
@@ -15,7 +16,7 @@ export class NotificationRepository{
         this.api = this.config.getEndpoint('csz');
     }
 
-    getAll() : Promise<PriceList[]> {
+    getAll() : Promise<Notification[]> {
         
         return this.api
             .find('notification')

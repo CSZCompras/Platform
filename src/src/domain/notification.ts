@@ -6,4 +6,5 @@ export class Notification{
     message : string;
     wasSeen : string;
     createdOn : Date;
+    eventName : string;
 }
