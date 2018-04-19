@@ -132,7 +132,15 @@
                             </label>								
                         </div>
                      </form>
-                     <br />
+                     <br /> 
+                     <form class="form-inline">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                           <div class="input-group">                              
+                              <input type="email" class="form-control " autocomplete="off"   data-validation="email" if.bind="rule.sendNotificationToNewClient"  value.bind="rule.receiverNewClient" />
+                           </div>
+                        </div>
+                     </form> 
                      <br /> 
                      <form class="form-inline">
                         <div class="col-md-4"></div>
@@ -140,8 +148,17 @@
                             <label class="form-check-label  ml-2 float-left">                                    
                                 <input class="form-check-input  float-left" type="checkbox" value="0" checked.bind="rule.sendNotificationToNewOrder" /> 
                                 <!--<span class="badge ${ rule.sendNotificationToNewOrder ? 'badge-success' : 'badge-warning' }">Receber notificação de um novo pedido por email</span>-->
-                                <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Receber notificação de um novo pedido por email</label>
-                            </label>								
+                                <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Receber notificação de um novo pedido por email</label>                                
+                            </label>
+                        </div>
+                     </form>  
+                     <br /> 
+                     <form class="form-inline">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                           <div class="input-group">                              
+                              <input type="email" class="form-control " autocomplete="off"   data-validation="email"  if.bind="rule.sendNotificationToNewOrder" value.bind="rule.receiverNewOrder" />
+                           </div>
                         </div>
                      </form> 
                   </div>          

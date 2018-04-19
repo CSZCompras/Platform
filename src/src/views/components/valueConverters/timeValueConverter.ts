@@ -10,11 +10,21 @@ export class TimeValueConverter{
             if(value.length == 3){
                 var a = ('' + value).substr(0,1);
                 var b = ('' + value).substr(1,2);  
+
+                if( Number.parseInt(b) > 59 && a.substr(0,1) != "0"){
+                    b = '00';
+                }
+
                 return a + ':' + b;
             }
             else{
                 var a = ('' + value).substr(0,2);
                 var b = ('' + value).substr(2,2);  
+
+                if( Number.parseInt(b) > 59){
+                    b = '00';
+                }
+
                 return a + ':' + b;
             }            
         }

@@ -49,6 +49,14 @@ export class RegrasDeMercado{
     save(){
         var errors = this.validator.validate();
 
+        if(! this.rule.sendNotificationToNewOrder){
+            this.rule.receiverNewOrder = '';
+        }
+
+        if(! this.rule.sendNotificationToNewClient){
+            this.rule.receiverNewClient = '';
+        }
+
 		if(errors.length == 0){
 
             this.repository

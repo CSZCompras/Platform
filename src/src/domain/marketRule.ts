@@ -17,4 +17,6 @@ export class MarketRule {
     deliverySchedule2 : number;
     sendNotificationToNewClient  : boolean;
     sendNotificationToNewOrder : boolean;
+    receiverNewClient : string;
+    receiverNewOrder : string;
 }
