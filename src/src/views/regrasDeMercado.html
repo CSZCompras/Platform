@@ -137,7 +137,7 @@
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                            <div class="input-group">                              
-                              <input type="email" class="form-control " autocomplete="off"   data-validation="email" if.bind="rule.sendNotificationToNewClient"  value.bind="rule.receiverNewClient" />
+                              <input type="email" class="form-control ${validator.sendNotificationToNewClient  ? 'border-danger' : '' }  " autocomplete="off"   data-validation="email" if.bind="rule.sendNotificationToNewClient"  value.bind="rule.receiverNewClient" change.delegate="validator.validateReceiverNewClient()" />
                            </div>
                         </div>
                      </form> 
@@ -157,7 +157,7 @@
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                            <div class="input-group">                              
-                              <input type="email" class="form-control " autocomplete="off"   data-validation="email"  if.bind="rule.sendNotificationToNewOrder" value.bind="rule.receiverNewOrder" />
+                              <input type="email" class="form-control  ${validator.sendNotificationToNewOrder  ? 'border-danger' : '' }  " autocomplete="off"   data-validation="email"  if.bind="rule.sendNotificationToNewOrder" value.bind="rule.receiverNewOrder"  change.delegate="validator.validateReceiverNewOrder()" />
                            </div>
                         </div>
                      </form> 

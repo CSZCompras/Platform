@@ -13,12 +13,9 @@ import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject
-export class AtualizacaoDePrecos{
-
-    newProducts : Array<SupplierProduct>;
+export class AtualizacaoDePrecos{ 
     supplierProducts  : Array<SupplierProduct>; 
-    selectedFiles : any;
-    productAddedCount : number;
+    selectedFiles : any; 
     isUploading : boolean;
     
     constructor(		
@@ -27,9 +24,7 @@ export class AtualizacaoDePrecos{
 		private nService : NotificationService, 
         private ea : EventAggregator ,
         private config: Config,
-        private repository : ProductRepository) {
-
-            this.newProducts = new Array<SupplierProduct>();
+        private repository : ProductRepository) { 
             this.supplierProducts = new Array<SupplierProduct>();
     } 
 
@@ -40,13 +35,10 @@ export class AtualizacaoDePrecos{
         this.ea.subscribe('productAdded', (product : SupplierProduct) =>{
             
             
-            this.newProducts.push(product);
-            this.ea.publish('newProductsUpdated', this.newProducts.length);
-        })
-        
-         this.ea.subscribe('newProductsUpdated', (length : number) =>{
-            this.productAddedCount = length;
-        })
+            this.supplierProducts.push(product);
+                       
+            this.supplierProducts = this.supplierProducts.sort( (a : SupplierProduct, b : SupplierProduct) => 0 - (a.product.name > b.product.name ? -1 : 1));
+        }) 
     }
 
     loadData(){
@@ -58,38 +50,7 @@ export class AtualizacaoDePrecos{
             }).catch( e => {
                 this.nService.presentError(e);
             });
-    }
-
-    addProduct(product : SupplierProduct){
-
-        if(product.price == null || (''+ product.price) == '' || product.price <= 0){
-            this.nService.error('O preço do produto é inválido');
-        }
-        else{
-
-            this.repository
-                .addSuplierProduct(product)
-                .then( (result : SupplierProduct) =>{                                                         
-                       this.newProducts = 
-                            this.newProducts.filter( (x : SupplierProduct) =>{
-                                if(x.product.id == product.product.id){
-                                    return false;
-                                }
-                                return true;
-                            });    
-
-                       this.supplierProducts.push(result);
-                       
-                       this.supplierProducts = this.supplierProducts.sort( (a : SupplierProduct, b : SupplierProduct) => 0 - (a.product.name > b.product.name ? -1 : 1));
-
-                       this.nService.success('O produto foi adicionado com sucesso!');
-
-                       this.ea.publish('newProductsUpdated', this.newProducts.length);
-                    }).catch( e => {
-                        this.nService.error(e);
-                    });
-        }
-    }
+    } 
 
     edit(product : SupplierProduct){
         ( <any> product).isEditing = true;

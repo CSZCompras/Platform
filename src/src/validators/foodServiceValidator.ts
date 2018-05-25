@@ -9,8 +9,7 @@ export class FoodServiceValidator {
     addressValidator : AddressValidator;    
     contactValidator : ContactValidator;
 
-    constructor(private foodService : FoodService) {   
-        debugger;
+    constructor(private foodService : FoodService) {    
         this.errorMessages = new Array<string>();
         
         if(this.foodService != null && this.foodService.address != null ){

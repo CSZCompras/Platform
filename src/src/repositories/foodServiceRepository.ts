@@ -69,8 +69,7 @@ export class FoodServiceRepository {
 
         return this.api
             .find('buyList')
-            .then( (result : Promise<BuyList[]>) => {
-                debugger;
+            .then( (result : Promise<BuyList[]>) => { 
                 return result;
             })
             .catch( (e) => {

@@ -7,7 +7,6 @@ export class SupplierProduct{
     id : string;
     supplier : Supplier;
     product : Product;
-    brand : Brand;
     price : number;
     isActive : boolean;
 }

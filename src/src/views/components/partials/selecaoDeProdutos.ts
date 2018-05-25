@@ -16,13 +16,15 @@ import { SupplierProduct } from '../../../domain/supplierProduct';
 @autoinject
 export class SelecaoDeProdutos{
     
-    classes : ProductClass[];
-    categories : ProductCategory[];
-    allProducts : Product[];
-    filteredProducts : Product[];
-    isFiltered : boolean;
-    selectedCategory : string;
-    filter : string;
+    classes             : ProductClass[];
+    categories          : ProductCategory[];
+    allProducts         : Product[];
+    filteredProducts    : Product[];
+    isFiltered          : boolean;
+    selectedCategory    : string;
+    filter              : string;
+    isEditing           : boolean;
+    isLoaded            : boolean;
 
     constructor(		
         private router: Router, 
@@ -33,14 +35,16 @@ export class SelecaoDeProdutos{
         private repository : SupplierRepository) {
         
         this.isFiltered = false;
+        this.isLoaded = false;
     } 
     
     attached() : void{ 
-		this.loadData(); 
+        this.loadData(); 
     } 
 
     loadData(){
 
+     var promisseCategories =
         this. productRepository
             .getAllCategories()
             .then( (data : ProductCategory[]) => { 
@@ -49,13 +53,16 @@ export class SelecaoDeProdutos{
                 this.nService.presentError(e);
             });
 
-        this. productRepository
-            .getAllProducts()
-            .then( (data : Product[]) => { 
-                this.allProducts = data;
-            }).catch( e => {
-                this.nService.presentError(e);
-            });
+        var promisseProducts =
+            this. productRepository
+                .getAllProducts()
+                .then( (data : Product[]) => { 
+                    this.allProducts = data;
+                }).catch( e => {
+                    this.nService.presentError(e);
+                });
+        Promise.all([promisseCategories, promisseProducts])
+               .then( () => this.isLoaded = true);
     }
 
     search(){ 
@@ -65,6 +72,7 @@ export class SelecaoDeProdutos{
         else{
             
             this.isFiltered = true;
+
 
             this.filteredProducts = this.allProducts.filter( (x : Product) =>{
 
@@ -95,36 +103,53 @@ export class SelecaoDeProdutos{
                     return x;
                 }
             });
-        }
+        } 
     }
 
-    addProduct(product : Product){ 
+    includeProduct(product : Product){
+
 
         var supplierProduct = new SupplierProduct();
         supplierProduct.product = product;
         supplierProduct.isActive = true;         
         this.isFiltered = true;
         
+        ( <any> product).supplierProduct = supplierProduct; 
+        this.isEditing = true;
+    }
+
+    saveProduct(product : Product){  
+
+        var supplierProduct = <SupplierProduct> ( <any> product).supplierProduct;
+        
+        // Remove the virtual property (circular reference!)
+        ( <any> product).supplierProduct = null;
+  
+        supplierProduct.isActive = true;         
+        this.isFiltered = true;
+        
 
 
-        this.repository.addProduct(supplierProduct)
-                        .then( (data : SupplierProduct) => { 
-                        
-                            this.allProducts = this.allProducts.filter( (x : Product) => {
-                                if(x.id != product.id)
-                                    return x;
-                            });
+        this.repository
+            .addProduct(supplierProduct)
+            .then( (data : SupplierProduct) => { 
+            
+                this.allProducts = this.allProducts.filter( (x : Product) => {
+                    if(x.id != supplierProduct.product.id)
+                        return x;
+                });
 
-                            this.filteredProducts = this.filteredProducts.filter( (x : Product) => {
-                                if(x.id != product.id)
-                                    return x;
-                            });
-                            this.nService.presentSuccess('Produto incluído com sucesso!'); 
+                this.filteredProducts = this.filteredProducts.filter( (x : Product) => {
+                    if(x.id != supplierProduct.product.id)
+                        return x;
+                });
+                this.nService.presentSuccess('Produto incluído com sucesso!'); 
 
-                            this.ea.publish('productAdded', data);
-                        }).catch( e => {
-                            this.nService.presentError(e);
-                        });
+                this.ea.publish('productAdded', data);
+                this.isEditing = false;
+            }).catch( e => {
+                this.nService.presentError(e);
+            });
         
     }
 

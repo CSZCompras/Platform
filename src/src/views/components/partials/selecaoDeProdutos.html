@@ -1,9 +1,11 @@
 <template>
-   <div class="row">
+      <require from="../attributes/moneyMask"></require>
+      <require from="../valueConverters/moneyValueConverter"></require>      
+   <div class="row mt-2">
       <div class="col-lg-4">
          <div class="form-group">
-            <label class="control-label">Categoria</label>
-            <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+            <label class="control-label">Categoria</label>            
+            <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedCategory" change.delegate="search()">
                <option  value=""></option>
                <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
             </select>
@@ -12,40 +14,42 @@
       <div class="col-lg-4">
          <div class="form-group">
             <label class="control-label">Filtro</label> 
-            <input type="text" class="form-control "  value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
+            <input type="text" class="form-control  ${ isLoaded ? '' : 'disabled' }"  disabled.bind="! isLoaded"  value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
          </div>
       </div>
-   </div>
-   <!--<div class="row">
-      <div class="col-lg-2">
-         <div class="form-group">
-            <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light "  click.trigger="search()">
-               <span class="gradient">
-                  <!--<i class="batch-icon batch-icon-search-alt"></i> -->
-                  <!--Pesquisar
-               </span>
-            </button>
-         </div>
-      </div>
-   </div>-->
+   </div> 
    <div class="row" if.bind="isFiltered">
-      <div class="col-md-12 pb-5"> 
-         <table class="table table-hover">
+      <div class="col-md-12 pb-5 mt-5"> 
+         <table class="table table-hover table-sm">
             <thead>
                <tr>
-                  <th>Nome</th>
-                  <th>Categoria</th>
-                  <th>UM</th> 
+                  <th class="text-center">Nome</th>
+                  <th class="text-center">Categoria</th>
+                  <th class="text-center">Marca</th> 
+                  <th class="text-center">UM</th> 
+                  <th class="text-center">Preço</th> 
+                  <th class="text-center">
+                        Peso (kgs)                 
+                  </th> 
                   <th></th>
                </tr>
             </thead>
             <tbody>
                <tr repeat.for="product of filteredProducts">
-                  <td>${product.name}</td>
-                  <td>${product.category.name}</td>
-                  <td>${product.unit.name}</td> 
-                  <td>
-                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="addProduct(product)">Incluir</button>
+                  <td class="align-middle">${product.name}</td>
+                  <td class="text-center align-middle">${product.category.name}</td>
+                  <td class="align-middle">${product.brand.name}</td>
+                  <td class="text-center align-middle">${product.unit.name}</td> 
+                  <td class="align-middle text-center">
+                        <input type="text" disabled.bind="! product.supplierProduct" class="money form-control mx-auto col-md-6  text-right ${ product.supplierProduct ? '' : 'disabled' } " autocomplete="off" value.bind="product.supplierProduct.price | money" money placeholder="000,00" />
+                  </td>
+                  <td class="align-middle">
+                        <input type="text"  disabled.bind="! (product.supplierProduct && product.unit.mustInformQuantity) " class="money form-control mx-auto col-md-6 text-right  ${ (product.supplierProduct && product.unit.mustInformQuantity) ? '' : 'disabled' } " autocomplete="off" value.bind="product.supplierProduct.weight | money" money placeholder="000,00" />                        
+                  </td>
+                  <td class="align-middle">
+                        <button  if.bind="! product.supplierProduct"    type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="includeProduct(product)">Incluir</button>
+                        <button  if.bind="product.supplierProduct"      type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="saveProduct(product)">Salvar</button>
+                        <button  if.bind="product.supplierProduct"      type="button" class="btn  btn-sm waves-effect waves-light" click.trigger="product.supplierProduct = null">Cancelar</button>
                   </td>
                </tr>
             </tbody>

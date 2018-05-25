@@ -40,12 +40,18 @@ export class Login {
     }
 
     doLogin() : void {
+        this.processing = true;
 
         this.loginRepository
             .login(this.credential)
             .then( (identity : Identity) =>{ 
+                
+                
+                this.processing = false;
+                
                 this.service.setIdentity(identity);                                
                 this.ea.publish('loginDone', null);
+
                 if(identity.type == 0){
                     this.router.navigate('/#/dashboard');
                 }
@@ -56,6 +62,7 @@ export class Login {
             }).catch( e => 
             {
                 this.nService.error(e);
+                this.processing = false;
             });
     }
 

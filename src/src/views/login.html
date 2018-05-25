@@ -12,8 +12,8 @@
 						</p>
 					</div>
 					<div class="col-md-5 order-md-1 signin-left-column bg-white px-5">
-						<a class="signin-logo d-sm-none d-md-block" href="#">
-							<img src="assets/img/logo2T.png" width="175" height="92" alt="QuillPro">
+						<a class="signin-logo d-sm-none d-md-block">
+							<img class="ml-5" src="assets/img/logo2T.png"  style="cursor:default"  width="175" height="92" alt="CSZ">
 						</a>
 						<form >
 							<div class="form-group">
@@ -24,10 +24,11 @@
 								<label for="exampleInputPassword1">Senha</label>
 								<input type="password" class="form-control" id="exampleInputPassword1" value.bind="credential.password" placeholder="Password">
 							</div>
-							<button type="submit" class="btn btn-primary btn-gradient btn-block waves-effect waves-light"  click.delegate="doLogin()">
+							<button type="submit" if.bind="! processing"  class="btn btn-primary btn-gradient btn-block waves-effect waves-light"  click.delegate="doLogin()">
 								<i class="batch-icon batch-icon-key"></i>
 								Login
 							</button>
+							<span if.bind="processing" class="badge badge-warning">Efetuando autenticação</span>
 							<hr>
 							<p class="text-center">
 								Ainda não possui um usuário?<a href="sisu-signup.html"> Registre-se aqui</a>

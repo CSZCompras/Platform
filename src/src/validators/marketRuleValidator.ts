@@ -11,6 +11,8 @@ export class MarketRuleValidator {
     isPeriodToAcceptOrder2Invalid : boolean;
     isDeliverySchedule1Invalid : boolean;
     isDeliverySchedule2Invalid : boolean;
+    isReceiverNewClientInvalid : boolean;
+    isreceiverNewOrderInvalid : boolean;
     
     constructor(private rule : MarketRule) {   
 
@@ -27,9 +29,24 @@ export class MarketRuleValidator {
         this.validatePeriodToAcceptOrder2();
         this.validateDeliverySchedule1();
         this.validateDeliverySchedule2();
+        this.validateReceiverNewClient();
+        this.validateReceiverNewOrder();
         return this.errorMessages;
     }
 
+    validateReceiverNewClient(){
+        if(this.rule.sendNotificationToNewClient && (this.rule.receiverNewClient == null || this.rule.receiverNewClient  == '')){
+            this.errorMessages.push('O e-mail do destinatário em caso de novo cliente está em branco');
+            this.isReceiverNewClientInvalid = true;
+        }
+    }
+
+    validateReceiverNewOrder(){
+        if(this.rule.sendNotificationToNewOrder && (this.rule.receiverNewOrder == null || this.rule.receiverNewOrder  == '')){
+            this.errorMessages.push('O e-mail do destinatário em caso de novo pedido está em branco');
+            this.isReceiverNewClientInvalid = true;
+        }
+    }
     
     validateMinimumOrderValue(){
         

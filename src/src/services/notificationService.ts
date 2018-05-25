@@ -16,7 +16,7 @@ export class NotificationService {
             hideMethod: 'fadeOut',
             positionClass : 'toast-bottom-right',
             extendedTimeOut : 0,
-            timeOut : 1000
+            timeOut : 2000
         };
 
     }
