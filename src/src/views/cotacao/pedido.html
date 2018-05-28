@@ -41,7 +41,7 @@
                              <div class="tab-content clearfix">
                                 <div class="tab-pane" id="tab1">
                                    <div class="row">
-                                      <div class="col-md-6">
+                                      <div class="col-md-12">
                                          <div class="form-group">
                                             <label class="control-label">Selecione a lista de compras</label>
                                             <select class="form-control " value.bind="buyList">
@@ -49,6 +49,44 @@
                                             </select>
                                          </div>
                                       </div>
+                                     <div class="col-md-12">
+                                            <div class="card-table table-responsive">
+                                                    <table class="table table-hover table-sm align-middle">
+                                                       <thead>
+                                                          <tr>
+                                                             <th>Nome do produto</th>
+                                                             <th>Categoria</th>
+                                                             <th>UM</th>
+                                                             <th>Marca</th>
+                                                             <th>Quantidade</th>
+                                                          </tr>
+                                                       </thead>
+                                                       <tbody>
+                                                          <tr repeat.for="product of buyList.products">
+                                                            <td><a href="#">${product.foodServiceProduct.product.name}</a></td>
+                                                            <td><a href="#">${product.foodServiceProduct.product.category.name}</a>
+                                                            <td><a href="#">${product.foodServiceProduct.product.unit.name}</a>                                                            
+                                                            <td><a href="#">${product.foodServiceProduct.product.brand.name}</a>                                                                
+                                                             <td class="text-center">
+                                                                <form class="my-2 no-waves-effect">
+                                                                   <div class="input-group short-input-field">
+                                                                      <input type="text" class="form-control text-right" placeholder="Update Quantity" aria-label="Update Quantity" aria-describedby="update-quantity" value="3">
+                                                                      <div class="input-group-append">
+                                                                         <button class="btn btn-secondary waves-effect waves-light" type="button" data-toggle="tooltip" data-original-title="Update Item">
+                                                                         <i class="batch-icon batch-icon-refresh"></i>
+                                                                         </button>
+                                                                         <button class="btn btn-secondary waves-effect waves-light" type="button" data-toggle="tooltip" data-original-title="Delete Item">
+                                                                         <i class="batch-icon batch-icon-bin-alt-2"></i>
+                                                                         </button>
+                                                                      </div>
+                                                                   </div>
+                                                                </form>
+                                                             </td>
+                                                          </tr> 
+                                                       </tbody>
+                                                    </table>
+                                                 </div>                                         
+                                     </div>
                                    </div>
                                 </div>
                                 <div class="tab-pane" id="tab2">
