@@ -1,6 +1,8 @@
 <template>
         <require from="../components/attributes/moneyMask"></require>
         <require from="../components/valueConverters/moneyValueConverter"></require>
+        <require from="../components/attributes/timeMask"></require>
+        <require from="../components/valueConverters/timeValueConverter"></require>
 
         <div class="row mb-5">
            <div class="col-md-12">
@@ -40,18 +42,25 @@
                              </ul>
                              <div class="tab-content clearfix">
                                 <div class="tab-pane" id="tab1">
+                                    <div class="card-body">
                                    <div class="row">
-                                      <div class="col-md-12">
+                                      <div class="col-md-4">
                                          <div class="form-group">
                                             <label class="control-label">Selecione a lista de compras</label>
                                             <select class="form-control " value.bind="buyList">
-                                               <option  repeat.for="list of lists" model.bind="list">${list.name}</option>
+                                              <option  value=""></option>
+                                              <option  repeat.for="list of lists" model.bind="list">${list.name}</option>
                                             </select>
                                          </div>
                                       </div>
-                                     <div class="col-md-12">
-                                            <div class="card-table table-responsive">
-                                                    <table class="table table-hover table-sm align-middle">
+                                      <div class="col-md-12 mt-3" if.bind="buyList">
+                                         <div class="form-group">
+                                            <span class="badge badge-warning">Defina as quantidades para cada produto abaixo</span>    
+                                         </div>
+                                      </div>
+                                     <div class="col-md-12"  if.bind="buyList">
+                                            <div>
+                                                    <table class="table  table-hover table-responsive">
                                                        <thead>
                                                           <tr>
                                                              <th>Nome do produto</th>
@@ -62,26 +71,16 @@
                                                           </tr>
                                                        </thead>
                                                        <tbody>
-                                                          <tr repeat.for="product of buyList.products">
-                                                            <td><a href="#">${product.foodServiceProduct.product.name}</a></td>
-                                                            <td><a href="#">${product.foodServiceProduct.product.category.name}</a>
-                                                            <td><a href="#">${product.foodServiceProduct.product.unit.name}</a>                                                            
-                                                            <td><a href="#">${product.foodServiceProduct.product.brand.name}</a>                                                                
-                                                             <td class="text-center">
-                                                                <form class="my-2 no-waves-effect">
-                                                                   <div class="input-group short-input-field">
-                                                                      <input type="text" class="form-control text-right" placeholder="Update Quantity" aria-label="Update Quantity" aria-describedby="update-quantity" value="3">
-                                                                      <div class="input-group-append">
-                                                                         <button class="btn btn-secondary waves-effect waves-light" type="button" data-toggle="tooltip" data-original-title="Update Item">
-                                                                         <i class="batch-icon batch-icon-refresh"></i>
-                                                                         </button>
-                                                                         <button class="btn btn-secondary waves-effect waves-light" type="button" data-toggle="tooltip" data-original-title="Delete Item">
-                                                                         <i class="batch-icon batch-icon-bin-alt-2"></i>
-                                                                         </button>
-                                                                      </div>
-                                                                   </div>
-                                                                </form>
-                                                             </td>
+                                                          <tr repeat.for="product of buyList.products" if.bind="product.isInList">
+                                                            <td>${product.foodServiceProduct.product.name}</td>
+                                                            <td>${product.foodServiceProduct.product.category.name}</td>
+                                                            <td>${product.foodServiceProduct.product.unit.name}</td>                                                       
+                                                            <td>${product.foodServiceProduct.product.brand.name}</td>                                                                
+                                                            <td class="text-center"> 
+                                                              <div class="col-md-3 mx-auto float-left">
+                                                                  <input type="text" class="money text-right  form-control"  autocomplete="off" value.bind="product.foodServiceProduct.product.quantity | money" money placeholder="000" />
+                                                              </div>
+                                                            </td>
                                                           </tr> 
                                                        </tbody>
                                                     </table>
@@ -89,6 +88,7 @@
                                      </div>
                                    </div>
                                 </div>
+                              </div>
                                 <div class="tab-pane" id="tab2">
                                    <div class="row" if.bind="isProcessing">
                                       <div class="col-md-6">
@@ -103,18 +103,19 @@
                                             <div class="card-header ml-0" role="tab" id="result${result.id}">
                                                <h5 class="mb-0">
                                                   <a data-toggle="collapse" data-parent="#accordion" href="#collapse${result.id}" aria-expanded="false" aria-controls="collapse${result.id}" class="">
-                                                    Simulação  ${$index + 1} 
+                                                    Cotação  ${$index + 1} 
                                                     <div class="text-right">${result.total  | money}</div>
                                                   </a>
                                                </h5>
                                             </div>
                                             <div id="collapse${result.id}" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
                                                <div class="card-body"> 
+                                                  <h3>Dados do pedido</h3>
                                                   <div class="col-md-12 card-table table-responsive">
                                                      <table class="table table-hover table-sm align-middle">
                                                         <thead>
                                                            <tr>
-                                                              <th>Nome do Produto</th>
+                                                              <th class="text-center">Nome do Produto</th>
                                                               <th class="text-right">Preço unitário</th>
                                                               <th class="text-right">Quantidade</th>
                                                               <th class="text-right">Total</th>
@@ -144,6 +145,63 @@
                                                               </td>
                                                               <td class="text-right">
                                                                  <strong>${result.total  | money}</strong>
+                                                              </td>
+                                                           </tr>
+                                                        </tbody>
+                                                     </table>
+                                                  </div>
+                                                  <h3>Sumário</h3>
+                                                  <div class="col-md-12 card-table table-responsive">
+                                                     <table class="table table-hover table-sm align-middle">
+                                                        <thead>
+                                                           <tr>
+                                                              <th class="text-left">Fornecedor</th>
+                                                              <th class="text-center">Avaliação</th>
+                                                              <th class="text-center">Qtde de dias para aceite</th>
+                                                              <th class="text-center">Período de Aceite</th>
+                                                              <th class="text-center">Dias de entrega</th>
+                                                              <th class="text-center">Período de Entrega</th> 
+                                                              <th class="text-right">Total</th>
+                                                           </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                           <tr  repeat.for="item of result.summaryItems">
+                                                              <td>
+                                                                 ${item.supplier.name} 
+                                                              </td>
+                                                              <td class="text-center">
+                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                              </td>
+                                                              <td class="text-center">
+                                                                  ${item.rule.numberOfDaysToAccept} dias
+                                                              </td>
+                                                              <td class="text-center">
+                                                                  ${item.rule.periodToAcceptOrder1 | time}
+                                                                  <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
+                                                                  ${item.rule.periodToAcceptOrder2 | time}
+                                                              </td>
+                                                              <td>
+                                                                  <span if.bind="item.rule.deliveryOnMonday" class="badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                                                  <span if.bind="item.rule.deliveryOnTuesday"  class="badge  ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                                                  <span if.bind="item.rule.deliveryOnWednesday"  class="badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                                                  <span if.bind="item.rule.deliveryOnThursday"  class="badge  ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                                                  <span if.bind="item.rule.deliveryOnFriday"  class="badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>   
+                                                                  <br />
+                                                                  <br />
+                                                                  <span if.bind="item.rule.deliveryOnSaturday"  class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>     
+                                                                  <span  if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>                                                                                                                                                                               
+                                                              </td>
+                                                              <td class="text-center">
+                                                                  ${item.rule.deliverySchedule1 | time}
+                                                                  <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
+                                                                  ${item.rule.deliverySchedule2 | time}
+                                                              </td> 
+                                                              <td class="text-right">
+                                                                 ${item.total  | money}
                                                               </td>
                                                            </tr>
                                                         </tbody>

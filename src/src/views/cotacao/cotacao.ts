@@ -13,6 +13,9 @@ import { FoodServiceRepository } from '../../repositories/foodServiceRepository'
 import { BuyList } from '../../domain/buyList';
 import { SimulationRepository } from '../../repositories/simulationRepository';
 import { Simulation } from '../../domain/simulation';
+import { SimulationInput } from '../../domain/simulationInput';
+import { BuyListProduct } from '../../domain/buyListProduct';
+import { SimulationInputItem } from '../../domain/simulationInputItem';
 
 @autoinject
 
@@ -25,7 +28,8 @@ export class Pedido{
     lists           : BuyList[];
     buyList         : BuyList ;
     isProcessing    : boolean;
-    simulation      : Simulation;
+	simulation      : Simulation;
+	input 			: SimulationInput;
     
     constructor(		
         private router                  : Router, 	
@@ -36,7 +40,8 @@ export class Pedido{
 
 		this.currentStep = 1;
         this.totalSteps = 3;		
-        this.isProcessing = false;
+		this.isProcessing = false;
+		this.input = new SimulationInput();
     } 
  
 
@@ -94,10 +99,26 @@ export class Pedido{
     
     simulate(){
 
-        this.isProcessing = true;
+		this.isProcessing = true;
+		
+		this.input.buyListId = this.buyList.id;
+
+		this.buyList.products.forEach( (x : BuyListProduct) =>{
+			
+			if(x.isInList){
+				var item = new SimulationInputItem();
+
+				item.productId = x.foodServiceProduct.product.id;
+				item.quantity = (<any> x.foodServiceProduct.product).quantity;		
+				
+				if(item.quantity > 0){
+					this.input.items.push(item);
+				}
+			}
+		});		
 
         this.simulationRepository
-            .simulate(this.buyList.id)
+            .simulate(this.input)
             .then(  x => { 
                 
                 this.simulation = x;

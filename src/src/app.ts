@@ -126,7 +126,7 @@ export class App {
 			{ route: 'fornecedores', name: 'fornecedores', moduleId: PLATFORM.moduleName('./views/foodService/fornecedores') }, 
 			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./views/foodService/meusProdutos') },  
 			{ route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./views/fornecedor/clientes') } ,  
-			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./views/cotacao/pedido') } 
+			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./views/cotacao/cotacao') } 
         ]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });

@@ -10,6 +10,7 @@ import { Product } from "../domain/product";
 import { HttpClient } from 'aurelia-fetch-client';
 import { BuyList } from '../domain/buyList';
 import { Simulation } from '../domain/simulation';
+import { SimulationInput } from '../domain/simulationInput';
 
 @autoinject
 export class SimulationRepository{
@@ -21,10 +22,10 @@ export class SimulationRepository{
     }
 
 
-    simulate(buyListId : string) :  Promise<Simulation> {
+    simulate(input : SimulationInput) :  Promise<Simulation> {
         
         return this.api
-            .post('simulation', {  buyListId })
+            .post('simulation', input)
             .then( (result : Promise<any>) => {    
                 if(result == null)             
                     return Promise.resolve();
