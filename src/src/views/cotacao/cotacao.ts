@@ -16,10 +16,10 @@ import { Simulation } from '../../domain/simulation';
 import { SimulationInput } from '../../domain/simulationInput';
 import { BuyListProduct } from '../../domain/buyListProduct';
 import { SimulationInputItem } from '../../domain/simulationInputItem';
+import { SimulationResult } from '../../domain/simulationResult';
+import { OrderRepository } from '../../repositories/orderRepository';
 
 @autoinject
-
-
 export class Pedido{
 
     $               : any;
@@ -30,11 +30,13 @@ export class Pedido{
     isProcessing    : boolean;
 	simulation      : Simulation;
 	input 			: SimulationInput;
+	selectedResult 	: SimulationResult;	
     
     constructor(		
         private router                  : Router, 	
         private repository              : FoodServiceRepository,	
-        private simulationRepository    : SimulationRepository,
+		private simulationRepository    : SimulationRepository,
+		private orderRepository    		: OrderRepository,
 		private service                 : IdentityService,
 		private nService                : NotificationService) {
 
@@ -122,7 +124,8 @@ export class Pedido{
             .then(  x => { 
                 
                 this.simulation = x;
-                this.isProcessing = false;
+				this.isProcessing = false;
+				this.runScript();
             })
             .catch( e => {
                 this.nService.presentError(e);
@@ -145,5 +148,24 @@ export class Pedido{
             .getLists()
             .then(x => this.lists = x)
             .catch( e =>  this.nService.presentError(e));
-    }
+	}
+	
+	generateOrder(){
+
+		this.orderRepository
+			.createOrder(this.selectedResult)
+			.then( (result : any) =>{         
+				this.nService.success('Pedido realizado!');
+				this.router.navigate('/#/dashboard');                
+			}).catch( e => {
+				this.nService.error(e);
+			});
+	}
+
+	changeSelectedCotacao(result : SimulationResult){
+		
+		this.simulation.betterResults.forEach(x => x != result ? x.isSelected = false : x.isSelected = true );
+		this.selectedResult = result;
+
+	}
 }

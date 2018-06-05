@@ -22,19 +22,21 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';  
+import { OrderRepository } from './repositories/orderRepository';
 
 
 @autoinject
 export class App {
   		
-  	$ : any;
-	api : Rest; 
-	router : Router; 
-	isLogged : boolean;
-	identity : Identity;  
-	notifications : Notification[];
-	unSeenCount : number;
-	
+  	$ 				: any;
+	api 			: Rest; 
+	router 			: Router; 
+	isLogged 		: boolean;
+	identity 		: Identity;  
+	notifications 	: Notification[];
+	unSeenCount 	: number;
+	ordersCount		: number;
+
 	configureRouter(config: RouterConfiguration, router: Router): void {
 		
 		config = config;
@@ -50,7 +52,8 @@ export class App {
 				private service : IdentityService, 
 				private nService : NotificationService, 
 				private messageService : MessageService,
-				private notificationRepository : NotificationRepository) {
+				private notificationRepository : NotificationRepository,
+				private orderRepo : OrderRepository) {
 
 		this.notifications = [];
 		this.unSeenCount = 0;
@@ -80,6 +83,8 @@ export class App {
 				this.updateUnSeenCount();
 				this.ea.publish(x.eventName);
 			});
+
+			this.getActiveOrders();
 		}
 	} 
 
@@ -93,6 +98,18 @@ export class App {
 				this.messageService.subscribe();
 				this.updateUnSeenCount();
 
+			}).catch( e =>  {
+				this.nService.presentError(e);
+			});
+	}
+
+	getActiveOrders(){
+		
+		this.orderRepo
+			.myOrders()
+			.then( (orders : any[]) =>{
+
+				this.ordersCount = orders.length;
 			}).catch( e =>  {
 				this.nService.presentError(e);
 			});
@@ -126,7 +143,8 @@ export class App {
 			{ route: 'fornecedores', name: 'fornecedores', moduleId: PLATFORM.moduleName('./views/foodService/fornecedores') }, 
 			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./views/foodService/meusProdutos') },  
 			{ route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./views/fornecedor/clientes') } ,  
-			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./views/cotacao/cotacao') } 
+			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./views/cotacao/cotacao') }  ,  
+			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./views/cotacao/pedidosFornecedor') } 
         ]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });

@@ -195,16 +195,22 @@
             "path": "../node_modules/aurelia-validation/dist/amd",
             "resources": []
           },
-          { 
-            "name" : "signalr", 
-            "main":  "/dist/browser/signalr",
+          {
+            "name": "signalr",
+            "main": "/dist/browser/signalr",
             "path": "../node_modules/@aspnet/signalr",
             "resources": []
-          },          
+          },
           {
             "name": "ms-signalr-client",
             "main": "jquery.signalR.js",
             "path": "../node_modules/ms-signalr-client",
+            "resources": []
+          },
+          {
+            "name": "moment",
+            "main": "./moment.js",
+            "path": "../node_modules/moment",
             "resources": []
           }
         ]

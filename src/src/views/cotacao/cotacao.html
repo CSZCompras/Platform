@@ -4,6 +4,7 @@
         <require from="../components/attributes/timeMask"></require>
         <require from="../components/valueConverters/timeValueConverter"></require>
 
+        
         <div class="row mb-5">
            <div class="col-md-12">
               <div class="card">
@@ -42,53 +43,53 @@
                              </ul>
                              <div class="tab-content clearfix">
                                 <div class="tab-pane" id="tab1">
-                                    <div class="card-body">
-                                   <div class="row">
-                                      <div class="col-md-4">
-                                         <div class="form-group">
-                                            <label class="control-label">Selecione a lista de compras</label>
-                                            <select class="form-control " value.bind="buyList">
-                                              <option  value=""></option>
-                                              <option  repeat.for="list of lists" model.bind="list">${list.name}</option>
-                                            </select>
+                                   <div class="card-body">
+                                      <div class="row">
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                               <label class="control-label">Selecione a lista de compras</label>
+                                               <select class="form-control " value.bind="buyList">
+                                                  <option  value=""></option>
+                                                  <option  repeat.for="list of lists" model.bind="list">${list.name}</option>
+                                               </select>
+                                            </div>
                                          </div>
-                                      </div>
-                                      <div class="col-md-12 mt-3" if.bind="buyList">
-                                         <div class="form-group">
-                                            <span class="badge badge-warning">Defina as quantidades para cada produto abaixo</span>    
+                                         <div class="col-md-12 mt-3" if.bind="buyList">
+                                            <div class="form-group">
+                                               <span class="badge badge-warning">Defina as quantidades para cada produto abaixo</span>    
+                                            </div>
                                          </div>
-                                      </div>
-                                     <div class="col-md-12"  if.bind="buyList">
+                                         <div class="col-md-12"  if.bind="buyList">
                                             <div>
-                                                    <table class="table  table-hover table-responsive">
-                                                       <thead>
-                                                          <tr>
-                                                             <th>Nome do produto</th>
-                                                             <th>Categoria</th>
-                                                             <th>UM</th>
-                                                             <th>Marca</th>
-                                                             <th>Quantidade</th>
-                                                          </tr>
-                                                       </thead>
-                                                       <tbody>
-                                                          <tr repeat.for="product of buyList.products" if.bind="product.isInList">
-                                                            <td>${product.foodServiceProduct.product.name}</td>
-                                                            <td>${product.foodServiceProduct.product.category.name}</td>
-                                                            <td>${product.foodServiceProduct.product.unit.name}</td>                                                       
-                                                            <td>${product.foodServiceProduct.product.brand.name}</td>                                                                
-                                                            <td class="text-center"> 
-                                                              <div class="col-md-3 mx-auto float-left">
-                                                                  <input type="text" class="money text-right  form-control"  autocomplete="off" value.bind="product.foodServiceProduct.product.quantity | money" money placeholder="000" />
-                                                              </div>
-                                                            </td>
-                                                          </tr> 
-                                                       </tbody>
-                                                    </table>
-                                                 </div>                                         
-                                     </div>
+                                               <table class="table  table-hover table-responsive">
+                                                  <thead>
+                                                     <tr>
+                                                        <th>Nome do produto</th>
+                                                        <th>Categoria</th>
+                                                        <th>UM</th>
+                                                        <th>Marca</th>
+                                                        <th>Quantidade</th>
+                                                     </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                     <tr repeat.for="product of buyList.products" if.bind="product.isInList">
+                                                        <td>${product.foodServiceProduct.product.name}</td>
+                                                        <td>${product.foodServiceProduct.product.category.name}</td>
+                                                        <td>${product.foodServiceProduct.product.unit.name}</td>
+                                                        <td>${product.foodServiceProduct.product.brand.name}</td>
+                                                        <td class="text-center">
+                                                           <div class="col-md-3 mx-auto float-left">
+                                                              <input type="text" class="money text-right  form-control"  autocomplete="off" value.bind="product.foodServiceProduct.product.quantity | money" money placeholder="000" />
+                                                           </div>
+                                                        </td>
+                                                     </tr>
+                                                  </tbody>
+                                               </table>
+                                            </div>
+                                         </div>
+                                      </div>
                                    </div>
                                 </div>
-                              </div>
                                 <div class="tab-pane" id="tab2">
                                    <div class="row" if.bind="isProcessing">
                                       <div class="col-md-6">
@@ -99,18 +100,28 @@
                                    </div>
                                    <div class="col-md-12">
                                       <div id="accordion2" role="tablist" aria-multiselectable="true">
+                                         <div class="col-md-12 mt-3" if.bind="buyList">
+                                            <div class="form-group">
+                                               <span class="badge badge-warning">Selecione uma das cotações abaixo</span>    
+                                            </div>
+                                         </div>
                                          <div class="" if.bind="! isProcessing" repeat.for="result of simulation.betterResults" >
                                             <div class="card-header ml-0" role="tab" id="result${result.id}">
                                                <h5 class="mb-0">
-                                                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse${result.id}" aria-expanded="false" aria-controls="collapse${result.id}" class="">
-                                                    Cotação  ${$index + 1} 
-                                                    <div class="text-right">${result.total  | money}</div>
+                                                  <label class="custom-control custom-checkbox text-center">
+                                                  <input type="checkbox" class="custom-control-input" change.trigger="changeSelectedCotacao(result)" checked.bind="result.isSelected">
+                                                  <span class="custom-control-indicator"></span> 
+                                                  </label>                                                   
+                                                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse${result.id}" aria-expanded="false" aria-controls="collapse${result.id}" class="" >
+                                                  Cotação  ${$index + 1} 
+                                                  <i class="fa fa-check" if.bind="result.isSelected"></i>
+                                                  <span class="text-right float-right">${result.total  | money}</span>
                                                   </a>
                                                </h5>
                                             </div>
                                             <div id="collapse${result.id}" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
-                                               <div class="card-body"> 
-                                                  <h3>Dados do pedido</h3>
+                                               <div class="card-body">
+                                                  <h4 class="mt-5">Dados do pedido</h4>
                                                   <div class="col-md-12 card-table table-responsive">
                                                      <table class="table table-hover table-sm align-middle">
                                                         <thead>
@@ -140,7 +151,7 @@
                                                               </td>
                                                            </tr>
                                                            <tr>
-                                                              <td colspan="2" class="text-right">
+                                                              <td colspan="3" class="text-right">
                                                                  <strong>Total:</strong>
                                                               </td>
                                                               <td class="text-right">
@@ -150,7 +161,7 @@
                                                         </tbody>
                                                      </table>
                                                   </div>
-                                                  <h3>Sumário</h3>
+                                                  <h4>Sumário</h4>
                                                   <div class="col-md-12 card-table table-responsive">
                                                      <table class="table table-hover table-sm align-middle">
                                                         <thead>
@@ -160,7 +171,7 @@
                                                               <th class="text-center">Qtde de dias para aceite</th>
                                                               <th class="text-center">Período de Aceite</th>
                                                               <th class="text-center">Dias de entrega</th>
-                                                              <th class="text-center">Período de Entrega</th> 
+                                                              <th class="text-center">Período de Entrega</th>
                                                               <th class="text-right">Total</th>
                                                            </tr>
                                                         </thead>
@@ -170,36 +181,36 @@
                                                                  ${item.supplier.name} 
                                                               </td>
                                                               <td class="text-center">
-                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                 <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                 <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                 <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                 <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                 <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
                                                               </td>
                                                               <td class="text-center">
-                                                                  ${item.rule.numberOfDaysToAccept} dias
+                                                                 ${item.rule.numberOfDaysToAccept} dias
                                                               </td>
                                                               <td class="text-center">
-                                                                  ${item.rule.periodToAcceptOrder1 | time}
-                                                                  <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
-                                                                  ${item.rule.periodToAcceptOrder2 | time}
+                                                                 ${item.rule.periodToAcceptOrder1 | time}
+                                                                 <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
+                                                                 ${item.rule.periodToAcceptOrder2 | time}
                                                               </td>
                                                               <td>
-                                                                  <span if.bind="item.rule.deliveryOnMonday" class="badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
-                                                                  <span if.bind="item.rule.deliveryOnTuesday"  class="badge  ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
-                                                                  <span if.bind="item.rule.deliveryOnWednesday"  class="badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
-                                                                  <span if.bind="item.rule.deliveryOnThursday"  class="badge  ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
-                                                                  <span if.bind="item.rule.deliveryOnFriday"  class="badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>   
-                                                                  <br />
-                                                                  <br />
-                                                                  <span if.bind="item.rule.deliveryOnSaturday"  class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>     
-                                                                  <span  if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>                                                                                                                                                                               
+                                                                 <span if.bind="item.rule.deliveryOnMonday" class="badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                                                 <span if.bind="item.rule.deliveryOnTuesday"  class="badge  ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                                                 <span if.bind="item.rule.deliveryOnWednesday"  class="badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                                                 <span if.bind="item.rule.deliveryOnThursday"  class="badge  ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                                                 <span if.bind="item.rule.deliveryOnFriday"  class="badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>   
+                                                                 <br />
+                                                                 <br />
+                                                                 <span if.bind="item.rule.deliveryOnSaturday"  class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>     
+                                                                 <span  if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>                                                                                                                                                                               
                                                               </td>
                                                               <td class="text-center">
-                                                                  ${item.rule.deliverySchedule1 | time}
-                                                                  <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
-                                                                  ${item.rule.deliverySchedule2 | time}
-                                                              </td> 
+                                                                 ${item.rule.deliverySchedule1 | time}
+                                                                 <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
+                                                                 ${item.rule.deliverySchedule2 | time}
+                                                              </td>
                                                               <td class="text-right">
                                                                  ${item.total  | money}
                                                               </td>
@@ -214,11 +225,76 @@
                                    </div>
                                 </div>
                                 <div class="tab-pane" id="tab3">
+                                   <div class="col-md-12 mt-3" if.bind="buyList">
+                                      <div class="form-group">
+                                         <span class="badge badge-warning">Confirme os dados antes de gerar o pedido</span>    
+                                      </div>
+                                   </div>
+                                   <div class="card-table table-responsive">
+                                      <table class="table table-hover">
+                                         <thead>
+                                            <tr>
+                                               <th class="text-left">Nome do Produto</th>
+                                               <th class="text-left">Fornecedor</th>
+                                               <th class="text-left">Avaliação</th>
+                                               <th class="text-right">Preço unitário</th>
+                                               <th class="text-right">Quantidade</th>
+                                               <th class="text-right">Total</th>
+                                            </tr>
+                                         </thead>
+                                         <tbody>
+                                            <tr  repeat.for="item of selectedResult.items">
+                                               <td>
+                                                  ${item.product.name}
+                                                  <div>
+                                                     <small class="boldness-light">${item.supplier.name}</small>
+                                                  </div>
+                                               </td>
+                                               <td>
+                                                  ${item.supplier.name}
+                                               </td>
+                                               <td>
+                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                  <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                               </td>
+                                               <td class="text-right">
+                                                  ${item.price | money}
+                                               </td>
+                                               <td class="text-right">
+                                                  ${item.quantity}
+                                               </td>
+                                               <td class="text-right">
+                                                  ${item.total  | money}
+                                               </td>
+                                            </tr>
+                                            <tr>
+                                               <td colspan="5" class="text-right">
+                                                  <strong>Total:</strong>
+                                               </td>
+                                               <td class="text-right">
+                                                  <strong>${selectedResult.total  | money}</strong>
+                                               </td>
+                                            </tr>
+                                         </tbody>
+                                      </table>
+                                   </div>
                                 </div>
                                 <ul class="pager wizard mt-5">
-                                   <li class="previous "><a href="#"  class="waves-effect waves-light" click.trigger="back()" if.bind="currentStep > 0 ">Voltar</a></li>
-                                   <li class="next" if.bind="currentStep < totalSteps"><a href="#" class="waves-effect waves-light" click.trigger="advance()">Avançar</a></li>
-                                   <li class="finish float-right" if.bind="currentStep == totalSteps" ><button type="button"  class="btn btn-primary btn-gradient assign-task waves-effect waves-light" click.trigger="save()"><span class="gradient">Salvar</span></button></li>
+                                   <li class="previous " if.bind="currentStep != 1">
+                                      <a href="#"  class="waves-effect waves-light" click.trigger="back()" if.bind="currentStep > 0 ">Voltar</a>
+                                   </li>
+                                   <li class="next" if.bind="currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) ">
+                                      <a href="#" id="next" class="waves-effect waves-light" click.trigger="advance()">Avançar</a>
+                                   </li>
+                                   <li class="finish float-right" if.bind="currentStep == totalSteps" >
+                                      <button type="button"  class="btn btn-success waves-effect waves-light" click.trigger="generateOrder()">
+                                      <span class="gradient">Gerar pedido</span>
+                                      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                      </button>
+                                   </li>
                                 </ul>
                              </div>
                           </div>

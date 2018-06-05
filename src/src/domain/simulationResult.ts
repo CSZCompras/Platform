@@ -10,4 +10,5 @@ export class SimulationResult{
     total                   : number;
     logMessages             : string;
     ValidationMessages      : string;
+    isSelected              : boolean;
 }
