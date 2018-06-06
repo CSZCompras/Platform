@@ -41,7 +41,8 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/#/pedidosFornecedor">
                             <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos
-                            <span class="badge badge-danger float-right">${ordersCount}</span>    
+                            <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0">${acceptedOrdersCount}</span> 
+                            <span class="badge badge-danger float-right ml-2 mr-2" if.bind="newOrdersCount > 0">${newOrdersCount}</span>     
 						</a>
 					</li> 
                 </ul>

@@ -14,7 +14,7 @@ export class MessageService{
 	
 	subscribe(){
 		
-		var address = this.config.getEndpoint('csz').client.baseUrl.replace('http://','').replace('/api/','');
+		var address = this.config.getEndpoint('csz').client.baseUrl.replace('https://','').replace('/api/','');
 
 		var ws = new WebSocket('ws://'+ address +'/hubs/foodServiceSupplierConnection'); 
         var other = this;

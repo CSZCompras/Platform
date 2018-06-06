@@ -5,6 +5,7 @@ import { Rest, Config } from 'aurelia-api';
 import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
 import { SimulationResult } from '../domain/simulationResult';
+import { SupplierOrder } from '../domain/supplierOrder';
 
 
 @autoinject
@@ -31,10 +32,10 @@ export class OrderRepository{
                     });
     }
 
-    myOrders(): Promise<any>{
+    getNyNewOrders(): Promise<any>{
 
         return this.api
-                    .find('MyOrders')
+                    .find('MyNewOrders')
                     .then( (result : any) => {                 
                         return result;
                     })
@@ -44,5 +45,36 @@ export class OrderRepository{
                             throw error;
                         }));
                     });
+    }
+
+    getNyAcceptedOrders(): Promise<any>{
+
+        return this.api
+                    .find('MyAcceptedOrders')
+                    .then( (result : any) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
+    acceptOrder(order : SupplierOrder): Promise<any>{
+
+        return this.api
+                    .post('acceptOrder', { id : order.id })
+                    .then( (result : any) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+
     }
 }

@@ -212,6 +212,39 @@
             "main": "./moment.js",
             "path": "../node_modules/moment",
             "resources": []
+          },
+          {
+            "name": "aurelia-dialog",
+            "main": "aurelia-dialog",
+            "path": "../node_modules/aurelia-dialog/dist/amd",
+            "resources": []
+          },
+          {
+            "name": "jquery-mousewheel",
+            "path": "../node_modules/jquery-mousewheel",
+            "main": "jquery.mousewheel"
+          },
+          {
+            "name": "php-date-formatter",
+            "path": "../node_modules/php-date-formatter",
+            "main": "js/php-date-formatter.min"
+          },
+          {
+            "name": "jquery-mousewheel",
+            "path": "../node_modules/jquery-mousewheel",
+            "main": "jquery.mousewheel"
+          },
+          {
+            "name": "jquery-datetimepicker",
+            "path": "../node_modules/jquery-datetimepicker/build",
+            "main": "jquery.datetimepicker.min",
+            "deps": [
+              "jquery-mousewheel",
+              "php-date-formatter"
+            ],
+            "resources": [
+              "jquery.datetimepicker.min.css"
+            ]
           }
         ]
       }

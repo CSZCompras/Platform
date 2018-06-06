@@ -2,6 +2,7 @@ import { Supplier } from "./supplier";
 import { FoodService } from "./foodService";
 import { OrderItem } from "./orderItem";
 import { User } from "./user";
+import { SupplierOrderStatus } from "./supplierOrderStatus";
 
 export class SupplierOrder{
 
@@ -10,8 +11,10 @@ export class SupplierOrder{
     foodService     : FoodService;
     total           : number;
     items           : OrderItem[];
-    status          : number;
+    status          : SupplierOrderStatus;
     code            : number;
     createdBy       : User;
     createdOn       : Date;
+    deliveryDate    : Date;
+    paymentDate     : Date;
 }

@@ -16,8 +16,8 @@ export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()    
     .feature('resources')
-    /* .plugin('aurelia-autocomplete')
-    .plugin('aurelia-dialog')*/
+    /* .plugin('aurelia-autocomplete')*/
+    .plugin('aurelia-dialog')
     .plugin('aurelia-validation')
     .plugin('aurelia-api', config => {
       config.registerEndpoint('csz', environment.apiAddress);

@@ -11,7 +11,7 @@ export class TimeMask{
 	}
 
     attached(){ 
-     /*   $(this.element).mask('00:00');*/
+      $(this.element).mask('00:00'); 
         var other = this;
        /* $(this.element).focusout(function() {
 

@@ -28,14 +28,15 @@ import { OrderRepository } from './repositories/orderRepository';
 @autoinject
 export class App {
   		
-  	$ 				: any;
-	api 			: Rest; 
-	router 			: Router; 
-	isLogged 		: boolean;
-	identity 		: Identity;  
-	notifications 	: Notification[];
-	unSeenCount 	: number;
-	ordersCount		: number;
+  	$ 						: any;
+	api 					: Rest; 
+	router 					: Router; 
+	isLogged 				: boolean;
+	identity 				: Identity;  
+	notifications 			: Notification[];
+	unSeenCount 			: number;
+	newOrdersCount			: number;
+	acceptedOrdersCount		: number;
 
 	configureRouter(config: RouterConfiguration, router: Router): void {
 		
@@ -68,6 +69,13 @@ export class App {
 			ScriptRunner.runScript();
 		});
 
+		
+
+		this.ea.subscribe('orderAccepted', () => {
+			this.newOrdersCount--;
+			this.acceptedOrdersCount++;
+		});
+
 		if(this.isLogged){
 			this.identity = this.service.getIdentity();
 		}
@@ -82,9 +90,13 @@ export class App {
 				this.notifications.unshift(x);
 				this.updateUnSeenCount();
 				this.ea.publish(x.eventName);
+
+				if(x.eventName.toUpperCase() == 'NEWORDER'){
+					this.newOrdersCount++;
+				}
 			});
 
-			this.getActiveOrders();
+			this.getOrders();
 		}
 	} 
 
@@ -103,16 +115,25 @@ export class App {
 			});
 	}
 
-	getActiveOrders(){
+	getOrders(){
 		
 		this.orderRepo
-			.myOrders()
+			.getNyNewOrders()
 			.then( (orders : any[]) =>{
 
-				this.ordersCount = orders.length;
+				this.newOrdersCount = orders.length;
 			}).catch( e =>  {
 				this.nService.presentError(e);
 			});
+
+			this.orderRepo
+				.getNyAcceptedOrders()
+				.then( (orders : any[]) =>{
+
+					this.acceptedOrdersCount = orders.length;
+				}).catch( e =>  {
+					this.nService.presentError(e);
+				});
 	}
 
 	updateUnSeenCount(){
