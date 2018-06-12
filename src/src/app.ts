@@ -165,7 +165,8 @@ export class App {
 			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./views/foodService/meusProdutos') },  
 			{ route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./views/fornecedor/clientes') } ,  
 			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./views/cotacao/cotacao') }  ,  
-			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./views/cotacao/pedidosFornecedor') } 
+			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./views/cotacao/pedidosFornecedor') } ,  
+			{ route: 'pedidosFoodService', name: 'pedidosFoodService', moduleId: PLATFORM.moduleName('./views/foodService/pedidosFoodService') } 
         ]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });

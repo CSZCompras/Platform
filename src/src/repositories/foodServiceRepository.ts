@@ -10,7 +10,6 @@ import { AlterBuyListProductViewModel } from '../domain/alterBuyListProductViewM
 
 @autoinject
 export class FoodServiceRepository {
-
     api: Rest;
 
     constructor(private config: Config) {
@@ -93,6 +92,22 @@ export class FoodServiceRepository {
                     throw error;
                 }));
             });
+    }
+    
+
+    inativateProduct(product : FoodServiceProduct) : Promise<any>  {
+        
+        return this.api
+                .post('inativateFoodServiceProduct', product)
+                .then( (result : Promise<any>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => {
+                        throw error;
+                    }));
+                });
     }
 
     addBuyList(buyList : BuyList) : Promise<BuyList>{

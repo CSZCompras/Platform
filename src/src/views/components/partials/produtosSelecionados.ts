@@ -146,9 +146,7 @@ export class ProdutosSelecionados{
 
             if(this.selectedCategory == '-2'){
                 this.filteredProducts = this.allProducts;
-            }
-            else { 
-
+            } 
                 this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
 
                     var isFound = true;
@@ -158,7 +156,7 @@ export class ProdutosSelecionados{
                     }
                     else{ 
 
-                        if( (this.selectedCategory != null && this.selectedCategory != '')){ 
+                        if( (this.selectedCategory != null && this.selectedCategory != '' && this.selectedCategory != '-2')){ 
                             if(x.product.category.id == this.selectedCategory){
                                 isFound = true;
                             }
@@ -183,8 +181,7 @@ export class ProdutosSelecionados{
                             return x;
                         }
                     }
-                });
-            }
+                }); 
     }
 
     addProduct(product : Product){
@@ -234,5 +231,29 @@ export class ProdutosSelecionados{
                 }).catch( e => {
                     this.nService.presentError(e);
                 });
+    }
+
+    removeProduct(product : FoodServiceProduct){
+
+        this.repository
+            .inativateProduct(product)
+            .then( (data : any) => { 
+                product.isActive = false;
+                this.nService.presentSuccess('Produto removido  com sucesso!');
+            }).catch( e => {
+                this.nService.presentError(e);
+            });
+    }
+
+    includeProduct(product : FoodServiceProduct){
+
+        this.repository
+            .addProduct(product)
+            .then( (data : any) => { 
+                product.isActive = true;
+                this.nService.presentSuccess('Produto adicionado  com sucesso!');
+            }).catch( e => {
+                this.nService.presentError(e);
+            });
     }
 }

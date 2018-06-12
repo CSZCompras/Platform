@@ -65,7 +65,7 @@ export class OrderRepository{
     acceptOrder(order : SupplierOrder): Promise<any>{
 
         return this.api
-                    .post('acceptOrder', { id : order.id })
+                    .post('acceptOrder', { id : order.id, deliveryDate : order.deliveryDate, paymentDate : order.paymentDate })
                     .then( (result : any) => {                 
                         return result;
                     })

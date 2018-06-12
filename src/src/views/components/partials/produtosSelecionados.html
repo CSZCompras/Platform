@@ -40,6 +40,7 @@
                        <th>UM</th> 
                        <th>Marca</th>
                        <th repeat.for="list of lists">${list.name}</th>    
+                       <th></th>
                     </tr>
                  </thead>
                  <tbody>
@@ -57,6 +58,10 @@
                                     <span class="custom-control-indicator"></span> 
                               </label>
                        </td> 
+                       <td>                                        
+                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="removeProduct(x)" if.bind="x.isActive">Remover</button>
+                            <button type="button" class="btn btn-primary  btn-sm waves-effect waves-light" click.trigger="includeProduct(x)" if.bind="! x.isActive">Adicionar</button>
+                       </td>
                     </tr>
                  </tbody>
               </table>
