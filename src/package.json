@@ -11,7 +11,7 @@
     "@aspnet/signalr": "^1.0.0-preview2-final",
     "@types/jquery-mask-plugin": "^1.14.3",
     "@types/toastr": "^2.1.35",
-    "aurelia-animator-css": "^1.0.2",
+    "aurelia-animator-css": "^1.0.4",
     "aurelia-api": "^3.1.1",
     "aurelia-bootstrapper": "^2.1.1",
     "aurelia-dialog": "^1.0.0-rc.2.0.0",
@@ -22,7 +22,7 @@
     "extend": "^3.0.1",
     "hamburgers": "^0.9.3",
     "ie10-viewport-bug-workaround.js": "^1.0.0",
-    "install": "^0.11.0",
+    "install": "^0.11.2",
     "jquery": "^3.3.1",
     "jquery-datetimepicker": "^2.5.20",
     "jquery-mask-plugin": "^1.14.13",
@@ -43,7 +43,8 @@
     "twitter-bootstrap-wizard": "^1.2.0",
     "velocity": "^0.7.2",
     "velocity-animate": "^1.5.1",
-    "velocityjs": "^1.0.0"
+    "velocityjs": "^1.0.0",
+    "whatwg-fetch": "^2.0.4"
   },
   "peerDependencies": {},
   "devDependencies": {

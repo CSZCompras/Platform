@@ -10,10 +10,26 @@
                   Produtos fornecidos
                   </a>
                </h5>
-            </div>
+            </div> 
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" style="">
-               <div class="card-body">
-                  <p class="text-left">Atualize o preço para o(s) produto(s) abaixo</p>
+               <div class="card-body">   
+                        <div class="row mt-2">
+                           <div class="col-lg-4">
+                              <div class="form-group">
+                                 <label class="control-label">Categoria</label>            
+                                 <select class="form-control "    value.bind="selectedCategory" change.delegate="search()">
+                                    <option  value=""></option>
+                                    <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="col-lg-6">
+                              <div class="form-group">
+                                 <label class="control-label">Filtro</label> 
+                                 <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
+                              </div>
+                           </div>
+                        </div> 
                   <table class="table table-hover">
                      <thead>
                         <tr>
@@ -27,9 +43,10 @@
                         </tr>
                      </thead>
                      <tbody>
-                        <tr repeat.for="supplierProduct of supplierProducts">
+                        <tr repeat.for="supplierProduct of filteredProducts">
                            <td>
-                                 ${supplierProduct.product.name}                                 
+                                 ${supplierProduct.product.name}
+                                 <span if.bind="supplierProduct.isNew" class="badge badge-warning">Novo!</span>                                
                            </td>
                            <td>${supplierProduct.product.category.name}</td>
                            <td>${supplierProduct.product.unit.name}</td>
@@ -56,7 +73,10 @@
                            </td>
                         </tr>
                      </tbody>
-                  </table>
+                  </table> 
+                  <div class="row mt-2 mb-4">
+                        <button type="button" class="btn btn-primary mx-auto waves-effect waves-light" if.bind="alteredProducts.length > 0 " click.trigger="saveAll()">  Salvar  </button>
+                  </div>
                </div>
             </div>
          </div>
@@ -103,7 +123,7 @@
                                           <i class="fa fa-circle-o-notch fa-spin"></i> Processando arquivo
                                     </span>
                               </button>
-                              <input id="files" type="file" accept=".csv" files.bind="selectedFiles" if.bind="! isUploading"> 
+                              <input id="files" type="file" accept=".csv" files.bind="selectedFiles" class="${ isUploading ? 'invisible' : ''}"> 
                         </form> 
                </div>
             </div>

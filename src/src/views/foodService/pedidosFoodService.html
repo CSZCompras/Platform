@@ -12,7 +12,8 @@
         <require from="../components/valueConverters/cepValueConverter"></require>
         <require from="../components/valueConverters/phoneWithDDDValueConverter"></require>
         <require from="../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
-        <div class="row mb-5">
+        
+        <div class="row mb-5 au-animate">
         <div class="col-lg-12">
            <div class="card">
               <div class="card-header">
@@ -183,17 +184,16 @@
                           </button>                        
                        </div>
                     </div>
-                    <div class="col-md-12"   if.bind="! showdDetails">
-                       <form>
+                    <div class="col-md-12"   if.bind="! showdDetails"> 
                           <div class="form-row align-items-center">
                              <div class="col-lg-3">
                                 <label for="input-task-title" class="active">Dados do pedido</label>
-                                <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="Codigo / Cliente / Contato / Valor"  change.trigger="load()"   value.bind="filter"  />
+                                <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="Codigo / Cliente / Contato / Valor"  change.trigger="search()"   value.bind="filter"  />
                              </div>
                              <div class="col-lg-3 ml-5">
                                 <label for="input-task-title" class="active">Status</label>
                                 <select class="form-control"  value.bind="selectedStatus" change.delegate="load()">
-                                   <option  value="0" selected>Criado</option>
+                                   <option  value="0" selected>Novo pedido</option>
                                    <option  value="1">Aceito</option>
                                    <option  value="2">Entregue</option>
                                 </select>
@@ -201,8 +201,7 @@
                              <div class="col-lg-3 ml-4 mt-3">
                                 <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
                              </div>
-                          </div>
-                       </form>
+                          </div> 
                        <div>
                           <table class="table  table-hover table-responsive">
                              <thead>
@@ -220,7 +219,7 @@
                                 <tr repeat.for="order of filteredOrders">
                                    <td class="text-center">${order.code}</td>
                                    <td class="text-center"> 
-                                      <span class="badge badge-danger" if.bind="order.status == 0">Novo</span>    
+                                      <span class="badge badge-danger" if.bind="order.status == 0">Novo pedido</span>    
                                       <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>  
                                       <span class="badge badge-success" if.bind="order.status == 2">Entregue</span>
                                    </td>

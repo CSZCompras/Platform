@@ -34,15 +34,18 @@ export class Clientes{
         }
         
         attached(){
-            this.type = 0;      
-            this.alterView(this.type);            
+
+                this.ea.publish('loadingData'); 
+                this.type = 0;      
+                this.alterView(this.type).then( () => this.ea.publish('dataLoaded'));        
         }
 
         loadData() : void {
-            this.loadSuppliers(); 
+
+            this.loadSuppliers().then( () => this.ea.publish('dataLoaded')); 
         }
 
-        alterView(type : number){
+        alterView(type : number) : Promise<any>{
                 
                 this.type = type;
 
@@ -59,20 +62,20 @@ export class Clientes{
                         this.title = 'Clientes Bloqueados'; 
                 }
 
-                this.loadSuppliers();
+                return  this.loadSuppliers();
         }
 
-        loadSuppliers(){
+        loadSuppliers() : Promise<any> {
 
-                this.repository
-                        .getSuppliers(this.type)
-                        .then( (data : FoodServiceConnectionViewModel[]) =>{
-                                this.foodServices = data;
-                                this.search();
-                            
-                        }).catch( e => {
-                            this.nService.presentError(e);
-                        });
+                return this.repository
+                                .getSuppliers(this.type)
+                                .then( (data : FoodServiceConnectionViewModel[]) =>{
+                                        this.foodServices = data;
+                                        this.search();
+                                
+                                }).catch( e => {
+                                this.nService.presentError(e);
+                                });
         } 
 
         approve(x : FoodServiceSupplier){
@@ -86,6 +89,7 @@ export class Clientes{
                         .then( (data : any) =>{                                
                                 this.loadData();
                                 this.nService.presentSuccess('Cliente foi aprovado com sucesso!');
+                                this.ea.publish('foodApproved');
                         }).catch( e => {
                             this.nService.presentError(e);
                         });
@@ -103,6 +107,7 @@ export class Clientes{
                         .then( (data : any) =>{ 
                                 this.loadData();
                                 this.nService.presentSuccess('Status atualizado com sucesso!');
+                                this.ea.publish('registrationSent');
                         }).catch( e => {
                             this.nService.presentError(e);
                         });

@@ -45,7 +45,7 @@
                   <td>${product.category.name}</td>
                   <td>${product.unit.name}</td> 
                   <td>
-                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="addProduct(product)">Incluir</button>
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : '' }" disabled.bind="isProcessing" click.trigger="addProduct(product)">Incluir</button>
                   </td>
                </tr>
             </tbody>

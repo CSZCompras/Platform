@@ -19,6 +19,21 @@ export class ProductRepository{
         this.api = this.config.getEndpoint('csz');
     }
 
+
+    addOrUpdate(product : Product) : Promise<any> {
+
+        return this.api
+                .post('product', product)
+                .then( (result : Promise<any>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                }); 
+    }
     
     getAllCategories() : Promise<ProductCategory[]> {
 
@@ -48,9 +63,24 @@ export class ProductRepository{
                         throw error;
                     })); 
                 });
-    }
+    } 
 
     
+
+    getAllProductsByCategory(category : string ) : Promise<Product[]> {
+
+        return this.api
+                .find('productSearch?categoryId=' + category)
+                .then( (result : Promise<Product[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    }
 
     getAllProducts() : Promise<Product[]> {
 
@@ -101,16 +131,23 @@ export class ProductRepository{
                 });
     }
 
-    alterSuplierProduct(supplierProduct : SupplierProduct): Promise<any> { 
+    alterSuplierProduct(supplierProduct : Array<SupplierProduct>): Promise<any> { 
         
-        var viewModel = {
-            id : supplierProduct.id,
-            isActive : supplierProduct.isActive,            
-            price :  supplierProduct.price
-        }; 
+        var list = [];
+
+        supplierProduct.forEach(x =>{
+
+            var viewModel = {
+                id : x.id,
+                isActive : x.isActive,            
+                price :  x.price
+            }; 
+
+            list.push(viewModel);
+        })
 
         return this.api 
-            .post('AlterSuplierProduct', viewModel)
+            .post('AlterSuplierProduct', list)
             .then( (result : Promise<any>) => {    
                 if(result == null)             
                     return Promise.resolve();
@@ -140,7 +177,10 @@ export class ProductRepository{
                 method: 'POST', 
                 body: file
             })
-            .then(response => {                 
+            .then(response => {      
+                if(response.status != 200){
+                    throw "Erro";
+                }           
                 return response.json();
             })
             .then(data => {         

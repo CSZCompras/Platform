@@ -18,6 +18,7 @@ import { BuyListProduct } from '../../domain/buyListProduct';
 import { SimulationInputItem } from '../../domain/simulationInputItem';
 import { SimulationResult } from '../../domain/simulationResult';
 import { OrderRepository } from '../../repositories/orderRepository';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject
 export class Pedido{
@@ -34,7 +35,8 @@ export class Pedido{
     
     constructor(		
         private router                  : Router, 	
-        private repository              : FoodServiceRepository,	
+		private repository              : FoodServiceRepository,	
+		private ea 						: EventAggregator,
 		private simulationRepository    : SimulationRepository,
 		private orderRepository    		: OrderRepository,
 		private service                 : IdentityService,
@@ -90,7 +92,7 @@ export class Pedido{
 		}
 	}
 
-	advance(){        
+	advance(){   
 
         this.currentStep++;
 
@@ -100,6 +102,8 @@ export class Pedido{
     }
     
     simulate(){
+
+		this.ea.publish('loadingData'); 
 
 		this.isProcessing = true;
 		
@@ -126,10 +130,12 @@ export class Pedido{
                 this.simulation = x;
 				this.isProcessing = false;
 				this.runScript();
+				this.ea.publish('dataLoaded');
             })
             .catch( e => {
                 this.nService.presentError(e);
-                this.isProcessing = false;
+				this.isProcessing = false;
+				this.ea.publish('dataLoaded');
             });
     }
 
@@ -137,7 +143,10 @@ export class Pedido{
 		this.currentStep--;
 	}
 
-    attached() : void {		       
+    attached() : void {		 
+
+		this.ea.publish('loadingData'); 
+
 		this.runScript();
 		this.loadData(); 
     } 
@@ -146,18 +155,29 @@ export class Pedido{
 
         this.repository
             .getLists()
-            .then(x => this.lists = x)
+			.then(x =>  this.lists = x)
+			.then(x =>{
+				
+				this.lists.forEach(x => {
+					x.products.forEach( y =>{ (<any> y.foodServiceProduct.product).quantity = 5000; });
+				});
+			})
+			.then( () => this.ea.publish('dataLoaded'))
             .catch( e =>  this.nService.presentError(e));
 	}
 	
 	generateOrder(){
+
+		this.ea.publish('loadingData'); 
 
 		this.orderRepository
 			.createOrder(this.selectedResult)
 			.then( (result : any) =>{         
 				this.nService.success('Pedido realizado!');
 				this.router.navigate('/#/dashboard');                
+				this.ea.publish('dataLoaded');
 			}).catch( e => {
+				this.ea.publish('dataLoaded');
 				this.nService.error(e);
 			});
 	}

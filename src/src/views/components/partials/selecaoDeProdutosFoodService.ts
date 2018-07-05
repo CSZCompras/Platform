@@ -23,6 +23,7 @@ export class SelecaoDeProdutosFoodService{
     isFiltered : boolean;
     selectedCategory : string;
     filter : string;
+    isProcessing : boolean;
 
     constructor(		
         private router: Router, 
@@ -33,29 +34,37 @@ export class SelecaoDeProdutosFoodService{
         private repository : FoodServiceRepository) {
         
         this.isFiltered = false;
+        this.isProcessing = false;
     } 
     
     attached() : void{ 
 		this.loadData(); 
+        
+        this.ea.subscribe('productRemoved', () => {
+            this.loadData();
+            this.search();
+        }); 
     } 
 
     loadData(){
 
-        this. productRepository
-            .getAllCategories()
-            .then( (data : ProductCategory[]) => { 
-                this.categories = data;
-            }).catch( e => {
-                this.nService.presentError(e);
-            });
+        var promisse0 = this. productRepository
+                            .getAllCategories()
+                            .then( (data : ProductCategory[]) => { 
+                                this.categories = data;
+                            }).catch( e => {
+                                this.nService.presentError(e);
+                            });
 
-        this. productRepository
-            .getAllProducts()
-            .then( (data : Product[]) => { 
-                this.allProducts = data;
-            }).catch( e => {
-                this.nService.presentError(e);
-            });
+        var promisse1 = this. productRepository
+                            .getAllProducts()
+                            .then( (data : Product[]) => { 
+                                this.allProducts = data;
+                            }).catch( e => {
+                                this.nService.presentError(e);
+                            });
+
+        Promise.all([promisse0, promisse1]).then( () => this.ea.publish('dataLoaded'))
     }
 
     search(){ 
@@ -100,6 +109,8 @@ export class SelecaoDeProdutosFoodService{
 
     addProduct(product : Product){
 
+        this.isProcessing = true;
+
         var foodProduct = new FoodServiceProduct();
         foodProduct.product = product;
         foodProduct.isActive = true;         
@@ -107,22 +118,20 @@ export class SelecaoDeProdutosFoodService{
         
 
         this.repository.addProduct(foodProduct)
-                        .then( (data : FoodServiceProduct) => { 
-                        
-                            this.allProducts = this.allProducts.filter( (x : Product) => {
-                                if(x.id != product.id)
-                                    return x;
-                            });
+                        .then( (data : FoodServiceProduct) => {  
+                            
+                            this.filteredProducts = this.filteredProducts.filter( (x : Product) => x.id != product.id ); 
+                             
+                            this.allProducts = this.allProducts.filter( (x : Product) => x.id != product.id );
 
-                            this.filteredProducts = this.filteredProducts.filter( (x : Product) => {
-                                if(x.id != product.id)
-                                    return x;
-                            });
-                            this.nService.presentSuccess('Produto incluído com sucesso!'); 
+                            this.nService.presentSuccess('Produto incluído com sucesso!');   
 
-                            this.ea.publish('productAdded', data);
+                            this.ea.publish('productAdded', data );
+                            this.isProcessing = false;
+                            
                         }).catch( e => {
                             this.nService.presentError(e);
+                            this.isProcessing = false;
                         });
         
     }

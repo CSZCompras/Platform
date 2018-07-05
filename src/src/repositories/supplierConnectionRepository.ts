@@ -66,7 +66,7 @@ export class SupplierConnectionRepository {
     getAllSuppliers() : any {
 
         return this.api
-                    .find('allSuppliers')
+                    .find('foodServiceSuppliers')
                     .then( (result : Promise<SupplierViewModel[]>) => {                 
                         return result;
                     })

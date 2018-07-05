@@ -12,233 +12,231 @@
         <require from="../components/valueConverters/cepValueConverter"></require>
         <require from="../components/valueConverters/phoneWithDDDValueConverter"></require>
         <require from="../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
-        <div class="row mb-5">
-        <div class="col-lg-12">
-           <div class="card">
-              <div class="card-header">
-                 <span if.bind="! showdDetails">Pedidos </span>
-                 <span if.bind="showdDetails">Pedido nº ${selectedOrder.code}</span>
-              </div>
-              <div class="card-body">
-                 <div class="row" >
-                    <div class="col-md-12" if.bind="showdDetails"> 
-                       <div class="mt-1">
-                          <div id="accordion1" role="tablist" aria-multiselectable="true">
-                             <div class="card-header ml-0" role="tab" id="headingOne">
-                                <h5 class="mb-0">
-                                   <a data-toggle="collapse" data-parent="#accordionOne" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="">
-                                   Dados do cliente
-                                   </a>
-                                </h5>
-                             </div>
-                             <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
-                                <div class="card-body">
-                                   <h6 class="mt-2 mb-5"><i class="fa fa-tag mr-2"></i>Cadastro</h6>
-                                   <div class="row">
-                                      <div class="col-md-6">
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6 ">Razão Social</label>
-                                            <label class="control-label col-md-6 ">${foodService.name}</label>
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">CNPJ</label>
-                                            <label class="control-label col-md-6">${foodService.cnpj | cnpj}</label>
-                                         </div>
-                                      </div>
-                                      <div class="col-md-6">
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Nome Fantasia</label>
-                                            <label class="control-label col-md-6">${foodService.fantasyName}</label> 
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Inscrição Estadual</label>
-                                            <label class="control-label col-md-6">${foodService.stateRegistration.name}</label> 
-                                         </div>
-                                      </div>
-                                   </div>
-                                   <h6 class="mt-5 mb-5"> <i class="fa fa-envelope-o mr-2"></i> Endereço</h6>
-                                   <div class="row">
-                                      <div class="col-md-6">
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">CEP</label>
-                                            <label class="control-label col-md-6">${foodService.address.cep | cep}</label> 
-                                         </div>
-                                      </div>
-                                   </div>
-                                   <div class="row">
-                                      <div class="col-md-6">
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Logradouro</label>
-                                            <label class="control-label col-md-6">${foodService.address.logradouro}</label> 
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Bairro</label>
-                                            <label class="control-label col-md-6">${foodService.address.neighborhood}</label> 
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Estado</label>
-                                            <label class="control-label col-md-6">${foodService.address.state}</label> 
-                                         </div>
-                                      </div>
-                                      <div class="col-md-6">
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Número</label>
-                                            <label class="control-label col-md-6">${foodService.address.number}</label> 
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Cidade</label>
-                                            <label class="control-label col-md-6">${foodService.address.city}</label> 
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Complemento</label>
-                                            <label class="control-label col-md-6">${foodService.address.complement}</label>  
-                                         </div>
-                                      </div>
-                                   </div>
-                                   <h6 class="mt-5 mb-5"><i class="batch-icon batch-icon-users mr-2"></i>Contato</h6>
-                                   <div class="row">
-                                      <div class="col-md-6">
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Nome</label>
-                                            <label class="control-label col-md-6">${foodService.contact.name}</label>  
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Telefone Comercial </label>
-                                            <label class="control-label col-md-6">${foodService.contact.commercialPhone | phoneWithDDD}</label>   
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">E-mail</label>
-                                            <label class="control-label col-md-6">${foodService.contact.email}</label>  
-                                         </div>
-                                      </div>
-                                      <div class="col-md-6">
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Telefone</label>
-                                            <label class="control-label col-md-6">${foodService.contact.phone | phoneWithDDD}</label> 
-                                         </div>
-                                         <div class="form-group">
-                                            <label class="control-label col-md-6">Telefone Celular</label>
-                                            <label class="control-label col-md-6">${foodService.contact.personalPhone | phoneWithDDD}</label> 
-                                         </div>
-                                      </div>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                          <div id="accordion2" role="tablist" aria-multiselectable="true">
-                             <div class="card-header ml-0" role="tab" id="headingTwo">
-                                <h5 class="mb-0">
-                                   <a data-toggle="collapse" data-parent="#accordionTwo" href="#collapseTwo" aria-expanded="false" aria-controls="collapse" class="">
-                                   Dados do pedido
-                                   </a>
-                                </h5>
-                             </div>
-                             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" style=""> 
-                                <p class="text-right mt-2">Criado por :  ${selectedOrder.createdBy.name}</p>
-                                <p class="text-right">Criado em :  ${selectedOrder.createdOn | dateFormat}</p>
-                                <table class="table  table-hover table-responsive">
-                                   <thead>
-                                      <tr>
-                                         <th class="text-center">Nome do Produto</th>
-                                         <th>Categoria</th>
-                                         <th>UM</th>
-                                         <th>Marca</th>
-                                         <th class="text-center">Quantidade</th>
-                                         <th class="text-center">Preço unitário</th>
-                                         <th class="text-center">Total</th>
-                                      </tr>
-                                   </thead>
-                                   <tbody>
-                                      <tr repeat.for="item of selectedOrder.items">
-                                         <td>${item.product.name}</td>
-                                         <td>${item.product.category.name}</td>
-                                         <td>${item.product.unit.name}</td>
-                                         <td>${item.product.brand.name}</td>
-                                         <td class="text-center">${item.quantity | money}</td>
-                                         <td class="text-center">${item.price | money}</td>
-                                         <td class="text-center">${item.total | money}</td>
-                                      </tr>
-                                   </tbody>
-                                </table>
-                             </div>
-                          </div>
-                       </div>
-                       <div class="text-center mt-3"> 
-                            <button type="button" class="btn btn-secondary   waves-effect waves-light" click.trigger="showdDetails = false">
-                                <i class="fa fa-undo mr-2" aria-hidden="true"></i>
-                                Voltar
-                             </button>
-                             <button type="button"  class="btn btn-success waves-effect waves-light" click.trigger="deliverOrder(selectedOrder)" if.bind="selectedOrder.status == 0">
-                                Aceitar
-                                <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
-                             </button>                           
-                       </div>
-                    </div>
-                    
-                       <div class="col-md-12"   if.bind="! showdDetails">
-                             
-                    <form>
-                              <div class="form-row align-items-center"> 
-                                 <div class="col-lg-3">
-                                    <label for="input-task-title" class="active">Dados do pedido</label>
-                                    <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="Codigo / Cliente / Contato / Valor"  change.trigger="load()"   value.bind="filter"  />
-                                 </div>
-                                 <div class="col-lg-3 ml-5">
-                                    <label for="input-task-title" class="active">Status</label>
-                                    <select class="form-control"  value.bind="selectedStatus" change.delegate="load()">
-                                          <option  value="0" selected>Criado</option>
-                                          <option  value="1">Aceito</option>
-                                          <option  value="2">Entregue</option>
-                                    </select>
-                                 </div>
-                                 <div class="col-lg-3 ml-4 mt-3">
-                                    <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
-                                 </div>
+        <div class="row mb-5 au-animate" >
+            <div class="col-lg-12">
+                  <div class="card">
+                        <div class="card-header">
+                        <span if.bind="! showdDetails">Pedidos </span>
+                        <span if.bind="showdDetails">Pedido nº ${selectedOrder.code}</span>
+                        </div>
+                        <div class="card-body">
+                        <div class="row" >
+                              <div class="col-md-12" if.bind="showdDetails"> 
+                              <div class="mt-1">
+                                    <div id="accordion1" role="tablist" aria-multiselectable="true">
+                                    <div class="card-header ml-0" role="tab" id="headingOne">
+                                          <h5 class="mb-0">
+                                          <a data-toggle="collapse" data-parent="#accordionOne" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="">
+                                          Dados do cliente
+                                          </a>
+                                          </h5>
+                                    </div>
+                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
+                                          <div class="card-body">
+                                          <h6 class="mt-2 mb-5"><i class="fa fa-tag mr-2"></i>Cadastro</h6>
+                                          <div class="row">
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6 ">Razão Social</label>
+                                                      <label class="control-label col-md-6 ">${foodService.name}</label>
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">CNPJ</label>
+                                                      <label class="control-label col-md-6">${foodService.cnpj | cnpj}</label>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Nome Fantasia</label>
+                                                      <label class="control-label col-md-6">${foodService.fantasyName}</label> 
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Inscrição Estadual</label>
+                                                      <label class="control-label col-md-6">${foodService.stateRegistration.name}</label> 
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <h6 class="mt-5 mb-5"> <i class="fa fa-envelope-o mr-2"></i> Endereço</h6>
+                                          <div class="row">
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">CEP</label>
+                                                      <label class="control-label col-md-6">${foodService.address.cep | cep}</label> 
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <div class="row">
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Logradouro</label>
+                                                      <label class="control-label col-md-6">${foodService.address.logradouro}</label> 
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Bairro</label>
+                                                      <label class="control-label col-md-6">${foodService.address.neighborhood}</label> 
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Estado</label>
+                                                      <label class="control-label col-md-6">${foodService.address.state}</label> 
+                                                </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Número</label>
+                                                      <label class="control-label col-md-6">${foodService.address.number}</label> 
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Cidade</label>
+                                                      <label class="control-label col-md-6">${foodService.address.city}</label> 
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Complemento</label>
+                                                      <label class="control-label col-md-6">${foodService.address.complement}</label>  
+                                                </div>
+                                                </div>
+                                          </div>
+                                          <h6 class="mt-5 mb-5"><i class="batch-icon batch-icon-users mr-2"></i>Contato</h6>
+                                          <div class="row">
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Nome</label>
+                                                      <label class="control-label col-md-6">${foodService.contact.name}</label>  
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Telefone Comercial </label>
+                                                      <label class="control-label col-md-6">${foodService.contact.commercialPhone | phoneWithDDD}</label>   
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">E-mail</label>
+                                                      <label class="control-label col-md-6">${foodService.contact.email}</label>  
+                                                </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Telefone</label>
+                                                      <label class="control-label col-md-6">${foodService.contact.phone | phoneWithDDD}</label> 
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="control-label col-md-6">Telefone Celular</label>
+                                                      <label class="control-label col-md-6">${foodService.contact.personalPhone | phoneWithDDD}</label> 
+                                                </div>
+                                                </div>
+                                          </div>
+                                          </div>
+                                    </div>
+                                    </div>
+                                    <div id="accordion2" role="tablist" aria-multiselectable="true">
+                                    <div class="card-header ml-0" role="tab" id="headingTwo">
+                                          <h5 class="mb-0">
+                                          <a data-toggle="collapse" data-parent="#accordionTwo" href="#collapseTwo" aria-expanded="false" aria-controls="collapse" class="">
+                                          Dados do pedido
+                                          </a>
+                                          </h5>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" style=""> 
+                                          <p class="text-right mt-2">Criado por :  ${selectedOrder.createdBy.name}</p>
+                                          <p class="text-right">Criado em :  ${selectedOrder.createdOn | dateFormat}</p>
+                                          <table class="table  table-hover table-responsive">
+                                          <thead>
+                                                <tr>
+                                                <th class="text-left">Nome do Produto</th>
+                                                <th>Categoria</th>
+                                                <th>UM</th>
+                                                <th>Marca</th>
+                                                <th class="text-center">Quantidade</th>
+                                                <th class="text-center">Preço unitário</th>
+                                                <th class="text-center">Total</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr repeat.for="item of selectedOrder.items">
+                                                <td>${item.product.name}</td>
+                                                <td>${item.product.category.name}</td>
+                                                <td>${item.product.unit.name}</td>
+                                                <td>${item.product.brand.name}</td>
+                                                <td class="text-center">${item.quantity | money}</td>
+                                                <td class="text-center">${item.price | money}</td>
+                                                <td class="text-center">${item.total | money}</td>
+                                                </tr>
+                                          </tbody>
+                                          </table>
+                                    </div>
+                                    </div>
                               </div>
-                           </form>
-                          <div>  
-                             <table class="table  table-hover table-responsive">
-                                <thead>
-                                   <tr>
-                                      <th class="text-center">Código</th>
-                                      <th class="text-center">Status</th>
-                                      <th>Data do Pedido</th>
-                                      <th class="text-center">Cliente</th>
-                                      <th class="text-center">Contato</th>
-                                      <th class="text-center">Quantidade de Produtos</th>
-                                      <th class="text-center">Total</th>
-                                      <th></th>
-                                   </tr>
-                                </thead>
-                                <tbody>
-                                   <tr repeat.for="order of filteredOrders">
-                                      <td class="text-center">${order.code}</td>
-                                      <td class="text-center"> 
-                                         <span class="badge badge-danger" if.bind="order.status == 0">Novo</span>    
-                                         <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>  
-                                         <span class="badge badge-success" if.bind="order.status == 2">Entregue</span>
-                                      </td>
-                                      <td>${order.createdOn | dateFormat}</td>
-                                      <td class="text-center">${order.foodService.name}</td>
-                                      <td class="text-center">${order.createdBy.name} <span class="ml-2">(${order.createdBy.email})</span></td>
-                                      <td class="text-center">${order.items.length}</td>
-                                      <td class="text-right">${order.total | money}</td>
-                                      <td  class="text-center">
-                                         <button type="button" class="btn btn-primary btn-sm waves-effect waves-light float-left" click.trigger="selectOrder(order)">
-                                         Ver detalhes
-                                         </button>
-                                         <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="acceptOrder(order)" if.bind="order.status == 0">
-                                            Aceitar
-                                            <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
-                                         </button>
-                                      </td>
-                                   </tr>
-                                </tbody>
-                             </table>
-                          </div>
-                       </div> 
-                 </div>
-              </div>
-           </div>
-        </div>
-     </template>
+                              <div class="text-center mt-3"> 
+                                    <button type="button" class="btn btn-secondary   waves-effect waves-light" click.trigger="showdDetails = false">
+                                          <i class="fa fa-undo mr-2" aria-hidden="true"></i>
+                                          Voltar
+                                    </button>
+                                    <button type="button"  class="btn btn-success waves-effect waves-light" click.trigger="deliverOrder(selectedOrder)" if.bind="selectedOrder.status == 0">
+                                          Aceitar
+                                          <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                                    </button>                           
+                              </div>
+                              </div>
+                              
+                              <div class="col-md-12"   if.bind="! showdDetails"> 
+                                          <div class="form-row align-items-center"> 
+                                          <div class="col-lg-3">
+                                                <label for="input-task-title" class="active">Dados do pedido</label>
+                                                <input type="text" class="form-control input-task-title" placeholder="Codigo / Cliente / Contato / Valor"  change.trigger="search()"   value.bind="filter"  />
+                                          </div>
+                                          <div class="col-lg-3 ml-5">
+                                                <label for="input-task-title" class="active">Status</label>
+                                                <select class="form-control"  value.bind="selectedStatus" change.delegate="load()">
+                                                      <option  value="0" selected>Novo pedido</option>
+                                                      <option  value="1">Aceito</option>
+                                                      <option  value="2">Entregue</option>
+                                                </select>
+                                          </div>
+                                          <div class="col-lg-3 ml-4 mt-3">
+                                                <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
+                                          </div>
+                                          </div> 
+                                    <div>  
+                                    <table class="table  table-hover table-responsive">
+                                          <thead>
+                                          <tr>
+                                                <th class="text-center">Código</th>
+                                                <th class="text-center">Status</th>
+                                                <th>Data do Pedido</th>
+                                                <th class="text-center">Cliente</th>
+                                                <th class="text-center">Contato</th>
+                                                <th class="text-center">Quantidade de Produtos</th>
+                                                <th class="text-center">Total</th>
+                                                <th></th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr repeat.for="order of filteredOrders">
+                                                <td class="text-center">${order.code}</td>
+                                                <td class="text-center"> 
+                                                <span class="badge badge-danger" if.bind="order.status == 0">Novo pedido</span>    
+                                                <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>  
+                                                <span class="badge badge-success" if.bind="order.status == 2">Entregue</span>
+                                                </td>
+                                                <td>${order.createdOn | dateFormat}</td>
+                                                <td class="text-center">${order.foodService.name}</td>
+                                                <td class="text-center">${order.createdBy.name} <span class="ml-2">(${order.createdBy.email})</span></td>
+                                                <td class="text-center">${order.items.length}</td>
+                                                <td class="text-right">${order.total | money}</td>
+                                                <td  class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light float-left" click.trigger="selectOrder(order)">
+                                                Ver detalhes
+                                                </button>
+                                                <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="acceptOrder(order)" if.bind="order.status == 0">
+                                                      Aceitar
+                                                      <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                                                </button>
+                                                </td>
+                                          </tr>
+                                          </tbody>
+                                    </table>
+                                    </div>
+                              </div> 
+                        </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</template>

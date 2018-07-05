@@ -1,3 +1,4 @@
+import { UserType } from "./userType";
 
 export class Identity {
 
@@ -5,6 +6,6 @@ export class Identity {
     id : string;
     name : string;
     email : string;
-    type : number;
+    type : UserType;
     companyId : string;
 }

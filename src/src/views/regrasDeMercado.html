@@ -7,7 +7,7 @@
   <require from="./components/valueConverters/numberValueConverter"></require>
   <require from="./components/valueConverters/timeValueConverter"></require>
 
-   <div class="row mb-5">
+   <div class="row mb-5 au-animate">
       <div class="col-md-12">
          <div class="card">
             <div class="card-header">
@@ -51,12 +51,12 @@
                               <span class="input-group-addon input-group-icon">
                               <i class="batch-icon batch-icon-clock"></i>
                               </span>
-                              <input type="text" class="time form-control  ${validator.isPeriodToAcceptOrder1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time value.bind="rule.periodToAcceptOrder1 | time "   change.delegate="validator.validatePeriodToAcceptOrder1()" />
+                              <input type="time" class="time form-control  ${validator.isPeriodToAcceptOrder1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time value.bind="rule.periodToAcceptOrder1 | time & updateTrigger:'blur' "   change.delegate="validator.validatePeriodToAcceptOrder1()" />
                               <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
                               <span class="input-group-addon input-group-icon">
                               <i class="batch-icon batch-icon-clock"></i>
                               </span>
-                              <input type="text" class="time form-control  ${validator.isPeriodToAcceptOrder2Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" maxlength="8" time  value.bind="rule.periodToAcceptOrder2 | time" change.delegate="validator.validatePeriodToAcceptOrder2()" /> 
+                              <input type="time" class="time form-control  ${validator.isPeriodToAcceptOrder2Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" maxlength="8" time  value.bind="rule.periodToAcceptOrder2 | time & updateTrigger:'blur' " change.delegate="validator.validatePeriodToAcceptOrder2()" /> 
                            </div>
                         </div>
                      </form>
@@ -111,12 +111,12 @@
                               <span class="input-group-addon input-group-icon">
                               <i class="batch-icon batch-icon-clock"></i>
                               </span>
-                              <input type="text" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time"    change.delegate="validator.validateDeliverySchedule1()" /> 
+                              <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
                               <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
                               <span class="input-group-addon input-group-icon">
                               <i class="batch-icon batch-icon-clock"></i>
                               </span>
-                              <input type="text" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time"  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                              <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
                            </div>
                         </div>
                      </form>

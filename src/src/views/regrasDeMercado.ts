@@ -6,6 +6,7 @@ import { IdentityService } from '../services/identityService';
 import { inject, NewInstance, Aurelia, autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import 'jquery-mask-plugin';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject
 export class RegrasDeMercado{
@@ -15,7 +16,8 @@ export class RegrasDeMercado{
     
     constructor(		
 		private router: Router, 
-		private service : IdentityService,
+        private service : IdentityService,
+        private ea : EventAggregator,
 		private nService : NotificationService, 
         private repository : MarketRuleRepository) {
 
@@ -23,6 +25,8 @@ export class RegrasDeMercado{
 
     
     attached() : void{ 
+
+        this.ea.publish('loadingData'); 
 		this.loadData(); 
     } 
 
@@ -41,7 +45,9 @@ export class RegrasDeMercado{
                 }
 				this.validator = new MarketRuleValidator(this.rule);
                 this.validator.validate();
-            }).catch( e =>  {
+            })
+            .then( () => this.ea.publish('dataLoaded'))
+            .catch( e =>  {
                 this.nService.presentError(e);
             });
 	}

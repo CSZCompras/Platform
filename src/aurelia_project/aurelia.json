@@ -245,7 +245,15 @@
             "resources": [
               "jquery.datetimepicker.min.css"
             ]
-          }
+          },
+          {
+            "name": "aurelia-animator-css",
+            "main": "aurelia-animator-css",
+            "path": "../node_modules/aurelia-animator-css/dist/amd",
+            "resources": []
+          },
+          "install",
+          "whatwg-fetch"
         ]
       }
     ],

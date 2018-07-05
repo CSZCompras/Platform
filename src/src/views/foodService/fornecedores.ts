@@ -53,40 +53,41 @@ export class Fornecedores{
         
         attached(){
 
+                this.ea.publish('loadingData'); 
                 this.loadData();
-                this.alterView(1);
+                this.alterView(2);
         }
 
         loadData() : void {
                 
                if(this.type == null || this.type == 0){
-                       this.type = 1;
+                       this.type = 2;
                }
                
-               this.alterView(this.type);
+               this.alterView(this.type).then( () => this.ea.publish('dataLoaded'))
         }
 
-        alterView(type : number){
+        alterView(type : number) : Promise<any> {
                 
                 this.type = type;
 
                 if(type == 1){
                         this.title = 'Fornecedores Sugeridos';
-                        this.loadSuggestedSuppliers();
+                        return this.loadSuggestedSuppliers();
                 }
                 else if(type == 2){
                         this.title = 'Meus fornecedores';
-                        this.loadMySuppliers();
+                        return this.loadMySuppliers();
                 }                
                 else if(type == 3){
                         this.title = 'Todos fornecedores';
-                        this.loadAllSuppliers();
+                        return this.loadAllSuppliers();
                 }
         }
 
-        loadSuggestedSuppliers(){
+        loadSuggestedSuppliers() : Promise<any>{
 
-                this.repository
+                return this.repository
                         .getSuggestedSuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
@@ -94,9 +95,9 @@ export class Fornecedores{
                         });
         }
 
-        loadMySuppliers(){
+        loadMySuppliers() : Promise<any>{
 
-                this.repository
+                return this.repository
                         .getMySuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
@@ -104,9 +105,9 @@ export class Fornecedores{
                         });
         }
 
-        loadAllSuppliers(){
+        loadAllSuppliers() : Promise<any>{
 
-                this.repository
+                return this.repository
                         .getAllSuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;

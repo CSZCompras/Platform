@@ -47,17 +47,10 @@ export class Login {
             .then( (identity : Identity) =>{ 
                 
                 
-                this.processing = false;
-                
-                this.service.setIdentity(identity);                                
-                this.ea.publish('loginDone', null);
-
-                if(identity.type == 0){
-                    this.router.navigate('/#/dashboard');
-                }
-                else if(identity.type == 1){
-                    this.router.navigateToRoute('dashboardFoodService');
-                }
+                this.processing = false; 
+                this.service.setIdentity(identity); 
+                this.ea.publish('loginDone'); 
+                this.router.navigateToRoute('csz');
                 
             }).catch( e => 
             {
@@ -69,7 +62,12 @@ export class Login {
     
 	  
    	attached(): void { 
-        ScriptRunner.runScript();         
+        ScriptRunner.runScript();   
+
+        if (IdentityService.identity) {
+            this.ea.publish('loginDone');
+            this.router.navigateToRoute('csz');
+        }      
 	}
 
 }

@@ -44,13 +44,14 @@ export class ProdutosSelecionados{
     } 
     
     attached() : void{ 
+
         this.loadData(); 
         
         this.ea.subscribe('productAdded', (product : FoodServiceProduct) =>{  
+           (<any>product).isNew  = true;
 
-            (<any>product).isNew  = true;
-
-            if(this.selectedCategory == '-1' || this.selectedCategory == '' || this.selectedCategory == null){ // novos 
+            if(this.selectedCategory == '-1' ||this.selectedCategory == '-2' ||  this.selectedCategory == '' || this.selectedCategory == null){ // novos 
+               
                 this.isFiltered = true;
                 this.filteredProducts.unshift(product);
                 this.allProducts.unshift(product);
@@ -64,7 +65,7 @@ export class ProdutosSelecionados{
             }
             else{
                 this.allProducts.unshift(product);
-            } 
+            }  
         });
     } 
 
@@ -238,7 +239,12 @@ export class ProdutosSelecionados{
         this.repository
             .inativateProduct(product)
             .then( (data : any) => { 
+
+                this.allProducts = this.allProducts.filter( x=> x.productId != product.productId);
+                this.filteredProducts = this.filteredProducts.filter( x=> x.productId != product.productId);
+
                 product.isActive = false;
+                this.ea.publish('productRemoved', product);
                 this.nService.presentSuccess('Produto removido  com sucesso!');
             }).catch( e => {
                 this.nService.presentError(e);

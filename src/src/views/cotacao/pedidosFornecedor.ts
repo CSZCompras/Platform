@@ -36,7 +36,7 @@ export class PedidosFornecedor{
     } 
 
     attached(){
-
+        this.ea.publish('loadingData'); 
         this.loadData();
     }
 
@@ -82,6 +82,7 @@ export class PedidosFornecedor{
                     this.filteredOrders = this.orders;
                     this.filter = '';
                 })
+                .then( () => this.ea.publish('dataLoaded'))
                 .catch( e => {
                     this.nService.presentError(e); 
                 });
@@ -96,6 +97,7 @@ export class PedidosFornecedor{
                     this.filteredOrders = this.orders;
                     this.filter = '';
                 })
+                .then( () => this.ea.publish('dataLoaded'))
                 .catch( e => {
                     this.nService.presentError(e); 
                 });

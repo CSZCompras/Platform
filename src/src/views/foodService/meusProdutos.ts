@@ -19,6 +19,8 @@ export class MeusProdutos{
 
     attached(){
 
+      this.ea.publish('loadingData'); 
+              
       this.ea.subscribe('productAdded', (product  : any) =>{
         this.productAddedCount ++ ;
       });

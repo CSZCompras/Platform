@@ -36,7 +36,7 @@ export class PedidosFoodService{
     } 
 
     attached(){
-
+        this.ea.publish('loadingData'); 
         this.loadData();
     }
 
@@ -65,7 +65,9 @@ export class PedidosFoodService{
                     this.filteredOrders = this.orders;
                     this.filter = '';
                 })
+                .then( () => this.ea.publish('dataLoaded'))
                 .catch( e => {
+                    this.ea.publish('dataLoaded');
                     this.nService.presentError(e); 
                 });
 
@@ -80,7 +82,9 @@ export class PedidosFoodService{
                     this.filteredOrders = this.orders;
                     this.filter = '';
                 })
+                .then( () => this.ea.publish('dataLoaded'))
                 .catch( e => {
+                    this.ea.publish('dataLoaded');
                     this.nService.presentError(e); 
                 });
         }

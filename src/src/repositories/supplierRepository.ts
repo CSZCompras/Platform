@@ -17,11 +17,43 @@ export class SupplierRepository {
     }
 
 
-    getSupplier(userId : string) : Promise<Supplier> {
+    get(id : string){
         
         return this.api
-            .find('supplier?userId=' + userId)
+            .find('supplier?supplierId=' + id)
             .then( (result : Promise<Supplier>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+
+    }
+
+    getSupplier() : Promise<Supplier> {
+        
+        return this.api
+            .find('supplier')
+            .then( (result : Promise<Supplier>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+
+    getAllSuppliers() : Promise<Supplier[]> {
+        
+        return this.api
+            .find('allSuppliers')
+            .then( (result : Promise<Supplier[]>) => {                 
                 return result;
             })
             .catch( (e) => {

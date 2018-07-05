@@ -1,7 +1,7 @@
 import {Aurelia} from 'aurelia-framework'
 import { PLATFORM } from 'aurelia-pal';
 import environment from './environment';
-
+import 'whatwg-fetch';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -19,6 +19,7 @@ export function configure(aurelia: Aurelia) {
     /* .plugin('aurelia-autocomplete')*/
     .plugin('aurelia-dialog')
     .plugin('aurelia-validation')
+    .plugin("aurelia-animator-css")
     .plugin('aurelia-api', config => {
       config.registerEndpoint('csz', environment.apiAddress);
       config.registerEndpoint('viacep', environment.viacepAddress);

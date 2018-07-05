@@ -38,14 +38,16 @@ export class SelecaoDeProdutos{
         this.isLoaded = false;
     } 
     
-    attached() : void{ 
-        this.loadData(); 
+    attached() : void{  
+
+        this.ea.publish('loadingData');  
+        this.loadData();
     } 
 
     loadData(){
 
      var promisseCategories =
-        this. productRepository
+        this.productRepository
             .getAllCategories()
             .then( (data : ProductCategory[]) => { 
                 this.categories = data;
@@ -54,7 +56,7 @@ export class SelecaoDeProdutos{
             });
 
         var promisseProducts =
-            this. productRepository
+            this.productRepository
                 .getAllProducts()
                 .then( (data : Product[]) => { 
                     this.allProducts = data;
@@ -62,7 +64,8 @@ export class SelecaoDeProdutos{
                     this.nService.presentError(e);
                 });
         Promise.all([promisseCategories, promisseProducts])
-               .then( () => this.isLoaded = true);
+               .then( () => this.isLoaded = true)
+               .then( () => this.ea.publish('dataLoaded'));
     }
 
     search(){ 
@@ -134,18 +137,14 @@ export class SelecaoDeProdutos{
             .addProduct(supplierProduct)
             .then( (data : SupplierProduct) => { 
             
-                this.allProducts = this.allProducts.filter( (x : Product) => {
-                    if(x.id != supplierProduct.product.id)
-                        return x;
-                });
+                this.allProducts = this.allProducts.filter( (x : Product) => x.id != product.id);
 
-                this.filteredProducts = this.filteredProducts.filter( (x : Product) => {
-                    if(x.id != supplierProduct.product.id)
-                        return x;
-                });
+                this.filteredProducts = this.filteredProducts.filter( (x : Product) => x.id != product.id);
+
                 this.nService.presentSuccess('Produto incluído com sucesso!'); 
 
                 this.ea.publish('productAdded', data);
+                
                 this.isEditing = false;
             }).catch( e => {
                 this.nService.presentError(e);

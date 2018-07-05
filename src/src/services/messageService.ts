@@ -13,10 +13,19 @@ export class MessageService{
     }
 	
 	subscribe(){
-		
-		var address = this.config.getEndpoint('csz').client.baseUrl.replace('https://','').replace('/api/','');
 
-		var ws = new WebSocket('wss://'+ address +'/hubs/foodServiceSupplierConnection'); 
+		if(this.config.getEndpoint('csz').client.baseUrl.indexOf('https') != -1){
+		
+			var address = this.config.getEndpoint('csz').client.baseUrl.replace('https://','').replace('/api/','');
+			var ws = new WebSocket('wss://'+ address +'/hubs/foodServiceSupplierConnection'); 
+		}
+		else{
+
+			var address = this.config.getEndpoint('csz').client.baseUrl.replace('http://','').replace('/api/','');
+			var ws = new WebSocket('ws://'+ address +'/hubs/foodServiceSupplierConnection'); 
+		}
+
+
         var other = this;
         var user = this.service.getIdentity();
 

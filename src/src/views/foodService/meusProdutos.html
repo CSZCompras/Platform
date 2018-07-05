@@ -6,7 +6,7 @@
         <require from="../components/valueConverters/numberValueConverter"></require>
         <require from="../components/valueConverters/timeValueConverter"></require>
      
-        <div class="row mb-5">
+        <div class="row mb-5 au-animate">
            <div class="col-md-12">
               <div class="card">
                  <div class="card-header">
@@ -26,7 +26,7 @@
                                  <a class="nav-link" href="#tab-1-2" data-toggle="tab" role="tab" aria-controls="tab-1-2" aria-selected="false" aria-expanded="false">
                                     <i class="batch-icon batch-icon-paragraph-alt-justify mr-2"></i>
                                      Meus Produtos
-                                     <span class="badge badge-warning" if.bind="productAddedCount > 0">${   }</span>
+                                     <span class="badge badge-warning" if.bind="productAddedCount > 0">${ productAddedCount }</span>
                                  </a>
                              </li>
                           </ul>

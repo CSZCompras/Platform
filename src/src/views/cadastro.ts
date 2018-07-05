@@ -16,6 +16,7 @@ import { Rest, Config } from 'aurelia-api';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject
 export class Cadastro{
@@ -31,13 +32,14 @@ export class Cadastro{
     constructor(		
 		private router: Router, 
 		private repository : SupplierRepository, 
+		private ea: EventAggregator,
 		private service : IdentityService,
 		private nService : NotificationService,
 		private stateRepo: StateRegistrationRepository, 
 		private consultaCepService : ConsultaCEPService) {
 
 		this.currentStep = 1;
-		this.totalSteps = 3;		
+		this.totalSteps = 3;	 
     } 
  
 
@@ -84,31 +86,34 @@ export class Cadastro{
 		}
 	}
 
-    attached() : void {		       
+    attached() : void {		
+
+		this.ea.publish('loadingData');       
 		this.runScript();
 		this.loadData(); 
     } 
 
-	loadData() : void {
-
+	loadData() : void { 
 		var identity = this.service.getIdentity();
 
-		this.repository
-            .getSupplier(identity.id)
-            .then( (supplier : Supplier) => { 
-                this.supplier = supplier;				
-				this.validator = new SupplierValidator(this.supplier);						
-            }).catch( e =>  {
-                this.nService.presentError(e);
-            });
+		var promisse1 = this.repository
+							.getSupplier()
+							.then( (supplier : Supplier) => { 
+								this.supplier = supplier;				
+								this.validator = new SupplierValidator(this.supplier);						
+							}).catch( e =>  {
+								this.nService.presentError(e);
+							});
 
-		this.stateRepo
-				.getAll()
-				.then( (data : StateRegistration[]) => { 
-					this.stateRegistrations = data;
-				}).catch( e => {
-					this.nService.presentError(e);
-				});
+		var promisse2 = this.stateRepo
+							.getAll()
+							.then( (data : StateRegistration[]) => { 
+								this.stateRegistrations = data;
+							}).catch( e => {
+								this.nService.presentError(e);
+							}); 
+
+		Promise.all([promisse1, promisse2]).then( () => this.ea.publish('dataLoaded'));
 	}
 
 	consultaCEP(){

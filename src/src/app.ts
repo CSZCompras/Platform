@@ -23,178 +23,62 @@ import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';  
 import { OrderRepository } from './repositories/orderRepository';
+import { UserType } from './domain/userType';
+import { FoodServiceConnectionRepository } from './repositories/foodServiceConnectionRepository';
+import { FoodServiceConnectionViewModel } from './domain/foodServiceViewModel';
 
 
 @autoinject
 export class App {
   		
+	
   	$ 						: any;
 	api 					: Rest; 
-	router 					: Router; 
-	isLogged 				: boolean;
+	router 					: Router;  
 	identity 				: Identity;  
-	notifications 			: Notification[];
-	unSeenCount 			: number;
-	newOrdersCount			: number;
-	acceptedOrdersCount		: number;
+	routerConfig			: RouterConfiguration;
+
+	constructor(private aurelia					: Aurelia, 
+				private config					: Config,
+				private ea						: EventAggregator,
+				private service 				: IdentityService, 
+				private nService 				: NotificationService, 
+				private identityService			: IdentityService) {  
+
+		this.api = this.config.getEndpoint('csz');
+		this.identityService.configureHttpClient(this.api.client);
+	} 
+	
 
 	configureRouter(config: RouterConfiguration, router: Router): void {
 		
 		config = config;
-		config.title = 'CSZ Compras Inteligentes';
-
+		config.title = 'CSZ Compras Inteligentes'; 
 		this.router = router;
 		this.addRoutes(config, router); 
 	}	
 
-	constructor(private aurelia: Aurelia, 
-				private config: Config,
-				private ea: EventAggregator,
-				private service : IdentityService, 
-				private nService : NotificationService, 
-				private messageService : MessageService,
-				private notificationRepository : NotificationRepository,
-				private orderRepo : OrderRepository) {
-
-		this.notifications = [];
-		this.unSeenCount = 0;
-
-        this.api = this.config.getEndpoint('csz'); 
-		this.isLogged = this.service.isLogged();
-		
-		this.ea.subscribe('loginDone', () => {
-			this.isLogged = this.service.isLogged()
-			this.identity = this.service.getIdentity();
-			this.service.configureHttpClient(this.api.client);
-			ScriptRunner.runScript();
-		});
-
-		
-
-		this.ea.subscribe('orderAccepted', () => {
-			this.newOrdersCount--;
-			this.acceptedOrdersCount++;
-		});
-
-		if(this.isLogged){
-			this.identity = this.service.getIdentity();
-		}
-
-		this.service.configureHttpClient(this.api.client);
-		
-		if(this.isLogged){
-
-			this.getNotifications();
-
-			this.ea.subscribe('newNotification', (x : Notification) =>{
-				this.notifications.unshift(x);
-				this.updateUnSeenCount();
-				this.ea.publish(x.eventName);
-
-				if(x.eventName.toUpperCase() == 'NEWORDER'){
-					this.newOrdersCount++;
-				}
-			});
-
-			this.getOrders();
-		}
-	} 
-
-	getNotifications(){ 
-			
-		this.notificationRepository
-			.getAll()
-			.then( (notifications : Notification[]) =>{
-
-				this.notifications = notifications; 				
-				this.messageService.subscribe();
-				this.updateUnSeenCount();
-
-			}).catch( e =>  {
-				this.nService.presentError(e);
-			});
-	}
-
-	getOrders(){
-		
-		this.orderRepo
-			.getNyNewOrders()
-			.then( (orders : any[]) =>{
-
-				this.newOrdersCount = orders.length;
-			}).catch( e =>  {
-				this.nService.presentError(e);
-			});
-
-			this.orderRepo
-				.getNyAcceptedOrders()
-				.then( (orders : any[]) =>{
-
-					this.acceptedOrdersCount = orders.length;
-				}).catch( e =>  {
-					this.nService.presentError(e);
-				});
-	}
-
-	updateUnSeenCount(){
-		this.unSeenCount = this.notifications.filter( (notification : Notification) => notification.wasSeen ? false : true ).length;
-	}
-
-	attached() : void {
-
-		if(! this.isLogged){
-			this.router.navigate('login');
-		}
-		ScriptRunner.runScript();
-		
+	attached() : void { 
+		 
+		ScriptRunner.runScript(); 
 		var other = this; 
 	}	
 
-   addRoutes(config: RouterConfiguration, router: Router) : void { 
+ 
+    addRoutes(config: RouterConfiguration, router: Router): void {
 
-		config.map([
-			{ route: '', redirect: 'dashboard' },
-            { route: 'dashboard', name: 'dashboard', moduleId: PLATFORM.moduleName('./views/dashboard') },
-            { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./views/cadastro') } ,
-			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./views/produtos') } ,
-			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./views/regrasDeMercado') } ,
-            { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./views/login') },
-			{ route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./views/foodService/dashboard') }, 
-			{ route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./views/foodService/cadastro') }, 
-			{ route: 'fornecedores', name: 'fornecedores', moduleId: PLATFORM.moduleName('./views/foodService/fornecedores') }, 
-			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./views/foodService/meusProdutos') },  
-			{ route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./views/fornecedor/clientes') } ,  
-			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./views/cotacao/cotacao') }  ,  
-			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./views/cotacao/pedidosFornecedor') } ,  
-			{ route: 'pedidosFoodService', name: 'pedidosFoodService', moduleId: PLATFORM.moduleName('./views/foodService/pedidosFoodService') } 
+        config.map([
+            { route: '', 		redirect: 'login' },
+            { route: 'login', 	name: 'login', moduleId: PLATFORM.moduleName('./views/login') },
+            { route: 'csz', 	name: 'csz', moduleId: PLATFORM.moduleName('./views/master') }
         ]);
 
-        config.mapUnknownRoutes({ route: null, redirect: '/' });
-   }
+        config.mapUnknownRoutes({ route: 'login' }); 
+        config.fallbackRoute('login');
+    }
 
    logout() : void {
-	   this.service.resetIdentity();
-	   this.isLogged = false;	   
-	   this.router.navigate('login'); 
-   }
-
-   updateNotifications(){
-	 	if(this.unSeenCount > 0)  {
-
-			var notificationIds = new Array<string>();
-			var unSeenList = this.notifications.filter( (x) => ! x.wasSeen);
-			unSeenList.forEach( (x) => {
-				notificationIds.push(x.id)
-			});
-
-			this.notificationRepository
-				.updateUnseen(notificationIds)
-				.then( () =>{
-					this.unSeenCount = 0;
-					this.getNotifications();
-				}).catch( e =>  {
-					this.nService.presentError(e);
-				});
-		}
+		this.identityService.resetIdentity();
+		window.location.assign('/'); 
    }
 }
