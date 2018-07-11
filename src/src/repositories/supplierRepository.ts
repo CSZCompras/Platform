@@ -6,14 +6,46 @@ import { Rest, Config } from 'aurelia-api';
 import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
 import { SupplierProduct } from '../domain/supplierProduct';
+import { IdentityService } from '../services/identityService';
 
 @autoinject
 export class SupplierRepository {
-
+ 
     api: Rest;
 
-    constructor(private config: Config) {
+    constructor(private config: Config, private client : HttpClient, private service : IdentityService) {
         this.api = this.config.getEndpoint('csz');
+    }
+
+    uploadSocialContract(file : any, supplierId : string) : Promise<any>{ 
+
+        /* Usando o http client na mão, pois, não consegui sobreescrever as configs default do API*/
+        this.client.configure(config => {
+            config.withBaseUrl(this.api.client.baseUrl);
+        });
+
+        let headers = new Headers();        
+
+        return this.client
+            .fetch('uploadSupplierContractSocial?supplierId=' + supplierId, { 
+                method: 'POST', 
+                body: file
+            })
+            .then(response => {      
+                if(response.status != 200){
+                    throw "Erro";
+                }           
+                return response;
+            })
+            .then(data => {         
+                return data;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => { 
+                    throw error;
+                })); 
+            });
     }
 
 
