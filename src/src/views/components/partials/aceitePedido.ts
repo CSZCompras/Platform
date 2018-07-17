@@ -31,13 +31,7 @@ export class AceitePedido{
          this.validationController.addObject(this.order);     
     }    
 
-    activate(params){
-
-        if(params != null && params.Order){
-         
-            this.order = params.Order;
-        } 
-        
+    activate(params){ 
 
         ValidationRules
             .ensure((order: SupplierOrder) => order.deliveryDate).displayName('Data de entrega').required() 

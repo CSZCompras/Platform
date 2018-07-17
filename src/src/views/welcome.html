@@ -1,0 +1,74 @@
+<template>	
+     <require from="./components/attributes/cnpjMask"></require>
+     <require from="./components/attributes/cepMask"></require>
+     <require from="./components/attributes/phoneWithDDDMask"></require>
+     <require from="./components/attributes/cellPhoneWithDDDMask"></require>
+            
+     <require from="./components/valueConverters/cnpjValueConverter"></require>
+     <require from="./components/valueConverters/cepValueConverter"></require>
+     <require from="./components/valueConverters/phoneWithDDDValueConverter"></require>
+     <require from="./components/valueConverters/cellPhoneWithDDDValueConverter"></require>
+
+    <div class="row" >
+        <div class="right-column sisu">
+            <div class="row mx-0">
+                <div class="col-md-7 order-md-2 signin-right-column px-5 bg-dark">
+                    <a class="signin-logo d-sm-block d-md-none" href="#">
+                        <img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro">
+                    </a>
+                    <h1 class="display-4">CSZ Compras Inteligentes</h1>
+                    <p class="lead mb-5">
+                        Olá, seja bem-vindo  
+                    </p>
+                </div>	
+                <div class="col-md-5 order-md-1 signin-left-column bg-white px-5">  
+                    <div if.bind="wasCreated">
+                        <h2>Obrigado!</h2>        
+                        <p class="mt-4">Em breve nossa equipre entrará em contato com você para liberar acesso a ferramenta!</p>
+                    </div>   
+                    <form if.bind="! wasCreated">                        
+                        <h4 class="text-center">Dados de Cadastro</h4>                           
+                        <p>Preencha os dados abaixo para sabermos mais sobre você</p>   
+                        <div class="form-group">
+                            <label class="control-label active">Nome<span class="text-danger  ml-1 bold">*</span></label>
+                            <input type="text" class="form-control" value.bind="user.contactName  & validate" >								
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label active">E-mail<span class="text-danger  ml-1 bold">*</span></label>
+                            <input type="email" class="form-control"  value.bind="user.email  & validate" >								
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label active">Telefone</label>
+                            <input type="phone" class="form-control" phone-with-ddd  value.bind="user.commercialPhone | phoneWithDDD  & validate" id="exampleInputEmail1" value.bind="credential.email" >								
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label active">Telefone Celular</label>
+                            <input type="phone" class="form-control" cell-phone-with-ddd value.bind="user.mobilePhone | cellPhoneWithDDD  & validate" id="exampleInputEmail1" value.bind="credential.email" >								
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label active">Razão Social<span class="text-danger  ml-1 bold">*</span></label>
+                            <input type="text" class="form-control" value.bind="user.companyName  & validate" >								
+                        </div>                        
+                        <div class="form-group text-center mt-4">                           
+                            <div class="form-check form-check-inline mt-3">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" value="0" checked.bind="user.selectedType"  >
+                                    <label class="form-check-label" for="inlineRadio1">Fornecedor</label>
+                            </div>
+                            <div class="form-check form-check-inline ml-5 mt-3">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" value="1" checked.bind="user.selectedType">
+                                    <label class="form-check-label" for="inlineRadio2">Food service</label>
+                            </div>
+                        </div>
+                        <button type="submit" if.bind="! processing"  class="btn btn-primary btn-gradient btn-block waves-effect waves-light mt-4"  click.delegate="save()" if.bind="! isloading">
+                            <i class="batch-icon batch-icon-mail"></i>
+                            Salvar      
+                        </button> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="fa-5x ${  isLoading  ? '' : 'invisible'}" style="position: fixed;top: 40%;left: 50%;" >
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>  -->
+</template>

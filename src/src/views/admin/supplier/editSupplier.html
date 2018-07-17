@@ -129,11 +129,66 @@
                              </div>
                           </div>
                        </div>
-                    </div>           
+                    </div>    
+                    <h4 class="mt-4">Usuários</h4>       
+                    <span class="badge badge-warning mt-2 mb-2" if.bind="supplier.status != 0">Para poder criar usuários faça a ativação do cadastro</span>                      
+                    <div class="tab-pane" if.bind="supplier.status != 2">
+                        <div class="row"> 
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th> 
+                                        <th>E-mail</th>
+                                        <th>Status</th> 
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr repeat.for="x of users">
+                                        <td>
+                                            <span if.bind="! x.isEditing">${x.name}</span> 
+                                            <input type="text" class="form-control col-md-8" if.bind="x.isEditing" value.bind="x.name"/>
+                                        </td> 
+                                        <td>
+                                            <span if.bind="! x.isEditing">${x.email}</span>
+                                            <input type="text" class="form-control col-md-8" if.bind="x.isEditing" value.bind="x.email"/>
+                                        </td>
+                                        <td>  
+                                            <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
+                                            <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
+                                            <span class="badge badge-warning" if.bind="x.status == 2">Aguardando confirmação</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"   if.bind="x.isEditing && supplier.status == 0"               click.trigger="saveEditUser(x)">Salvar</button>
+                                            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"   if.bind="! x.isEditing  && supplier.status == 0"            click.trigger="editUser(x)">Editar</button>
+                                            <button type="button" class="btn btn-secondary btn-sm waves-effect waves-light"   if.bind="  x.isEditing  && supplier.status == 0"                                  click.trigger="cancelEditUser(x)">Cancelar</button>
+                                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"    if.bind="x.status == 0 && ! x.isEditing && supplier.status == 0"                    click.trigger="editUserStatus(x, 1)">Inativar</button>
+                                            <button type="button" class="btn btn-success btn-sm waves-effect waves-light"   if.bind="x.status == 1 && ! x.isEditing  && supplier.status == 0"                   click.trigger="editUserStatus(x, 0)">Ativar</button>                                            
+                                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"    if.bind="x.status == 2  && !    x.isEditing  && supplier.status == 0"               click.trigger="resendInvite(x)">Reenviar convite</button>
+                                        </td>
+                                    </tr>
+                                    <tr if.bind="supplier.status == 0" >
+                                        <td>
+                                            <input type="text" class="form-control col-md-8"  value.bind="user.name"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control col-md-8"  value.bind="user.email"/>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="createUser()">Criar</button>       
+                                        </td>
+                                    </tr>
+                                </tbody>                                   
+                            </table>   
+                        </div>
+                    </div>    
                  </div>
                  <div class="row mt-5 mb-5 mx-auto">
-                     <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light"  click.trigger="save()"><span class="gradient">Salvar</span></button>
-                     <button type="button" class="btn btn-secondary ml-5 waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>   
+                        <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light" click.trigger="save()"><span class="gradient">Salvar</span></button>
+                        <button type="button" class="btn btn-success  ml-2 waves-effect waves-light"       if.bind="supplier.status != 0"  click.trigger="editStatus(0)">Ativar</button>
+                        <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="supplier.status == 0" click.trigger="editStatus(1)">Inativar</button>
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancel()">Cancelar</button>   
                  </div>
               </div>
            </div>

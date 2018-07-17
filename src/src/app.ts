@@ -70,7 +70,10 @@ export class App {
         config.map([
             { route: '', 		redirect: 'login' },
             { route: 'login', 	name: 'login', moduleId: PLATFORM.moduleName('./views/login') },
-            { route: 'csz', 	name: 'csz', moduleId: PLATFORM.moduleName('./views/master') }
+			{ route: 'invite', 	name: 'invite', moduleId: PLATFORM.moduleName('./views/confirmInvite') },
+			{ route: 'welcome', 	name: 'invite', moduleId: PLATFORM.moduleName('./views/welcome') },
+			{ route: 'csz', 	name: 'csz', moduleId: PLATFORM.moduleName('./views/master') },
+			
         ]);
 
         config.mapUnknownRoutes({ route: 'login' }); 

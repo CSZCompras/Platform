@@ -10,10 +10,22 @@
                  <div class="card-body"> 
                      <div if.bind="! isEditing">
                         <div class="row mt-2">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="control-label">Filtro</label> 
                                     <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Nome/ Contato"  change.trigger="search()"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label> 
+                                              
+                                <select class="form-control "    value.bind="selectedStatus" change.delegate="search()">
+                                    <option  value=""></option>
+                                    <option  value="0">Ativos</option>
+                                    <option  value="1">Inativos</option>
+                                    <option  value="2">Aguardando liberação</option>
+                                </select>
                                 </div>
                             </div>
                         </div>  
@@ -37,74 +49,17 @@
                                     <td>  
                                         <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
                                         <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
-                                        <span class="badge badge-warning" if.bind="x.status == 2">Inativo</span>                     
+                                        <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>                     
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="edit(x)">Editar</button>
+                                        <button type="button" class="btn btn-success btn-sm waves-effect waves-light" if.bind="x.status != 0"  click.trigger="editStatus(x, 0)">Ativar</button>
+                                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" if.bind="x.status == 0" click.trigger="editStatus(x, 1)">Inativar</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>                
-                    </div>
-                    <div if.bind="isEditing">
-                        <div class="row">
-                               <div class="col-md-6">
-                                  <div class="form-group">
-                                     <label class="control-label">Nome<span class="text-danger  ml-1 bold">*</span></label>
-                                     <input type="text" class="form-control "    value.bind="product.name"  />
-                                  </div> 
-                               </div>
-                        </div>
-                        <div class="row mt-4">
-                               <div class="col-md-12">
-                                  <div class="form-group">
-                                        <label class="control-label">Descrição<span class="text-danger  ml-1 bold">*</span></label>
-                                     <input type="text" class="form-control "   value.bind="product.description" />
-                                  </div> 
-                               </div>
-                        </div>
-                        <div class="row mt-4">
-                               <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Categoria</label>            
-                                        <select class="form-control "    value.bind="product.category">
-                                            <option  value=""></option>
-                                            <option  repeat.for="category of categories" model.bind="category">${category.name}</option>
-                                        </select>
-                                    </div>
-                               </div>
-                               <div class="col-md-6">
-                                  <div class="form-group">
-                                        <label class="control-label">Marca</label>            
-                                        <select class="form-control "    value.bind="selectedCategory">
-                                            <option  value=""></option> 
-                                        </select>
-                                  </div> 
-                               </div>
-                        </div>
-                        <div class="row mt-4">
-                               <div class="col-md-6">
-                                  <div class="form-group">
-                                        <label class="control-label">UM<span class="text-danger  ml-1 bold">*</span></label>            
-                                        <select class="form-control "    value.bind="product.unit">
-                                            <option  value=""></option>
-                                            <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
-                                        </select>
-                                  </div> 
-                               </div>
-                               <div class="col-md-6">      
-                                    <div class="col-md-4"></div>
-                                    <label class="control-label mt-5">Ativo<span class="text-danger  ml-1 bold">*</span></label>                       
-                                    <label class="form-check-label  ml-2 float-left mt-5">                                    
-                                        <input class="form-check-input  float-left" type="checkbox"   checked.bind="product.isActive" />                     
-                                    </label>
-                               </div>
-                        </div>
-                        <div class="text-center mt-4">
-                            <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>
-                            <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>    
-                        </div>
-                    </div>
+                    </div> 
                  </div>
               </div>
            </div>

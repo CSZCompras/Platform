@@ -15,6 +15,8 @@ import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasure
 import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
 import { Supplier } from '../../../domain/supplier';
 import { SupplierRepository } from '../../../repositories/supplierRepository';
+import { SupplierStatus } from '../../../domain/supplierStatus';
+import { stat } from 'fs';
 
 @autoinject
 export class ListSuppliers{
@@ -22,6 +24,7 @@ export class ListSuppliers{
     suppliers                       : Supplier[];
     filteredSuppliers               : Supplier[];
     filter                          : string;
+    selectedStatus                  : string;
 
     constructor(
         private router              : Router, 
@@ -60,6 +63,15 @@ export class ListSuppliers{
 
             var isFound = true;  
 
+            if( (this.selectedStatus != null && this.selectedStatus != '')){ 
+                if(x.status.toString() == this.selectedStatus){
+                    isFound = true;
+                }
+                else {
+                    isFound= false;
+                }
+            }
+
             if( (this.filter != null && this.filter != '')){ 
                 if( 
                         x.name.toUpperCase().includes(this.filter.toUpperCase()) 
@@ -80,6 +92,21 @@ export class ListSuppliers{
     }
 
     edit(x : Supplier){
+        this.router.navigateToRoute('editSupplierAdmin', { supplierId : x.id });
+    }
+
+    editStatus(x : Supplier, status : SupplierStatus){
+        
+        this.repository
+            .updateStatus(x.id, status)
+            .then( () => {
+                x.status = status;
+                this.nService.presentSuccess('Status atualizado com sucesso!');
+            })
+            .catch(e => this.nService.presentError(e));
+    }
+
+    inactivate(x : Supplier){
         this.router.navigateToRoute('editSupplierAdmin', { supplierId : x.id });
     }
 }

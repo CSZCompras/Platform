@@ -1,0 +1,40 @@
+<template>	
+		<div class="row" if.bind="! isLoading">
+			<div class="right-column sisu">
+				<div class="row mx-0">
+					<div class="col-md-7 order-md-2 signin-right-column px-5 bg-dark">
+						<a class="signin-logo d-sm-block d-md-none" href="#">
+							<img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro">
+						</a>
+						<h1 class="display-4">CSZ Compras Inteligentes</h1>
+						<p class="lead mb-5">
+							Olá, seja bem-vindo ${user.name}
+						</p>
+					</div>
+					<div class="col-md-5 order-md-1 signin-left-column bg-white px-5">
+						<a class="signin-logo d-sm-none d-md-block"  style="margin-left: 10%;">
+							<img class="ml-5" src="assets/img/logo2T.png"  style="cursor:default"  width="150" height="92" alt="CSZ">
+						</a>
+						<form>
+                            <div class="form-group">
+                                    <label for="exampleInputPassword1">Senha</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" value.bind="invite.password" placeholder="Password">
+                            </div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Confirme sua senha</label>
+								<input type="password" class="form-control" id="exampleInputPassword1" value.bind="invite.confirmPassword" placeholder="Password">
+							</div>
+							<button type="submit" if.bind="! processing"  class="btn btn-primary btn-gradient btn-block waves-effect waves-light"  click.delegate="save()">
+								<i class="batch-icon batch-icon-key mr-2"></i>
+								Definir senha
+							</button>
+							<span if.bind="processing" class="badge badge-warning">Efetuando autenticação</span> 
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>	   
+        <div class="fa-5x ${  isLoading  ? '' : 'invisible'}" style="position: fixed;top: 40%;left: 50%;" >
+            <i class="fa fa-refresh fa-spin"></i>
+        </div> 
+</template>

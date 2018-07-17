@@ -2,7 +2,6 @@ import { Supplier } from '../domain/supplier';
 import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
 import { Rest, Config } from 'aurelia-api';
-
 import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
 import { SupplierProduct } from '../domain/supplierProduct';

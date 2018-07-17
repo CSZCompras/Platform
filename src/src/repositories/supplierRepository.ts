@@ -7,6 +7,8 @@ import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
 import { SupplierProduct } from '../domain/supplierProduct';
 import { IdentityService } from '../services/identityService';
+import { SupplierStatus } from '../domain/supplierStatus';
+import { EditSupplierStatus } from '../domain/editSupplierStatus';
 
 @autoinject
 export class SupplierRepository {
@@ -48,6 +50,26 @@ export class SupplierRepository {
             });
     }
 
+    updateStatus(supplierId : string, status : SupplierStatus) : Promise<any>{
+
+        var vm = new EditSupplierStatus();
+        vm.supplierId = supplierId;
+        vm.status = status;
+
+        return this.api
+            .post('supplierStatus', vm)
+            .then( (result : Promise<any>) => {    
+                if(result == null)             
+                    return Promise.resolve();
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
 
     get(id : string){
         

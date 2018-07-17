@@ -22,7 +22,7 @@ import { OrderRepository } from '../repositories/orderRepository';
 import { MessageService } from '../services/messageService';
 
 @autoinject
-export class MasterBlotter {
+export class Master {
 
     router                  : Router;
     isLogged                : boolean;
@@ -200,7 +200,7 @@ export class MasterBlotter {
 
     configureRouter(config: RouterConfiguration, router: Router): void {
 
-        config.title = 'Blotter';
+        config.title = '';
 
         this.router = router;
         this.addRoutes(config, router);

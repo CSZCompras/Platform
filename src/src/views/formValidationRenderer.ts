@@ -29,6 +29,8 @@ export class FormValidationRenderer {
     }
 
     add(element: Element, result: ValidateResult) { 
+
+        debugger;
         
         const formGroup = element.closest('.form-group');
 
