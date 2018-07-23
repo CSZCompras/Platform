@@ -33,7 +33,7 @@ export class Welcome{
     user                                    : WelcomeUser;
     validationController                    : ValidationController;
     wasCreated                              : boolean;
-    isloading                               : boolean;
+    isLoading                               : boolean;
     
     constructor(
         private router                      : Router, 
@@ -49,7 +49,7 @@ export class Welcome{
         this.user = new WelcomeUser();
         this.user.selectedType = "0";
         this.wasCreated = false;
-        this.isloading = false;
+        this.isLoading = false;
 
          // Validation.
          this.validationController = this.validationControllerFactory.createForCurrentScope();
@@ -60,7 +60,7 @@ export class Welcome{
 
     attached(){
         
-        window.setTimeout(() => ScriptRunner.runScript(), 1000);
+        window.setTimeout(() => ScriptRunner.runScript(), 10);
     }
 
     activate(params){
@@ -78,13 +78,13 @@ export class Welcome{
 
     save(){
 
-        this.isloading = true;
-
         this.validationController
             .validate()
             .then((result: ControllerValidateResult) => {
                 
-                    if (result.valid) {
+                    if (result.valid) {                        
+
+                        this.isLoading = true;
             
                         this.userRepository
                             .createNew(this.user)
@@ -92,15 +92,14 @@ export class Welcome{
 
                                 this.notification.success('Cadastro realizado com sucesso!');
                                 this.wasCreated = true;
-                                this.isloading = false;
                             })
                             .catch( e => {
-                                this.isloading = false;
+                                this.isLoading = false;
                                 this.notification.presentError(e); 
                             });
                     }
                     else {
-                        this.isloading = false;
+                        this.isLoading = false;
                         this.notification.error('Erros de validação foram encontrados');
                     }
                 });      

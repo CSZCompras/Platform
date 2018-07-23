@@ -11,8 +11,9 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 @autoinject
 export class RegrasDeMercado{
 
-    rule : MarketRule;
-    validator : MarketRuleValidator;
+    rule            : MarketRule;
+    validator       : MarketRuleValidator;
+    isLoading       : boolean;
     
     constructor(		
 		private router: Router, 
@@ -20,6 +21,8 @@ export class RegrasDeMercado{
         private ea : EventAggregator,
 		private nService : NotificationService, 
         private repository : MarketRuleRepository) {
+
+        this.isLoading = false;
 
     } 
 
@@ -53,6 +56,7 @@ export class RegrasDeMercado{
 	}
 
     save(){
+
         var errors = this.validator.validate();
 
         if(! this.rule.sendNotificationToNewOrder){
@@ -65,13 +69,20 @@ export class RegrasDeMercado{
 
 		if(errors.length == 0){
 
+            this.isLoading = true;
+
             this.repository
                     .save(this.rule)
-                    .then( (result : any) =>{         
+                    .then( (result : any) =>{ 
+
                         this.nService.success('Cadastro realizado!')       
-                        this.router.navigate('/#/dashboard');                
+                        this.router.navigate('/#/dashboard');        
+                        this.isLoading = false;
+
                     }).catch( e => {
+                        
                         this.nService.error(e);
+                        this.isLoading = false;
                     });
         }
 		else{

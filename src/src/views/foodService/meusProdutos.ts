@@ -24,6 +24,10 @@ export class MeusProdutos{
       this.ea.subscribe('productAdded', (product  : any) =>{
         this.productAddedCount ++ ;
       });
+
+      this.ea.subscribe('productRemoved', (product  : any) =>{
+        this.productAddedCount -- ;
+      });
     }
 
     loadData() : void{

@@ -247,8 +247,10 @@ export class Master {
         { route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./cotacao/pedidosFornecedor') } ,  
         { route: 'pedidosFoodService', name: 'pedidosFoodService', moduleId: PLATFORM.moduleName('./foodService/pedidosFoodService') },
         { route: 'produtosAdmin', name: 'produtosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listProduct') },
-        { route: 'suppliersAdmin', name: 'suppliersAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/listSuppliers') },
-        { route: 'editSupplierAdmin', name: 'editSupplierAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/editSupplier') }
+		{ route: 'suppliersAdmin', name: 'suppliersAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/listSuppliers') },
+		{ route: 'foodServicesAdmin', name: 'foodServicesAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/listFoodServices') },
+		{ route: 'editSupplierAdmin', name: 'editSupplierAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/editSupplier') },
+		{ route: 'editFoodServiceAdmin', name: 'editFoodServiceAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/editFoodService') }
     ]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });

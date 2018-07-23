@@ -25,13 +25,15 @@
 								<input type="password" class="form-control" id="exampleInputPassword1" value.bind="credential.password" placeholder="Password">
 							</div>
 							<button type="submit" if.bind="! processing"  class="btn btn-primary btn-gradient btn-block waves-effect waves-light"  click.delegate="doLogin()">
-								<i class="batch-icon batch-icon-key"></i>
+								<i class="batch-icon batch-icon-key mr-2"></i>
 								Login
-							</button>
-							<span if.bind="processing" class="badge badge-warning">Efetuando autenticação</span>
+							</button> 
+							<div class="fa-2x text-center" if.bind="processing" >
+								<i class="fa fa-refresh fa-spin"></i>
+							</div> 
 							<hr>
 							<p class="text-center">
-								Ainda não possui um usuário?<a href="sisu-signup.html"> Registre-se aqui</a>
+								Ainda não possui um usuário?<a href="/#/welcome"> Registre-se aqui</a>
 							</p>
 						</form>
 					</div>

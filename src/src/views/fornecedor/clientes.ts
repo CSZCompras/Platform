@@ -15,12 +15,13 @@ import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
 @autoinject
 export class Clientes{
 
-        filteredFoodServices : FoodServiceConnectionViewModel[];
-        foodServices : FoodServiceConnectionViewModel[];                
-        selectedCategory : string;
-        title : string;
-        type : number;
-        filter : string;
+        filteredFoodServices    : FoodServiceConnectionViewModel[];
+        foodServices            : FoodServiceConnectionViewModel[];                
+        selectedCategory        : string;
+        title                   : string;
+        type                    : number;
+        filter                  : string;
+        tipoFiltro              : string;
 
         constructor(
                 private router: Router,  
@@ -37,28 +38,32 @@ export class Clientes{
 
                 this.ea.publish('loadingData'); 
                 this.type = 0;      
-                this.alterView(this.type).then( () => this.ea.publish('dataLoaded'));        
+                this.tipoFiltro = '0';
+                this.alterView().then( () => this.ea.publish('dataLoaded'));        
         }
 
         loadData() : void {
 
-            this.loadSuppliers().then( () => this.ea.publish('dataLoaded')); 
+                this.foodServices = [];
+                this.filteredFoodServices = [];
+
+                this.loadSuppliers().then( () => this.ea.publish('dataLoaded')); 
         }
 
-        alterView(type : number) : Promise<any>{
+        alterView() : Promise<any>{
                 
-                this.type = type;
+                this.type = Number.parseInt(this.tipoFiltro);
 
-                if(type == 0){
+                if(this.type == 0){
                         this.title = 'Novos Clientes'; 
                 }
-                else if(type == 1){
+                else if(this.type == 1){
                         this.title = 'Aguardando Aprovação'; 
                 }                
-                else if(type == 2){
+                else if(this.type == 2){
                         this.title = 'Meus  Clientes'; 
                 }                
-                else if(type == 3){
+                else if(this.type == 3){
                         this.title = 'Clientes Bloqueados'; 
                 }
 
@@ -98,6 +103,8 @@ export class Clientes{
 
         registrationSent(x : FoodServiceSupplier){
 
+                ( <any> x).isLoading = true;
+
                 var viewModel = new FoodServiceConnectionViewModel();
                 viewModel.foodService = x.foodService;                
                 viewModel.status = 5;
@@ -105,16 +112,22 @@ export class Clientes{
                 this.repository
                         .updateConnection(viewModel)
                         .then( (data : any) =>{ 
+                                
+                                ( <any> x).isLoading = false;
                                 this.loadData();
                                 this.nService.presentSuccess('Status atualizado com sucesso!');
                                 this.ea.publish('registrationSent');
                         }).catch( e => {
+
                             this.nService.presentError(e);
+                            ( <any> x).isLoading = false;
                         });
 
         }
 
         reject(x : FoodServiceSupplier){
+
+                ( <any> x).isLoading = true;
 
                 var viewModel = new FoodServiceConnectionViewModel();
                 viewModel.foodService = x.foodService;                
@@ -123,15 +136,21 @@ export class Clientes{
                 this.repository
                         .updateConnection(viewModel)
                         .then( (data : any) =>{
+
+                                ( <any> x).isLoading = false;
                                 this.loadData();
                                 this.nService.presentSuccess('Status rejeitado com sucesso!');
                         }).catch( e => {
+
                             this.nService.presentError(e);
+                            ( <any> x).isLoading = false;
                         });
 
         }
 
         block(x : FoodServiceSupplier){
+
+                ( <any> x).isLoading = true;
 
                 var viewModel = new FoodServiceConnectionViewModel();
                 viewModel.foodService = x.foodService;                
@@ -139,16 +158,22 @@ export class Clientes{
 
                 this.repository
                         .updateConnection(viewModel)
-                        .then( (data : any) =>{
+                        .then( (data : any) =>{      
+
+                                ( <any> x).isLoading = false;
                                 this.loadData();
-                                this.nService.presentSuccess('Status bloqueado com sucesso!');
+                                this.nService.presentSuccess('Status bloqueado com sucesso!');  
                         }).catch( e => {
-                            this.nService.presentError(e);
+
+                            this.nService.presentError(e);                                
+                            ( <any> x).isLoading = false;
                         });
 
         }
 
         unblock(x : FoodServiceSupplier){
+
+                ( <any> x).isLoading = true;
 
                 var viewModel = new FoodServiceConnectionViewModel();
                 viewModel.foodService = x.foodService;                
@@ -156,12 +181,14 @@ export class Clientes{
 
                 this.repository
                         .updateConnection(viewModel)
-                        .then( (data : any) =>{
+                        .then( (data : any) =>{    
 
+                                ( <any> x).isLoading = false;
                                 this.loadData();
-                                this.nService.presentSuccess('Status desbloqueado com sucesso!');
+                                this.nService.presentSuccess('Status desbloqueado com sucesso!');    
                         }).catch( e => {
-                            this.nService.presentError(e);
+                            this.nService.presentError(e);                           
+                            ( <any> x).isLoading = false;
                         });
 
         }

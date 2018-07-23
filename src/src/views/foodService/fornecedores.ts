@@ -16,19 +16,23 @@ import { SupplierViewModel } from '../../domain/supplierViewModel';
 @autoinject
 export class Fornecedores{
 
-        filteredSuppliers : SupplierViewModel[];        
-        suppliers : SupplierViewModel[];        
-        categories : ProductCategory[];
-        selectedCategory : string;
-        title : string;
-        type : number;
-        filter : string;
+        
+        filteredSuppliers               : SupplierViewModel[];        
+        suppliers                       : SupplierViewModel[];        
+        categories                      : ProductCategory[];
+        selectedCategory                : string;
+        title                           : string;
+        type                            : number;
+        filter                          : string;
+        isLoading                       : boolean;
 
         constructor(private router: Router, 
                 private repository : SupplierConnectionRepository, 
                 private  productRepository : ProductRepository, 
                 private nService : NotificationService,
-                private ea : EventAggregator) {              
+                private ea : EventAggregator) {    
+                        
+                this.isLoading = false;
                 
                 this.ea.subscribe( 'WaitingToApprove', () =>{
                         this.loadData();
@@ -116,13 +120,19 @@ export class Fornecedores{
         }
  
         connect(viewModel : SupplierViewModel){
+                
+                ( <any> viewModel).isLoading = true;
+
                 this.repository
                         .connect(viewModel.supplier)
                         .then( (connection : FoodServiceSupplier) =>{
-                                this.alterView(this.type);
+                                viewModel.status = 1;
                                 this.nService.presentSuccess('A solicitação de conexão foi realizada com sucesso!');
-                        }).catch( e => {
+                                ( <any> viewModel).isLoading = false;
+                        })
+                        .catch( e => {
                                 this.nService.presentError(e);
+                                ( <any> viewModel).isLoading = false;
                         });
         }
 

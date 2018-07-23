@@ -7,9 +7,12 @@ import { Credential } from "../domain/credential";
 import { FoodServiceProduct } from '../domain/foodServiceProduct';
 import { BuyList } from '../domain/buyList';
 import { AlterBuyListProductViewModel } from '../domain/alterBuyListProductViewModel';
+import { FoodServiceStatus } from '../domain/foodServiceStatus';
+import { EditFoodServiceStatus } from '../domain/editFoodServiceStatus';
 
 @autoinject
 export class FoodServiceRepository {
+    
     api: Rest;
 
     constructor(private config: Config) {
@@ -17,11 +20,42 @@ export class FoodServiceRepository {
     }
 
 
-    get(userId : string) : Promise<FoodService> {
+    getByUser(userId : string) : Promise<FoodService> {
         
         return this.api
-            .find('foodService?userId=' + userId)
+            .find('foodServiceByUser?userId=' + userId)
             .then( (result : Promise<FoodService>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+
+    get(id : string) : Promise<FoodService> {
+        
+        return this.api
+            .find('foodService?supplierId=' + id)
+            .then( (result : Promise<FoodService>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+    getAll()  : Promise<FoodService[]> {
+
+        return this.api
+            .find('allFoodServices')
+            .then( (result : Promise<FoodService[]>) => {     
                 return result;
             })
             .catch( (e) => {
@@ -128,6 +162,28 @@ export class FoodServiceRepository {
         return this.api
             .post('alterBuyListProduct', viewModel)
             .then( (result : Promise<BuyList>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+    
+    updateStatus(foodServiceId : string, status : FoodServiceStatus) : Promise<any>{
+
+        var vm = new EditFoodServiceStatus();
+        vm.foodServiceId = foodServiceId;
+        vm.status = status;
+
+        return this.api
+            .post('foodServiceStatus', vm)
+            .then( (result : Promise<any>) => {    
+                if(result == null)             
+                    return Promise.resolve();
                 return result;
             })
             .catch( (e) => {

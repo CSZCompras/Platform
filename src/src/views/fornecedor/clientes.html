@@ -4,23 +4,21 @@
         <div class="row mb-5 task-manager au-animate"  >
            <div class="col-lg-12">
               <div class="card">
-                 <div class="card-header">                   
-                    <div class="header-btn-block">                            
-                       <span class="data-range dropdown show">                           
-                          <a href="#" class="btn btn-primary dropdown-toggle" id="navbar-dropdown-sales-overview-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="true"><i class="batch-icon batch-icon-search-alt"></i></a>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-sales-overview-header-button" x-placement="bottom-end" style="position: absolute; transform: translate3d(-191px, 30px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a class="dropdown-item" href="#" click.trigger="alterView(0)">Novos Clientes</a> 
-                                <a class="dropdown-item" href="#" click.trigger="alterView(1)">Aguardando aprovação</a> 
-                                <a class="dropdown-item" href="#" click.trigger="alterView(2)">Meus  Clientes</a> 
-                                <a class="dropdown-item" href="#"  click.trigger="alterView(3)">Clientes Bloqueados</a> 
-                            </div>
-                       </span>
-                    </div>
+                 <div class="card-header">    
                     ${title}
                  </div>
                  <div class="card-body">
                     <form>
                        <div class="form-row align-items-center"> 
+                            <div class="col-lg-3">
+                               <label for="input-task-title" class="active">Filtro</label>           
+                               <select class="form-control  "     value.bind="tipoFiltro" change.delegate="alterView()">
+                                  <option value="0">Novos Clientes</option>
+                                  <option value="1">Aguardando aprovação</option>
+                                  <option value="2">Meus  Clientes</option>
+                                  <option value="3">Clientes Bloqueados</option>
+                               </select>
+                            </div>
                           <div class="col-lg-3">
                              <label for="input-task-title" class="active">Nome do cliente</label>
                              <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome..."  change.trigger="search()"   value.bind="filter"  />
@@ -41,6 +39,7 @@
                              <th>E-mail</th>
                              <th>Telefone</th>
                              <th>CNPJ</th>
+                             <th></th> 
                              <th></th>
                           </tr>
                        </thead>
@@ -59,11 +58,16 @@
                              <td phone-with-ddd>${x.foodService.contact.phone}</td>
                              <td cnpj>${x.foodService.cnpj}</td>
                              <td>
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 1" click.trigger="registrationSent(x)">Cadastro recebido</button>
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 5 || x.status == 3" click.trigger="approve(x)">Aprovar</button>
-                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 5" click.trigger="reject(x)">Rejeitar</button>
-                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2" click.trigger="block(x)">Bloquear</button>                                
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 4" click.trigger="unblock(x)">Desbloquear</button>                                
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 1 && ! x.isLoading" click.trigger="registrationSent(x)">Cadastro recebido</button>
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="(x.status == 5 || x.status == 3) && ! x.isLoading" click.trigger="approve(x)">Aprovar</button>
+                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 5 && ! x.isLoading" click.trigger="reject(x)">Rejeitar</button>
+                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">Bloquear</button>                                
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 4 && ! x.isLoading" click.trigger="unblock(x)">Desbloquear</button>                                
+                             </td>
+                             <td>
+                                <div class="fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'}">
+                                    <i class="fa fa-refresh fa-spin"></i>
+                                </div> 
                              </td>
                           </tr>
                        </tbody>

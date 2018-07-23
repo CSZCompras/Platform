@@ -67,9 +67,13 @@ export class IdentityService {
             });
             config.withInterceptor({
                 request: (request) => {
+
                     
-                    if (IdentityService._identity) {
-                        request.headers.set('authtoken', IdentityService._identity.token);
+                    if(request.url.indexOf('viacep.com.br') == -1){
+                    
+                        if (IdentityService._identity) {
+                            request.headers.set('authtoken', IdentityService._identity.token);
+                        }
                     }
 
                     return request;

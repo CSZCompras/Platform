@@ -49,7 +49,7 @@
                   <td class="align-middle">
                         <button  if.bind="! product.supplierProduct"    type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="includeProduct(product)">Incluir</button>
                         <button  if.bind="product.supplierProduct"      type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="saveProduct(product)">Salvar</button>
-                        <button  if.bind="product.supplierProduct"      type="button" class="btn  btn-sm waves-effect waves-light" click.trigger="product.supplierProduct = null">Cancelar</button>
+                        <button  if.bind="product.supplierProduct"      type="button" class="btn  btn-secondary  btn-sm waves-effect waves-light" click.trigger="product.supplierProduct = null">Cancelar</button>
                   </td>
                </tr>
             </tbody>

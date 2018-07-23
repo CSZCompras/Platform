@@ -20,6 +20,7 @@ export function configure(aurelia: Aurelia) {
     .plugin('aurelia-dialog')
     .plugin('aurelia-validation')
     .plugin("aurelia-animator-css")
+    .feature('resources')      
     .plugin('aurelia-api', config => {
       config.registerEndpoint('csz', environment.apiAddress);
       config.registerEndpoint('viacep', environment.viacepAddress);

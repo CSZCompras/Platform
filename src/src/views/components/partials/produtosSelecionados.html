@@ -1,5 +1,5 @@
 <template>
-        <div class="row">
+        <div class="row mt-4">
            <div class="col-lg-4">
               <div class="form-group">
                  <label class="control-label">Categoria</label>
@@ -59,7 +59,10 @@
                               </label>
                        </td> 
                        <td >                                        
-                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="removeProduct(x)">Remover</button>
+                            <button type="button" if.bind="! x.isLoading"  class="btn btn-danger btn-sm waves-effect waves-light  ${ isProcessing ? 'disable' : ''  && ! product.isLoading }" disabled.bind="isProcessing"  click.trigger="removeProduct(x)">Remover</button>
+                            <div class="fa-2x " if.bind="x.isLoading  == true">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div> 
                        </td>
                     </tr>
                  </tbody>

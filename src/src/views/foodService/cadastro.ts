@@ -18,18 +18,19 @@ import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Address } from '../../domain/address';
 
 @autoinject
 export class Cadastro{
 
-	$ : any;
-	foodService : FoodService;
-	stateRegistrations : StateRegistration[];
-	currentStep : number;
-	totalSteps : number;
-	validator : FoodServiceValidator;
-	
-
+	$ 						: any;
+	foodService 			: FoodService;
+	stateRegistrations 		: StateRegistration[];
+	currentStep 			: number;
+	totalSteps 				: number;
+	validator 				: FoodServiceValidator;
+	isLoading				: boolean;
+ 
     constructor(		
 		private router: Router, 
 		private repository : FoodServiceRepository, 
@@ -41,6 +42,7 @@ export class Cadastro{
 
 		this.currentStep = 1;
 		this.totalSteps = 3;		
+		this.isLoading = false;
     } 
  
 
@@ -100,10 +102,20 @@ export class Cadastro{
 		var identity = this.service.getIdentity();
 
 		var promisse0 = this.repository
-							.get(identity.id)
-							.then( (supplier : FoodService) => { 
+							.getByUser(identity.id)
+							.then( (foodService : FoodService) => { 
 
-								this.foodService = supplier;				
+								this.foodService = foodService;				
+
+								if(this.foodService.address == null){
+
+									this.foodService.address = new Address();
+								}
+
+								if(this.foodService.stateRegistration == null){
+
+									this.foodService.stateRegistration = new StateRegistration();
+								}
 								this.validator = new FoodServiceValidator(this.foodService);						
 							}).catch( e =>  {
 								this.nService.presentError(e);
@@ -156,6 +168,8 @@ export class Cadastro{
 	}
 
 	save(){
+
+		this.isLoading = true;
 		
 		var errors = this.validator.validate();
 
@@ -166,13 +180,20 @@ export class Cadastro{
 			this.repository
 				.save(this.foodService)
 				.then( (identity : Identity) =>{         
+					
 					this.nService.success('Cadastro realizado!')       
 					this.router.navigate('/#/cadastroFoodService');                
+					this.isLoading = false;
+
 				}).catch( e => {
+					this.isLoading = false;
 					this.nService.error(e);
 				});
 		}
 		else{
+
+			this.isLoading = false;
+
 			errors.forEach( (error : string) => {
 				this.nService.error(error);
 			});

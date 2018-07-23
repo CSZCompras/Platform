@@ -26,12 +26,16 @@ export class SupplierRepository {
             config.withBaseUrl(this.api.client.baseUrl);
         });
 
+        this.client.defaults.headers = {};
+
         let headers = new Headers();        
+        headers.append('Accept', 'application/json'); 
 
         return this.client
             .fetch('uploadSupplierContractSocial?supplierId=' + supplierId, { 
                 method: 'POST', 
-                body: file
+                body: file,    
+                headers   :  headers
             })
             .then(response => {      
                 if(response.status != 200){

@@ -45,8 +45,11 @@
                   <td>${product.category.name}</td>
                   <td>${product.unit.name}</td> 
                   <td>
-                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : '' }" disabled.bind="isProcessing" click.trigger="addProduct(product)">Incluir</button>
-                  </td>
+                        <button if.bind="! product.isLoading" type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }" disabled.bind="isProcessing" click.trigger="addProduct(product)">Incluir</button>
+                        <div class="fa-2x " if.bind="product.isLoading  == true">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div> 
+                  </td> 
                </tr>
             </tbody>
          </table>

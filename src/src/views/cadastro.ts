@@ -17,29 +17,32 @@ import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Address } from '../domain/address';
 
 @autoinject
 export class Cadastro{
 
-	$ : any;
-	supplier : Supplier;
-	stateRegistrations : StateRegistration[];
-	currentStep : number;
-	totalSteps : number;
-	validator : SupplierValidator
+	$ 						: any;
+	supplier 				: Supplier;
+	stateRegistrations 		: StateRegistration[];
+	currentStep 			: number;
+	totalSteps 				: number;
+	validator 				: SupplierValidator;
+	isLoading				: boolean;
 	
-
+ 
     constructor(		
-		private router: Router, 
-		private repository : SupplierRepository, 
-		private ea: EventAggregator,
-		private service : IdentityService,
-		private nService : NotificationService,
-		private stateRepo: StateRegistrationRepository, 
-		private consultaCepService : ConsultaCEPService) {
+		private router				: Router, 
+		private repository 			: SupplierRepository, 
+		private ea					: EventAggregator,
+		private service 			: IdentityService,
+		private nService 			: NotificationService,
+		private stateRepo			: StateRegistrationRepository, 
+		private consultaCepService 	: ConsultaCEPService) {
 
 		this.currentStep = 1;
-		this.totalSteps = 3;	 
+		this.totalSteps = 3;		
+		this.isLoading = false; 
     } 
  
 
@@ -99,7 +102,17 @@ export class Cadastro{
 		var promisse1 = this.repository
 							.getSupplier()
 							.then( (supplier : Supplier) => { 
-								this.supplier = supplier;				
+								this.supplier = supplier;	 
+
+								if(this.supplier.address == null){
+
+									this.supplier.address = new Address();
+								}
+
+								if(this.supplier.stateRegistration == null){
+
+									this.supplier.stateRegistration = new StateRegistration();
+								}		
 								this.validator = new SupplierValidator(this.supplier);						
 							}).catch( e =>  {
 								this.nService.presentError(e);
@@ -152,6 +165,8 @@ export class Cadastro{
 	}
 
 	save(){
+
+		this.isLoading = true;
 		
 		var errors = this.validator.validate();
 
@@ -164,11 +179,17 @@ export class Cadastro{
 				.then( (identity : Identity) =>{         
 					this.nService.success('Cadastro realizado!')       
 					this.router.navigate('/#/cadastro');                
+					this.isLoading = false;            
+
 				}).catch( e => {
-					this.nService.error(e);
+					this.nService.error(e);             
+					this.isLoading = false;
 				});
 		}
 		else{
+
+			this.isLoading = false;
+			
 			errors.forEach( (error : string) => {
 				this.nService.error(error);
 			});

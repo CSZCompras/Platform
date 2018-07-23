@@ -45,9 +45,6 @@ export class Login {
         this.loginRepository
             .login(this.credential)
             .then( (identity : Identity) =>{ 
-                
-                
-                this.processing = false; 
                 this.service.setIdentity(identity); 
                 this.ea.publish('loginDone'); 
                 this.router.navigateToRoute('csz');

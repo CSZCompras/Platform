@@ -18,6 +18,8 @@ export class ConsultaCEPService {
          var url = 'https://viacep.com.br/ws/'+ cep +'/json';
 
          this.httpClient.configure(config => config.withBaseUrl(url));
+
+         
          
          return <any> 
             this.httpClient
@@ -31,5 +33,7 @@ export class ConsultaCEPService {
                         throw error;
                     }));
                 });
+
+                
     }
 }

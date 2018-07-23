@@ -155,13 +155,7 @@ export class Pedido{
 
         this.repository
             .getLists()
-			.then(x =>  this.lists = x)
-			.then(x =>{
-				
-				this.lists.forEach(x => {
-					x.products.forEach( y =>{ (<any> y.foodServiceProduct.product).quantity = 5000; });
-				});
-			})
+			.then(x =>  this.lists = x) 
 			.then( () => this.ea.publish('dataLoaded'))
             .catch( e =>  this.nService.presentError(e));
 	}

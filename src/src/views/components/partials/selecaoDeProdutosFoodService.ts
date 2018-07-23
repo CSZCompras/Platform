@@ -16,32 +16,34 @@ import { SupplierProduct } from '../../../domain/supplierProduct';
 @autoinject
 export class SelecaoDeProdutosFoodService{
     
-    classes : ProductClass[];
-    categories : ProductCategory[];
-    allProducts : Product[];
-    filteredProducts : Product[];
-    isFiltered : boolean;
-    selectedCategory : string;
-    filter : string;
-    isProcessing : boolean;
+    classes             : ProductClass[];
+    categories          : ProductCategory[];
+    allProducts         : Product[];
+    filteredProducts    : Product[];
+    isFiltered          : boolean;
+    selectedCategory    : string;
+    filter              : string;
+    isProcessing        : boolean;
 
     constructor(		
-        private router: Router, 
-		private service : IdentityService,
-		private nService : NotificationService, 
-        private ea : EventAggregator ,
-        private  productRepository : ProductRepository,
-        private repository : FoodServiceRepository) {
+        private router          : Router, 
+		private service         : IdentityService,
+		private nService        : NotificationService, 
+        private ea              : EventAggregator ,
+        private productRepository : ProductRepository,
+        private repository      : FoodServiceRepository) {
         
         this.isFiltered = false;
         this.isProcessing = false;
     } 
     
     attached() : void{ 
+        
 		this.loadData(); 
         
-        this.ea.subscribe('productRemoved', () => {
-            this.loadData();
+        this.ea.subscribe('productRemoved', (x : FoodServiceProduct) => {
+
+            this.allProducts.unshift(x.product);
             this.search();
         }); 
     } 
@@ -109,6 +111,10 @@ export class SelecaoDeProdutosFoodService{
 
     addProduct(product : Product){
 
+        var user = this.service.getIdentity();
+
+        ( <any> product).isLoading = true;
+
         this.isProcessing = true;
 
         var foodProduct = new FoodServiceProduct();
@@ -117,22 +123,25 @@ export class SelecaoDeProdutosFoodService{
         this.isFiltered = true;
         
 
-        this.repository.addProduct(foodProduct)
-                        .then( (data : FoodServiceProduct) => {  
+        this.repository
+            .addProduct(foodProduct)
+            .then( (data : FoodServiceProduct) => {  
                             
-                            this.filteredProducts = this.filteredProducts.filter( (x : Product) => x.id != product.id ); 
-                             
-                            this.allProducts = this.allProducts.filter( (x : Product) => x.id != product.id );
+                this.filteredProducts = this.filteredProducts.filter( (x : Product) => x.id != product.id ); 
+                 
+                this.allProducts = this.allProducts.filter( (x : Product) => x.id != product.id );
 
-                            this.nService.presentSuccess('Produto incluído com sucesso!');   
+                this.nService.presentSuccess('Produto incluído com sucesso!');   
 
-                            this.ea.publish('productAdded', data );
-                            this.isProcessing = false;
+                this.ea.publish('productAdded', data );
+                this.isProcessing = false;
+                ( <any> product).isLoading = true;
                             
-                        }).catch( e => {
-                            this.nService.presentError(e);
-                            this.isProcessing = false;
-                        });
+            }).catch( e => {
+                this.nService.presentError(e);
+                this.isProcessing = false;
+                ( <any> product).isLoading = true;
+            });
         
     }
 

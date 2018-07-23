@@ -24,6 +24,7 @@ export class AtualizacaoDePrecos{
     selectedCategory    : string;
     filter              : string;
     alteredProducts     : Array<SupplierProduct>; 
+    isLoading           : boolean;
 
     constructor(		
         private router              : Router, 
@@ -37,6 +38,7 @@ export class AtualizacaoDePrecos{
             this.filteredProducts = new Array<SupplierProduct>();
             this.supplierProducts = new Array<SupplierProduct>();
             this.alteredProducts = new Array<SupplierProduct>();
+            this.isLoading = false;
     } 
 
     attached(){
@@ -150,13 +152,17 @@ export class AtualizacaoDePrecos{
 
     saveAll(){
 
+        this.isLoading = true;
+
         this.repository
             .alterSuplierProduct(this.alteredProducts)
             .then( (result : any) =>{    
                 this.nService.success('Os produtos foram atualizados com sucesso!'); 
                 this.ea.publish('uploadSupplierProductFileDone');
+                this.isLoading = false;
             }).catch( e => {
                 this.nService.error(e);
+                this.isLoading = false;
             });
 
     }

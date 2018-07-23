@@ -10,8 +10,6 @@ import { Product } from '../../../domain/product';
 import { ProductCategory } from '../../../domain/productCategory';
 import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasurementRepository';
 import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
-import { Supplier } from '../../../domain/supplier';
-import { SupplierRepository } from '../../../repositories/supplierRepository';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
@@ -21,24 +19,26 @@ import { User } from '../../../domain/user';
 import { UserRepository } from '../../../repositories/userRepository';
 import { UserStatus } from '../../../domain/userStatus';
 import { UserType } from '../../../domain/userType';
-import { SupplierStatus } from '../../../domain/supplierStatus';
-import { SupplierValidator } from '../../../validators/supplierValidator';
+import { FoodService } from '../../../domain/foodService';
+import { FoodServiceRepository } from '../../../repositories/foodServiceRepository';
+import { FoodServiceStatus } from '../../../domain/foodServiceStatus';
 import { ConsultaCEPService } from '../../../services/consultaCEPService';
 import { ConsultaCepResult } from '../../../domain/consultaCepResult';
+import { FoodServiceValidator } from '../../../validators/foodServiceValidator';
 import { Address } from '../../../domain/address';
 
 @autoinject
-export class EditSupplier{
+export class EditFoodService{
 
-    supplier            : Supplier;
-    supplierId          : string;
+    foodService         : FoodService;
+    foodId              : string;
     selectedFiles       : any;
     isUploading         : boolean;
     stateRegistrations  : StateRegistration[];
     users               : User[];    
     user                : User;   
     userEditing         : User;     
-	validator           : SupplierValidator;
+	validator 			: FoodServiceValidator;
 
     constructor(
         private router              : Router, 
@@ -46,12 +46,12 @@ export class EditSupplier{
         private nService            : NotificationService,
         private stateRepo           : StateRegistrationRepository, 
         private userRepository      : UserRepository,
-        private consultaCepService  : ConsultaCEPService,
         private config              : Config,
-        private repository          : SupplierRepository) { 
+        private repository          : FoodServiceRepository, 
+		private consultaCepService  : ConsultaCEPService) { 
 
-            this.supplier = new Supplier();
-            this.supplier.address = new Address();
+            this.foodService = new FoodService();
+            this.foodService.address = new Address();
             this.user = new User();
     }
 
@@ -64,9 +64,9 @@ export class EditSupplier{
     
     activate(params){ 
 
-        if(params != null && params.supplierId){ 
+        if(params != null && params.foodId){ 
 
-            this.supplierId = params.supplierId;
+            this.foodId = params.foodId;
         } 
     }
 
@@ -74,8 +74,8 @@ export class EditSupplier{
     loadData(){
 
         var p1 =    this.repository
-                        .get(this.supplierId)
-                        .then(x => this.supplier = x)
+                        .get(this.foodId)
+                        .then(x => this.foodService = x)
                         .catch( e => this.nService.presentError(e)); 
 
         var p2 =    this.stateRepo
@@ -84,63 +84,25 @@ export class EditSupplier{
                         .catch( e => this.nService.presentError(e)); 
 
         var p3  =   this.userRepository
-                    .getUsersFromSupplier(this.supplierId)
+                    .getUsersFromFoodService(this.foodId)
                     .then( (data : User[]) => this.users = data)
                     .catch( e => this.nService.presentError(e)); 
                     
         Promise.all([p1, p2, p3]).then(() => {
 
-            this.ea.publish('dataLoaded');
+            this.ea.publish('dataLoaded'); 
 
-            if(this.supplier.address == null){
-                this.supplier.address = new Address();
-            }
-
-            this.validator = new SupplierValidator(this.supplier);						
+            if(this.foodService.address == null){
+                this.foodService.address = new Address();
+            } 
+            this.validator = new FoodServiceValidator(this.foodService);				
         });
-    }
-
-    cancelUpload(){
-        this.selectedFiles = [];
-        debugger;
-        ( <any> document.getElementById("files")).value = "";
-    }
-    
-    downloadSocialContract(){         
-        var api = this.config.getEndpoint('csz');
-        window.open(api.client.baseUrl + 'downloadSupplierContractSocial?supplierId=' + this.supplier.id, '_parent');
-    }
-
-    uploadSocialContract(){ 
-        
-        this.isUploading = true;
-
-        let formData = new FormData();
-
-        for (let i = 0; i < this.selectedFiles.length; i++) {
-            formData.append('file', this.selectedFiles[i]);
-        }
-
-        
-        this.repository
-            .uploadSocialContract(formData, this.supplier.id) 
-            .then( () =>{    
-
-                this.isUploading = false;  
-                ( <any> document.getElementById("files")).value = "";
-                this.nService.presentSuccess('Contrato atualizado com sucesso!');
-
-            }).catch( e => {
-                this.selectedFiles = [];
-                this.nService.error(e);
-                this.isUploading = false;
-            });
-    }
+    } 
 
     save(){
 
         this.repository
-            .save(this.supplier)
+            .save(this.foodService)
             .then( () =>{     
                 this.nService.presentSuccess('Cadastro atualizado com sucesso!');
 
@@ -151,7 +113,7 @@ export class EditSupplier{
     }
 
     cancel(){
-        this.router.navigateToRoute('suppliersAdmin');
+        this.router.navigateToRoute('foodServicesAdmin');
     }
 
     editUser(x : User){
@@ -198,8 +160,8 @@ export class EditSupplier{
     }
 
     createUser(){
-        this.user.supplier = this.supplier;
-        this.user.type = UserType.Supplier;
+        this.user.foodService = this.foodService;
+        this.user.type = UserType.FoodService;
         
         this.userRepository
             .save(this.user)
@@ -230,35 +192,37 @@ export class EditSupplier{
 
     }
 
-    editStatus(status : SupplierStatus){
+    editStatus( status : FoodServiceStatus){
         
         this.repository
-            .updateStatus(this.supplier.id, status)
+            .updateStatus(this.foodService.id, status)
             .then( () => {
-                this.supplier.status = status;
+                this.foodService.status = status;
                 this.nService.presentSuccess('Status atualizado com sucesso!');
             })
             .catch(e => this.nService.presentError(e));
-    } 
+    }
+
+    
 
 	consultaCEP(){
 
 		this.validator.addressValidator.validateCep();
 
-		if(this.supplier.address.cep.length >= 8){
+		if(this.foodService.address.cep.length >= 8){
 
 			this.consultaCepService
-				.findCEP(this.supplier.address.cep)
+				.findCEP(this.foodService.address.cep)
 				.then( (result : ConsultaCepResult) => {
 
 					if(result != null){
 						
-						this.supplier.address.city = result.localidade;
-						this.supplier.address.neighborhood = result.bairro;
-						this.supplier.address.number = null;
-						this.supplier.address.logradouro = result.logradouro;
-						this.supplier.address.complement = result.complemento;
-						this.supplier.address.state = result.uf;
+						this.foodService.address.city = result.localidade;
+						this.foodService.address.neighborhood = result.bairro;
+						this.foodService.address.number = null;
+						this.foodService.address.logradouro = result.logradouro;
+						this.foodService.address.complement = result.complemento;
+						this.foodService.address.state = result.uf;
 						this.validator.validate();
 					}
 				}).catch( e => 

@@ -1,0 +1,67 @@
+<template>        
+    <require from="../../components/valueConverters/phoneWithDDDValueConverter"></require>
+
+        <div class="row mb-5 task-manager au-animate"  >
+        <div class="col-lg-12">
+          <div class="card">    
+             <div class="card-header">          
+                Food Services
+             </div> 
+             <div class="card-body"> 
+                 <div if.bind="! isEditing">
+                    <div class="row mt-2">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Filtro</label> 
+                                <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Nome/ Contato"  change.trigger="search()"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Status</label> 
+                                          
+                            <select class="form-control "    value.bind="selectedStatus" change.delegate="search()">
+                                <option  value=""></option>
+                                <option  value="0">Ativos</option>
+                                <option  value="1">Inativos</option>
+                                <option  value="2">Aguardando liberação</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>  
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Contato</th>
+                                <th>E-mail</th>
+                                <th>Telefone</th> 
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="x of filteredFoodServices">
+                                <td>${x.name}</td>
+                                <td>${x.contact.name}</td>
+                                <td>${x.contact.email}</td>
+                                <td>${x.contact.phone  | phoneWithDDD }</td>
+                                <td>  
+                                    <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
+                                    <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
+                                    <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>                     
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="edit(x)">Editar</button>
+                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light" if.bind="x.status != 0"  click.trigger="editStatus(x, 0)">Ativar</button>
+                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" if.bind="x.status == 0" click.trigger="editStatus(x, 1)">Inativar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                
+                </div> 
+             </div>
+          </div>
+       </div>
+    </div>
+ </template>

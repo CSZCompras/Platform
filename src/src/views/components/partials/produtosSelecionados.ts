@@ -17,25 +17,27 @@ import { AlterBuyListProductViewModel } from '../../../domain/alterBuyListProduc
 @autoinject
 export class ProdutosSelecionados{
 
-    classes : ProductClass[];
-    categories : ProductCategory[];
-    allProducts : FoodServiceProduct[];
-    filteredProducts : FoodServiceProduct[];
-    isFiltered : boolean;
-    selectedCategory : string;
-    filter : string;
-    isCreatingList : boolean;
-    newListName : string;
-    lists : BuyList[];
+    
+    classes             : ProductClass[];
+    categories          : ProductCategory[];
+    allProducts         : FoodServiceProduct[];
+    filteredProducts    : FoodServiceProduct[];
+    isFiltered          : boolean;
+    selectedCategory    : string;
+    filter              : string;
+    isCreatingList      : boolean;
+    newListName         : string;
+    lists               : BuyList[];
+    isProcessing        : boolean;
 
     constructor(		
-        private router: Router, 
-		private service : IdentityService,
-		private nService : NotificationService, 
-        private ea : EventAggregator ,
-        private productRepository : ProductRepository,
-        private repository : FoodServiceRepository, 
-        private identityService : IdentityService) {
+        private router              : Router, 
+		private service             : IdentityService,
+		private nService            : NotificationService, 
+        private ea                  : EventAggregator ,
+        private productRepository   : ProductRepository,
+        private repository          : FoodServiceRepository, 
+        private identityService     : IdentityService) {
         
         this.isFiltered = false;
         this.isCreatingList = false;
@@ -48,20 +50,30 @@ export class ProdutosSelecionados{
         this.loadData(); 
         
         this.ea.subscribe('productAdded', (product : FoodServiceProduct) =>{  
+
            (<any>product).isNew  = true;
 
             if(this.selectedCategory == '-1' ||this.selectedCategory == '-2' ||  this.selectedCategory == '' || this.selectedCategory == null){ // novos 
                
-                this.isFiltered = true;
+                this.isFiltered = true; 
+
                 this.filteredProducts.unshift(product);
                 this.allProducts.unshift(product);
-                
-                this.lists.forEach( ( x : BuyList) => {
-                    var item = new BuyListProduct();
-                    item.foodServiceProduct = product;
-                    item.isInList = false;
-                    x.products.unshift(item);
-                })
+
+               this.lists.forEach( ( x : BuyList) => {
+
+                    var foodProduct = x.products.filter( x => x.foodServiceProduct.productId == product.productId);
+
+                    if(foodProduct == null){
+                        var item = new BuyListProduct();
+                        item.foodServiceProduct = product;
+                        item.isInList = false;
+                        x.products.unshift(item);
+                    }
+                    else{
+                        foodProduct[0].foodServiceProduct.isActive = true;
+                    }
+                });
             }
             else{
                 this.allProducts.unshift(product);
@@ -94,14 +106,16 @@ export class ProdutosSelecionados{
         this.repository
             .getProducts()
             .then( (data : FoodServiceProduct[]) => { 
-                this.allProducts = data; 
 
+                this.allProducts = data; 
+                
                 this.repository
                     .getLists()
                     .then( (data : BuyList[]) => { 
 
                         this.lists = data; 
                         this.defineProductsInList();
+                        this.search();
                     }).catch( e => {
                         this.nService.presentError(e);
                     });
@@ -210,6 +224,7 @@ export class ProdutosSelecionados{
             this.repository
                 .addBuyList(buyList)
                 .then( (data : BuyList) => { 
+
                     this.lists.unshift(data);         
                     this.newListName = '';
                     this.nService.presentSuccess('Lista criada com sucesso!');
@@ -220,6 +235,7 @@ export class ProdutosSelecionados{
     }
 
     changeList(list : BuyList, product : FoodServiceProduct){
+
         var viewModel = new AlterBuyListProductViewModel();
         viewModel.isInList = list[product.product.name + '_' + product.product.unit.name];
         viewModel.foodServiceProductId = product.productId;
@@ -236,6 +252,10 @@ export class ProdutosSelecionados{
 
     removeProduct(product : FoodServiceProduct){
 
+        ( <any> product).isLoading = true;
+
+        this.isProcessing = true;
+
         this.repository
             .inativateProduct(product)
             .then( (data : any) => { 
@@ -245,21 +265,15 @@ export class ProdutosSelecionados{
 
                 product.isActive = false;
                 this.ea.publish('productRemoved', product);
-                this.nService.presentSuccess('Produto removido  com sucesso!');
-            }).catch( e => {
-                this.nService.presentError(e);
-            });
-    }
+                this.nService.presentSuccess('Produto removido  com sucesso!');                
+                this.isProcessing = false;
+                ( <any> product).isLoading = true;
 
-    includeProduct(product : FoodServiceProduct){
-
-        this.repository
-            .addProduct(product)
-            .then( (data : any) => { 
-                product.isActive = true;
-                this.nService.presentSuccess('Produto adicionado  com sucesso!');
             }).catch( e => {
+
                 this.nService.presentError(e);
+                this.isProcessing = false;
+                ( <any> product).isLoading = true;
             });
-    }
+    } 
 }

@@ -19,6 +19,22 @@ export class UserRepository{
     }
 
 
+
+    getUsersFromFoodService(foodServiceId : string) : Promise<User[]> {
+        
+        return this.api
+            .find('foodServiceUsers?foodServiceId=' + foodServiceId)
+            .then( (result : Promise<User[]>) => {
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
     getUsersFromSupplier(supplierId : string) : Promise<User[]> {
         
         return this.api

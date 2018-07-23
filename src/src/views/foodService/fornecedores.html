@@ -42,6 +42,7 @@
                              <th>Telefone</th>
                              <th>CNPJ</th>
                              <th></th>
+                             <th></th>
                           </tr>
                        </thead>
                        <tbody>
@@ -60,7 +61,12 @@
                              <td phone-with-ddd>${x.supplier.contact.phone}</td>
                              <td cnpj>${x.supplier.cnpj}</td>
                              <td>
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 0" click.trigger="connect(x)">Conectar</button>
+                                <button  type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 0 && ! x.isLoading" click.trigger="connect(x)">Conectar</button>
+                             </td>
+                             <td>
+                                <div class="fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'}">
+                                    <i class="fa fa-refresh fa-spin"></i>
+                                </div> 
                              </td>
                           </tr>
                        </tbody>

@@ -166,16 +166,20 @@ export class ProductRepository{
         /* Usando o http client na mão, pois, não consegui sobreescrever as configs default do API*/
         this.client.configure(config => {
             config.withBaseUrl(this.api.client.baseUrl);
-        });
+        }); 
 
-        let headers = new Headers();
+        this.client.defaults.headers = {};
+
+        let headers = new Headers();        
+        headers.append('Accept', 'application/json'); 
 
         var userId = this.service.getIdentity().id;
 
         return this.client
             .fetch('uploadSupplierProducts?userId=' + userId, { 
                 method: 'POST', 
-                body: file
+                body: file,
+                headers : headers    
             })
             .then(response => {      
                 if(response.status != 200){
