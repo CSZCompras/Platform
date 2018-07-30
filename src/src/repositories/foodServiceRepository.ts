@@ -9,13 +9,16 @@ import { BuyList } from '../domain/buyList';
 import { AlterBuyListProductViewModel } from '../domain/alterBuyListProductViewModel';
 import { FoodServiceStatus } from '../domain/foodServiceStatus';
 import { EditFoodServiceStatus } from '../domain/editFoodServiceStatus';
+import { CotacaoViewModel } from '../domain/cotacaoViewModel';
 
 @autoinject
 export class FoodServiceRepository {
     
+    
+	
     api: Rest;
 
-    constructor(private config: Config) {
+    constructor(private config: Config, private client : HttpClient) {
         this.api = this.config.getEndpoint('csz');
     }
 
@@ -88,6 +91,21 @@ export class FoodServiceRepository {
         return this.api
             .find('foodServiceProduct')
             .then( (result : Promise<FoodServiceProduct[]>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+    getBuyListsParaCotacao(): Promise<CotacaoViewModel[]> {
+
+        return this.api
+            .find('cotacao')
+            .then( (result : Promise<CotacaoViewModel[]>) => { 
                 return result;
             })
             .catch( (e) => {
@@ -191,6 +209,41 @@ export class FoodServiceRepository {
                 return Promise.resolve(e.json().then( error => {
                     throw error;
                 }));
+            });
+    }
+
+    uploadSocialContract(file : any, foodServiceId : string) : Promise<any>{ 
+
+        /* Usando o http client na mão, pois, não consegui sobreescrever as configs default do API*/
+        this.client.configure(config => {
+            config.withBaseUrl(this.api.client.baseUrl);
+        });
+
+        this.client.defaults.headers = {};
+
+        let headers = new Headers();        
+        headers.append('Accept', 'application/json'); 
+
+        return this.client
+            .fetch('uploadFoodServiceContractSocial?foodServiceId=' + foodServiceId, { 
+                method: 'POST', 
+                body: file,    
+                headers   :  headers
+            })
+            .then(response => {      
+                if(response.status != 200){
+                    throw "Erro";
+                }           
+                return response;
+            })
+            .then(data => {         
+                return data;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => { 
+                    throw error;
+                })); 
             });
     }
 }

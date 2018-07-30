@@ -38,7 +38,8 @@ export class EditFoodService{
     users               : User[];    
     user                : User;   
     userEditing         : User;     
-	validator 			: FoodServiceValidator;
+    validator 			: FoodServiceValidator;
+    edit                : boolean;
 
     constructor(
         private router              : Router, 
@@ -53,11 +54,18 @@ export class EditFoodService{
             this.foodService = new FoodService();
             this.foodService.address = new Address();
             this.user = new User();
+            this.edit = true;
+
+            this.ea.subscribe('showFoodServiceDetails', (event) => {
+
+                this.foodId = event.foodId;
+                this.edit = event.edit
+                this.loadData();
+            });
     }
 
-    attached(){
-
-        this.ea.publish('loadingData'); 
+    attached(){ 
+       
         this.loadData();
     }
 
@@ -73,30 +81,36 @@ export class EditFoodService{
 
     loadData(){
 
-        var p1 =    this.repository
-                        .get(this.foodId)
-                        .then(x => this.foodService = x)
+        if(this.foodId != null &&  this.foodId != ''){
+
+            this.ea.publish('loadingData'); 
+
+            var p1 =    this.repository
+                            .get(this.foodId)
+                            .then(x => this.foodService = x)
+                            .catch( e => this.nService.presentError(e)); 
+
+            var p2 =    this.stateRepo
+                            .getAll()
+                            .then( (data : StateRegistration[]) => this.stateRegistrations = data)
+                            .catch( e => this.nService.presentError(e)); 
+
+            var p3  =   this.userRepository
+                        .getUsersFromFoodService(this.foodId)
+                        .then( (data : User[]) => this.users = data)
                         .catch( e => this.nService.presentError(e)); 
+                        
+            Promise.all([p1, p2, p3]).then(() => {
 
-        var p2 =    this.stateRepo
-                        .getAll()
-                        .then( (data : StateRegistration[]) => this.stateRegistrations = data)
-                        .catch( e => this.nService.presentError(e)); 
+                this.ea.publish('dataLoaded'); 
 
-        var p3  =   this.userRepository
-                    .getUsersFromFoodService(this.foodId)
-                    .then( (data : User[]) => this.users = data)
-                    .catch( e => this.nService.presentError(e)); 
-                    
-        Promise.all([p1, p2, p3]).then(() => {
+                if(this.foodService.address == null){
+                    this.foodService.address = new Address();
+                } 
+                this.validator = new FoodServiceValidator(this.foodService);				
+            });
 
-            this.ea.publish('dataLoaded'); 
-
-            if(this.foodService.address == null){
-                this.foodService.address = new Address();
-            } 
-            this.validator = new FoodServiceValidator(this.foodService);				
-        });
+        }
     } 
 
     save(){
@@ -205,6 +219,44 @@ export class EditFoodService{
 
     
 
+    cancelUpload(){
+        this.selectedFiles = [];
+        ( <any> document.getElementById("files")).value = "";
+    }
+    
+    downloadSocialContract(){         
+        var api = this.config.getEndpoint('csz');
+        window.open(api.client.baseUrl + 'downloadFoodServiceContractSocial?foodServiceId=' + this.foodService.id, '_blank');
+    }
+
+    uploadSocialContract(){ 
+        
+        this.isUploading = true;
+
+        let formData = new FormData();
+
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+            formData.append('file', this.selectedFiles[i]);
+        }
+
+        
+        this.repository
+            .uploadSocialContract(formData, this.foodService.id) 
+            .then( () =>{    
+
+                this.isUploading = false;  
+                ( <any> document.getElementById("files")).value = "";
+                this.nService.presentSuccess('Contrato atualizado com sucesso!');
+
+            }).catch( e => {
+                this.selectedFiles = [];
+                this.nService.error(e);
+                this.isUploading = false;
+            });
+    }
+
+    
+
 	consultaCEP(){
 
 		this.validator.addressValidator.validateCep();
@@ -232,4 +284,7 @@ export class EditFoodService{
 		}
 	}
 
+    cancelShowDetails(){ 
+        this.ea.publish('showFoodServiceDetailsCanceled');
+    }
 }

@@ -7,70 +7,78 @@ import { OrderRepository } from '../../../repositories/orderRepository';
 import { FormValidationRenderer } from '../../formValidationRenderer';
 import { Order } from '../../../domain/order';
 import { OrderStatus } from '../../../domain/orderStatus';
+import { RejectOrderViewModel } from '../../../domain/rejectOrderViewModel';
 
 @autoinject
-export class AceitePedido{
+export class RejeicaoPedido{
 
     order                                   : Order;
     controller                              : DialogController;  
-    validationController                    : ValidationController;
+    validationController                    : ValidationController; 
+    vm                                      : RejectOrderViewModel;
+    processing                               : boolean;
 
     constructor(
-        pController                         : DialogController, 
-        private validationControllerFactory : ValidationControllerFactory,
+        pController                         : DialogController,  
         private ea                          : EventAggregator,
+        private validationControllerFactory : ValidationControllerFactory,
         private notification                : NotificationService,
         private orderRepo                   : OrderRepository){ 
  
         this.controller = pController;   
-        this.order = new Order();
+        this.order = new Order(); 
+        this.vm = new RejectOrderViewModel();
 
-         // Validation.
-         this.validationController = this.validationControllerFactory.createForCurrentScope();
-         this.validationController.addRenderer(new FormValidationRenderer());
-         this.validationController.validateTrigger = validateTrigger.blur;
-         this.validationController.addObject(this.order);     
+        // Validation.
+        this.validationController = this.validationControllerFactory.createForCurrentScope();
+        this.validationController.addRenderer(new FormValidationRenderer());
+        this.validationController.validateTrigger = validateTrigger.blur;
+        this.validationController.addObject(this.vm);     
     }    
 
     activate(params){  
 
-        if(params.Order != null){
-
+        if(params.Order != null){ 
             this.order = params.Order;
-        }
+            this.vm.orderId = this.order.id;
+        } 
 
-        ValidationRules
-            .ensure((order: Order) => order.deliveryDate).displayName('Data de entrega').required() 
-            .ensure((order: Order) => order.paymentDate).displayName('Data de pagamento').required() 
-            .on(this.order);
+        ValidationRules 
+        .ensure((vm: RejectOrderViewModel) => vm.orderId).displayName('Código do pedido').required() 
+        .ensure((vm: RejectOrderViewModel) => vm.reason).displayName('Motivo da Rejeição').required() 
+        .on(this.vm);  
        
     }
 
-    acceptOrder(){
+    rejectOrder(){
 
         this.validationController
         .validate()
         .then((result: ControllerValidateResult) => {
             
-                if (result.valid) {
-        
-                    this.orderRepo
-                        .acceptOrder(this.order)
-                        .then( (x : Order[]) => {
+                if (result.valid) {   
 
-                            this.notification.success('Pedido atualizado com sucesso!') ;              
-                            this.ea.publish('orderAccepted', this.order);     
-                            this.order.status = OrderStatus.Accepted;
+                    this.processing = true;
+
+                    this.orderRepo
+                        .rejectOrder(this.vm)
+                        .then( (x : Order[]) => {
+                            this.processing = false;
+                            this.notification.success('Pedido rejeitado com sucesso!') ;                              
+                            this.order.status = OrderStatus.Rejected;
                             this.controller.ok();           
                         })
                         .catch( e => {
+                            this.processing = false;
                             this.notification.presentError(e); 
                         });
+
                 }
                 else {
+                    this.processing = false;
                     this.notification.error('Erros de validação foram encontrados');
                 }
-            });      
+            });     
     }
  
 

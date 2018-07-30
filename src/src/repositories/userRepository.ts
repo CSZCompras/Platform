@@ -12,6 +12,7 @@ import { WelcomeUser } from '../domain/welcomeUser';
 
 @autoinject
 export class UserRepository{ 
+    
     api: Rest;
 
     constructor(private config: Config) {
@@ -132,5 +133,22 @@ export class UserRepository{
                     throw error;
                 }));
             });
+    }
+
+    resetPassword(email : string) : Promise<any> {
+        
+        return this.api
+                    .post('resetPassword', { email })
+                    .then( (result : Promise<any>) => {    
+                        if(result == null)             
+                            return Promise.resolve();
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
     }
 }

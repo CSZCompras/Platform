@@ -1,7 +1,9 @@
 <template>
         <require from="../components/attributes/cnpjMask"></require>
-        <require from="../components/attributes/phoneWithDDDMask"></require>
-        <div class="row mb-5 task-manager au-animate"  >
+        <require from="../components/attributes/phoneWithDDDMask"></require>        
+        <require from="../admin/foodService/editFoodService"></require>
+
+        <div class="row mb-5 task-manager au-animate"  if.bind="! showDetails">
            <div class="col-lg-12">
               <div class="card">
                  <div class="card-header">    
@@ -63,6 +65,8 @@
                                 <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 5 && ! x.isLoading" click.trigger="reject(x)">Rejeitar</button>
                                 <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">Bloquear</button>                                
                                 <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 4 && ! x.isLoading" click.trigger="unblock(x)">Desbloquear</button>                                
+                                
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="showFoodServiceDetails(x)">Detalhes</button>
                              </td>
                              <td>
                                 <div class="fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'}">
@@ -75,5 +79,8 @@
                  </div>
               </div>
            </div>
+        </div>
+        <div class=" ${ showDetails ? '' : 'invisible' }" class=" au-animate">
+            <edit-food-service></edit-food-service>
         </div>
      </template>

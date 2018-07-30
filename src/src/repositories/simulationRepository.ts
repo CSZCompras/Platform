@@ -11,10 +11,12 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { BuyList } from '../domain/buyList';
 import { Simulation } from '../domain/simulation';
 import { SimulationInput } from '../domain/simulationInput';
+import { CotacaoViewModel } from '../domain/cotacaoViewModel';
 
 @autoinject
 export class SimulationRepository{
 
+	
     api: Rest;
 
     constructor(private config: Config, private client : HttpClient, private service : IdentityService) {
@@ -29,6 +31,23 @@ export class SimulationRepository{
             .then( (result : Promise<any>) => {    
                 if(result == null)             
                     return Promise.resolve();
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+    getCotacaoFromOrder(orderId: string): Promise<CotacaoViewModel> {
+
+        debugger;
+
+        return this.api
+            .find('cotacaoParcial?orderId=' + orderId)
+            .then( (result : Promise<CotacaoViewModel>) => { 
                 return result;
             })
             .catch( (e) => {

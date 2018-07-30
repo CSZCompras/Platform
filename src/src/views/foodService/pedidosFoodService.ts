@@ -6,13 +6,12 @@ import { FoodService } from '../../domain/foodService';
 import { Aurelia, autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { Rest, Config } from 'aurelia-api';
-import { OrderRepository } from '../../repositories/orderRepository';
-import { SupplierOrder } from '../../domain/supplierOrder';
+import { OrderRepository } from '../../repositories/orderRepository'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { DialogService } from 'aurelia-dialog';
-import { AceitePedido } from '../components/partials/aceitePedido';
-import { SupplierOrderStatus } from '../../domain/supplierOrderStatus';
+import { AceitePedido } from '../components/partials/aceitePedido'; 
 import { Order } from '../../domain/order';
+import { OrderStatus } from '../../domain/orderStatus';
 
 @autoinject
 export class PedidosFoodService{
@@ -36,7 +35,45 @@ export class PedidosFoodService{
     } 
 
     attached(){
+
         this.ea.publish('loadingData'); 
+
+        this.ea.subscribe('orderAccepted', (data : Order)=>{
+
+           this.orders.forEach(x => {
+
+                if(x.id == data.id){
+                    x = data;
+                }
+            }); 
+            
+            this.filteredOrders.forEach(x => {
+
+                if(x.id == data.id){
+                    x.status = data.status;
+                    x.deliveryDate = data.deliveryDate;
+                    x.paymentDate = data.paymentDate;
+                }
+            });  
+        });
+        
+        this.ea.subscribe('orderRejected', (data : Order)=>{
+
+            var isFound = false; 
+
+            this.orders.forEach(x => {
+ 
+                 if(x.id == data.id){
+                     x.status = data.status;
+                     isFound = true;
+                 }
+             }); 
+
+             if(! isFound && (this.selectedStatus == 3 || this.selectedStatus.toString() == "3")){
+                this.orders.push(data);                      
+            } 
+         });
+
         this.loadData();
     }
 
@@ -56,10 +93,10 @@ export class PedidosFoodService{
 
     load(){ 
         
-        if(this.selectedStatus == SupplierOrderStatus.Created || this.selectedStatus == null){
+        if(this.selectedStatus == OrderStatus.Created || this.selectedStatus == null){
 
             this.orderRepo
-                .getNyNewOrders()
+                .getMyNewOrders()
                 .then( (x : Order[]) =>{
                     this.orders = x;
                     this.filteredOrders = this.orders;
@@ -72,10 +109,26 @@ export class PedidosFoodService{
                 });
 
         }
-        else if(this.selectedStatus == SupplierOrderStatus.Accepted){
+        else if(this.selectedStatus == OrderStatus.Accepted){
 
             this.orderRepo
-                .getNyAcceptedOrders()
+                .getMyAcceptedOrders()
+                .then( (x : Order[]) =>{
+
+                    this.orders = x;
+                    this.filteredOrders = this.orders;
+                    this.filter = '';
+                })
+                .then( () => this.ea.publish('dataLoaded'))
+                .catch( e => {
+                    this.ea.publish('dataLoaded');
+                    this.nService.presentError(e); 
+                });
+        }
+        else if(this.selectedStatus == OrderStatus.Rejected){
+
+            this.orderRepo
+                .getMyRejectedOrders()
                 .then( (x : Order[]) =>{
 
                     this.orders = x;
@@ -91,6 +144,11 @@ export class PedidosFoodService{
 
         
     } 
+
+    quoteAgain(order : Order){
+
+        this.router.navigate('cotacao?orderId=' + order.id);
+    }
 
     search(){ 
             
@@ -121,5 +179,5 @@ export class PedidosFoodService{
                 } 
 
             });
-        }
+    }
 } 

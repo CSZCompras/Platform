@@ -24,14 +24,18 @@ import { MessageService } from '../services/messageService';
 @autoinject
 export class Master {
 
+	
     router                  : Router;
     isLogged                : boolean;
     identity                : Identity;
     isLoading               : boolean; 
+	isLoadingOrders         : boolean; 
+	isloadingFoodServices   : boolean; 
     notifications 			: Notification[];
     unSeenCount 			: number;
 	newOrdersCount			: number;
-    acceptedOrdersCount		: number;
+	acceptedOrdersCount		: number;
+	rejectedOrdersCount		: number;
     novoFoodServices		: FoodServiceConnectionViewModel[];
 	waitingFoodServices		: FoodServiceConnectionViewModel[];
 
@@ -44,6 +48,9 @@ export class Master {
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator
     ) {
+
+		this.isLoadingOrders = true;
+		this.isloadingFoodServices = true;
 
         this.ea.subscribe('loadingData', () => {
             this.isLoading = true;
@@ -85,19 +92,13 @@ export class Master {
 			}   
 		}); 
 
-		this.ea.subscribe('orderAccepted', () => {
-			this.newOrdersCount--;
-			this.acceptedOrdersCount++;
-		});
-
 		this.ea.subscribe('loadingData', () => {
 			this.isLoading = true;
 		});
 
 		this.ea.subscribe('dataLoaded', () => {
 			window.setTimeout( () => this.isLoading = false, 500);
-        });
-        
+		}); 
 
 		if(this.isLogged){
 			this.identity = this.service.getIdentity();
@@ -105,18 +106,32 @@ export class Master {
 		
 		if(this.isLogged){
 
-			this.getNotifications();
+			this.getNotifications(); // retrieve notifications	
+
+			this.ea.subscribe('newOrder', () =>{
+				this.newOrdersCount++;
+			});
+
+			this.ea.subscribe('orderAccepted', () => { // when supplier accept the order
+				this.newOrdersCount--;
+				this.acceptedOrdersCount++;
+			});
+
+			this.ea.subscribe('orderRejected', () => { // when supplier accept the order
+				this.newOrdersCount--;
+				this.rejectedOrdersCount++;
+			});
 
 			this.ea.subscribe('newNotification', (x : Notification) =>{
-				this.notifications.unshift(x);
-				this.updateUnSeenCount();
-				this.ea.publish(x.eventName);
 
-				if(x.eventName.toUpperCase() == 'NEWORDER'){
-					this.newOrdersCount++;
-				} 
+				this.notifications.unshift(x);
+				
+				this.updateUnSeenCount();
+
+				this.ea.publish(x.eventName, x.body);
+
 				if( this.identity.type == UserType.Supplier){
-					this.getSuppliers();
+					this.loadFoodServiceConnections();
 				}
 			});
 
@@ -124,18 +139,23 @@ export class Master {
 				this.getOrders();
 			}
 
+			if( this.identity.type == UserType.FoodService){
+
+				this.ea.subscribe('registrationSent', () => this.loadFoodServiceConnections()); 
+			}
+
 			if( this.identity.type == UserType.Supplier){
-				this.getSuppliers();
-				this.ea.subscribe('registrationSent', () => this.getSuppliers());
-				this.ea.subscribe('foodApproved', () => this.getSuppliers());
+				this.loadFoodServiceConnections();
+				this.ea.subscribe('registrationSent', () => this.loadFoodServiceConnections()); // ???
+				this.ea.subscribe('foodApproved', () => this.loadFoodServiceConnections());  // ???
 			}
 		}
 
 	}
 
-	getSuppliers(){
+	loadFoodServiceConnections(){
 
-		this.connRepository
+		var p1 = this.connRepository
 					.getSuppliers(0)
 					.then( (data : FoodServiceConnectionViewModel[]) =>{
 							this.novoFoodServices = data;
@@ -143,13 +163,15 @@ export class Master {
 					    this.nService.presentError(e);
 					});
 
-		this.connRepository
+		var p2 = this.connRepository
 					.getSuppliers(1)
 					.then( (data : FoodServiceConnectionViewModel[]) =>{
 							this.waitingFoodServices = data;
 					}).catch( e => {
 					this.nService.presentError(e);
 					});
+
+		Promise.all([p1, p2]).then( () => this.isloadingFoodServices = false);
 	}
 
 	getNotifications(){ 
@@ -169,23 +191,34 @@ export class Master {
 
 	getOrders(){
 		
-		this.orderRepo
-			.getNyNewOrders()
-			.then( (orders : any[]) =>{
+		var p1 = this.orderRepo
+				.getMyNewOrders()
+				.then( (orders : any[]) =>{
 
-				this.newOrdersCount = orders.length;
-			}).catch( e =>  {
-				this.nService.presentError(e);
-			});
+					this.newOrdersCount = orders.length;
+				}).catch( e =>  {
+					this.nService.presentError(e);
+				});
 
-			this.orderRepo
-				.getNyAcceptedOrders()
+		var p2 = this.orderRepo
+				.getMyAcceptedOrders()
 				.then( (orders : any[]) =>{
 
 					this.acceptedOrdersCount = orders.length;
 				}).catch( e =>  {
+					this.nService.presentError(e);	
+			});
+
+		var p3 = 	this.orderRepo
+				.getMyRejectedOrders()
+				.then( (orders : any[]) =>{
+					this.rejectedOrdersCount = orders.length;
+				}).catch( e =>  {
 					this.nService.presentError(e);
 				});
+
+		Promise.all([p1, p2, p3]).then( () => this.isLoadingOrders = false);
+			
 	}
 
 	updateUnSeenCount(){
@@ -237,7 +270,7 @@ export class Master {
         { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./cadastro') } ,
         { route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./produtos') } ,
         { route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./regrasDeMercado') } ,
-        { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
+		{ route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
         { route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./foodService/dashboard') }, 
         { route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./foodService/cadastro') }, 
         { route: 'fornecedores', name: 'fornecedores', moduleId: PLATFORM.moduleName('./foodService/fornecedores') }, 

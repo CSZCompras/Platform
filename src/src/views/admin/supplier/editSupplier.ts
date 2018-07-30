@@ -98,44 +98,43 @@ export class EditSupplier{
 
             this.validator = new SupplierValidator(this.supplier);						
         });
-    }
-
-    cancelUpload(){
-        this.selectedFiles = [];
-        debugger;
-        ( <any> document.getElementById("files")).value = "";
-    }
-    
-    downloadSocialContract(){         
-        var api = this.config.getEndpoint('csz');
-        window.open(api.client.baseUrl + 'downloadSupplierContractSocial?supplierId=' + this.supplier.id, '_parent');
-    }
-
-    uploadSocialContract(){ 
-        
-        this.isUploading = true;
-
-        let formData = new FormData();
-
-        for (let i = 0; i < this.selectedFiles.length; i++) {
-            formData.append('file', this.selectedFiles[i]);
         }
 
+        cancelUpload(){
+            this.selectedFiles = [];
+            ( <any> document.getElementById("files")).value = "";
+        }
         
-        this.repository
-            .uploadSocialContract(formData, this.supplier.id) 
-            .then( () =>{    
+        downloadSocialContract(){         
+            var api = this.config.getEndpoint('csz');
+            window.open(api.client.baseUrl + 'downloadSupplierContractSocial?supplierId=' + this.supplier.id, '_parent');
+        }
 
-                this.isUploading = false;  
-                ( <any> document.getElementById("files")).value = "";
-                this.nService.presentSuccess('Contrato atualizado com sucesso!');
+        uploadSocialContract(){ 
+            
+            this.isUploading = true;
 
-            }).catch( e => {
-                this.selectedFiles = [];
-                this.nService.error(e);
-                this.isUploading = false;
-            });
-    }
+            let formData = new FormData();
+
+            for (let i = 0; i < this.selectedFiles.length; i++) {
+                formData.append('file', this.selectedFiles[i]);
+            }
+
+            
+            this.repository
+                .uploadSocialContract(formData, this.supplier.id) 
+                .then( () =>{    
+
+                    this.isUploading = false;  
+                    ( <any> document.getElementById("files")).value = "";
+                    this.nService.presentSuccess('Contrato atualizado com sucesso!');
+
+                }).catch( e => {
+                    this.selectedFiles = [];
+                    this.nService.error(e);
+                    this.isUploading = false;
+                });
+        }
 
     save(){
 

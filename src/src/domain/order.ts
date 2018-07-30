@@ -1,7 +1,7 @@
 import { FoodService } from "./foodService";
 import { User } from "./user";
-import { SimulationResult } from "./simulationResult";
-import { SupplierOrder } from "./supplierOrder";
+import { SimulationResult } from "./simulationResult"; 
+import { OrderItem } from "./orderItem";
 
 export class Order{
 
@@ -9,9 +9,11 @@ export class Order{
     foodService     : FoodService;
     createdBy       : User;
     createdOn       : Date;
-    simulation      : SimulationResult;
-    supplierOrders  : SupplierOrder[];
+    simulation      : SimulationResult; 
     status          : number;
     total           : number;
-    code            : number;
+    code            : number;        
+    items           : OrderItem[];
+    deliveryDate    : Date;
+    paymentDate     : Date;
 }

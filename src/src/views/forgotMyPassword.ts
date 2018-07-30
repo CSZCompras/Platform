@@ -28,14 +28,11 @@ import { ConfirmInviteViewModel } from '../domain/confirmInviteViewModel';
 
 
 @autoinject
-export class Login {
-
-    credential  : Credential; 
-    userId      : string;    
-    processing = false;
-    user        : User;
-    isLoading   : boolean;
-    invite      : ConfirmInviteViewModel;
+export class ForgotMyPassword {
+ 
+    isLoading   : boolean;  
+    email       : string;
+    wasReseted  : boolean;
      
     constructor(
         private router          : Router, 
@@ -46,79 +43,49 @@ export class Login {
         private ea              : EventAggregator ,
         private nService        : NotificationService ) {
 
-        this.isLoading = true;
-        this.invite = new ConfirmInviteViewModel();
+        this.isLoading = false; 
+        this.wasReseted = false;
     } 
 
 
     activate(params){  
+        
+    } 
 
-        if(params != null && params.userId){  
-            this.userId = params.userId;
-        } 
-        else{
-          this.router.navigateToRoute('login');
-        }
-    }
-
-    
-	  
-    attached(): void { 
- 
+    attached(): void {  
 
         if (IdentityService.identity) { 
             this.router.navigateToRoute('login');
-        }  
+        }   
         else{
-            this.loadData();
-        }    
-    }
+            window.setTimeout(() => ScriptRunner.runScript(), 10);
+        }
+    } 
 
-    loadData(){
+    resetPassword() : void { 
 
-        this.userRepository
-            .getUser(this.userId)
-            .then( (user : User) => {
 
-                if(user.status == UserStatus.WaitingToConfirmInvite || user.status == UserStatus.WaitingToConfirmPassword){
-                
-                    this.user = user;
-                    this.isLoading = false;
-                    ScriptRunner.runScript();  
-                }
-                else{
-                    this.router.navigateToRoute('login');
-                }
-            })
-            .catch( e => {
-                this.nService.error(e);
-                this.processing = false;
-            });
 
-    }
-
-    save() : void {
-
-        this.invite.userId = this.userId;
-
-        if(this.invite.password != this.invite.confirmPassword){
-            this.nService.presentError('A senha e a confirmação de senha são diferentes');
+        if(this.email == null || this.email == ''){
+            this.nService.presentError('O e-mail é obrigatório');
         }
         else{
 
-            this.processing = true;
+            this.isLoading = true;
 
             this.userRepository
-                .confirmInvite(this.invite)
-                .then( (identity : Identity) =>{ 
+                .resetPassword(this.email)
+                .then( () =>{ 
+                     
                     
-                    
-                    this.processing = false;   
-                    this.router.navigateToRoute('login');
+                    this.isLoading = false;  
+                    this.wasReseted = true;
                     
                 }).catch( e => {
+
                     this.nService.error(e);
-                    this.processing = false;
+                    this.isLoading = false;
+                    this.wasReseted = false;
                 });
         }
     }

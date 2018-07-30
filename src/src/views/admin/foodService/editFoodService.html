@@ -18,13 +18,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Razão Social<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control "    value.bind="foodService.name"  />
+                                <input type="text" class="form-control " disabled.bind="! edit"   value.bind="foodService.name"  />
                             </div>
                         </div>  
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Nome Fantasia<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control "    value.bind="foodService.fantasyName"  />
+                                <input type="text" class="form-control " disabled.bind="! edit"   value.bind="foodService.fantasyName"  />
                             </div>
                         </div>  
                     </div>  
@@ -32,13 +32,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">CNPJ<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control "    value.bind="foodService.cnpj | cnpj"  cnpj />
+                                <input type="text" class="form-control "  disabled.bind="! edit"  value.bind="foodService.cnpj | cnpj"  cnpj />
                             </div>
                         </div>  
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Inscrição Estadual<span class="text-danger  ml-1 bold">*</span></label>
-                                <select class="form-control" value.bind="foodService.stateRegistration.id">
+                                <select class="form-control" value.bind="foodService.stateRegistration.id" disabled.bind="! edit" >
                                     <option  repeat.for="state of stateRegistrations" value.bind="state.id">${state.name}</option> 
                                  </select>
                             </div>
@@ -49,7 +49,7 @@
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">CEP</label>
-                              <input type="text" class="form-control " cep value.bind="foodService.address.cep | cep"  change.delegate="consultaCEP()"/>
+                              <input type="text" class="form-control " disabled.bind="! edit"  cep value.bind="foodService.address.cep | cep"  change.delegate="consultaCEP()"/>
                            </div>
                         </div>
                      </div>                                                 
@@ -57,29 +57,29 @@
                        <div class="col-md-6">
                           <div class="form-group">
                              <label class="control-label">Logradouro</label>
-                             <input type="text" class="form-control "  value.bind="foodService.address.logradouro" />
+                             <input type="text" class="form-control " disabled.bind="! edit"  value.bind="foodService.address.logradouro" />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Bairro</label>
-                             <input type="text" class="form-control  " value.bind="foodService.address.neighborhood"  />
+                             <input type="text" class="form-control  " disabled.bind="! edit" value.bind="foodService.address.neighborhood"  />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Estado</label>
-                             <input type="text"  class="form-control "  value.bind="foodService.address.state"   />
+                             <input type="text"  class="form-control "  disabled.bind="! edit" value.bind="foodService.address.state"   />
                           </div>
                        </div>
                        <div class="col-md-6">
                           <div class="form-group">
                              <label class="control-label">Número</label>
-                             <input type="text" class="form-control "  value.bind="foodService.address.number"  />
+                             <input type="text" class="form-control " disabled.bind="! edit" value.bind="foodService.address.number"  />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Complemento</label>
-                             <input type="text"  class="form-control "  value.bind="foodService.address.complement" />
+                             <input type="text"  class="form-control "  disabled.bind="! edit"  value.bind="foodService.address.complement" />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Cidade</label>
-                             <input type="text" class="form-control "  value.bind="foodService.address.city"     />
+                             <input type="text" class="form-control " disabled.bind="! edit"  value.bind="foodService.address.city"     />
                           </div>
                        </div>
                     </div>                                                                                                                                                       
@@ -89,32 +89,62 @@
                           <div class="col-md-6">
                              <div class="form-group">
                                 <label class="control-label">Nome</label>
-                                <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" value.bind="foodService.contact.name"  change.delegate="validator.contactValidator.validateName()" />
+                                <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" disabled.bind="! edit" value.bind="foodService.contact.name"  change.delegate="validator.contactValidator.validateName()" />
                              </div>
                              <div class="form-group">
                                 <label class="control-label">Telefone Comercial </label>
-                                <input type="text" class="form-control " phone-with-ddd value.bind="foodService.contact.commercialPhone | phoneWithDDD"  placeholder="(01) 1234-5678"/>
+                                <input type="text" class="form-control " phone-with-ddd value.bind="foodService.contact.commercialPhone | phoneWithDDD" disabled.bind="! edit"  placeholder="(01) 1234-5678"/>
                              </div>
                              <div class="form-group">
                                 <label class="control-label">E-mail</label>
-                                <input type="text" class="form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' }  "  value.bind="foodService.contact.email" change.delegate="validator.contactValidator.validateEmail()" />
+                                <input type="text" class="form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' }  " disabled.bind="! edit"  value.bind="foodService.contact.email" change.delegate="validator.contactValidator.validateEmail()" />
                              </div>
                           </div>
                           <div class="col-md-6">
                              <div class="form-group">
                                 <label class="control-label">Telefone</label>
-                                <input type="text" class="form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } " phone-with-ddd value.bind="foodService.contact.phone | phoneWithDDD"  change.delegate="validator.contactValidator.validatePhone()"  />
+                                <input type="text" class="form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } " disabled.bind="! edit"  phone-with-ddd value.bind="foodService.contact.phone | phoneWithDDD"  change.delegate="validator.contactValidator.validatePhone()"  />
                              </div>
                              <div class="form-group">
                                 <label class="control-label">Telefone Celular</label>
-                                <input type="text" class="form-control "  cell-phone-with-ddd value.bind="foodService.contact.personalPhone | cellPhoneWithDDD" placeholder="(01) 01234-5678"/>
+                                <input type="text" class="form-control "  cell-phone-with-ddd value.bind="foodService.contact.personalPhone | cellPhoneWithDDD" disabled.bind="! edit" placeholder="(01) 01234-5678"/>
+                             </div>
+                          </div>
+                       </div>
+                    </div>                                                                                                                                                    
+                    <h4 class="mt-4">Contrato Social</h4>   
+                    <div class="tab-pane" id="tab3">
+                       <div class="row">
+                          <div class="col-md-6"  if.bind="selectedFiles == null || selectedFiles.length == 0">
+                             <div class="form-group">
+								<button type="button" class="btn btn-primary waves-effect waves-light col-md-6" click.trigger="downloadSocialContract()">
+									  <i class="batch-icon batch-icon-cloud-download"></i>
+									  Download
+								</button> 
+                             </div>
+                          </div>
+                          <div class="col-md-6" if.bind="edit" >
+                             <div class="form-group">  
+							   <form submit.delegate="uploadSocialContract()">
+									 <button type="submit" if.bind="selectedFiles.length > 0" class="btn ${ ! isUploading ? 'btn-primary' : 'btn-warning'} waves-effect waves-light col-md-6" disable.bind="isUploading">
+										   <span if.bind="! isUploading">
+												 <i class="batch-icon batch-icon-cloud-upload"></i>
+												 Upload
+										   </span>
+										   <span  if.bind="isUploading">
+												 <i class="fa fa-circle-o-notch fa-spin"></i> Processando arquivo
+										   </span>
+									 </button>
+                                     <button type="button" class="btn btn-secondary   waves-effect waves-light"  if.bind="selectedFiles != null && selectedFiles.length > 0"  click.trigger="cancelUpload()">Cancelar</button>    
+                                     <input id="files" type="file" accept=".pdf" files.bind="selectedFiles" class="${ isUploading || (selectedFiles != null && selectedFiles.length > 0) ? 'invisible' : ''} mt-4"> 
+							   </form>  
                              </div>
                           </div>
                        </div>
                     </div>   
-                    <h4 class="mt-4">Usuários</h4>       
-                    <span class="badge badge-warning mt-2 mb-2" if.bind="foodService.status != 0">Para poder criar usuários faça a ativação do cadastro</span>                      
-                    <div class="tab-pane" if.bind="foodService.status != 2">
+                    <h4 class="mt-4"  if.bind="edit" >Usuários</h4>       
+                    <span class="badge badge-warning mt-2 mb-2" if.bind="foodService.status != 0 && edit ">Para poder criar usuários faça a ativação do cadastro</span>                      
+                    <div class="tab-pane" if.bind="foodService.status != 2 && edit ">
                         <div class="row"> 
                             <table class="table table-hover">
                                 <thead>
@@ -167,10 +197,11 @@
                     </div>    
                  </div>
                  <div class="row mt-5 mb-5 mx-auto">
-                        <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light" click.trigger="save()"><span class="gradient">Salvar</span></button>
-                        <button type="button" class="btn btn-success  ml-2 waves-effect waves-light"       if.bind="foodService.status != 0"  click.trigger="editStatus(0)">Ativar</button>
-                        <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="foodService.status == 0" click.trigger="editStatus(1)">Inativar</button>
-                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancel()">Cancelar</button>   
+                        <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light"  if.bind="edit"   click.trigger="save()"><span class="gradient">Salvar</span></button>
+                        <button type="button" class="btn btn-success  ml-2 waves-effect waves-light"       if.bind="foodService.status != 0 && edit"  click.trigger="editStatus(0)">Ativar</button>
+                        <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="foodService.status == 0 && edit " click.trigger="editStatus(1)">Inativar</button>
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       if.bind="edit"   click.trigger="cancel()">Cancelar</button>   
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       if.bind="! edit"   click.trigger="cancelShowDetails()">Cancelar</button>   
                  </div>
               </div>
            </div>

@@ -2,6 +2,8 @@ import { Supplier } from "./supplier";
 
 export class SupplierViewModel{
 
-    supplier : Supplier;
-    status : number;
+    id          : string;
+    name        : string;
+    supplier    : Supplier;
+    status      : number;
 }

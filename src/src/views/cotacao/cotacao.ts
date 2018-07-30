@@ -19,19 +19,24 @@ import { SimulationInputItem } from '../../domain/simulationInputItem';
 import { SimulationResult } from '../../domain/simulationResult';
 import { OrderRepository } from '../../repositories/orderRepository';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { CotacaoViewModel } from '../../domain/cotacaoViewModel';
+import { SupplierViewModel } from '../../domain/supplierViewModel';
 
 @autoinject
 export class Pedido{
 
-    $               : any;
-	currentStep     : number;
-	totalSteps      : number;
-    lists           : BuyList[];
-    buyList         : BuyList ;
-    isProcessing    : boolean;
-	simulation      : Simulation;
-	input 			: SimulationInput;
-	selectedResult 	: SimulationResult;	
+	$               				: any;
+	orderId							: string;
+	currentStep     				: number;
+	totalSteps      				: number;
+    quotes          				: CotacaoViewModel[];
+    selectedQuote   				: CotacaoViewModel ;
+    isProcessing    				: boolean;
+	simulation      				: Simulation;
+	input 							: SimulationInput;
+	selectedResult 					: SimulationResult;	
+	supplierBlackList				: SupplierViewModel[];	
+	orderWasGenerated				: boolean;
     
     constructor(		
         private router                  : Router, 	
@@ -45,7 +50,9 @@ export class Pedido{
 		this.currentStep = 1;
         this.totalSteps = 3;		
 		this.isProcessing = false;
+		this.orderWasGenerated = false;
 		this.input = new SimulationInput();
+		this.supplierBlackList = [];
     } 
  
 
@@ -92,36 +99,51 @@ export class Pedido{
 		}
 	}
 
+	
+
+    activate(params){  
+
+        if(params.orderId != null && params.orderId != ''){
+
+			this.orderId = params.orderId;	
+        }
+    }
+
 	advance(){   
 
         this.currentStep++;
 
         if(this.currentStep == 2){
             this.simulate();
-        }
+		}
+
+		if(this.currentStep == 3){
+			window.scrollTo(0, 0);
+		}
     }
     
     simulate(){
 
 		this.ea.publish('loadingData'); 
 
-		this.isProcessing = true;
+		this.isProcessing = true; 
 		
-		this.input.buyListId = this.buyList.id;
+		this.input.buyListId = this.selectedQuote.id;
 
-		this.buyList.products.forEach( (x : BuyListProduct) =>{
+		this.input.items = [];
+
+		this.selectedQuote.products.forEach( (x) =>{
 			
-			if(x.isInList){
-				var item = new SimulationInputItem();
+			if(x.quantity != null && x.quantity != 0){
 
-				item.productId = x.foodServiceProduct.product.id;
-				item.quantity = (<any> x.foodServiceProduct.product).quantity;		
-				
-				if(item.quantity > 0){
-					this.input.items.push(item);
-				}
+				var item = new SimulationInputItem();
+				item.productId = x.id;
+				item.quantity = x.quantity;
+				this.input.items.push(item);
 			}
 		});		
+
+		this.input.supplierBlackList = this.supplierBlackList;
 
         this.simulationRepository
             .simulate(this.input)
@@ -149,29 +171,105 @@ export class Pedido{
 
 		this.runScript();
 		this.loadData(); 
-    } 
+	}  
+
+	addRemoveSupplier (supplier : SupplierViewModel){ 
+
+		if(( <any> supplier).wasRemoved){
+
+			this.selectedQuote.suppliers.forEach(x => {
+				
+				if( x.id  == supplier.id){
+
+					( <any> x).wasRemoved = false;
+				}
+			});
+
+			this.selectedQuote.products.forEach(x => {
+
+				x.suppliers.forEach(y =>{
+
+					if( y.id  == supplier.id){
+
+						( <any> y).wasRemoved = false;
+					}
+				});
+			});
+
+			this.supplierBlackList = this.supplierBlackList.filter(x => x.id != supplier.id);
+		}
+		else{ 
+
+			this.selectedQuote.suppliers.forEach(x => {
+				
+				if( x.id  == supplier.id){
+
+					( <any> x).wasRemoved = true;
+				}
+			});
+
+
+			this.selectedQuote.products.forEach(x => {
+
+				x.suppliers.forEach(y =>{
+
+					if( y.id  == supplier.id){
+
+						( <any> y).wasRemoved = true;
+					}
+				});
+			});
+
+			this.supplierBlackList.push(supplier);
+		}
+	}
 
     loadData(){
 
-        this.repository
-            .getLists()
-			.then(x =>  this.lists = x) 
-			.then( () => this.ea.publish('dataLoaded'))
-            .catch( e =>  this.nService.presentError(e));
+		if(this.orderId != null && this.orderId != ''){
+
+			this.simulationRepository
+				.getCotacaoFromOrder(this.orderId)
+				.then(x =>  {
+					this.selectedQuote = x;
+
+					if(x.blackListSupplier != null){
+
+						this.addRemoveSupplier(x.blackListSupplier);
+					}					
+				}) 
+				.then( () => this.ea.publish('dataLoaded'))
+				.catch( e =>  this.nService.presentError(e));
+
+		}
+		else{
+
+			this.repository
+				.getBuyListsParaCotacao()
+				.then(x =>  {
+					this.quotes = x;
+				}) 
+				.then( () => this.ea.publish('dataLoaded'))
+				.catch( e =>  this.nService.presentError(e));
+
+		}
 	}
 	
 	generateOrder(){
 
-		this.ea.publish('loadingData'); 
+		this.isProcessing = true;
 
 		this.orderRepository
 			.createOrder(this.selectedResult)
 			.then( (result : any) =>{         
+
 				this.nService.success('Pedido realizado!');
-				this.router.navigate('/#/dashboard');                
-				this.ea.publish('dataLoaded');
+				this.router.navigateToRoute('pedidosFoodService');
+				this.isProcessing = false;
+				this.orderWasGenerated = true;
 			}).catch( e => {
-				this.ea.publish('dataLoaded');
+				
+				this.isProcessing = false;
 				this.nService.error(e);
 			});
 	}

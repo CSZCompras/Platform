@@ -71,6 +71,7 @@ export class App {
             { route: '', 		redirect: 'login' },
             { route: 'login', 	name: 'login', moduleId: PLATFORM.moduleName('./views/login') },
 			{ route: 'invite', 	name: 'invite', moduleId: PLATFORM.moduleName('./views/confirmInvite') },
+			{ route: 'forgotMyPassword', name: 'forgotMyPassword', moduleId: PLATFORM.moduleName('./views/forgotMyPassword') },
 			{ route: 'welcome', 	name: 'invite', moduleId: PLATFORM.moduleName('./views/welcome') },
 			{ route: 'csz', 	name: 'csz', moduleId: PLATFORM.moduleName('./views/master') },
 			

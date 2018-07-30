@@ -4,13 +4,15 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { Rest, Config } from 'aurelia-api';
 import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
-import { SimulationResult } from '../domain/simulationResult';
-import { SupplierOrder } from '../domain/supplierOrder';
+import { SimulationResult } from '../domain/simulationResult'; 
+import { Order } from '../domain/order';
+import { RejectOrderViewModel } from '../domain/rejectOrderViewModel';
 
 
 @autoinject
 export class OrderRepository{
 
+    
     api: Rest;
 
     constructor(private config: Config) {
@@ -32,7 +34,7 @@ export class OrderRepository{
                     });
     }
 
-    getNyNewOrders(): Promise<any>{
+    getMyNewOrders(): Promise<any>{
 
         return this.api
                     .find('MyNewOrders')
@@ -47,7 +49,7 @@ export class OrderRepository{
                     });
     }
 
-    getNyAcceptedOrders(): Promise<any>{
+    getMyAcceptedOrders(): Promise<any>{
 
         return this.api
                     .find('MyAcceptedOrders')
@@ -62,7 +64,22 @@ export class OrderRepository{
                     });
     }
 
-    acceptOrder(order : SupplierOrder): Promise<any>{
+    getMyRejectedOrders(): Promise<any>{
+
+        return this.api
+                    .find('MyRejectedOrders')
+                    .then( (result : any) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
+    acceptOrder(order : Order): Promise<any>{
 
         return this.api
                     .post('acceptOrder', { id : order.id, deliveryDate : order.deliveryDate, paymentDate : order.paymentDate })
@@ -77,4 +94,20 @@ export class OrderRepository{
                     });
 
     }
+    
+    rejectOrder(vm : RejectOrderViewModel) : Promise<any> {
+
+         return this.api
+                    .post('rejectOrder', vm)
+                    .then( (result : any) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
 }

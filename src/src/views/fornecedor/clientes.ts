@@ -22,6 +22,7 @@ export class Clientes{
         type                    : number;
         filter                  : string;
         tipoFiltro              : string;
+        showDetails             : boolean;
 
         constructor(
                 private router: Router,  
@@ -32,6 +33,16 @@ export class Clientes{
                 this.ea.subscribe( 'RegistrationSent', () =>{
                         this.loadData();
                 });
+
+                this.ea.subscribe( 'showFoodServiceDetailsCanceled', () =>{
+                        this.showDetails = false;  
+                        document.body.scrollTop = 0;
+                        document.documentElement.scrollTop = 0;
+                });
+
+                
+
+                this.showDetails = false;
         }
         
         attached(){
@@ -213,6 +224,12 @@ export class Clientes{
                                 }
                                 return isFound;
                         });
+        }
+
+        showFoodServiceDetails(x : FoodServiceConnectionViewModel){
+                
+                this.showDetails = true; 
+                this.ea.publish('showFoodServiceDetails', { foodId : x.foodService.id, edit : false } );
         }
 
 }
