@@ -14,6 +14,7 @@ export class AceitePedido{
     order                                   : Order;
     controller                              : DialogController;  
     validationController                    : ValidationController;
+    processing                              : boolean;
 
     constructor(
         pController                         : DialogController, 
@@ -30,6 +31,8 @@ export class AceitePedido{
          this.validationController.addRenderer(new FormValidationRenderer());
          this.validationController.validateTrigger = validateTrigger.blur;
          this.validationController.addObject(this.order);     
+
+         this.processing = false;
     }    
 
     activate(params){  
@@ -53,6 +56,8 @@ export class AceitePedido{
         .then((result: ControllerValidateResult) => {
             
                 if (result.valid) {
+
+                    this.processing = true;
         
                     this.orderRepo
                         .acceptOrder(this.order)
@@ -61,10 +66,12 @@ export class AceitePedido{
                             this.notification.success('Pedido atualizado com sucesso!') ;              
                             this.ea.publish('orderAccepted', this.order);     
                             this.order.status = OrderStatus.Accepted;
-                            this.controller.ok();           
+                            this.controller.ok();    
+                            this.processing = false;       
                         })
                         .catch( e => {
                             this.notification.presentError(e); 
+                            this.processing = false;
                         });
                 }
                 else {

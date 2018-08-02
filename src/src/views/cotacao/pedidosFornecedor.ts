@@ -49,6 +49,27 @@ export class PedidosFornecedor{
             }
         });
 
+        
+
+        this.ea.subscribe('orderFinished', (data : Order)=>{
+
+            debugger;
+
+            this.orders.forEach(x => {
+
+                if(x.id == data.id){
+                    x = data;
+                }
+            }); 
+            
+            this.filteredOrders.forEach(x => {
+
+                if(x.id == data.id){
+                    x.status = data.status; 
+                }
+            });  
+        });
+
         this.loadData();
     } 
 
@@ -92,6 +113,20 @@ export class PedidosFornecedor{
 
             this.orderRepo
                 .getMyRejectedOrders()
+                .then( (x : Order[]) =>{
+                    this.orders = x;
+                    this.filteredOrders = this.orders;
+                    this.filter = '';
+                })
+                .then( () => this.ea.publish('dataLoaded'))
+                .catch( e => {
+                    this.nService.presentError(e); 
+                });
+        }
+        else if(this.selectedStatus == OrderStatus.Delivered){
+
+            this.orderRepo
+                .getMyDeliveredOrders()
                 .then( (x : Order[]) =>{
                     this.orders = x;
                     this.filteredOrders = this.orders;

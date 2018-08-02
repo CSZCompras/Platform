@@ -1,0 +1,142 @@
+<template>        
+        <require from="../components/attributes/moneyMask"></require>
+        <require from="../components/valueConverters/moneyValueConverter"></require>
+        <require from="../components/valueConverters/phoneWithDDDValueConverter"></require> 
+        <require from="../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
+        <require from="../components/valueConverters/cnpjValueConverter"></require>
+        <require from="../components/valueConverters/cepValueConverter"></require>
+        <require from="../components/valueConverters/dateFormatValueConverter"></require>
+        <require from="../components/attributes/cnpjMask"></require>
+        <require from="../components/attributes/cepMask"></require>
+
+        <div class="row mb-5 task-manager au-animate"  >
+            <div class="col-lg-12">
+              <div class="card">    
+                 <div class="card-header">          
+                    Avaliações
+                 </div> 
+                 <div class="card-body"> 
+                     <div  if.bind="! evaluation" > 
+                        <table class="table table-hover mt-2">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Nº pedido</th>
+                                    <th class="text-right">Valor do pedido</th>
+                                    <th class="text-center">Food Service</th>
+                                    <th class="text-center">Fornecedor</th> 
+                                    <th class="text-center">Data da avaliação</th>
+                                    <th class="text-center" style="min-width: 250px;">Avaliação</th>  
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="x of filteredEvaluations">
+                                    <td class="text-center">${x.order.code}</td>
+                                    <td class="text-right">${x.order.total | money}</td>
+                                    <td class="text-center">${x.foodService.name}</td>
+                                    <td class="text-center">${x.supplier.name}</td> 
+                                    <td class="text-center">${x.createdOn | dateFormat}</td>
+                                    <td class="text-center"> 
+                                            <i class="batch-icon ${ x.rating >= 1 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xl" ></i>
+                                            <i class="batch-icon ${ x.rating >= 2 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xl" ></i>
+                                            <i class="batch-icon ${ x.rating >= 3 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xl" ></i>
+                                            <i class="batch-icon ${ x.rating >= 4 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xl" ></i>
+                                            <i class="batch-icon ${ x.rating >= 5 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xl" ></i>   
+                                    </td>  
+                                    <td>
+                                            <button type="button" class="btn  btn-primary btn-sm  waves-effect waves-light mx-auto ml-2"  click.trigger="showDetails(x)"  if.bind="! x.processing" >
+                                                Detalhes
+                                            </button>   
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                
+                    </div> 
+                    <div if.bind="evaluation"> 
+                        <div class="row mt-3">
+                            <div class="col-md-12"> 
+                                <h6 class="mt-5 mb-5"><i class="batch-icon batch-icon-users mr-2"></i>Dados do Food Service</h6>
+                                <div class="row">
+                                   <div class="col-md-6">
+                                      <div class="form-group">
+                                         <label class="control-label col-md-6">Nome</label>
+                                         <label class="control-label col-md-6">${evaluation.foodService.name}</label>  
+                                      </div>
+                                      <div class="form-group">
+                                         <label class="control-label col-md-6">Telefone Comercial </label>
+                                         <label class="control-label col-md-6">${evaluation.foodService.contact.commercialPhone | phoneWithDDD}</label>   
+                                      </div>
+                                      <div class="form-group">
+                                         <label class="control-label col-md-6">E-mail</label>
+                                         <label class="control-label col-md-6">${evaluation.foodService.contact.email}</label>  
+                                      </div>
+                                   </div>
+                                   <div class="col-md-6">
+                                      <div class="form-group">
+                                         <label class="control-label col-md-6">Telefone</label>
+                                         <label class="control-label col-md-6">${evaluation.foodService.contact.phone | phoneWithDDD}</label> 
+                                      </div>
+                                      <div class="form-group">
+                                         <label class="control-label col-md-6">Telefone Celular</label>
+                                         <label class="control-label col-md-6">${evaluation.foodService.contact.personalPhone | phoneWithDDD}</label> 
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div class="col-md-12"> 
+                                 <h6 class="mt-5 mb-5"><i class="batch-icon batch-icon-users mr-2"></i>Dados do Fornecedor</h6>
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                       <div class="form-group">
+                                          <label class="control-label col-md-6">Nome</label>
+                                          <label class="control-label col-md-6">${evaluation.supplier.name}</label>  
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="control-label col-md-6">Telefone Comercial </label>
+                                          <label class="control-label col-md-6">${evaluation.supplier.contact.commercialPhone | phoneWithDDD}</label>   
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="control-label col-md-6">E-mail</label>
+                                          <label class="control-label col-md-6">${evaluation.supplier.contact.email}</label>  
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <div class="form-group">
+                                          <label class="control-label col-md-6">Telefone</label>
+                                          <label class="control-label col-md-6">${evaluation.supplier.contact.phone | phoneWithDDD}</label> 
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="control-label col-md-6">Telefone Celular</label>
+                                          <label class="control-label col-md-6">${evaluation.supplier.contact.personalPhone | phoneWithDDD}</label> 
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                                <div class="col-md-12 mt-5">
+                                        <div class="form-group mx-auto text-center">                  
+                                            <h5 class="text-center">Nota da avaliação</h5>
+                                            <i class="batch-icon ${ evaluation.rating  >= 1 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xxl mt-2" ></i>
+                                            <i class="batch-icon ${ evaluation.rating >= 2 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xxl" ></i>
+                                            <i class="batch-icon ${ evaluation.rating >= 3 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xxl" ></i>
+                                            <i class="batch-icon ${ evaluation.rating >= 4 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xxl" ></i>
+                                            <i class="batch-icon ${ evaluation.rating >= 5 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-xxl mb-2" ></i>                                                                                    
+                                        </div>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <div class="form-group mx-auto">      
+                                        <label class="control-label">Comentários</label>   
+                                        <textarea class="form-control disabled" disabled value.bind="evaluation.comment"  rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="text-center  "> 
+                                <button type="button" class="btn  btn-secondary  waves-effect waves-light  ml-2 "  click.trigger="evaluation = null"  if.bind="! evaluation.processing" >
+                                    <i class="fa fa-undo mr-2"></i>Voltar
+                                </button>     
+                            </div>
+                        </div>  
+                    </div>
+                 </div>
+              </div>
+           </div> 
+     </template>

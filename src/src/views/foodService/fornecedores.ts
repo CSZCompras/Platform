@@ -12,6 +12,8 @@ import { ProductRepository } from '../../repositories/productRepository';
 import { ProductCategory } from '../../domain/productCategory';
 import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
 import { SupplierViewModel } from '../../domain/supplierViewModel';
+import { FoodServiceConnectionViewModel } from '../../domain/foodServiceViewModel';
+import { BlockSupplierConnectionViewModel } from '../../domain/blockSupplierConnectionViewModel';
 
 @autoinject
 export class Fornecedores{
@@ -24,6 +26,7 @@ export class Fornecedores{
         title                           : string;
         type                            : number;
         filter                          : string;
+        tipoFiltro                      : string;
         isLoading                       : boolean;
 
         constructor(private router: Router, 
@@ -33,25 +36,56 @@ export class Fornecedores{
                 private ea : EventAggregator) {    
                         
                 this.isLoading = false;
+                this.tipoFiltro = '2';
                 
-                this.ea.subscribe( 'WaitingToApprove', () =>{
-                        this.loadData();
+                this.ea.subscribe( 'waitingToApprove', (conn) =>{
+                        
+                        this.suppliers.forEach(x => {
+                                
+                                if(x.supplier.id == conn.supplierId){
+                                        x.status = conn.status;
+                                }
+                        });
                 });
                 
-                this.ea.subscribe( 'RegistrationApproved', () =>{
-                        this.loadData();
+                this.ea.subscribe( 'registrationApproved', (conn) =>{
+                        
+                        this.suppliers.forEach(x => {
+                                
+                                if(x.supplier.id == conn.supplierId){
+                                        x.status = conn.status;
+                                }
+                        });
                 });
 
-                this.ea.subscribe( 'RegistrationRejected', () =>{
-                        this.loadData();
+                this.ea.subscribe( 'registrationRejected', (conn) =>{
+                        
+                        this.suppliers.forEach(x => {
+                                
+                                if(x.supplier.id == conn.supplierId){
+                                        x.status = conn.status;
+                                }
+                        });
                 });                
                 
-                this.ea.subscribe( 'ClientBlocked', () =>{
-                        this.loadData();
+                this.ea.subscribe( 'clientBlocked', (conn) =>{ 
+                        
+                        this.suppliers.forEach(x => {
+                                
+                                if(x.supplier.id == conn.supplierId){
+                                        x.status = conn.status;
+                                }
+                        });
                 });
                 
-                this.ea.subscribe( 'WaitingToApprove', () =>{
-                        this.loadData();
+                this.ea.subscribe( 'waitingToApprove', (conn) =>{
+                        
+                        this.suppliers.forEach(x => {
+                                
+                                if(x.supplier.id == conn.supplierId){
+                                        x.status = conn.status;
+                                }
+                        });
                 });
         }
         
@@ -59,21 +93,25 @@ export class Fornecedores{
 
                 this.ea.publish('loadingData'); 
                 this.loadData();
-                this.alterView(2);
+                this.alterView();
         }
 
         loadData() : void {
                 
                if(this.type == null || this.type == 0){
-                       this.type = 2;
+                        this.tipoFiltro = '2';
                }
                
-               this.alterView(this.type).then( () => this.ea.publish('dataLoaded'))
+               this.alterView().then( () => this.ea.publish('dataLoaded'))
         }
 
-        alterView(type : number) : Promise<any> {
-                
-                this.type = type;
+
+        alterView() : Promise<any> {
+
+                this.filteredSuppliers = [];
+                this.suppliers = [];
+
+                var type = Number.parseInt(this.tipoFiltro); 
 
                 if(type == 1){
                         this.title = 'Fornecedores Sugeridos';
@@ -86,6 +124,10 @@ export class Fornecedores{
                 else if(type == 3){
                         this.title = 'Todos fornecedores';
                         return this.loadAllSuppliers();
+                }                
+                else if(type == 4){
+                        this.title = 'Todos fornecedores';
+                        return this.loadBlockedSuppliers();
                 }
         }
 
@@ -103,6 +145,16 @@ export class Fornecedores{
 
                 return this.repository
                         .getMySuppliers()
+                        .then( (data : SupplierViewModel[]) =>{
+                                this.suppliers = data;
+                                this.filteredSuppliers = data;
+                        });
+        }
+
+        loadBlockedSuppliers() : Promise<any>{
+
+                return this.repository
+                        .getMyBlockedSuppliers()
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
                                 this.filteredSuppliers = data;
@@ -134,6 +186,51 @@ export class Fornecedores{
                                 this.nService.presentError(e);
                                 ( <any> viewModel).isLoading = false;
                         });
+        } 
+        
+
+        block(viewModel : SupplierViewModel){
+
+                ( <any> viewModel).isLoading = true;
+
+
+                var vm = new BlockSupplierConnectionViewModel();
+                vm.supplierId = viewModel.supplier.id;
+
+                this.repository
+                        .block(vm)
+                        .then( (data : any) =>{      
+                                ( <any> viewModel).isLoading = false;                                
+                                viewModel.status = 6;
+                                this.nService.presentSuccess('Fornecedor bloqueado com sucesso!');   
+                        }).catch( e => {
+
+                            this.nService.presentError(e);                                
+                            ( <any> viewModel).isLoading = false;
+                        });
+
+        }
+
+        unblock(viewModel : SupplierViewModel){
+
+                ( <any> viewModel).isLoading = true;
+
+
+                var vm = new BlockSupplierConnectionViewModel();
+                vm.supplierId = viewModel.supplier.id;
+
+                this.repository
+                        .unblock(vm)
+                        .then( (data : any) =>{      
+                                ( <any> viewModel).isLoading = false;                                
+                                viewModel.status = 2;
+                                this.nService.presentSuccess('Fornecedor desbloqueado com sucesso!');  
+                        }).catch( e => {
+
+                            this.nService.presentError(e);                                
+                            ( <any> viewModel).isLoading = false;
+                        });
+
         }
 
         

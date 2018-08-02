@@ -29,6 +29,8 @@ export class RejeicaoPedido{
         this.order = new Order(); 
         this.vm = new RejectOrderViewModel();
 
+        this.processing = false;
+
         // Validation.
         this.validationController = this.validationControllerFactory.createForCurrentScope();
         this.validationController.addRenderer(new FormValidationRenderer());
@@ -54,7 +56,7 @@ export class RejeicaoPedido{
 
         this.validationController
         .validate()
-        .then((result: ControllerValidateResult) => {
+        .then((result: ControllerValidateResult) => { 
             
                 if (result.valid) {   
 

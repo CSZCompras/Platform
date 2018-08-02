@@ -1,0 +1,77 @@
+<template> 
+    <require from="../components/attributes/moneyMask"></require>
+    <require from="../components/valueConverters/moneyValueConverter"></require>
+
+    <div class="row mb-5 au-animate">
+        <div class="col-md-12">
+                <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+                            <div class="card card-tile card-xs bg-primary bg-gradient text-center">
+                                <div class="card-body p-4">
+                                    <!-- Accepts .invisible: Makes the items. Use this only when you want to have an animation called on it later -->
+                                    <div class="tile-left">
+                                        <i class="batch-icon  batch-icon-users batch-icon-xxl"></i>
+                                    </div>
+                                    <div class="tile-right">
+                                        <div class="tile-number">
+                                            <i class="fa fa-refresh fa-spin" if.bind="isLoadingNumberOfCustomers"></i>
+                                            <span  if.bind="! isLoadingNumberOfCustomers">${numberOfCustomers.count}</span>
+                                        </div>
+                                        <div class="tile-description">Clientes cadastrados</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+                            <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
+                                <div class="card-body p-4">
+                                    <div class="tile-left">
+                                        <i class="batch-icon batch-icon-tag-alt-2 batch-icon-xxl"></i>
+                                    </div>
+                                    <div class="tile-right">
+                                        <div class="tile-number">
+                                            <i class="fa fa-refresh fa-spin" if.bind="isLoadingNumberOfOrders"></i>
+                                            <span  if.bind="! isLoadingNumberOfOrders">${numberOfOrders.total | money }</span>                                            
+                                        </div>
+                                        <div class="tile-description">Valor total dos pedidos</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+                            <div class="card card-tile card-xs bg-primary bg-gradient text-center">
+                                <div class="card-body p-4">
+                                    <div class="tile-left">
+                                        <i class="batch-icon batch-icon-list batch-icon-xxl"></i>
+                                    </div>
+                                    <div class="tile-right">
+                                        <div class="tile-number">26</div>
+                                        <div class="tile-description">Open Tickets</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+                            <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
+                                <div class="card-body p-4">
+                                    <div class="tile-left">
+                                        <i class="batch-icon batch-icon-star batch-icon-xxl"></i>
+                                    </div>
+                                    <div class="tile-right">                                        
+                                            <div class="tile-number">
+                                                    <i class="fa fa-refresh fa-spin" if.bind="isLoadingNumberOfOrders"></i>
+                                                    <span  if.bind="! isLoadingNumberOfOrders">${numberOfOrders.count}</span>
+                                            </div>
+                                        <div class="tile-description">Pedidos recebidos</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <div class="card"> 
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    </div>           
+</template>

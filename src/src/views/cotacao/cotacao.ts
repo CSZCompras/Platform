@@ -231,6 +231,7 @@ export class Pedido{
 			this.simulationRepository
 				.getCotacaoFromOrder(this.orderId)
 				.then(x =>  {
+
 					this.selectedQuote = x;
 
 					if(x.blackListSupplier != null){

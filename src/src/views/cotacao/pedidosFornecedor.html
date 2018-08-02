@@ -29,7 +29,7 @@
                                         ${selectedOrder.foodService.name}              
                                         <span class="badge badge-danger float-right" if.bind="selectedOrder.status == 0">Aguardando aprovação</span>    
                                         <span class="badge badge-warning float-right" if.bind="selectedOrder.status == 1">Aprovado</span>  
-                                        <span class="badge badge-success float-right" if.bind="selectedOrder.status == 2">Entregue</span>
+                                        <span class="badge badge-primary float-right" if.bind="selectedOrder.status == 2">Entregue</span>
                                      </h5>
                                      <div>
                                         <div class="card-body">
@@ -179,8 +179,7 @@
                                            <option  value="2">Entregue</option>
                                            <option  value="3">Rejeitado</option>
                                         </select>
-                                     </div>
-                                     ${selectedStatus}
+                                     </div> 
                                      <div class="col-lg-3 ml-4 mt-3">
                                         <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
                                      </div>
@@ -205,7 +204,7 @@
                                               <td class="text-center"> 
                                                  <span class="badge badge-danger" if.bind="order.status == 0">Novo pedido</span>    
                                                  <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>  
-                                                 <span class="badge badge-success" if.bind="order.status == 2">Entregue</span>
+                                                 <span class="badge badge-primary" if.bind="order.status == 2">Entregue</span>
                                                  <span class="badge badge-default" if.bind="order.status == 3">Rejeitado</span>
                                               </td>
                                               <td>${order.createdOn | dateFormat}</td>
@@ -215,16 +214,15 @@
                                               <td class="text-right">${order.total | money}</td>
                                               <td  class="text-right">
                                                  <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="selectOrder(order)">
-                                                    Ver detalhes
+                                                    Ver detalhes 
+                                                 </button>
+                                                 <button type="button"  class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="rejectOrder(order)" if.bind="order.status == 0">
+                                                    <i class="fa fa-times mr-2" aria-hidden="true"></i>
+                                                    Rejeitar  
                                                  </button>
                                                  <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="acceptOrder(order)" if.bind="order.status == 0">
-                                                    Aceitar
-                                                    <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                                                    <i class="fa fa-check mr-2"></i>Aprovar
                                                  </button>    
-                                                 <button type="button"  class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="rejectOrder(order)" if.bind="order.status == 0">
-                                                    Rejeitar
-                                                    <i class="fa fa-times ml-2" aria-hidden="true"></i>
-                                                 </button>
                                               </td>
                                            </tr>
                                         </tbody>

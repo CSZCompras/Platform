@@ -6,10 +6,10 @@ import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
 import { FoodServiceSupplier } from '../domain/foodServiceSupplier';
 import { SupplierViewModel } from '../domain/supplierViewModel';
+import { BlockSupplierConnectionViewModel } from '../domain/blockSupplierConnectionViewModel';
 
 @autoinject
-export class SupplierConnectionRepository { 
-       
+export class SupplierConnectionRepository {                
     api: Rest;
 
     constructor(private config: Config) {
@@ -30,8 +30,7 @@ export class SupplierConnectionRepository {
                         }));
                     });
     }
-
-    
+ 
 
     connect(supplier : Supplier) : Promise<FoodServiceSupplier>  {
 
@@ -48,10 +47,55 @@ export class SupplierConnectionRepository {
                     });
     }
 
+    block(vm: BlockSupplierConnectionViewModel) : Promise<any> {
+
+        return this.api
+                    .post('blockSupplierConnection',vm)
+                    .then( (result : Promise<any>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
+    unblock(vm: BlockSupplierConnectionViewModel) : Promise<any> {
+
+        return this.api
+                    .post('unblockSupplierConnection',vm)
+                    .then( (result : Promise<any>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
     getMySuppliers(): any {
 
         return this.api
                     .find('mySuppliers')
+                    .then( (result : Promise<SupplierViewModel[]>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
+    getMyBlockedSuppliers() : Promise<SupplierViewModel[]>  {
+
+        return this.api
+                    .find('myBlockedSuppliers')
                     .then( (result : Promise<SupplierViewModel[]>) => {                 
                         return result;
                     })

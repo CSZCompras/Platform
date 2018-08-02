@@ -7,12 +7,12 @@ import { Credential } from "../domain/credential";
 import { SimulationResult } from '../domain/simulationResult'; 
 import { Order } from '../domain/order';
 import { RejectOrderViewModel } from '../domain/rejectOrderViewModel';
+import { Evaluation } from '../domain/evaluation';
 
 
 @autoinject
-export class OrderRepository{
+export class OrderRepository{ 
 
-    
     api: Rest;
 
     constructor(private config: Config) {
@@ -68,6 +68,21 @@ export class OrderRepository{
 
         return this.api
                     .find('MyRejectedOrders')
+                    .then( (result : any) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
+    getMyDeliveredOrders(): Promise<any>{
+
+        return this.api
+                    .find('MyDeliveredOrders')
                     .then( (result : any) => {                 
                         return result;
                     })

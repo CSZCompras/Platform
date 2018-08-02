@@ -64,7 +64,7 @@ export class Master {
 
     
 
-    attached() {
+    attached() { 
         ScriptRunner.runScript();
         this.isLogged = this.service.isLogged();
         this.identity = this.service.getIdentity();
@@ -82,14 +82,7 @@ export class Master {
 
 			this.isLogged = this.service.isLogged()
 			this.identity = this.service.getIdentity(); 
-			ScriptRunner.runScript();  
-
-			if(this.identity.type == 0){
-				this.router.navigate('/#/dashboard');
-			}
-			else if(this.identity.type == 1){
-				this.router.navigateToRoute('dashboardFoodService');
-			}   
+			ScriptRunner.runScript();   
 		}); 
 
 		this.ea.subscribe('loadingData', () => {
@@ -149,7 +142,14 @@ export class Master {
 				this.ea.subscribe('registrationSent', () => this.loadFoodServiceConnections()); // ???
 				this.ea.subscribe('foodApproved', () => this.loadFoodServiceConnections());  // ???
 			}
+		} 
+ 
+		if(this.identity.type == UserType.Supplier){
+			this.router.navigateToRoute('dashboardFornecedor');
 		}
+		else if(this.identity.type == UserType.FoodService){
+			this.router.navigateToRoute('dashboardFoodService');
+		}   
 
 	}
 
@@ -237,9 +237,7 @@ export class Master {
 
         this.router = router;
         this.addRoutes(config, router);
-    }
-
-    
+    } 
 
    updateNotifications(){
         if(this.unSeenCount > 0)  {
@@ -262,29 +260,58 @@ export class Master {
     }
     
 
-   addRoutes(config: RouterConfiguration, router: Router) : void { 
+   
+	addRoutes(config: RouterConfiguration, router: Router) : void {   
 
-    config.map([    
-        { route: '', redirect: 'dashboard' },
-        { route: 'dashboard', name: 'dashboard', moduleId: PLATFORM.moduleName('./dashboard') },
-        { route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./cadastro') } ,
-        { route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./produtos') } ,
-        { route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./regrasDeMercado') } ,
-		{ route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
-        { route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./foodService/dashboard') }, 
-        { route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./foodService/cadastro') }, 
-        { route: 'fornecedores', name: 'fornecedores', moduleId: PLATFORM.moduleName('./foodService/fornecedores') }, 
-        { route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./foodService/meusProdutos') },  
-        { route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./fornecedor/clientes') } ,  
-        { route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./cotacao/cotacao') }  ,  
-        { route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./cotacao/pedidosFornecedor') } ,  
-        { route: 'pedidosFoodService', name: 'pedidosFoodService', moduleId: PLATFORM.moduleName('./foodService/pedidosFoodService') },
-        { route: 'produtosAdmin', name: 'produtosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listProduct') },
-		{ route: 'suppliersAdmin', name: 'suppliersAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/listSuppliers') },
-		{ route: 'foodServicesAdmin', name: 'foodServicesAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/listFoodServices') },
-		{ route: 'editSupplierAdmin', name: 'editSupplierAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/editSupplier') },
-		{ route: 'editFoodServiceAdmin', name: 'editFoodServiceAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/editFoodService') }
-    ]);
+		this.identity = this.service.getIdentity(); 
+
+		if(this.identity == null || this.identity.type == UserType.Admin){
+
+			config.map([    				
+				{ route: '', redirect: 'dashboard' },
+				{ route: 'dashboard', name: 'dashboard',  moduleId: PLATFORM.moduleName('./dashboard')}
+			]);
+		}
+		else if(this.identity.type == UserType.Supplier){
+
+			config.map([    				
+				{ route: '', redirect: 'dashboard' },
+				{ route: 'dashboard', name: 'dashboard', moduleId: PLATFORM.moduleName('./fornecedor/dashboard')  }
+			]);
+		}
+
+		else if(this.identity.type == UserType.FoodService){
+			
+			config.map([    				
+				{ route: '', redirect: 'dashboard' },
+				{ route: 'dashboard', name: 'dashboard',  moduleId: PLATFORM.moduleName('./foodService/dashboard')}
+			]);
+		}
+
+		config.map([    
+		 
+			{ route: 'dashboardFornecedor', name: 'dashboardFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/dashboard') },
+			{ route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./cadastro') } ,
+			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./produtos') } ,
+			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./regrasDeMercado') } ,
+			{ route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
+			{ route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./foodService/dashboard') }, 
+			{ route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./foodService/cadastro') }, 
+			{ route: 'fornecedores', name: 'fornecedores', moduleId: PLATFORM.moduleName('./foodService/fornecedores') }, 
+			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./foodService/meusProdutos') },  
+			{ route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./fornecedor/clientes') } ,  
+			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./cotacao/cotacao') }  ,  
+			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./cotacao/pedidosFornecedor') } ,  
+			{ route: 'pedidosFoodService', name: 'pedidosFoodService', moduleId: PLATFORM.moduleName('./foodService/pedidosFoodService') },
+			{ route: 'produtosAdmin', name: 'produtosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listProduct') },
+			{ route: 'suppliersAdmin', name: 'suppliersAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/listSuppliers') },
+			{ route: 'foodServicesAdmin', name: 'foodServicesAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/listFoodServices') },
+			{ route: 'editSupplierAdmin', name: 'editSupplierAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/editSupplier') },
+			{ route: 'editFoodServiceAdmin', name: 'editFoodServiceAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/editFoodService') },
+			{ route: 'avaliacoes', name: 'avaliacoes', moduleId: PLATFORM.moduleName('./admin/supplier/evaluations') },
+			{ route: 'avaliacoesFornecedor', name: 'avaliacoesFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/evaluations') },
+			{ route: 'avaliacoesFoodService', name: 'avaliacoesFoodService', moduleId: PLATFORM.moduleName('./foodService/evaluations') }		
+		]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });
     }

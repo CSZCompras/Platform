@@ -30,7 +30,7 @@ export class Clientes{
                 private nService : NotificationService, 
                 private ea : EventAggregator) {   
                 
-                this.ea.subscribe( 'RegistrationSent', () =>{
+                this.ea.subscribe( 'registrationSent', () =>{
                         this.loadData();
                 });
 

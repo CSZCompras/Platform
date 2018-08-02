@@ -12,6 +12,7 @@ import { DialogService } from 'aurelia-dialog';
 import { AceitePedido } from '../components/partials/aceitePedido'; 
 import { Order } from '../../domain/order';
 import { OrderStatus } from '../../domain/orderStatus';
+import { BaixaPedido } from '../components/partials/baixaPedido';
 
 @autoinject
 export class PedidosFoodService{
@@ -142,12 +143,40 @@ export class PedidosFoodService{
                 });
         }
 
+        else if(this.selectedStatus == OrderStatus.Delivered){
+
+            this.orderRepo
+                .getMyDeliveredOrders()
+                .then( (x : Order[]) =>{
+                    this.orders = x;
+                    this.filteredOrders = this.orders;
+                    this.filter = '';
+                })
+                .then( () => this.ea.publish('dataLoaded'))
+                .catch( e => {
+                    this.nService.presentError(e); 
+                });
+        }
         
     } 
 
     quoteAgain(order : Order){
 
         this.router.navigate('cotacao?orderId=' + order.id);
+    }
+
+    deliverOrder(order : Order){
+
+        var params = { Order : order};
+
+        this.dialogService
+            .open({ viewModel: BaixaPedido, model: params, lock: false })
+            .whenClosed(response => {
+                if (response.wasCancelled) {
+                    return;
+                } 
+                order.status = OrderStatus.Delivered; 
+            });
     }
 
     search(){ 

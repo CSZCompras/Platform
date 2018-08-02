@@ -6,21 +6,20 @@
            <div class="col-lg-12">
               <div class="card">
                  <div class="card-header">
-                    ${title}
-                    <div class="header-btn-block">                            
-                       <span class="data-range dropdown show">                           
-                          <a href="#" class="btn btn-primary dropdown-toggle" id="navbar-dropdown-sales-overview-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="true"><i class="batch-icon batch-icon-search-alt"></i></a>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-sales-overview-header-button" x-placement="bottom-end" style="position: absolute; transform: translate3d(-191px, 30px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a class="dropdown-item" href="#" click.trigger="alterView(1)">Sugeridos</a> 
-                                <a class="dropdown-item" href="#" click.trigger="alterView(2)">Meus fornecedores</a> 
-                                <a class="dropdown-item" href="#"  click.trigger="alterView(3)">Todos</a> 
-                            </div>
-                       </span>
-                    </div>
+                    ${title} 
                  </div>
                  <div class="card-body">
                     <form>
-                       <div class="form-row align-items-center"> 
+                       <div class="form-row align-items-center">                            
+                            <div class="col-lg-3">
+                                <label for="input-task-title" class="active">Filtro</label>           
+                                <select class="form-control  "     value.bind="tipoFiltro" change.delegate="alterView()">
+                                <option value="1">Sugeridos</option>
+                                <option value="2">Meus fornecedores</option>
+                                <option value="4">Bloqueados</option>
+                                <option value="3">Todos</option>
+                                </select>
+                            </div>
                           <div class="col-lg-3">
                              <label for="input-task-title" class="active">Nome do fornecedor <span class="required-item">*</span></label>
                              <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome..."   change.trigger="search()"   value.bind="filter" />
@@ -53,8 +52,9 @@
                                 <span class="badge badge-warning" if.bind="x.status == 1">Cadastro enviado</span>
                                 <span class="badge badge-success" if.bind="x.status == 2">Disponível</span>
                                 <span class="badge badge-danger" if.bind="x.status == 3">Cadastro Rejeitado</span>
-                                <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
                                 <span class="badge badge-danger" if.bind="x.status == 4">Bloqueado</span>
+                                <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
+                                <span class="badge badge-danger" if.bind="x.status == 6">Bloqueado</span>
                              </td>
                              <td>${x.supplier.contact.name}</td>
                              <td>${x.supplier.contact.email}</td>
@@ -62,9 +62,11 @@
                              <td cnpj>${x.supplier.cnpj}</td>
                              <td>
                                 <button  type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 0 && ! x.isLoading" click.trigger="connect(x)">Conectar</button>
+                                <button  type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">Bloquear</button>
+                                <button  type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="x.status == 6 && ! x.isLoading" click.trigger="unblock(x)">Desbloquear</button>
                              </td>
                              <td>
-                                <div class="fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'}">
+                                <div class="fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'} mx-auto">
                                     <i class="fa fa-refresh fa-spin"></i>
                                 </div> 
                              </td>

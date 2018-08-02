@@ -41,9 +41,7 @@ export class SimulationRepository{
             });
     }
 
-    getCotacaoFromOrder(orderId: string): Promise<CotacaoViewModel> {
-
-        debugger;
+    getCotacaoFromOrder(orderId: string): Promise<CotacaoViewModel> { 
 
         return this.api
             .find('cotacaoParcial?orderId=' + orderId)

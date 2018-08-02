@@ -13,8 +13,7 @@ export class MoneyValueConverter{
 
     fromView(value) { 
         
-        if(value != null){
-            debugger;
+        if(value != null){ 
             return (value.split(".").join("").replace(",",""))/100;
         }
         return null;
