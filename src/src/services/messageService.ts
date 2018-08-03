@@ -45,7 +45,7 @@ export class MessageService{
 					})+ "\x1e"); 
             };
 			
-			ws.onmessage = function (event) {  
+			ws.onmessage = function (event) {   
 
 				var data : string;
 				
@@ -55,7 +55,9 @@ export class MessageService{
 
 				var msg = JSON.parse(data);
 
-				if( msg.type == 1){					
+				if( msg.type == 1){	
+					
+					debugger;
 
 					other.ea.publish('newNotification', msg.arguments[0]);
 				}

@@ -39,6 +39,8 @@ export class Fornecedores{
                 this.tipoFiltro = '2';
                 
                 this.ea.subscribe( 'waitingToApprove', (conn) =>{
+
+                        debugger;
                         
                         this.suppliers.forEach(x => {
                                 
@@ -49,6 +51,9 @@ export class Fornecedores{
                 });
                 
                 this.ea.subscribe( 'registrationApproved', (conn) =>{
+
+                        debugger;
+
                         
                         this.suppliers.forEach(x => {
                                 
@@ -59,6 +64,8 @@ export class Fornecedores{
                 });
 
                 this.ea.subscribe( 'registrationRejected', (conn) =>{
+
+                        debugger;
                         
                         this.suppliers.forEach(x => {
                                 
@@ -69,6 +76,8 @@ export class Fornecedores{
                 });                
                 
                 this.ea.subscribe( 'clientBlocked', (conn) =>{ 
+
+                        debugger;
                         
                         this.suppliers.forEach(x => {
                                 

@@ -240,6 +240,7 @@ export class Master {
     } 
 
    updateNotifications(){
+
         if(this.unSeenCount > 0)  {
 
         var notificationIds = new Array<string>();
@@ -251,8 +252,13 @@ export class Master {
         this.notificationRepository
             .updateUnseen(notificationIds)
             .then( () =>{
-                this.unSeenCount = 0;
-                this.getNotifications();
+				this.unSeenCount = 0;
+				
+				
+				unSeenList.forEach( (x) => {
+					x.wasSeen = true;
+				});
+
             }).catch( e =>  {
                 this.nService.presentError(e);
             });

@@ -4,7 +4,7 @@ export class Notification{
     receiver : string;
     title : string;
     message : string;
-    wasSeen : string;
+    wasSeen : boolean;
     createdOn : Date;
     eventName : string;
     body : any;

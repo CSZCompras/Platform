@@ -1,6 +1,6 @@
 export default {
-  debug: true,
-  testing: true,
-  apiAddress: 'http://localhost:49791/api/',
+  debug: false,
+  testing: false,
+  apiAddress: 'https://cszapi.azurewebsites.net/api/',
   viacepAddress: 'viacep.com.br/ws/00000000/json/'
 };
