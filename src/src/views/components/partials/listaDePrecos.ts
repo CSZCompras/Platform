@@ -32,8 +32,8 @@ export class ListaDePrecos{
         this.loadData();
 
           this.ea.subscribe('uploadSupplierProductFileDone', (file : SupplierProductFile) => {
-            this.loadData();
-        });
+                this.loadData();
+          });
     }
 
     loadData() {

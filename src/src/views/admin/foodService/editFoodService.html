@@ -3,8 +3,10 @@
     <require from="../../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
 	<require from="../../components/valueConverters/cnpjValueConverter"></require>
 	<require from="../../components/valueConverters/cepValueConverter"></require>
+	<require from="../../components/valueConverters/inscricaoEstadualValueConverter"></require>
     <require from="../../components/attributes/cnpjMask"></require>
     <require from="../../components/attributes/cepMask"></require>
+    <require from="../../components/attributes/inscricaoEstadualMask"></require>
 
 <div class="row mb-5 task-manager au-animate">
         <div class="col-lg-12"> 
@@ -38,9 +40,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Inscrição Estadual<span class="text-danger  ml-1 bold">*</span></label>
-                                <select class="form-control" value.bind="foodService.stateRegistration.id" disabled.bind="! edit" >
-                                    <option  repeat.for="state of stateRegistrations" value.bind="state.id">${state.name}</option> 
-                                 </select>
+                                <input type="text" class="form-control "   inscricaoEstadual  value.bind="foodService.inscricaoEstadual | inscricaoEstadual" />
                             </div>
                         </div>  
                     </div>                                                                                                                                                          

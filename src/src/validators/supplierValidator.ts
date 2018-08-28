@@ -6,6 +6,7 @@ export class SupplierValidator {
 
     errorMessages : Array<string>;
     isNameInvalid : boolean;    
+    isInscricaoEstadualInvalid : boolean;
     addressValidator : AddressValidator;    
     contactValidator : ContactValidator;
 
@@ -34,6 +35,7 @@ export class SupplierValidator {
             });                        
 
         this.validateName();
+        this.validateInscricaoEstadual();
         return this.errorMessages;
     }
 
@@ -44,6 +46,19 @@ export class SupplierValidator {
         }
         else{
             this.isNameInvalid = false;
+        }
+    }
+
+    validateInscricaoEstadual(){
+
+        debugger;
+        
+        if(this.supplier.inscricaoEstadual == null || this.supplier.inscricaoEstadual == ''){
+            this.errorMessages.push('A inscrição estadual é obrigatória');
+            this.isInscricaoEstadualInvalid = true;
+        }
+        else{
+            this.isInscricaoEstadualInvalid = false;
         }
     }
 

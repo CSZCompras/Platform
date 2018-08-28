@@ -28,10 +28,13 @@ export class HistoricoDeImportacao {
 
     
      attached(){
+         
         this.loadData();
 
         this.ea.subscribe('uploadSupplierProductFileDone', (file : SupplierProductFile) => {
-            this.files.unshift(file);
+            if(file != null){
+                this.files.unshift(file);
+            }
         });
     }
 

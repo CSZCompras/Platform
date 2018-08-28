@@ -1,6 +1,6 @@
 export default {
   debug: false,
   testing: false,
-  apiAddress: 'https://cszapi.azurewebsites.net/api/',
+  apiAddress: 'https://csz.azurewebsites.net/Backend/api/',
   viacepAddress: 'viacep.com.br/ws/00000000/json/'
 };

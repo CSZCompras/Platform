@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@aspnet/signalr": "^1.0.0-preview2-final",
+    "@types/chartjs": "0.0.31",
     "@types/jquery-mask-plugin": "^1.14.3",
     "@types/toastr": "^2.1.35",
     "aurelia-animator-css": "^1.0.4",

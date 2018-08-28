@@ -15,6 +15,7 @@ export class Supplier {
     stateRegistration       : StateRegistration;
     address                 : Address;
     contact                 : Contact; 
+    inscricaoEstadual       : string;
     foodServiceSuppliers    : FoodServiceSupplier[];
     status                  : SupplierStatus;
 

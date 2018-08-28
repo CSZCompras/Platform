@@ -151,15 +151,23 @@ export class AtualizacaoDePrecos{
     }
 
     saveAll(){
-
+ 
         this.isLoading = true;
 
         this.repository
             .alterSuplierProduct(this.alteredProducts)
             .then( (result : any) =>{    
-                this.nService.success('Os produtos foram atualizados com sucesso!'); 
-                this.ea.publish('uploadSupplierProductFileDone');
+                
+                this.nService.success('Os produtos foram atualizados com sucesso!');  
+                
+                this.filteredProducts.forEach(x => {
+                    ( <any> x).wasAltered = false; 
+                });
+
                 this.isLoading = false;
+
+                this.ea.publish('uploadSupplierProductFileDone');
+
             }).catch( e => {
                 this.nService.error(e);
                 this.isLoading = false;

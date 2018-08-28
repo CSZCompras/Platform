@@ -25,7 +25,10 @@
                              <label for="input-task-title" class="active">Nome do cliente</label>
                              <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome..."  change.trigger="search()"   value.bind="filter"  />
                           </div>
-                          <div class="col-lg-3 ml-4 mt-3">
+                          <div class="col-lg-3 ml-4 mt-3 fa-2x text-center" if.bind="processing" >
+                              <i class="fa fa-refresh fa-spin"></i>
+                          </div> 
+                          <div class="col-lg-3 ml-4 mt-3"  if.bind="! processing"  >
                              <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
                           </div>
                        </div>
@@ -49,11 +52,11 @@
                           <tr repeat.for="x of filteredFoodServices">
                              <td>${x.foodService.name}</td>
                              <td> 
-                                <span class="badge badge-warning" if.bind="x.status == 1">Não cadastrado</span>
+                                <span class="badge badge-danger" if.bind="x.status == 1">Não cadastrado</span>
                                 <span class="badge badge-success" if.bind="x.status == 2">Cadastrado</span>
                                 <span class="badge badge-default" if.bind="x.status == 3">Rejeitado</span>
-                                <span class="badge badge-danger" if.bind="x.status == 4">Bloqueado</span>
-                                <span class="badge badge-danger" if.bind="x.status == 5">Aguardando aprovação</span>
+                                <span class="badge badge-default" if.bind="x.status == 4">Bloqueado</span>
+                                <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
                              </td>
                              <td>${x.foodService.contact.name}</td>
                              <td>${x.foodService.contact.email}</td>

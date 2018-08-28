@@ -141,6 +141,7 @@ export class Master {
 				this.loadFoodServiceConnections();
 				this.ea.subscribe('registrationSent', () => this.loadFoodServiceConnections()); // ???
 				this.ea.subscribe('foodApproved', () => this.loadFoodServiceConnections());  // ???
+				this.ea.subscribe('registrationRejected', () => this.loadFoodServiceConnections());  // ???
 			}
 		} 
  

@@ -33,9 +33,8 @@ export class Fornecedores{
                 private repository : SupplierConnectionRepository, 
                 private  productRepository : ProductRepository, 
                 private nService : NotificationService,
-                private ea : EventAggregator) {    
-                        
-                this.isLoading = false;
+                private ea : EventAggregator) { 
+
                 this.tipoFiltro = '2';
                 
                 this.ea.subscribe( 'waitingToApprove', (conn) =>{
@@ -102,20 +101,32 @@ export class Fornecedores{
 
                 this.ea.publish('loadingData'); 
                 this.loadData();
-                this.alterView();
+                this.alterView()
+                    .then( () => {
+                        this.ea.publish('dataLoaded');
+                         this.isLoading = false;
+                    });;
         }
 
         loadData() : void {
                 
-               if(this.type == null || this.type == 0){
-                        this.tipoFiltro = '2';
-               }
+                this.isLoading = true;
+                
+                
+        //        if(this.type == null || this.type == 0){
+        //                 this.tipoFiltro = '2';
+        //        }
                
-               this.alterView().then( () => this.ea.publish('dataLoaded'))
+        //        this.alterView()
+        //            .then( () => {
+        //                this.ea.publish('dataLoaded');
+        //                 this.isLoading = false;
+        //            });
         }
 
 
         alterView() : Promise<any> {
+ 
 
                 this.filteredSuppliers = [];
                 this.suppliers = [];

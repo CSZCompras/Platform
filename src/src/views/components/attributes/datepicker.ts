@@ -10,8 +10,8 @@ export class DatePicker {
   attached() {
     ($(this.element) as any).datetimepicker({
       onGenerate:function( ct ){
-        jQuery(this).find('.xdsoft_date.xdsoft_weekend')
-          .addClass('xdsoft_disabled');
+        /*jQuery(this).find('.xdsoft_date.xdsoft_weekend')
+          .addClass('xdsoft_disabled');*/
       },
       format: 'd/m/Y', 
       timepicker:false,

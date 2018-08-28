@@ -257,11 +257,8 @@
           "whatwg-fetch",
           {
             "name": "chart.js",
-            "main": "src/chart.js",
-            "path": "../node_modules/chart.js",
-            "resources": [
-              "dist/docs/style.css"
-            ]
+            "main": "Chart.min",
+            "path": "../node_modules/chart.js/dist"
           }
         ]
       }

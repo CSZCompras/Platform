@@ -23,9 +23,14 @@
                              <label for="input-task-title" class="active">Nome do fornecedor <span class="required-item">*</span></label>
                              <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome..."   change.trigger="search()"   value.bind="filter" />
                           </div>
-                          <div class="col-lg-3 ml-4 mt-3">
+
+                          <div class="col-lg-3 ml-4 mt-3"  if.bind="! isLoading" >
                              <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
                           </div>
+
+                          <div class="col-lg-3 ml-4 mt-3 fa-2x text-center" if.bind="isLoading" >
+                              <i class="fa fa-refresh fa-spin"></i>
+                          </div> 
                        </div> 
                  </div>
                  <div class="card-body">

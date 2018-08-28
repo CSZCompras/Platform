@@ -23,6 +23,7 @@ export class Clientes{
         filter                  : string;
         tipoFiltro              : string;
         showDetails             : boolean;
+        processing              : boolean;
 
         constructor(
                 private router: Router,  
@@ -41,7 +42,7 @@ export class Clientes{
                 });
 
                 
-
+                this.processing = false;
                 this.showDetails = false;
         }
         
@@ -83,14 +84,17 @@ export class Clientes{
 
         loadSuppliers() : Promise<any> {
 
+                this.processing = true;
+
                 return this.repository
                                 .getSuppliers(this.type)
                                 .then( (data : FoodServiceConnectionViewModel[]) =>{
                                         this.foodServices = data;
                                         this.search();
-                                
+                                        this.processing = false;
                                 }).catch( e => {
-                                this.nService.presentError(e);
+                                        this.nService.presentError(e);
+                                        this.processing = false;
                                 });
         } 
 
