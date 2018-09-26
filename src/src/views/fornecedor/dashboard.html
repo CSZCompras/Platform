@@ -1,6 +1,7 @@
 <template> 
     <require from="../components/attributes/moneyMask"></require>
-    <require from="../components/valueConverters/moneyValueConverter"></require>
+	<require from="../components/valueConverters/moneyValueConverter"></require>
+	<require from="../components/valueConverters/dateFormatValueConverter"></require>
 
     <div class="row mb-5 au-animate">
         <div class="col-md-12">
@@ -79,15 +80,17 @@
 												<i class="batch-icon batch-icon-calendar"></i>
 											</a>
 											<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-sales-overview-header-button">
-												<a class="dropdown-item" href="today">Today</a>
-												<a class="dropdown-item" href="week">This Week</a>
-												<a class="dropdown-item" href="month">This Month</a>
-												<a class="dropdown-item active" href="year">This Year</a>
+												<a class="dropdown-item" href="#" click.trigger="loadOrdersValues(1)">Ano</a>
+												<a class="dropdown-item" href="#" click.trigger="loadOrdersValues(0)">Mês</a>
+												<a class="dropdown-item" href="#"  click.trigger="loadOrdersValues(2)">Início</a>
 											</div>
 										</span>
 									</div>
 								</div>
-								<div class="card-body">
+								<div class="card-body"> 
+										<span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="! pedidosChart">
+												<i class="fa fa-refresh fa-spin"></i>
+										</span>
 									<div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-legend-1="Sales ($)" data-chart-legend-2="Orders" data-chart-height="281">
                                         <canvas id="pedidos" width="1010" height="281" style="width: 1010.69px; height: 281px; display: block;"></canvas>
                                     </div>
@@ -97,24 +100,33 @@
 						<div class="col-md-6 col-lg-6 col-xl-4 mb-5">
 							<div class="card card-md">
 								<div class="card-header">
-									Traffic Sources
-									<div class="header-btn-block">
-										<span class="data-range dropdown">
-											<a href="#" class="btn btn-primary dropdown-toggle waves-effect waves-light" id="navbar-dropdown-traffic-sources-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
-												<i class="batch-icon batch-icon-calendar"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-traffic-sources-header-button">
-												<a class="dropdown-item" href="today">Today</a>
-												<a class="dropdown-item" href="week">This Week</a>
-												<a class="dropdown-item" href="month">This Month</a>
-												<a class="dropdown-item active" href="year">This Year</a>
-											</div>
-										</span>
-									</div>
+									Últimas avaliações 
 								</div>
 								<div class="card-body text-center">
-									<p class="text-left">Your top 5 traffic sources</p>
-									<div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59" style="width: 224.8px; height: 224.8px;"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe><canvas id="traffic-source" width="225" height="225" style="display: block; width: 225px; height: 225px;"></canvas></div>
+									<span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="! evaluations">
+											<i class="fa fa-refresh fa-spin"></i>
+									</span>
+									<table class="table table-hover mt-2" if.bind="evaluations">
+										<thead>
+											<tr> 
+												<th class="text-center">Food Service</th>  
+												<th class="text-center" style="min-width: 250px;">Avaliação</th>  
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr repeat.for="x of evaluations"> 
+												<td class="text-center">${x.foodService.name}</td>  
+												<td class="text-center"> 
+														<i class="batch-icon ${ x.rating >= 1 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" ></i>
+														<i class="batch-icon ${ x.rating >= 2 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" ></i>
+														<i class="batch-icon ${ x.rating >= 3 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" ></i>
+														<i class="batch-icon ${ x.rating >= 4 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" ></i>
+														<i class="batch-icon ${ x.rating >= 5 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" ></i>   
+												</td>  
+											</tr>
+										</tbody>
+									</table> 
 								</div>
 							</div>
 						</div>
@@ -130,15 +142,17 @@
 												<i class="batch-icon batch-icon-calendar"></i>
 											</a>
 											<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-traffic-sources-header-button">
-												<a class="dropdown-item" href="today">Today</a>
-												<a class="dropdown-item active" href="week">This Week</a>
-												<a class="dropdown-item" href="month">This Month</a>
-												<a class="dropdown-item" href="year">This Year</a>
+												<a class="dropdown-item" href="#" click.trigger="loadMainClients(1)">Ano</a>
+												<a class="dropdown-item" href="#" click.trigger="loadMainClients(0)">Mês</a>
+												<a class="dropdown-item" href="#"  click.trigger="loadMainClients(2)">Início</a>
 											</div>
 										</span>
 									</div>
 								</div>
 								<div class="card-body text-center">
+									<span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="! clientesChart">
+										<i class="fa fa-refresh fa-spin"></i>
+									</span>
 									<div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59">
 										<canvas id="principaisClientesChart"></canvas>
 									</div>
@@ -148,29 +162,21 @@
 						<div class="col-md-4">
 							<div class="card card-md">
 								<div class="card-header">
-									Doughnut Chart
-									<div class="header-btn-block">
-										<span class="data-range dropdown">
-											<a href="#" class="btn btn-primary dropdown-toggle" id="navbar-dropdown-traffic-sources-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
-												<i class="batch-icon batch-icon-calendar"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-traffic-sources-header-button">
-												<a class="dropdown-item" href="today">Today</a>
-												<a class="dropdown-item active" href="week">This Week</a>
-												<a class="dropdown-item" href="month">This Month</a>
-												<a class="dropdown-item" href="year">This Year</a>
-											</div>
-										</span>
-									</div>
+									Produtos mais vendidos 
 								</div>
 								<div class="card-body text-center">
-									<div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59">
-										<canvas id="demo-doughnut-chart"></canvas>
+									<span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="! produtosChart">
+										<i class="fa fa-refresh fa-spin"></i>
+									</span>
+									<div class="card-body text-center">
+										<div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59">
+											<canvas id="principaisProdutosChart"></canvas>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<!-- <div class="col-md-4">
 							<div class="card card-md">
 								<div class="card-header">
 									Radar Chart
@@ -194,7 +200,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
         </div>
     </div>           

@@ -66,7 +66,8 @@ export class RejeicaoPedido{
                         .rejectOrder(this.vm)
                         .then( (x : Order[]) => {
                             this.processing = false;
-                            this.notification.success('Pedido rejeitado com sucesso!') ;                              
+                            this.notification.success('Pedido rejeitado com sucesso!') ;                                      
+                            this.ea.publish('orderRejected', this.order);                                
                             this.order.status = OrderStatus.Rejected;
                             this.controller.ok();           
                         })
