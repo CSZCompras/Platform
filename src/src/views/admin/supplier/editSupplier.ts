@@ -38,7 +38,7 @@ export class EditSupplier{
     users               : User[];    
     user                : User;   
     userEditing         : User;     
-	validator           : SupplierValidator;
+	  validator           : SupplierValidator;
 
     constructor(
         private router              : Router, 
