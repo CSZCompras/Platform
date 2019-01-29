@@ -17,4 +17,5 @@ export class Order{
     items               : OrderItem[];
     deliveryDate        : Date;
     paymentDate         : Date;
+    reasonToReject      : string;
 }

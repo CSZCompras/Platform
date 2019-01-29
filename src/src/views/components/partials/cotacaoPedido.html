@@ -1,0 +1,101 @@
+<template>
+        <div class="card-body">                                                                                                                                                        
+              <h4 class="mt-5">Dados do pedido</h4>
+              <div class="col-md-12 card-table table-responsive">
+                 <table class="table table-hover table-sm align-middle">
+                    <thead>
+                       <tr>
+                          <th class="text-center">Nome do Produto</th>
+                          <th class="text-right">Preço unitário</th>
+                          <th class="text-right">Quantidade</th>
+                          <th class="text-right">Total</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                       <tr>
+                          <td>
+                             ${item.product.name}
+                             <div>
+                                <small class="boldness-light">${item.supplier.name}</small>
+                             </div>
+                          </td>
+                          <td class="text-right">
+                             ${item.price | money}
+                          </td>
+                          <td class="text-right">
+                             ${item.quantity}
+                          </td>
+                          <td class="text-right">
+                             ${item.total  | money}
+                          </td>
+                       </tr>
+                       <tr>
+                          <td colspan="3" class="text-right">
+                             <strong>Total:</strong>
+                          </td>
+                          <td class="text-right">
+                             <strong>${result.total  | money}</strong>
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </div>
+              <h4>Sumário</h4>
+              <div class="col-md-12 card-table table-responsive">
+                 <table class="table table-hover table-sm align-middle">
+                    <thead>
+                       <tr>
+                          <th class="text-left">Fornecedor</th>
+                          <th class="text-center">Avaliação</th>
+                          <th class="text-center">Qtde de dias para aceite</th>
+                          <th class="text-center">Período de Aceite</th>
+                          <th class="text-center">Dias de entrega</th>
+                          <th class="text-center">Período de Entrega</th> 
+                          <th class="text-right">Total</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                       <tr  repeat.for="item of result.summaryItems">
+                          <td>
+                             ${item.supplier.name} 
+                          </td>
+                          <td class="text-center">
+                              <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                              <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                              <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                              <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                              <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                          </td>
+                          <td class="text-center">
+                              ${item.rule.numberOfDaysToAccept} dias
+                          </td>
+                          <td class="text-center">
+                              ${item.rule.periodToAcceptOrder1 | time}
+                              <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
+                              ${item.rule.periodToAcceptOrder2 | time}
+                          </td>
+                          <td>
+                              <span if.bind="item.rule.deliveryOnMonday" class="badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                              <span if.bind="item.rule.deliveryOnTuesday"  class="badge  ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                              <span if.bind="item.rule.deliveryOnWednesday"  class="badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                              <span if.bind="item.rule.deliveryOnThursday"  class="badge  ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                              <span if.bind="item.rule.deliveryOnFriday"  class="badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>   
+                              <br />
+                              <br />
+                              <span if.bind="item.rule.deliveryOnSaturday"  class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>     
+                              <span  if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>                                                                                                                                                                               
+                          </td>
+                          <td class="text-center">
+                              ${item.rule.deliverySchedule1 | time}
+                              <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
+                              ${item.rule.deliverySchedule2 | time}
+                          </td> 
+                          <td class="text-right">
+                             ${item.total  | money}
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table> 
+              </div>
+           </div>
+</template>

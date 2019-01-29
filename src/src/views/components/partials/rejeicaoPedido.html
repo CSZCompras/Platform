@@ -1,0 +1,50 @@
+<template> 
+        <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+        <require from="../attributes/moneyMask"></require>
+        <require from="../attributes/datepicker"></require>
+        <require from="../valueConverters/dateFormatValueConverter"></require>
+    
+        <div class="row mb-5">
+                <div class="col-md-12">
+                   <div class="card">
+                      <div class="card-header">
+                         Rejeição de Pedido
+                      </div>
+                      <div class="card-body">                     
+                          <div class="row"> 
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <h5 class="control-label">Tem certeza que deseja rejeitar o pedido <strong>nº ${order.code}</strong>?</h5>
+                                </div>        
+                            </div> 
+                        </div>   
+                        <div class="row"> 
+                              <div class="col-md-12 mt-3">
+                                  <div class="form-group">
+                                      <label class="control-label">Informe o motivo da rejeição</label>
+                                      <textarea class="form-control " value.bind="vm.reason & validate" rows="3"></textarea>                                      
+                                        <h6 class="text-center mt-2 font-bold">
+                                                <strong>Ao rejeitar pedidos sua avaliação pode ser penalizada </strong>
+                                        </h6>
+                                  </div>        
+                              </div> 
+                        </div>  
+                    </div>       
+                     <div class="row mb-4">                        
+						<div class="fa-2x text-center mx-auto " if.bind="processing" >
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div> 
+                        <button type="button" class="btn btn-danger waves-effect waves-light mx-auto ml-5"  if.bind="! processing"  click.trigger="rejectOrder()" >
+                            <i class="fa fa-times mr-2"></i>Rejeitar
+                        </button>
+                        <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5"   if.bind="! processing"  click.trigger="cancel()">
+                            <i class="fa fa-undo mr-2"></i>Cancelar
+                        </button>
+                        <div class="fa-2x text-center  mx-auto  " if.bind="processing" >
+                                <i class="fa fa-refresh fa-spin"></i>
+                        </div>    
+                     </div>      
+                   </div>
+                </div>
+             </div>    
+    </template>

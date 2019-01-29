@@ -17,7 +17,7 @@
             <div class="col-lg-12">
                <div class="card">
                   <div class="card-header">
-                     <span if.bind="! showdDetails">Meus Pedidos </span>
+                     <span if.bind="! showdDetails">Meus Pedidos </span>                     
                      <span if.bind="showdDetails">Pedido nº ${selectedOrder.code}</span>
                   </div>
                   <div class="card-body">
@@ -25,15 +25,18 @@
                         <div class="col-md-12" if.bind="showdDetails"> 
                            <div class="mt-1"> 
                                     <h5 class="mb-0">                                   
-                                       ${selectedOrder.supplier.name}         
+                                       ${selectedOrder.supplier.name} 
                                        <span class="badge badge-danger float-right" if.bind="selectedOrder.status == 0">Aguardando aprovação</span>    
                                        <span class="badge badge-warning float-right" if.bind="selectedOrder.status == 1">Aprovado</span>  
                                        <span class="badge badge-primary float-right" if.bind="selectedOrder.status == 2">Entregue</span>
                                        <span class="badge badge-default float-right" if.bind="selectedOrder.status == 3">Rejeitado</span>
+                                       <br /><br />
+                                       <span class="badge badge-danger float-left" if.bind="selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' ">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span>
+                                       
                                     </h5> 
                                  <div>							 
                                     <div class="card-header ml-0" role="tab" id="headingTwo">
-                                                          <h4>Dados do Fornecedor</h4>
+                                       <h4>Dados do Fornecedor</h4>
                                     </div>								
                                     <div>
                                        <div class="card-body">
@@ -136,6 +139,7 @@
                                           <thead>
                                              <tr>
                                                 <th class="text-center">Nome do Produto</th>
+                                                <th>Descrição</th>
                                                 <th>Categoria</th>
                                                 <th>UM</th>
                                                 <th>Marca</th>
@@ -146,7 +150,8 @@
                                           </thead>
                                           <tbody>
                                              <tr repeat.for="item of selectedOrder.items">
-                                                <td>${item.product.name}</td>
+                                                <td>${item.product.name}</td> 
+                                                <td class="text-center  align-middle">${item.product.description}</td>
                                                 <td>${item.product.category.name}</td>
                                                 <td>${item.product.unit.name}</td>
                                                 <td>${item.product.brand.name}</td>

@@ -1,0 +1,60 @@
+<template>
+   <div class="row">
+      <div class="col-lg-4">
+         <div class="form-group">
+            <label class="control-label">Categoria</label>
+            <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+               <option  value=""></option>
+               <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+            </select>
+         </div>
+      </div>
+      <div class="col-lg-4">
+         <div class="form-group">
+            <label class="control-label">Filtro</label> 
+            <input type="text" class="form-control "  value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
+         </div>
+      </div>
+   </div>
+   <!--<div class="row">
+      <div class="col-lg-2">
+         <div class="form-group">
+            <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light "  click.trigger="search()">
+               <span class="gradient">
+                  <!--<i class="batch-icon batch-icon-search-alt"></i> -->
+                  <!--Pesquisar
+               </span>
+            </button>
+         </div>
+      </div>
+   </div>-->
+   <div class="row" if.bind="isFiltered">
+      <div class="col-md-12 pb-5"> 
+         <table class="table table-hover">
+            <thead>
+               <tr>
+                  <th>Nome</th>
+                  <th class="text-center align-middle">Descrição</th>
+                  <th>Categoria</th>
+                  <th>UM</th> 
+                  <th></th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr repeat.for="product of filteredProducts">
+                  <td>${product.name}</td>
+                  <td class="text-center align-middle">${product.description}</td>
+                  <td>${product.category.name}</td>
+                  <td>${product.unit.name}</td> 
+                  <td>
+                        <button if.bind="! product.isLoading" type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }" disabled.bind="isProcessing" click.trigger="addProduct(product)">Incluir</button>
+                        <div class="fa-2x " if.bind="product.isLoading  == true">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div> 
+                  </td> 
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+</template>

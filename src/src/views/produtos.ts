@@ -9,17 +9,54 @@ import 'jquery-mask-plugin';
 @autoinject
 export class Produtos {
 
-    productAddedCount : number;
+    productAddedCount             : number;
+    selecaoDeProdutosLoaded       : boolean;
+    historicoDeImportacaoLoaded   : boolean;
+    listaDePrecosLoaded           : boolean;
+    atualizacaoDePrecosLoaded     : boolean;
 
     constructor(private router: Router, private ea : EventAggregator) {
       
       this.productAddedCount = 0;
+      this.ea.publish('loadingData');
     } 
 
     attached(){
 
       this.ea.subscribe('newProductsUpdated', (length : number) =>{
         this.productAddedCount = length;
-      })
+      });
+
+      this.ea.subscribe('selecaoDeProdutosLoaded', () =>{
+        debugger;
+          this.selecaoDeProdutosLoaded = true;
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+            this.ea.publish('dataLoaded');
+          }
+      });
+
+      this.ea.subscribe('historicoDeImportacaoLoaded', () =>{
+        debugger;
+          this.historicoDeImportacaoLoaded = true;
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+            this.ea.publish('dataLoaded');
+          }
+      });
+
+      this.ea.subscribe('listaDePrecosLoaded', () =>{
+        debugger;
+          this.listaDePrecosLoaded = true;
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+            this.ea.publish('dataLoaded');
+          }
+      });
+
+      this.ea.subscribe('atualizacaoDePrecosLoaded', () =>{
+          debugger;
+          this.atualizacaoDePrecosLoaded = true;
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+            this.ea.publish('dataLoaded');
+          }
+      });
     }
 } 

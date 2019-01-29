@@ -67,6 +67,7 @@
                                                           <thead>
                                                              <tr>
                                                                 <th>Nome do produto</th>
+                                                                <th>Descrição</th>
                                                                 <th>Categoria</th>
                                                                 <th>UM</th>
                                                                 <th>Marca</th>
@@ -83,6 +84,7 @@
                                                                    </span>
                                                                    <span if.bind="product.suppliers != null && product.suppliers.length > 0">${product.name}</span>
                                                                 </td>
+                                                                <td>${product.description}</td>
                                                                 <td>${product.category}</td>
                                                                 <td>${product.unitOfMeasure}</td>
                                                                 <td>${product.brand}</td>
@@ -130,7 +132,7 @@
                                                        <input type="checkbox" class="custom-control-input" change.trigger="changeSelectedCotacao(result)" checked.bind="result.isSelected">
                                                        <span class="custom-control-indicator"></span> 
                                                        </label>                                                   
-                                                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse${result.id}" aria-expanded="false" aria-controls="collapse${result.id}" class="" >
+                                                       <a data-toggle="collapse" data-parent="#accordion2" href="#collapse${result.id}" aria-expanded="false" aria-controls="collapse${result.id}" class="" >
                                                        Cotação  ${$index + 1} 
                                                        <i class="fa fa-check" if.bind="result.isSelected"></i>
                                                        <span class="text-right float-right">${result.total  | money}</span>
@@ -202,6 +204,7 @@
                                                              <thead>
                                                                 <tr>
                                                                    <th class="text-left">Nome do Produto</th>
+                                                                   <th class="text-left">Descrição</th>
                                                                    <th class="text-center">UM</th>
                                                                    <th class="text-right">Preço unitário</th>
                                                                    <th class="text-right">Quantidade</th>
@@ -215,6 +218,9 @@
                                                                       <div>
                                                                          <small class="boldness-light">${item.supplier.name}</small>
                                                                       </div>
+                                                                   </td>
+                                                                   <td class="text-center  align-middle">
+                                                                      ${item.product.description}
                                                                    </td>
                                                                    <td class="text-center">
                                                                       ${item.product.unit.name}
@@ -315,6 +321,7 @@
                                               <thead>
                                                  <tr>
                                                     <th class="text-left">Nome do Produto</th>
+                                                    <th class="text-center">Descrição</th>
                                                     <th class="text-center">UM</th>
                                                     <th class="text-right">Preço unitário</th>
                                                     <th class="text-right">Quantidade</th>
@@ -325,6 +332,9 @@
                                                  <tr  repeat.for="item of summary.items">
                                                     <td>
                                                        ${item.product.name} 
+                                                    </td> 
+                                                    <td class="text-center  align-middle">
+                                                         ${item.product.description}
                                                     </td>
                                                     <td class="text-center">
                                                        ${item.product.unit.name}

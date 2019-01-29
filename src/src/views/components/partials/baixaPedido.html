@@ -1,0 +1,56 @@
+<template> 
+    <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+    <require from="../attributes/moneyMask"></require>
+    <require from="../attributes/datepicker"></require>
+    <require from="../valueConverters/dateFormatValueConverter"></require>
+
+    <div class="row mb-5">
+            <div class="col-md-12">
+               <div class="card">
+                  <div class="card-header">
+                     Baixa de Pedido
+                  </div>
+                  <div class="card-body">                     
+                      <div class="row"> 
+                        <div class="col-md-12">
+                            <div class="form-group  text-center">
+                                <label class="control-label">Tem certeza que deseja efetuar a baixa o pedido <strong>nº ${order.code}</strong>?</label>                                
+                            </div>        
+                        </div> 
+                    </div>   
+                    <div class="row mt-3">   
+                            <div class="col-md-12 mt-3">
+                                    <div class="form-group mx-auto text-center">                  
+                                        <p class="text-center">Avalie a qualidade do fornecedor</p>
+                                        <i style="cursor: pointer;" class="batch-icon ${ notaAvaliacao >= 1 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg mt-2" click.trigger="setAvaliacao(1)"></i>
+                                        <i style="cursor: pointer;" class="batch-icon ${ notaAvaliacao >= 2 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" click.trigger="setAvaliacao(2)"></i>
+                                        <i style="cursor: pointer;" class="batch-icon ${ notaAvaliacao >= 3 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" click.trigger="setAvaliacao(3)"></i>
+                                        <i style="cursor: pointer;" class="batch-icon ${ notaAvaliacao >= 4 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg" click.trigger="setAvaliacao(4)"></i>
+                                        <i style="cursor: pointer;" class="batch-icon ${ notaAvaliacao >= 5 ? 'text-warning' : '' }  batch-icon-star-alt  batch-icon-lg mb-2" click.trigger="setAvaliacao(5)"></i>                                                                                    
+                                    </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="form-group mx-auto">      
+                                    <label class="control-label">Comentários</label>   
+                                    <textarea class="form-control " value.bind="evaluation.comment"  rows="2"></textarea>
+                                </div>
+                            </div>
+                    </div>     
+
+                    <div class="row mt-3">
+                        <button type="button" class="btn  btn-success   waves-effect waves-light mx-auto ml-5"  click.trigger="acceptOrder()"  if.bind="! processing" >
+                            <i class="fa fa-check mr-2"></i>Confirmar
+                        </button>
+                        <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="cancel()" if.bind="! processing" >
+                            <i class="fa fa-undo mr-2"></i>Cancelar
+                        </button>
+                        <div class="fa-2x text-center  mx-auto  " if.bind="processing" >
+                                <i class="fa fa-refresh fa-spin"></i>
+                        </div>       
+                    </div>  
+                </div> 
+                     
+               </div>
+            </div>
+         </div>    
+</template>

@@ -42,7 +42,8 @@ export class Master {
     constructor(
         private service                 : IdentityService, 
         private nService 				: NotificationService,
-        private notificationRepository 	: NotificationRepository,
+		private notificationRepository 	: NotificationRepository,
+		private identityService			: IdentityService,
         private orderRepo 				: OrderRepository,
         private messageService 			: MessageService, 
         private connRepository 			: FoodServiceConnectionRepository,
@@ -321,6 +322,10 @@ export class Master {
 		]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });
-    }
+    } 
 
+	logout() : void {
+		this.identityService.resetIdentity();
+		window.location.assign('/'); 
+   }
 }
