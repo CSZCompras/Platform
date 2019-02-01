@@ -60,7 +60,7 @@
                                                           <span style="padding : 10px; cursor: pointer;"  click.trigger="addRemoveSupplier(supplier)"  repeat.for="supplier of selectedQuote.suppliers"    class="badge ${ ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2" >
                                                           <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(supplier)"></i>
                                                           <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(supplier)"></i>
-                                                          ${supplier.name}
+                                                          ${supplier.fantasyName}
                                                           </span>   
                                                        </div>
                                                        <table class="table  table-hover table-responsive mt-2">

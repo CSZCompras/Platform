@@ -45,7 +45,7 @@ export class BaixaPedido{
     acceptOrder(){
 
         this.processing = true;
- 
+  
         this.evalRepository
             .finishOrder(this.evaluation)
             .then( (x : Order[]) => {

@@ -160,7 +160,7 @@ export class Fornecedores{
                                 this.search();
                         });
         }
-
+ 
         loadMySuppliers() : Promise<any>{
 
                 return this.repository

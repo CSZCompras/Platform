@@ -29,7 +29,7 @@ export class SupplierConnectionRepository {
                             throw error;
                         }));
                     });
-    }
+    } 
  
 
     connect(supplier : Supplier) : Promise<FoodServiceSupplier>  {

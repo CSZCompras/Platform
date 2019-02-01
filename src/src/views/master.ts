@@ -116,6 +116,13 @@ export class Master {
 				this.rejectedOrdersCount++;
 			});
 
+			if(this.identity.type == UserType.FoodService){
+				
+				this.ea.subscribe('orderFinished', () => { 
+					this.acceptedOrdersCount--;
+				});
+			}
+
 			this.ea.subscribe('newNotification', (x : Notification) =>{
 
 				this.notifications.unshift(x);
