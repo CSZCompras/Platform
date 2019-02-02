@@ -97,6 +97,21 @@ export class ProductRepository{
                 });
     }
 
+    getOfferedProducts(categoryId : string): Promise<Product[]> {
+
+        return this.api
+                .find('productByCategory?categoryId=' + categoryId)
+                .then( (result : Promise<Product[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    }
+
     addSuplierProduct(supplierProduct : SupplierProduct) : Promise<SupplierProduct> {
         
         return this.api
@@ -116,10 +131,10 @@ export class ProductRepository{
 
     
 
-    getAllSuplierProducts() : Promise<SupplierProduct[]> {
+    getAllSuplierProducts(categoryId : string) : Promise<SupplierProduct[]> {
         
         return this.api
-            .find('supplierProduct')
+            .find('supplierProduct?categoryId=' + categoryId)
             .then( (result : Promise<SupplierProduct[]>) => {                 
                     return result;
                 })

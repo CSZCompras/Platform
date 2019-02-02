@@ -60,22 +60,32 @@ export class AtualizacaoDePrecos{
                .getAllCategories()
                .then( (data : ProductCategory[]) => { 
                    this.categories = data;
+                   this.selectedCategory = data[0].id;
+                   this.ea.publish('atualizacaoDePrecosLoaded');
+                   this.loadProducts();
                }).catch( e => {
                    this.nService.presentError(e);
                });
+    } 
+
+    loadProducts(){
+
+        this.isLoading = true; 
+        this.supplierProducts = [];
+        this.filteredProducts = []; 
+        this.alteredProducts = [];  
 
         this.repository
-            .getAllSuplierProducts()
+            .getAllSuplierProducts(this.selectedCategory)            
             .then( (data : SupplierProduct[]) => {
                 this.supplierProducts = data;
                 this.filteredProducts = data;  
                 this.isLoading = false; 
-                this.ea.publish('atualizacaoDePrecosLoaded');
 
             }).catch( e => {
                 this.nService.presentError(e);
             });
-    } 
+    }
 
     search(){
 

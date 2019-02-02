@@ -34,7 +34,7 @@ export class SelecaoDeProdutos{
         private  productRepository : ProductRepository,
         private repository : SupplierRepository) {
         
-        this.isFiltered = false;
+        this.isFiltered = true;
         this.isLoaded = false;
     } 
     
@@ -45,32 +45,40 @@ export class SelecaoDeProdutos{
 
     loadData(){ 
 
-
-     var promisseCategories =
+ 
         this.productRepository
             .getAllCategories()
             .then( (data : ProductCategory[]) => { 
                 this.categories = data;
+                this.selectedCategory = this.categories[0].id;
+                this.loadProducts();
+
             }).catch( e => {
                 this.nService.presentError(e);
             });
+ 
+    }
 
-        var promisseProducts =
-            this.productRepository
-                .getAllProducts()
-                .then( (data : Product[]) => {
-                    this.allProducts = data;
+    loadProducts(){
 
-                }).catch( e => {
-                    this.nService.presentError(e);
-                });
+        this.isLoaded = false;
+        this.allProducts = [];
+        this.filteredProducts = [];
+                
+        this.productRepository
+            .getOfferedProducts(this.selectedCategory)
+            .then( (data : Product[]) => {
+                this.allProducts = data;
+                this.filteredProducts = data;
+                this.isLoaded = true;
+                this.ea.publish('selecaoDeProdutosLoaded'); 
 
-        Promise.all([promisseCategories, promisseProducts])
-               .then( () => {
+            }).catch( e => {
+                this.nService.presentError(e);
+                this.isLoaded = true;
+                this.ea.publish('selecaoDeProdutosLoaded'); 
+            });
 
-                   this.isLoaded = true;
-                   this.ea.publish('selecaoDeProdutosLoaded'); 
-               });
     }
 
     search(){ 
