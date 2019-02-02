@@ -49,9 +49,7 @@ export class SupplierValidator {
         }
     }
 
-    validateInscricaoEstadual(){
-
-        debugger;
+    validateInscricaoEstadual(){ 
         
         if(this.supplier.inscricaoEstadual == null || this.supplier.inscricaoEstadual == ''){
             this.errorMessages.push('A inscrição estadual é obrigatória');

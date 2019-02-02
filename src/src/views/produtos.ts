@@ -27,32 +27,28 @@ export class Produtos {
         this.productAddedCount = length;
       });
 
-      this.ea.subscribe('selecaoDeProdutosLoaded', () =>{
-        debugger;
+      this.ea.subscribe('selecaoDeProdutosLoaded', () =>{ 
           this.selecaoDeProdutosLoaded = true;
           if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');
           }
       });
 
-      this.ea.subscribe('historicoDeImportacaoLoaded', () =>{
-        debugger;
+      this.ea.subscribe('historicoDeImportacaoLoaded', () =>{ 
           this.historicoDeImportacaoLoaded = true;
           if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');
           }
       });
 
-      this.ea.subscribe('listaDePrecosLoaded', () =>{
-        debugger;
+      this.ea.subscribe('listaDePrecosLoaded', () =>{ 
           this.listaDePrecosLoaded = true;
           if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');
           }
       });
 
-      this.ea.subscribe('atualizacaoDePrecosLoaded', () =>{
-          debugger;
+      this.ea.subscribe('atualizacaoDePrecosLoaded', () =>{ 
           this.atualizacaoDePrecosLoaded = true;
           if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');

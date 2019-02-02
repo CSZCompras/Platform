@@ -51,9 +51,7 @@ export class PedidosFornecedor{
 
         
 
-        this.ea.subscribe('orderFinished', (data : Order)=>{
-
-            debugger;
+        this.ea.subscribe('orderFinished', (data : Order)=>{ 
 
             this.orders.forEach(x => {
 

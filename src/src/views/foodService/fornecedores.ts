@@ -37,9 +37,7 @@ export class Fornecedores{
 
                 this.tipoFiltro = '2';
                 
-                this.ea.subscribe( 'waitingToApprove', (conn) =>{
-
-                        debugger;
+                this.ea.subscribe( 'waitingToApprove', (conn) =>{ 
                         
                         this.suppliers.forEach(x => {
                                 
@@ -49,9 +47,7 @@ export class Fornecedores{
                         });
                 });
                 
-                this.ea.subscribe( 'registrationApproved', (conn) =>{
-
-                        debugger;
+                this.ea.subscribe( 'registrationApproved', (conn) =>{ 
 
                         
                         this.suppliers.forEach(x => {
@@ -62,9 +58,7 @@ export class Fornecedores{
                         });
                 });
 
-                this.ea.subscribe( 'registrationRejected', (conn) =>{
-
-                        debugger;
+                this.ea.subscribe( 'registrationRejected', (conn) =>{ 
                         
                         this.suppliers.forEach(x => {
                                 
@@ -74,9 +68,7 @@ export class Fornecedores{
                         });
                 });                
                 
-                this.ea.subscribe( 'clientBlocked', (conn) =>{ 
-
-                        debugger;
+                this.ea.subscribe( 'clientBlocked', (conn) =>{  
                         
                         this.suppliers.forEach(x => {
                                 
