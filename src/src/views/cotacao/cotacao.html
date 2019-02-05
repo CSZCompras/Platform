@@ -60,7 +60,7 @@
                                                           <span style="padding : 10px; cursor: pointer;"  click.trigger="addRemoveSupplier(supplier)"  repeat.for="supplier of selectedQuote.suppliers"    class="badge ${ ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2" >
                                                           <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(supplier)"></i>
                                                           <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(supplier)"></i>
-                                                          ${supplier.fantasyName}
+                                                          ${supplier.name}
                                                           </span>   
                                                        </div>
                                                        <table class="table  table-hover table-responsive mt-2">
@@ -158,7 +158,7 @@
                                                              <tbody>
                                                                 <tr  repeat.for="item of result.summaryItems">
                                                                    <td>
-                                                                      ${item.supplier.name} 
+                                                                      ${item.supplier.fantasyName} 
                                                                    </td>
                                                                    <td class="text-center">
                                                                       <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
@@ -216,7 +216,7 @@
                                                                    <td>
                                                                       ${item.product.name}
                                                                       <div>
-                                                                         <small class="boldness-light">${item.supplier.name}</small>
+                                                                         <small class="boldness-light">${item.supplier.fantasyName}</small>
                                                                       </div>
                                                                    </td>
                                                                    <td class="text-center  align-middle">
@@ -259,7 +259,7 @@
                                            </div>
                                         </div>
                                         <div class="card-table table-responsive" repeat.for="summary of selectedResult.summaryItems" >
-                                           <h4> <i class="fa fa-tag mr-2"></i> Pedido  ${$index + 1}  - ${summary.supplier.name}</h4>
+                                           <h4> <i class="fa fa-tag mr-2"></i> Pedido  ${$index + 1}  - ${summary.supplier.fantasyName}</h4>
 
                                            <h5 class="mt-5">Informações do fornecedor</h5>
                                            <table class="table table-hover table-sm align-middle mt-1   ">
@@ -277,7 +277,7 @@
                                               <tbody>
                                                  <tr>
                                                     <td>
-                                                       ${summary.supplier.name} 
+                                                       ${summary.supplier.fantasyName} 
                                                     </td>
                                                     <td class="text-center">
                                                        <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>

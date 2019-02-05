@@ -74,6 +74,7 @@ export class AtualizacaoDePrecos{
         this.supplierProducts = [];
         this.filteredProducts = []; 
         this.alteredProducts = [];  
+        this.filter = '';
 
         this.repository
             .getAllSuplierProducts(this.selectedCategory)            

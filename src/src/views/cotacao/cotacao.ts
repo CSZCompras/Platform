@@ -244,7 +244,7 @@ export class Pedido{
 
 		}
 		else{
-
+ 
 			this.repository
 				.getBuyListsParaCotacao()
 				.then(x =>  {
