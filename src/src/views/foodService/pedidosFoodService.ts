@@ -57,7 +57,7 @@ export class PedidosFoodService{
                 }
             });  
         });
-        
+         
         this.ea.subscribe('orderRejected', (data : Order)=>{
 
             var isFound = false; 
@@ -66,6 +66,7 @@ export class PedidosFoodService{
  
                  if(x.id == data.id){
                      x.status = data.status;
+                     x.reasonToReject = data.reasonToReject;
                      isFound = true;
                  }
              }); 

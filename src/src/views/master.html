@@ -97,7 +97,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/#/csz/pedidosFoodService">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos                                    
-                                    <span class="badge badge-default float-right ml-2 mr-2" if.bind="rejectedOrdersCount > 0  && ! isLoadingOrders">${rejectedOrdersCount}</span> 
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0 && ! isLoadingOrders">${acceptedOrdersCount}</span> 
                                     <span class="badge badge-success float-right ml-2 mr-2" if.bind="newOrdersCount > 0  && ! isLoadingOrders">${newOrdersCount}</span>         
                                     <span class="float-right" if.bind="isLoadingOrders"><i class="fa fa-refresh fa-spin"></i></span>     
