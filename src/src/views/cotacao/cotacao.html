@@ -53,6 +53,9 @@
                                                  </div>
                                               </div>
                                               <div class="col-md-12  mt-5">
+                                                 
+                                                <span class="badge badge-warning" if.bind="selectedQuote.products.length == 0">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos </span>
+
                                                  <div if.bind="selectedQuote.products.length > 0">
                                                     <div class="col-md-12 mt-3">
                                                        <div class="form-group">
@@ -90,9 +93,9 @@
                                                                 <td>${product.brand}</td>
                                                                 <td class="text-right">    
                                                                    <span style="padding : 10px; cursor: pointer;"  click.trigger="addRemoveSupplier(supplier)"  repeat.for="supplier of product.suppliers"    class="badge ${ ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2" >
-                                                                   <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(supplier)"></i>
-                                                                   <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(supplier)"></i>
-                                                                   ${supplier.name}
+                                                                     <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(supplier)"></i>
+                                                                     <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(supplier)"></i>
+                                                                     ${supplier.name}
                                                                    </span>  
                                                                    <span class="font-bold" if.bind="product.suppliers == null || product.suppliers.length == 0">Não há fornecedores cadastrados que oferecem esse produto</span>
                                                                 </td>
@@ -139,9 +142,15 @@
                                                        </a>
                                                     </h5>
                                                  </div>
-                                                 <div id="collapse${result.id}" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
+                                                 <div id="collapse${result.id}" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">                                                                                                      
                                                     <div class="card-body">
-                                                       <h4>Fornecedores</h4>
+                                                      <h4 class="mt-4">Alertas</h4>    
+                                                      <p style="padding : 10px; cursor: pointer;"  repeat.for="item of result.logMessages.split(';')" if.bind="item != null && item != ''" class="badge  badge-warning  ml-3 mt-2" >
+                                                            <i class="fa fa-warning"></i> 
+                                                        ${item}
+                                                      </p>  
+                                                            
+                                                       <h4 class="mt-5">Fornecedores</h4>
                                                        <div class="col-md-12 card-table table-responsive">
                                                           <table class="table table-hover table-sm align-middle">
                                                              <thead>
@@ -365,7 +374,7 @@
                                         <li class="previous " if.bind="currentStep != 1">
                                            <a href="#"  class="waves-effect waves-light" click.trigger="back()" if.bind="currentStep > 0 ">Voltar</a>
                                         </li>
-                                        <li class="next" if.bind="currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) ">
+                                        <li class="next" if.bind="currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) && selectedQuote.products.length > 0">
                                            <a href="#" id="next" class="waves-effect waves-light" click.trigger="advance()">Avançar</a>
                                         </li>
                                         <li class="finish float-right" if.bind="currentStep == totalSteps" >

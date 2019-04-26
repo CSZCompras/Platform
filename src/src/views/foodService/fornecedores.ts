@@ -28,6 +28,7 @@ export class Fornecedores{
         filter                          : string;
         tipoFiltro                      : string;
         isLoading                       : boolean;
+        showDetails                     : boolean;
 
         constructor(private router: Router, 
                 private repository : SupplierConnectionRepository, 
@@ -86,7 +87,16 @@ export class Fornecedores{
                                         x.status = conn.status;
                                 }
                         });
-                });
+                }); 
+
+
+                this.ea.subscribe( 'showSupplierDetailsCanceled', () => { 
+                        this.showDetails = false;
+                        document.body.scrollTop = 0;
+                        document.documentElement.scrollTop = 0;
+                 } );
+
+                this.showDetails = false;
         }
         
         attached(){
@@ -269,5 +279,13 @@ export class Fornecedores{
                                 }
                                 
                         });
+        }
+
+        
+
+        showSupplierDetails(x : SupplierViewModel){
+                
+                this.showDetails = true; 
+                this.ea.publish('showSupplierDetails', { supplierId : x.supplier.id, edit : false } );
         }
 }

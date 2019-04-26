@@ -25,6 +25,7 @@ export class AtualizacaoDePrecos{
     filter              : string;
     alteredProducts     : Array<SupplierProduct>; 
     isLoading           : boolean;
+    hasProductsNotSaved : boolean;
 
     constructor(		
         private router              : Router, 
@@ -75,6 +76,7 @@ export class AtualizacaoDePrecos{
         this.filteredProducts = []; 
         this.alteredProducts = [];  
         this.filter = '';
+        this.hasProductsNotSaved = false;
 
         this.repository
             .getAllSuplierProducts(this.selectedCategory)            
@@ -162,6 +164,7 @@ export class AtualizacaoDePrecos{
                     
         ( <any> product).isEditing = false;
         ( <any> product).wasAltered = true; 
+        this.hasProductsNotSaved = true;
     }
 
     saveAll(){
@@ -179,7 +182,7 @@ export class AtualizacaoDePrecos{
                 });
 
                 this.isLoading = false;
-
+                this.hasProductsNotSaved = false;
                 this.ea.publish('uploadSupplierProductFileDone');
 
             }).catch( e => {

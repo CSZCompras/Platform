@@ -38,7 +38,9 @@ export class EditSupplier{
     users               : User[];    
     user                : User;   
     userEditing         : User;     
-	  validator           : SupplierValidator;
+    validator           : SupplierValidator;
+    edit                : boolean;
+
 
     constructor(
         private router              : Router, 
@@ -53,6 +55,13 @@ export class EditSupplier{
             this.supplier = new Supplier();
             this.supplier.address = new Address();
             this.user = new User();
+            this.edit = true;
+            this.ea.subscribe('showSupplierDetails', (event) => {
+
+                this.supplierId = event.supplierId;
+                this.edit = event.edit
+                this.loadData();
+            });
     }
 
     attached(){
@@ -73,31 +82,34 @@ export class EditSupplier{
 
     loadData(){
 
-        var p1 =    this.repository
-                        .get(this.supplierId)
-                        .then(x => this.supplier = x)
-                        .catch( e => this.nService.presentError(e)); 
+        if(this.supplierId != null &&  this.supplierId != ''){
 
-        var p2 =    this.stateRepo
-                        .getAll()
-                        .then( (data : StateRegistration[]) => this.stateRegistrations = data)
-                        .catch( e => this.nService.presentError(e)); 
+                var p1 =    this.repository
+                                .get(this.supplierId)
+                                .then(x => this.supplier = x)
+                                .catch( e => this.nService.presentError(e)); 
 
-        var p3  =   this.userRepository
-                    .getUsersFromSupplier(this.supplierId)
-                    .then( (data : User[]) => this.users = data)
-                    .catch( e => this.nService.presentError(e)); 
-                    
-        Promise.all([p1, p2, p3]).then(() => {
+                var p2 =    this.stateRepo
+                                .getAll()
+                                .then( (data : StateRegistration[]) => this.stateRegistrations = data)
+                                .catch( e => this.nService.presentError(e)); 
 
-            this.ea.publish('dataLoaded');
+                var p3  =   this.userRepository
+                            .getUsersFromSupplier(this.supplierId)
+                            .then( (data : User[]) => this.users = data)
+                            .catch( e => this.nService.presentError(e)); 
+                            
+                Promise.all([p1, p2, p3]).then(() => {
 
-            if(this.supplier.address == null){
-                this.supplier.address = new Address();
+                    this.ea.publish('dataLoaded');
+
+                    if(this.supplier.address == null){
+                        this.supplier.address = new Address();
+                    }
+
+                    this.validator = new SupplierValidator(this.supplier);						
+                });
             }
-
-            this.validator = new SupplierValidator(this.supplier);						
-        });
         }
 
         cancelUpload(){
@@ -265,6 +277,10 @@ export class EditSupplier{
 					this.nService.presentError(e);
 				});
 		}
-	}
+    }
+    
+    cancelView(){
+        this.ea.publish('showSupplierDetailsCanceled'); 
+    }
 
 }

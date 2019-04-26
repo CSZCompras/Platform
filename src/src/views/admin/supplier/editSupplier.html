@@ -20,13 +20,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Razão Social<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control "    value.bind="supplier.name"  />
+                                <input type="text" class="form-control "    value.bind="supplier.name"  disabled.bind="! edit"  />
                             </div>
                         </div>  
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Nome Fantasia<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control "    value.bind="supplier.fantasyName"  />
+                                <input type="text" class="form-control "    value.bind="supplier.fantasyName" disabled.bind="! edit"  />
                             </div>
                         </div>  
                     </div>  
@@ -34,13 +34,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">CNPJ<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control "    value.bind="supplier.cnpj | cnpj  " cnpj />
+                                <input type="text" class="form-control "    value.bind="supplier.cnpj | cnpj  " cnpj disabled.bind="! edit"  />
                             </div>
                         </div>  
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Inscrição Estadual<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control  "   inscricaoEstadual  value.bind="supplier.inscricaoEstadual | inscricaoEstadual" />
+                                <input type="text" class="form-control  "   inscricaoEstadual  value.bind="supplier.inscricaoEstadual | inscricaoEstadual" disabled.bind="! edit"  />
                             </div>
                         </div>  
                     </div>                                                                                                                                                          
@@ -49,7 +49,7 @@
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">CEP</label>
-                              <input type="text" class="form-control " cep value.bind="supplier.address.cep | cep"  change.delegate="consultaCEP()"/>
+                              <input type="text" class="form-control " cep value.bind="supplier.address.cep | cep"  change.delegate="consultaCEP()" disabled.bind="! edit"  />
                            </div>
                         </div>
                      </div>                                                                   
@@ -57,29 +57,29 @@
                        <div class="col-md-6">
                           <div class="form-group">
                              <label class="control-label">Logradouro</label>
-                             <input type="text" class="form-control "  value.bind="supplier.address.logradouro" />
+                             <input type="text" class="form-control "  value.bind="supplier.address.logradouro" disabled.bind="! edit" />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Bairro</label>
-                             <input type="text" class="form-control  " value.bind="supplier.address.neighborhood"  />
+                             <input type="text" class="form-control  " value.bind="supplier.address.neighborhood"  disabled.bind="! edit"  />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Estado</label>
-                             <input type="text"  class="form-control "  value.bind="supplier.address.state"   />
+                             <input type="text"  class="form-control "  value.bind="supplier.address.state"  disabled.bind="! edit"  />
                           </div>
                        </div>
                        <div class="col-md-6">
                           <div class="form-group">
                              <label class="control-label">Número</label>
-                             <input type="text" class="form-control "  value.bind="supplier.address.number"  />
+                             <input type="text" class="form-control "  value.bind="supplier.address.number" disabled.bind="! edit"  />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Complemento</label>
-                             <input type="text"  class="form-control "  value.bind="supplier.address.complement" />
+                             <input type="text"  class="form-control "  value.bind="supplier.address.complement" disabled.bind="! edit"  />
                           </div>
                           <div class="form-group">
                              <label class="control-label">Cidade</label>
-                             <input type="text" class="form-control "  value.bind="supplier.address.city"     />
+                             <input type="text" class="form-control "  value.bind="supplier.address.city"  disabled.bind="! edit"    />
                           </div>
                        </div>
                     </div>                                                                                                                                                       
@@ -89,7 +89,7 @@
                           <div class="col-md-6">
                              <div class="form-group">
                                 <label class="control-label">Nome</label>
-                                <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" value.bind="supplier.contact.name"  change.delegate="validator.contactValidator.validateName()" />
+                                <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" value.bind="supplier.contact.name"  change.delegate="validator.contactValidator.validateName()" disabled.bind="! edit"  />
                              </div>
                              <div class="form-group">
                                 <label class="control-label">Telefone Comercial </label>
@@ -97,17 +97,17 @@
                              </div>
                              <div class="form-group">
                                 <label class="control-label">E-mail</label>
-                                <input type="text" class="form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' }  "  value.bind="supplier.contact.email" change.delegate="validator.contactValidator.validateEmail()" />
+                                <input type="text" class="form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' }  "  value.bind="supplier.contact.email" change.delegate="validator.contactValidator.validateEmail()" disabled.bind="! edit"  />
                              </div>
                           </div>
                           <div class="col-md-6">
                              <div class="form-group">
                                 <label class="control-label">Telefone</label>
-                                <input type="text" class="form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } " phone-with-ddd value.bind="supplier.contact.phone | phoneWithDDD"  change.delegate="validator.contactValidator.validatePhone()"  />
+                                <input type="text" class="form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } " phone-with-ddd value.bind="supplier.contact.phone | phoneWithDDD"  change.delegate="validator.contactValidator.validatePhone()"  disabled.bind="! edit"  />
                              </div>
                              <div class="form-group">
                                 <label class="control-label">Telefone Celular</label>
-                                <input type="text" class="form-control "  cell-phone-with-ddd value.bind="supplier.contact.personalPhone | cellPhoneWithDDD" placeholder="(01) 01234-5678"/>
+                                <input type="text" class="form-control "  cell-phone-with-ddd value.bind="supplier.contact.personalPhone | cellPhoneWithDDD" placeholder="(01) 01234-5678" disabled.bind="! edit"  />
                              </div>
                           </div>
                        </div>
@@ -125,7 +125,7 @@
                           </div>
                           <div class="col-md-6">
                              <div class="form-group">  
-							   <form submit.delegate="uploadSocialContract()">
+							   <form submit.delegate="uploadSocialContract()" if.bind="edit">
 									 <button type="submit" if.bind="selectedFiles.length > 0" class="btn ${ ! isUploading ? 'btn-primary' : 'btn-warning'} waves-effect waves-light col-md-6" disable.bind="isUploading">
 										   <span if.bind="! isUploading">
 												 <i class="batch-icon batch-icon-cloud-upload"></i>
@@ -142,9 +142,9 @@
                           </div>
                        </div>
                     </div>    
-                    <h4 class="mt-4">Usuários</h4>       
-                    <span class="badge badge-warning mt-2 mb-2" if.bind="supplier.status != 0">Para poder criar usuários faça a ativação do cadastro</span>                      
-                    <div class="tab-pane" if.bind="supplier.status != 2">
+                    <h4 class="mt-4"  if.bind="edit" >Usuários</h4>       
+                    <span class="badge badge-warning mt-2 mb-2" if.bind="supplier.status != 0 && edit">Para poder criar usuários faça a ativação do cadastro</span>                      
+                    <div class="tab-pane" if.bind="supplier.status != 2 && edit">
                         <div class="row"> 
                             <table class="table table-hover">
                                 <thead>
@@ -196,11 +196,14 @@
                         </div>
                     </div>    
                  </div>
-                 <div class="row mt-5 mb-5 mx-auto">
+                 <div class="row mt-5 mb-5 mx-auto"  if.bind="edit"  >
                         <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light" click.trigger="save()"><span class="gradient">Salvar</span></button>
                         <button type="button" class="btn btn-success  ml-2 waves-effect waves-light"       if.bind="supplier.status != 0"  click.trigger="editStatus(0)">Ativar</button>
                         <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="supplier.status == 0" click.trigger="editStatus(1)">Inativar</button>
                         <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancel()">Cancelar</button>   
+                 </div>
+                 <div class="row mt-5 mb-5 mx-auto"  if.bind="! edit"  >
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancelView()">Cancelar</button>   
                  </div>
               </div>
            </div>
