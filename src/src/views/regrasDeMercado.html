@@ -49,7 +49,7 @@
                         <div class="col-md-4">
                            <div class="input-group">
                               <span class="input-group-addon input-group-icon">
-                              <i class="batch-icon batch-icon-clock"></i>
+                                 <i class="batch-icon batch-icon-clock"></i>
                               </span>
                               <input type="time" class="time form-control  ${validator.isPeriodToAcceptOrder1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time value.bind="rule.periodToAcceptOrder1 | time & updateTrigger:'blur' "   change.delegate="validator.validatePeriodToAcceptOrder1()" />
                               <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>

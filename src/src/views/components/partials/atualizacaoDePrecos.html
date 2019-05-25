@@ -7,7 +7,7 @@
             <div class="card-header ml-0" role="tab" id="headingTwo">
                <h5 class="mb-0">
                   <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Produtos fornecidos
+                     Produtos fornecidos
                   </a>
                </h5>
             </div> 
@@ -28,20 +28,8 @@
                                  <label class="control-label">Filtro</label> 
                                  <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
                               </div>
-                           </div>
-                           <div class="col-lg-4">
-                              <div class="form-group mt-4">
-                                    <button type="button" class="btn btn-primary mx-auto waves-effect waves-light" if.bind="alteredProducts.length > 0 && ! isLoading" click.trigger="saveAll()">  Salvar  </button>                                                       
-                                    <div class="fa-2x text-center mx-auto" if.bind="isLoading" >
-                                                <i class="fa fa-refresh fa-spin"></i>
-                                    </div> 
-                              </div>
-                           </div>
+                           </div> 
                         </div> 
-                  <span class="badge badge-danger" if.bind="hasProductsNotSaved">Há produtos alterados e näo salvos.</span>   
-                  <br />
-                  <span class="badge badge-danger" if.bind="hasProductsNotSaved">Ao mudar de categoria as as alterações serão perdidas</span>   
-                   
                   </div>
                   <table class="table table-hover mt-2">
                      <thead>
@@ -78,8 +66,11 @@
                               <span class="badge badge-warning" if.bind="supplierProduct.wasAltered">Alterado</span>                              
                            </th>
                            <td>
+                              <div class="fa-2x text-center mx-auto" if.bind="supplierProduct.isLoading" >
+                                 <i class="fa fa-refresh fa-spin"></i>
+                              </div> 
                               <div class="col-md-12 mx-auto">   
-                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ ! supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' }  " if.bind="! supplierProduct.isEditing" click.trigger="edit(supplierProduct)">  Editar  </button>
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ ! supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' }  " if.bind="! supplierProduct.isEditing && ! supplierProduct.isLoading " click.trigger="edit(supplierProduct)">  Editar  </button>
                                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light ${supplierProduct.isActive && supplierProduct.isEditing ? ' float-left' : 'invisible' } " if.bind="supplierProduct.isActive"  click.trigger="alterStatus(supplierProduct)"  >Inativar</button>
                                     <button type="button" class="btn btn-success btn-sm waves-effect waves-light ${! supplierProduct.isActive && supplierProduct.isEditing ? 'float-left' :  'invisible'  } " if.bind="! supplierProduct.isActive" click.trigger="alterStatus(supplierProduct) ">Ativar</button>                                                                  
                                     <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } "  if.bind="supplierProduct.isEditing" click.trigger="save(supplierProduct)">Salvar</button>
@@ -89,12 +80,6 @@
                         </tr>
                      </tbody>
                   </table> 
-                  <div class="row mt-2 mb-4">
-                        <button type="button" class="btn btn-primary mx-auto waves-effect waves-light" if.bind="alteredProducts.length > 0 && ! isLoading" click.trigger="saveAll()">  Salvar  </button>                                                       
-                        <div class="fa-2x text-center mx-auto" if.bind="isLoading" >
-                                    <i class="fa fa-refresh fa-spin"></i>
-                        </div> 
-                  </div>
                </div>
             </div>
          </div>

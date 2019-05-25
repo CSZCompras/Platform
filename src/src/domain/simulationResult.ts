@@ -11,4 +11,6 @@ export class SimulationResult{
     logMessages             : string;
     ValidationMessages      : string;
     isSelected              : boolean;
+    deliveryScheduleStart   : Number;
+    deliveryScheduleEnd     : Number;
 }

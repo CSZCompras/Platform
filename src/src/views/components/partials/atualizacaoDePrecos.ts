@@ -25,7 +25,6 @@ export class AtualizacaoDePrecos{
     filter              : string;
     alteredProducts     : Array<SupplierProduct>; 
     isLoading           : boolean;
-    hasProductsNotSaved : boolean;
 
     constructor(		
         private router              : Router, 
@@ -76,7 +75,6 @@ export class AtualizacaoDePrecos{
         this.filteredProducts = []; 
         this.alteredProducts = [];  
         this.filter = '';
-        this.hasProductsNotSaved = false;
 
         this.repository
             .getAllSuplierProducts(this.selectedCategory)            
@@ -161,29 +159,19 @@ export class AtualizacaoDePrecos{
     save(product  :SupplierProduct){
 
         this.alteredProducts.push(product);
-                    
         ( <any> product).isEditing = false;
-        ( <any> product).wasAltered = true; 
-        this.hasProductsNotSaved = true;
-    }
-
-    saveAll(){
- 
-        this.isLoading = true;
+        ( <any> product).wasAltered = true;
+        ( <any> product).isLoading = true;
 
         this.repository
             .alterSuplierProduct(this.alteredProducts)
             .then( (result : any) =>{    
                 
-                this.nService.success('Os produtos foram atualizados com sucesso!');  
-                
-                this.filteredProducts.forEach(x => {
-                    ( <any> x).wasAltered = false; 
-                });
-
+                this.nService.success('O produto foram atualizado com sucesso!');  
                 this.isLoading = false;
-                this.hasProductsNotSaved = false;
                 this.ea.publish('uploadSupplierProductFileDone');
+                this.alteredProducts = [];
+                ( <any> product).isLoading = false;
 
             }).catch( e => {
                 this.nService.error(e);

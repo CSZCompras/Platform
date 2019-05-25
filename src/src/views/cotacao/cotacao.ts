@@ -21,6 +21,9 @@ import { OrderRepository } from '../../repositories/orderRepository';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { CotacaoViewModel } from '../../domain/cotacaoViewModel';
 import { SupplierViewModel } from '../../domain/supplierViewModel';
+import { DialogService } from 'aurelia-dialog';
+import { HorarioDeEntregaPedido } from '../components/partials/horarioDeEntregaPedido';
+import { ConfirmScheduleOrderViewModel } from '../../domain/confirmScheduleOrderViewModel';
 
 @autoinject
 export class Pedido{
@@ -42,6 +45,7 @@ export class Pedido{
         private router                  : Router, 	
 		private repository              : FoodServiceRepository,	
 		private ea 						: EventAggregator,
+		private dialogService			: DialogService,
 		private simulationRepository    : SimulationRepository,
 		private orderRepository    		: OrderRepository,
 		private service                 : IdentityService,
@@ -258,21 +262,35 @@ export class Pedido{
 	
 	generateOrder(){
 
-		this.isProcessing = true;
+        this.dialogService
+            .open({ viewModel: HorarioDeEntregaPedido,  lock: false })
+            .whenClosed(response => {
 
-		this.orderRepository
-			.createOrder(this.selectedResult)
-			.then( (result : any) =>{         
-
-				this.nService.success('Pedido realizado!');
-				this.router.navigateToRoute('pedidosFoodService');
-				this.isProcessing = false;
-				this.orderWasGenerated = true;
-			}).catch( e => {
 				
-				this.isProcessing = false;
-				this.nService.error(e);
-			});
+				this.isProcessing = true;
+				
+				if (response.wasCancelled) {
+					this.isProcessing = false;
+                    return;
+				} 
+
+				this.selectedResult.deliveryScheduleStart = (<ConfirmScheduleOrderViewModel>response.output).deliveryScheduleStart;
+				this.selectedResult.deliveryScheduleEnd = (<ConfirmScheduleOrderViewModel>response.output).deliveryScheduleEnd;
+				
+                this.orderRepository
+					.createOrder(this.selectedResult)
+					.then( (result : any) =>{   
+						this.nService.success('Pedido realizado!');
+						this.router.navigateToRoute('pedidosFoodService');
+						this.isProcessing = false;
+						this.orderWasGenerated = true;
+					}).catch( e => {
+						
+						this.isProcessing = false;
+						this.nService.error(e);
+					});
+            }); 
+		
 	}
 
 	changeSelectedCotacao(result : SimulationResult){

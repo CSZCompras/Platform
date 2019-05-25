@@ -152,6 +152,7 @@ export class Master {
  
 		if(this.identity.type == UserType.Supplier){
 			this.router.navigateToRoute('dashboardFornecedor');
+			this.ea.subscribe('registrationRejected', () => this.loadFoodServiceConnections());  // ???
 		}
 		else if(this.identity.type == UserType.FoodService){
 			this.router.navigateToRoute('dashboardFoodService');

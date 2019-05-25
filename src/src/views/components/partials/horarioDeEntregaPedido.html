@@ -1,0 +1,67 @@
+<template> 
+        <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+        <require from="../attributes/moneyMask"></require>
+        <require from="../attributes/timeMask"></require>
+        <require from="../attributes/datepicker"></require>
+        <require from="../valueConverters/dateFormatValueConverter"></require>
+        <require from="../valueConverters/timeValueConverter"></require>
+    
+        <div class="row mb-5">
+                <div class="col-md-12">
+                   <div class="card">
+                      <div class="card-header">
+                         Horário de Entrega
+                      </div>
+                      <div class="card-body">                     
+                          <div class="row"> 
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <h5 class="control-label">Confirme o horário de entrega do pedido</h5>
+                                </div>        
+                            </div> 
+                        </div>   
+                        <div class="row"> 
+                              <div class="col-md-12 mt-3">
+                                  <div class="form-group">
+                                      <label class="control-label">Horário inicial</label> 
+                                        <div class="input-group">
+                                            <span class="input-group-addon input-group-icon">
+                                                <i class="batch-icon batch-icon-clock"></i>
+                                            </span>
+                                            <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="vm.deliveryScheduleStart | time & updateTrigger:'blur' & validate" />
+                                        </div>  
+                                  </div>        
+                              </div> 
+                        </div>    
+                        <div class="row"> 
+                              <div class="col-md-12 mt-3">
+                                  <div class="form-group">
+                                        <label class="control-label">Horário final</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon input-group-icon">
+                                                <i class="batch-icon batch-icon-clock"></i>
+                                            </span>
+                                            <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="vm.deliveryScheduleEnd | time & updateTrigger:'blur' & validate " />
+                                        </div>
+                                  </div>        
+                              </div> 
+                        </div>  
+                    </div>       
+                     <div class="row mb-4">                        
+						<div class="fa-2x text-center mx-auto " if.bind="processing" >
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div> 
+                        <button type="button" class="btn btn-success  waves-effect waves-light mx-auto ml-5"  click.trigger="confirmSchedule()" >
+                            <i class="fa fa-check mr-2"></i>Confirmar
+                        </button>
+                        <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5"   click.trigger="cancel()">
+                            <i class="fa fa-undo mr-2"></i>Cancelar
+                        </button>
+                        <div class="fa-2x text-center  mx-auto  " if.bind="processing" >
+                                <i class="fa fa-refresh fa-spin"></i>
+                        </div>    
+                     </div>      
+                   </div>
+                </div>
+             </div>    
+    </template>

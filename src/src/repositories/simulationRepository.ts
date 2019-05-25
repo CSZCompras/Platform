@@ -23,12 +23,21 @@ export class SimulationRepository{
         this.api = this.config.getEndpoint('csz');
     }
 
+    timeout(ms, promise) : Promise<any> {
+        return new Promise(function(resolve, reject) {
+          setTimeout(function() {
+            reject(new Error("timeout"))
+          }, ms)
+          promise.then(resolve, reject)
+        })
+      }
 
     simulate(input : SimulationInput) :  Promise<Simulation> {
-        
-        return this.api
-            .post('simulation', input)
-            .then( (result : Promise<any>) => {    
+
+      
+
+        return this.api.post('simulation', input)
+          .then( (result : Promise<any>) => {    
                 if(result == null)             
                     return Promise.resolve();
                 return result;
@@ -36,9 +45,13 @@ export class SimulationRepository{
             .catch( (e) => {
                 console.log(e);
                 return Promise.resolve(e.json().then( error => {
+                    
+                    console.log(error);
                     throw error;
-                }));
+                }))
             });
+            //});
+        
     }
 
     getCotacaoFromOrder(orderId: string): Promise<CotacaoViewModel> { 

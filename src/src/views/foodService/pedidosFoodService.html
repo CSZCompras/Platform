@@ -30,9 +30,10 @@
                                        <span class="badge badge-warning float-right" if.bind="selectedOrder.status == 1">Aprovado</span>  
                                        <span class="badge badge-primary float-right" if.bind="selectedOrder.status == 2">Entregue</span>
                                        <span class="badge badge-default float-right" if.bind="selectedOrder.status == 3">Rejeitado</span>
+                                       <br /><br />                                       
+                                       <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryScheduleStart != null">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time} as ${selectedOrder.deliveryScheduleEnd | time} </span>    
                                        <br /><br />
                                        <span class="badge badge-danger float-left" if.bind="selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' ">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span>
-                                       
                                     </h5> 
                                  <div>							 
                                     <div class="card-header ml-0" role="tab" id="headingTwo">
@@ -132,7 +133,7 @@
                                        </div>
                                     </div>                              
                                     <div class="card-header ml-0" role="tab" id="headingTwo">
-                                                          <h4>Dados do pedido</h4>
+                                       <h4>Dados do pedido</h4>
                                     </div>
                                     <div> 
                                        <table class="table  table-hover table-responsive">

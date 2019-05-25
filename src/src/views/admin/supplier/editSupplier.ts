@@ -119,7 +119,7 @@ export class EditSupplier{
         
         downloadSocialContract(){         
             var api = this.config.getEndpoint('csz');
-            window.open(api.client.baseUrl + 'downloadSupplierContractSocial?supplierId=' + this.supplier.id, '_parent');
+            window.open(api.client.baseUrl + 'downloadSupplierContractSocial?supplierId=' + this.supplier.id, '_blank');
         }
 
         uploadSocialContract(){ 

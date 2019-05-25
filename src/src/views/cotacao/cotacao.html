@@ -373,8 +373,8 @@
                                      <ul class="pager wizard mt-5">
                                         <li class="previous " if.bind="currentStep != 1">
                                            <a href="#"  class="waves-effect waves-light" click.trigger="back()" if.bind="currentStep > 0 ">Voltar</a>
-                                        </li>
-                                        <li class="next" if.bind="currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) && selectedQuote.products.length > 0">
+                                        </li> 
+                                        <li class="next" if.bind="currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) ">
                                            <a href="#" id="next" class="waves-effect waves-light" click.trigger="advance()">Avançar</a>
                                         </li>
                                         <li class="finish float-right" if.bind="currentStep == totalSteps" >

@@ -64,7 +64,8 @@ export class IdentityService {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
-            });
+            }); 
+
             config.withInterceptor({
                 request: (request) => {
 
