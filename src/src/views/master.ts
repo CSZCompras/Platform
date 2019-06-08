@@ -323,7 +323,8 @@ export class Master {
 			{ route: 'editFoodServiceAdmin', name: 'editFoodServiceAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/editFoodService') },
 			{ route: 'avaliacoes', name: 'avaliacoes', moduleId: PLATFORM.moduleName('./admin/supplier/evaluations') },
 			{ route: 'avaliacoesFornecedor', name: 'avaliacoesFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/evaluations') },
-			{ route: 'avaliacoesFoodService', name: 'avaliacoesFoodService', moduleId: PLATFORM.moduleName('./foodService/evaluations') }		
+			{ route: 'avaliacoesFoodService', name: 'avaliacoesFoodService', moduleId: PLATFORM.moduleName('./foodService/evaluations') },
+			{ route: 'financeiro', name: 'financeiro', moduleId: PLATFORM.moduleName('./admin/finance/listInvoice') }
 		]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });
