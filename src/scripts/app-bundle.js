@@ -1607,6 +1607,376 @@ define('repositories/unitOfMeasurementRepository',["require", "exports", "aureli
 
 
 
+define('validators/foodServiceValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceValidator = (function () {
+        function FoodServiceValidator(foodService) {
+            this.foodService = foodService;
+            this.errorMessages = new Array();
+            if (this.foodService != null && this.foodService.address != null) {
+                this.addressValidator = new addressValidator_1.AddressValidator(this.foodService.address);
+            }
+            if (this.foodService != null && this.foodService.contact != null) {
+                this.contactValidator = new contactValidator_1.ContactValidator(this.foodService.contact);
+            }
+            this.validate();
+        }
+        FoodServiceValidator.prototype.validate = function () {
+            var _this = this;
+            this.errorMessages = [];
+            this.addressValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.contactValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.validateName();
+            this.validateInscricaoEstadual();
+            return this.errorMessages;
+        };
+        FoodServiceValidator.prototype.validateName = function () {
+            if (this.foodService.name == null || this.foodService.name.length == 0) {
+                this.errorMessages.push('O nome do fornecedor é obrigatório');
+                this.isNameInvalid = true;
+            }
+            else {
+                this.isNameInvalid = false;
+            }
+        };
+        FoodServiceValidator.prototype.validateInscricaoEstadual = function () {
+            if (this.foodService.inscricaoEstadual == null || this.foodService.inscricaoEstadual == '') {
+                this.errorMessages.push('A inscrição estadual é obrigatória');
+                this.isInscricaoEstadualInvalid = true;
+            }
+            else {
+                this.isInscricaoEstadualInvalid = false;
+            }
+        };
+        return FoodServiceValidator;
+    }());
+    exports.FoodServiceValidator = FoodServiceValidator;
+});
+
+
+
+define('validators/supplierValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierValidator = (function () {
+        function SupplierValidator(supplier) {
+            this.supplier = supplier;
+            this.errorMessages = new Array();
+            this.addressValidator = new addressValidator_1.AddressValidator(this.supplier.address);
+            this.contactValidator = new contactValidator_1.ContactValidator(this.supplier.contact);
+            this.validate();
+        }
+        SupplierValidator.prototype.validate = function () {
+            var _this = this;
+            this.errorMessages = [];
+            this.addressValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.contactValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.validateName();
+            this.validateInscricaoEstadual();
+            return this.errorMessages;
+        };
+        SupplierValidator.prototype.validateName = function () {
+            if (this.supplier.name == null || this.supplier.name.length == 0) {
+                this.errorMessages.push('O nome do fornecedor é obrigatório');
+                this.isNameInvalid = true;
+            }
+            else {
+                this.isNameInvalid = false;
+            }
+        };
+        SupplierValidator.prototype.validateInscricaoEstadual = function () {
+            if (this.supplier.inscricaoEstadual == null || this.supplier.inscricaoEstadual == '') {
+                this.errorMessages.push('A inscrição estadual é obrigatória');
+                this.isInscricaoEstadualInvalid = true;
+            }
+            else {
+                this.isInscricaoEstadualInvalid = false;
+            }
+        };
+        return SupplierValidator;
+    }());
+    exports.SupplierValidator = SupplierValidator;
+});
+
+
+
+define('validators/contactValidator',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ContactValidator = (function () {
+        function ContactValidator(contact) {
+            this.contact = contact;
+            this.errorMessages = new Array();
+            this.validate();
+        }
+        ContactValidator.prototype.validate = function () {
+            this.errorMessages = [];
+            if (this.contact != null) {
+                this.validateName();
+                this.validatePhone();
+                this.validateEmail();
+            }
+            return this.errorMessages;
+        };
+        ContactValidator.prototype.validateName = function () {
+            if (this.contact.name == null || this.contact.name.length == 0) {
+                this.errorMessages.push('O nome do contato é obrigatório');
+                this.isNameInvalid = true;
+            }
+            else {
+                this.isNameInvalid = false;
+            }
+        };
+        ContactValidator.prototype.validatePhone = function () {
+            if (this.contact.phone == null || ('' + this.contact.phone).length < 10) {
+                this.errorMessages.push('O telefone do contato é obrigatório');
+                this.isPhoneInvalid = true;
+            }
+            else {
+                this.isPhoneInvalid = false;
+            }
+        };
+        ContactValidator.prototype.validateEmail = function () {
+            if (this.contact.email == null || this.contact.email.length <= 10) {
+                this.errorMessages.push('O telefone do contato é obrigatório');
+                this.isEmailInvalid = true;
+            }
+            else if (!this.validateEmailString(this.contact.email)) {
+                this.errorMessages.push('O e-mail digitado é invalido');
+                this.isEmailInvalid = true;
+            }
+            else {
+                this.isEmailInvalid = false;
+            }
+        };
+        ContactValidator.prototype.validateEmailString = function (email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        };
+        return ContactValidator;
+    }());
+    exports.ContactValidator = ContactValidator;
+});
+
+
+
+define('validators/addressValidator',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AddressValidator = (function () {
+        function AddressValidator(address) {
+            this.address = address;
+            this.errorMessages = new Array();
+            this.validate();
+        }
+        AddressValidator.prototype.validate = function () {
+            this.errorMessages = [];
+            if (this.address != null) {
+                this.validateCep();
+                this.validateLogradouro();
+                this.validateNumber();
+                this.validateNeighborhood();
+                this.validateCity();
+                this.validateState();
+            }
+            return this.errorMessages;
+        };
+        AddressValidator.prototype.validateCep = function () {
+            if (this.address.cep == null || this.address.cep.length < 8) {
+                this.errorMessages.push('O cep do endereço é obrigatório');
+                this.isCepInvalid = true;
+            }
+            else {
+                this.isCepInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateLogradouro = function () {
+            if (this.address.logradouro == null || this.address.logradouro.length < 3) {
+                this.errorMessages.push('O logradouro do endereço é obrigatório');
+                this.isLogradouroInvalid = true;
+            }
+            else {
+                this.isLogradouroInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateNumber = function () {
+            if (this.address.number == null || ('' + this.address.number) == '' || this.address.number <= 0) {
+                this.errorMessages.push('O número do endereço é obrigatório');
+                this.isNumberInvalid = true;
+            }
+            else {
+                this.isNumberInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateNeighborhood = function () {
+            if (this.address.neighborhood == null || this.address.neighborhood.length == 0) {
+                this.errorMessages.push('O bairro do endereço é obrigatório');
+                this.isNeighborhoodInvalid = true;
+            }
+            else {
+                this.isNeighborhoodInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateCity = function () {
+            if (this.address.city == null || this.address.city.length == 0) {
+                this.errorMessages.push('A cidade do endereço é obrigatório');
+                this.isCityInvalid = true;
+            }
+            else {
+                this.isCityInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateState = function () {
+            if (this.address.state == null || this.address.state.length == 0) {
+                this.errorMessages.push('O estado do endereço é obrigatório');
+                this.isStateInvalid = true;
+            }
+            else {
+                this.isStateInvalid = false;
+            }
+        };
+        return AddressValidator;
+    }());
+    exports.AddressValidator = AddressValidator;
+});
+
+
+
+define('validators/marketRuleValidator',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var MarketRuleValidator = (function () {
+        function MarketRuleValidator(rule) {
+            this.rule = rule;
+            this.errorMessages = new Array();
+            this.validate();
+        }
+        MarketRuleValidator.prototype.validate = function () {
+            this.errorMessages = [];
+            this.validateMinimumOrderValue();
+            this.validateNumberOfDaysToAccept();
+            this.validatePeriodToAcceptOrder1();
+            this.validatePeriodToAcceptOrder2();
+            this.validateDeliverySchedule1();
+            this.validateDeliverySchedule2();
+            this.validateReceiverNewClient();
+            this.validateReceiverNewOrder();
+            return this.errorMessages;
+        };
+        MarketRuleValidator.prototype.validateReceiverNewClient = function () {
+            if (this.rule.sendNotificationToNewClient && (this.rule.receiverNewClient == null || this.rule.receiverNewClient == '')) {
+                this.errorMessages.push('O e-mail do destinatário em caso de novo cliente está em branco');
+                this.isReceiverNewClientInvalid = true;
+            }
+        };
+        MarketRuleValidator.prototype.validateReceiverNewOrder = function () {
+            if (this.rule.sendNotificationToNewOrder && (this.rule.receiverNewOrder == null || this.rule.receiverNewOrder == '')) {
+                this.errorMessages.push('O e-mail do destinatário em caso de novo pedido está em branco');
+                this.isReceiverNewClientInvalid = true;
+            }
+        };
+        MarketRuleValidator.prototype.validateMinimumOrderValue = function () {
+            if (this.rule.minimumOrderValue == null || ('' + this.rule.minimumOrderValue) == "") {
+                this.errorMessages.push('O valor mínimo do pedido é obrigatório');
+                this.isMinimumOrderValueInvalid = true;
+            }
+            else if (this.rule.minimumOrderValue <= 0) {
+                this.errorMessages.push('O valor mínimo do pedido deve ser maior que zero');
+                this.isMinimumOrderValueInvalid = true;
+            }
+            else {
+                this.isMinimumOrderValueInvalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validateNumberOfDaysToAccept = function () {
+            if (this.rule.numberOfDaysToAccept == null || ('' + this.rule.numberOfDaysToAccept) == "") {
+                this.errorMessages.push('A quantidade de dias para aceite do pedido é obrigatória');
+                this.isnumberOfDaysToAcceptInvalid = true;
+            }
+            else if (this.rule.numberOfDaysToAccept <= 0) {
+                this.errorMessages.push('A quantidade de dias para aceite do pedido deve ser maior que zero');
+                this.isnumberOfDaysToAcceptInvalid = true;
+            }
+            else {
+                this.isnumberOfDaysToAcceptInvalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validatePeriodToAcceptOrder1 = function () {
+            if (this.rule.periodToAcceptOrder1 == null || ('' + this.rule.periodToAcceptOrder1) == '') {
+                this.errorMessages.push('O período inicial de aceite é obrigatório');
+                this.isPeriodToAcceptOrder1Invalid = true;
+            }
+            else if (this.rule.periodToAcceptOrder1 > 1800) {
+                this.errorMessages.push('O período inicial de aceite é inválido');
+                this.isPeriodToAcceptOrder1Invalid = true;
+            }
+            else {
+                this.isPeriodToAcceptOrder1Invalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validatePeriodToAcceptOrder2 = function () {
+            if (this.rule.periodToAcceptOrder2 == null || ('' + this.rule.periodToAcceptOrder2) == '') {
+                this.errorMessages.push('O período final de aceite é obrigatório');
+                this.isPeriodToAcceptOrder2Invalid = true;
+            }
+            else if (this.rule.periodToAcceptOrder2 > 2400) {
+                this.errorMessages.push('O período final  de aceite é inválido');
+                this.isPeriodToAcceptOrder2Invalid = true;
+            }
+            else {
+                this.isPeriodToAcceptOrder2Invalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validateDeliverySchedule1 = function () {
+            if (this.rule.deliverySchedule1 == null || ('' + this.rule.deliverySchedule1) == '') {
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliverySchedule1Invalid = true;
+            }
+            else if (this.rule.deliverySchedule1 > 1800) {
+                this.errorMessages.push('O horário inicial de entrega é inválido');
+                this.isDeliverySchedule1Invalid = true;
+            }
+            else {
+                this.isDeliverySchedule1Invalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validateDeliverySchedule2 = function () {
+            if (this.rule.deliverySchedule2 == null || ('' + this.rule.deliverySchedule2) == '') {
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliverySchedule2Invalid = true;
+            }
+            else if (this.rule.deliverySchedule1 > 2400) {
+                this.errorMessages.push('O horário final de entrega é inválido');
+                this.isDeliverySchedule2Invalid = true;
+            }
+            else {
+                this.isDeliverySchedule2Invalid = false;
+            }
+        };
+        return MarketRuleValidator;
+    }());
+    exports.MarketRuleValidator = MarketRuleValidator;
+});
+
+
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2586,6 +2956,777 @@ define('views/regrasDeMercado',["require", "exports", "../validators/marketRuleV
         return RegrasDeMercado;
     }());
     exports.RegrasDeMercado = RegrasDeMercado;
+});
+
+
+
+define('domain/invoice',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Invoice = (function () {
+        function Invoice() {
+        }
+        return Invoice;
+    }());
+    exports.Invoice = Invoice;
+});
+
+
+
+define('domain/confirmScheduleOrderViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConfirmScheduleOrderViewModel = (function () {
+        function ConfirmScheduleOrderViewModel() {
+        }
+        return ConfirmScheduleOrderViewModel;
+    }());
+    exports.ConfirmScheduleOrderViewModel = ConfirmScheduleOrderViewModel;
+});
+
+
+
+define('domain/foodServiceProduct',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceProduct = (function () {
+        function FoodServiceProduct() {
+        }
+        return FoodServiceProduct;
+    }());
+    exports.FoodServiceProduct = FoodServiceProduct;
+});
+
+
+
+define('domain/productClass',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ProductClass = (function () {
+        function ProductClass() {
+        }
+        return ProductClass;
+    }());
+    exports.ProductClass = ProductClass;
+});
+
+
+
+define('domain/buyListProduct',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BuyListProduct = (function () {
+        function BuyListProduct() {
+        }
+        return BuyListProduct;
+    }());
+    exports.BuyListProduct = BuyListProduct;
+});
+
+
+
+define('domain/state',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var State = (function () {
+        function State() {
+        }
+        return State;
+    }());
+    exports.State = State;
+});
+
+
+
+define('domain/contact',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Contact = (function () {
+        function Contact() {
+        }
+        return Contact;
+    }());
+    exports.Contact = Contact;
+});
+
+
+
+define('domain/credential',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Credential = (function () {
+        function Credential() {
+        }
+        return Credential;
+    }());
+    exports.Credential = Credential;
+});
+
+
+
+define('domain/stateRegistration',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var StateRegistration = (function () {
+        function StateRegistration() {
+        }
+        return StateRegistration;
+    }());
+    exports.StateRegistration = StateRegistration;
+});
+
+
+
+define('domain/identity',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Identity = (function () {
+        function Identity() {
+        }
+        return Identity;
+    }());
+    exports.Identity = Identity;
+});
+
+
+
+define('domain/brand',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Brand = (function () {
+        function Brand() {
+        }
+        return Brand;
+    }());
+    exports.Brand = Brand;
+});
+
+
+
+define('domain/invoiceStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var InvoiceStatus;
+    (function (InvoiceStatus) {
+        InvoiceStatus[InvoiceStatus["Created"] = 0] = "Created";
+        InvoiceStatus[InvoiceStatus["Paid"] = 1] = "Paid";
+        InvoiceStatus[InvoiceStatus["NotPaid"] = 2] = "NotPaid";
+    })(InvoiceStatus = exports.InvoiceStatus || (exports.InvoiceStatus = {}));
+});
+
+
+
+define('domain/supplierProductFileRow',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierProductFileRow = (function () {
+        function SupplierProductFileRow() {
+        }
+        return SupplierProductFileRow;
+    }());
+    exports.SupplierProductFileRow = SupplierProductFileRow;
+});
+
+
+
+define('domain/orderItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var OrderItem = (function () {
+        function OrderItem() {
+        }
+        return OrderItem;
+    }());
+    exports.OrderItem = OrderItem;
+});
+
+
+
+define('domain/supplier',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Supplier = (function () {
+        function Supplier() {
+        }
+        return Supplier;
+    }());
+    exports.Supplier = Supplier;
+});
+
+
+
+define('domain/foodServiceSupplier',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceSupplier = (function () {
+        function FoodServiceSupplier() {
+        }
+        return FoodServiceSupplier;
+    }());
+    exports.FoodServiceSupplier = FoodServiceSupplier;
+});
+
+
+
+define('domain/priceList',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PriceList = (function () {
+        function PriceList() {
+        }
+        return PriceList;
+    }());
+    exports.PriceList = PriceList;
+});
+
+
+
+define('domain/foodService',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodService = (function () {
+        function FoodService() {
+        }
+        return FoodService;
+    }());
+    exports.FoodService = FoodService;
+});
+
+
+
+define('domain/supplierProductFile',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierProductFile = (function () {
+        function SupplierProductFile() {
+        }
+        return SupplierProductFile;
+    }());
+    exports.SupplierProductFile = SupplierProductFile;
+});
+
+
+
+define('domain/simulationItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationItem = (function () {
+        function SimulationItem() {
+        }
+        return SimulationItem;
+    }());
+    exports.SimulationItem = SimulationItem;
+});
+
+
+
+define('domain/product',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Product = (function () {
+        function Product() {
+        }
+        return Product;
+    }());
+    exports.Product = Product;
+});
+
+
+
+define('domain/simulationInputItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationInputItem = (function () {
+        function SimulationInputItem() {
+        }
+        return SimulationInputItem;
+    }());
+    exports.SimulationInputItem = SimulationInputItem;
+});
+
+
+
+define('domain/consultaCepResult',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConsultaCepResult = (function () {
+        function ConsultaCepResult() {
+        }
+        return ConsultaCepResult;
+    }());
+    exports.ConsultaCepResult = ConsultaCepResult;
+});
+
+
+
+define('domain/marketRule',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var MarketRule = (function () {
+        function MarketRule() {
+        }
+        return MarketRule;
+    }());
+    exports.MarketRule = MarketRule;
+});
+
+
+
+define('domain/simulationSummaryItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationSummaryItem = (function () {
+        function SimulationSummaryItem() {
+        }
+        return SimulationSummaryItem;
+    }());
+    exports.SimulationSummaryItem = SimulationSummaryItem;
+});
+
+
+
+define('domain/foodServiceStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceStatus;
+    (function (FoodServiceStatus) {
+        FoodServiceStatus[FoodServiceStatus["Active"] = 0] = "Active";
+        FoodServiceStatus[FoodServiceStatus["Inactive"] = 1] = "Inactive";
+        FoodServiceStatus[FoodServiceStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
+    })(FoodServiceStatus = exports.FoodServiceStatus || (exports.FoodServiceStatus = {}));
+});
+
+
+
+define('domain/simulationResultItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationResultItem = (function () {
+        function SimulationResultItem() {
+        }
+        return SimulationResultItem;
+    }());
+    exports.SimulationResultItem = SimulationResultItem;
+});
+
+
+
+define('domain/productViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ProductViewModel = (function () {
+        function ProductViewModel() {
+        }
+        return ProductViewModel;
+    }());
+    exports.ProductViewModel = ProductViewModel;
+});
+
+
+
+define('domain/supplierStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierStatus;
+    (function (SupplierStatus) {
+        SupplierStatus[SupplierStatus["Active"] = 0] = "Active";
+        SupplierStatus[SupplierStatus["Inactive"] = 1] = "Inactive";
+        SupplierStatus[SupplierStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
+    })(SupplierStatus = exports.SupplierStatus || (exports.SupplierStatus = {}));
+});
+
+
+
+define('domain/invoiceControl',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var InvoiceControl = (function () {
+        function InvoiceControl() {
+        }
+        return InvoiceControl;
+    }());
+    exports.InvoiceControl = InvoiceControl;
+});
+
+
+
+define('domain/foodServiceViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceConnectionViewModel = (function () {
+        function FoodServiceConnectionViewModel() {
+        }
+        return FoodServiceConnectionViewModel;
+    }());
+    exports.FoodServiceConnectionViewModel = FoodServiceConnectionViewModel;
+});
+
+
+
+define('domain/welcomeUser',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var WelcomeUser = (function () {
+        function WelcomeUser() {
+        }
+        return WelcomeUser;
+    }());
+    exports.WelcomeUser = WelcomeUser;
+});
+
+
+
+define('domain/cotacaoViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CotacaoViewModel = (function () {
+        function CotacaoViewModel() {
+        }
+        return CotacaoViewModel;
+    }());
+    exports.CotacaoViewModel = CotacaoViewModel;
+});
+
+
+
+define('domain/editSupplierStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EditSupplierStatus = (function () {
+        function EditSupplierStatus() {
+        }
+        return EditSupplierStatus;
+    }());
+    exports.EditSupplierStatus = EditSupplierStatus;
+});
+
+
+
+define('domain/order',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Order = (function () {
+        function Order() {
+        }
+        return Order;
+    }());
+    exports.Order = Order;
+});
+
+
+
+define('domain/simulationInput',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationInput = (function () {
+        function SimulationInput() {
+            this.items = [];
+        }
+        return SimulationInput;
+    }());
+    exports.SimulationInput = SimulationInput;
+});
+
+
+
+define('domain/priceListItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PriceListItem = (function () {
+        function PriceListItem() {
+        }
+        return PriceListItem;
+    }());
+    exports.PriceListItem = PriceListItem;
+});
+
+
+
+define('domain/evaluation',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Evaluation = (function () {
+        function Evaluation() {
+        }
+        return Evaluation;
+    }());
+    exports.Evaluation = Evaluation;
+});
+
+
+
+define('domain/notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Notification = (function () {
+        function Notification() {
+        }
+        return Notification;
+    }());
+    exports.Notification = Notification;
+});
+
+
+
+define('domain/alterBuyListProductViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AlterBuyListProductViewModel = (function () {
+        function AlterBuyListProductViewModel() {
+        }
+        return AlterBuyListProductViewModel;
+    }());
+    exports.AlterBuyListProductViewModel = AlterBuyListProductViewModel;
+});
+
+
+
+define('domain/evaluationStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EvaluationStatus;
+    (function (EvaluationStatus) {
+        EvaluationStatus[EvaluationStatus["Created"] = 0] = "Created";
+        EvaluationStatus[EvaluationStatus["Approved"] = 1] = "Approved";
+        EvaluationStatus[EvaluationStatus["Rejected"] = 2] = "Rejected";
+        EvaluationStatus[EvaluationStatus["Blocked"] = 3] = "Blocked";
+    })(EvaluationStatus = exports.EvaluationStatus || (exports.EvaluationStatus = {}));
+});
+
+
+
+define('domain/unitOfMeasurement',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UnitOfMeasurement = (function () {
+        function UnitOfMeasurement() {
+        }
+        return UnitOfMeasurement;
+    }());
+    exports.UnitOfMeasurement = UnitOfMeasurement;
+});
+
+
+
+define('domain/userType',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UserType;
+    (function (UserType) {
+        UserType[UserType["Supplier"] = 0] = "Supplier";
+        UserType[UserType["FoodService"] = 1] = "FoodService";
+        UserType[UserType["Admin"] = 2] = "Admin";
+    })(UserType = exports.UserType || (exports.UserType = {}));
+});
+
+
+
+define('domain/productCategory',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ProductCategory = (function () {
+        function ProductCategory() {
+        }
+        return ProductCategory;
+    }());
+    exports.ProductCategory = ProductCategory;
+});
+
+
+
+define('domain/userStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UserStatus;
+    (function (UserStatus) {
+        UserStatus[UserStatus["Active"] = 0] = "Active";
+        UserStatus[UserStatus["Inactive"] = 1] = "Inactive";
+        UserStatus[UserStatus["WaitingToConfirmInvite"] = 2] = "WaitingToConfirmInvite";
+        UserStatus[UserStatus["WaitingToConfirmPassword"] = 3] = "WaitingToConfirmPassword";
+    })(UserStatus = exports.UserStatus || (exports.UserStatus = {}));
+});
+
+
+
+define('domain/blockSupplierConnectionViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BlockSupplierConnectionViewModel = (function () {
+        function BlockSupplierConnectionViewModel() {
+        }
+        return BlockSupplierConnectionViewModel;
+    }());
+    exports.BlockSupplierConnectionViewModel = BlockSupplierConnectionViewModel;
+});
+
+
+
+define('domain/rejectOrderViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var RejectOrderViewModel = (function () {
+        function RejectOrderViewModel() {
+        }
+        return RejectOrderViewModel;
+    }());
+    exports.RejectOrderViewModel = RejectOrderViewModel;
+});
+
+
+
+define('domain/supplierProduct',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierProduct = (function () {
+        function SupplierProduct() {
+        }
+        return SupplierProduct;
+    }());
+    exports.SupplierProduct = SupplierProduct;
+});
+
+
+
+define('domain/user',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var User = (function () {
+        function User() {
+        }
+        return User;
+    }());
+    exports.User = User;
+});
+
+
+
+define('domain/confirmInviteViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConfirmInviteViewModel = (function () {
+        function ConfirmInviteViewModel() {
+        }
+        return ConfirmInviteViewModel;
+    }());
+    exports.ConfirmInviteViewModel = ConfirmInviteViewModel;
+});
+
+
+
+define('domain/simulationResult',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationResult = (function () {
+        function SimulationResult() {
+        }
+        return SimulationResult;
+    }());
+    exports.SimulationResult = SimulationResult;
+});
+
+
+
+define('domain/editInvoiceViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EditInvoiceViewModel = (function () {
+        function EditInvoiceViewModel() {
+        }
+        return EditInvoiceViewModel;
+    }());
+    exports.EditInvoiceViewModel = EditInvoiceViewModel;
+});
+
+
+
+define('domain/orderStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var OrderStatus;
+    (function (OrderStatus) {
+        OrderStatus[OrderStatus["Created"] = 0] = "Created";
+        OrderStatus[OrderStatus["Accepted"] = 1] = "Accepted";
+        OrderStatus[OrderStatus["Delivered"] = 2] = "Delivered";
+        OrderStatus[OrderStatus["Rejected"] = 3] = "Rejected";
+    })(OrderStatus = exports.OrderStatus || (exports.OrderStatus = {}));
+});
+
+
+
+define('domain/address',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Address = (function () {
+        function Address() {
+        }
+        return Address;
+    }());
+    exports.Address = Address;
+});
+
+
+
+define('domain/supplierViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierViewModel = (function () {
+        function SupplierViewModel() {
+        }
+        return SupplierViewModel;
+    }());
+    exports.SupplierViewModel = SupplierViewModel;
+});
+
+
+
+define('domain/city',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var City = (function () {
+        function City() {
+        }
+        return City;
+    }());
+    exports.City = City;
+});
+
+
+
+define('domain/simulation',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Simulation = (function () {
+        function Simulation() {
+        }
+        return Simulation;
+    }());
+    exports.Simulation = Simulation;
+});
+
+
+
+define('domain/buyList',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BuyList = (function () {
+        function BuyList() {
+        }
+        return BuyList;
+    }());
+    exports.BuyList = BuyList;
+});
+
+
+
+define('domain/editFoodServiceStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EditFoodServiceStatus = (function () {
+        function EditFoodServiceStatus() {
+        }
+        return EditFoodServiceStatus;
+    }());
+    exports.EditFoodServiceStatus = EditFoodServiceStatus;
 });
 
 
@@ -3629,1147 +4770,6 @@ define('services/consultaCEPService',["require", "exports", "aurelia-framework",
         return ConsultaCEPService;
     }());
     exports.ConsultaCEPService = ConsultaCEPService;
-});
-
-
-
-define('domain/invoice',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Invoice = (function () {
-        function Invoice() {
-        }
-        return Invoice;
-    }());
-    exports.Invoice = Invoice;
-});
-
-
-
-define('domain/confirmScheduleOrderViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ConfirmScheduleOrderViewModel = (function () {
-        function ConfirmScheduleOrderViewModel() {
-        }
-        return ConfirmScheduleOrderViewModel;
-    }());
-    exports.ConfirmScheduleOrderViewModel = ConfirmScheduleOrderViewModel;
-});
-
-
-
-define('domain/foodServiceProduct',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceProduct = (function () {
-        function FoodServiceProduct() {
-        }
-        return FoodServiceProduct;
-    }());
-    exports.FoodServiceProduct = FoodServiceProduct;
-});
-
-
-
-define('domain/productClass',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ProductClass = (function () {
-        function ProductClass() {
-        }
-        return ProductClass;
-    }());
-    exports.ProductClass = ProductClass;
-});
-
-
-
-define('domain/buyListProduct',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var BuyListProduct = (function () {
-        function BuyListProduct() {
-        }
-        return BuyListProduct;
-    }());
-    exports.BuyListProduct = BuyListProduct;
-});
-
-
-
-define('domain/state',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var State = (function () {
-        function State() {
-        }
-        return State;
-    }());
-    exports.State = State;
-});
-
-
-
-define('domain/contact',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Contact = (function () {
-        function Contact() {
-        }
-        return Contact;
-    }());
-    exports.Contact = Contact;
-});
-
-
-
-define('domain/credential',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Credential = (function () {
-        function Credential() {
-        }
-        return Credential;
-    }());
-    exports.Credential = Credential;
-});
-
-
-
-define('domain/stateRegistration',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var StateRegistration = (function () {
-        function StateRegistration() {
-        }
-        return StateRegistration;
-    }());
-    exports.StateRegistration = StateRegistration;
-});
-
-
-
-define('domain/identity',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Identity = (function () {
-        function Identity() {
-        }
-        return Identity;
-    }());
-    exports.Identity = Identity;
-});
-
-
-
-define('domain/brand',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Brand = (function () {
-        function Brand() {
-        }
-        return Brand;
-    }());
-    exports.Brand = Brand;
-});
-
-
-
-define('domain/invoiceStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var InvoiceStatus;
-    (function (InvoiceStatus) {
-        InvoiceStatus[InvoiceStatus["Created"] = 0] = "Created";
-        InvoiceStatus[InvoiceStatus["Paid"] = 1] = "Paid";
-        InvoiceStatus[InvoiceStatus["NotPaid"] = 2] = "NotPaid";
-    })(InvoiceStatus = exports.InvoiceStatus || (exports.InvoiceStatus = {}));
-});
-
-
-
-define('domain/supplierProductFileRow',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierProductFileRow = (function () {
-        function SupplierProductFileRow() {
-        }
-        return SupplierProductFileRow;
-    }());
-    exports.SupplierProductFileRow = SupplierProductFileRow;
-});
-
-
-
-define('domain/orderItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var OrderItem = (function () {
-        function OrderItem() {
-        }
-        return OrderItem;
-    }());
-    exports.OrderItem = OrderItem;
-});
-
-
-
-define('domain/supplier',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Supplier = (function () {
-        function Supplier() {
-        }
-        return Supplier;
-    }());
-    exports.Supplier = Supplier;
-});
-
-
-
-define('domain/foodServiceSupplier',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceSupplier = (function () {
-        function FoodServiceSupplier() {
-        }
-        return FoodServiceSupplier;
-    }());
-    exports.FoodServiceSupplier = FoodServiceSupplier;
-});
-
-
-
-define('domain/priceList',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PriceList = (function () {
-        function PriceList() {
-        }
-        return PriceList;
-    }());
-    exports.PriceList = PriceList;
-});
-
-
-
-define('domain/foodService',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodService = (function () {
-        function FoodService() {
-        }
-        return FoodService;
-    }());
-    exports.FoodService = FoodService;
-});
-
-
-
-define('domain/supplierProductFile',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierProductFile = (function () {
-        function SupplierProductFile() {
-        }
-        return SupplierProductFile;
-    }());
-    exports.SupplierProductFile = SupplierProductFile;
-});
-
-
-
-define('domain/simulationItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationItem = (function () {
-        function SimulationItem() {
-        }
-        return SimulationItem;
-    }());
-    exports.SimulationItem = SimulationItem;
-});
-
-
-
-define('domain/product',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Product = (function () {
-        function Product() {
-        }
-        return Product;
-    }());
-    exports.Product = Product;
-});
-
-
-
-define('domain/simulationInputItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationInputItem = (function () {
-        function SimulationInputItem() {
-        }
-        return SimulationInputItem;
-    }());
-    exports.SimulationInputItem = SimulationInputItem;
-});
-
-
-
-define('domain/consultaCepResult',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ConsultaCepResult = (function () {
-        function ConsultaCepResult() {
-        }
-        return ConsultaCepResult;
-    }());
-    exports.ConsultaCepResult = ConsultaCepResult;
-});
-
-
-
-define('domain/marketRule',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var MarketRule = (function () {
-        function MarketRule() {
-        }
-        return MarketRule;
-    }());
-    exports.MarketRule = MarketRule;
-});
-
-
-
-define('domain/simulationSummaryItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationSummaryItem = (function () {
-        function SimulationSummaryItem() {
-        }
-        return SimulationSummaryItem;
-    }());
-    exports.SimulationSummaryItem = SimulationSummaryItem;
-});
-
-
-
-define('domain/foodServiceStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceStatus;
-    (function (FoodServiceStatus) {
-        FoodServiceStatus[FoodServiceStatus["Active"] = 0] = "Active";
-        FoodServiceStatus[FoodServiceStatus["Inactive"] = 1] = "Inactive";
-        FoodServiceStatus[FoodServiceStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
-    })(FoodServiceStatus = exports.FoodServiceStatus || (exports.FoodServiceStatus = {}));
-});
-
-
-
-define('domain/simulationResultItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationResultItem = (function () {
-        function SimulationResultItem() {
-        }
-        return SimulationResultItem;
-    }());
-    exports.SimulationResultItem = SimulationResultItem;
-});
-
-
-
-define('domain/productViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ProductViewModel = (function () {
-        function ProductViewModel() {
-        }
-        return ProductViewModel;
-    }());
-    exports.ProductViewModel = ProductViewModel;
-});
-
-
-
-define('domain/supplierStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierStatus;
-    (function (SupplierStatus) {
-        SupplierStatus[SupplierStatus["Active"] = 0] = "Active";
-        SupplierStatus[SupplierStatus["Inactive"] = 1] = "Inactive";
-        SupplierStatus[SupplierStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
-    })(SupplierStatus = exports.SupplierStatus || (exports.SupplierStatus = {}));
-});
-
-
-
-define('domain/invoiceControl',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var InvoiceControl = (function () {
-        function InvoiceControl() {
-        }
-        return InvoiceControl;
-    }());
-    exports.InvoiceControl = InvoiceControl;
-});
-
-
-
-define('domain/foodServiceViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceConnectionViewModel = (function () {
-        function FoodServiceConnectionViewModel() {
-        }
-        return FoodServiceConnectionViewModel;
-    }());
-    exports.FoodServiceConnectionViewModel = FoodServiceConnectionViewModel;
-});
-
-
-
-define('domain/welcomeUser',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var WelcomeUser = (function () {
-        function WelcomeUser() {
-        }
-        return WelcomeUser;
-    }());
-    exports.WelcomeUser = WelcomeUser;
-});
-
-
-
-define('domain/cotacaoViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CotacaoViewModel = (function () {
-        function CotacaoViewModel() {
-        }
-        return CotacaoViewModel;
-    }());
-    exports.CotacaoViewModel = CotacaoViewModel;
-});
-
-
-
-define('domain/editSupplierStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EditSupplierStatus = (function () {
-        function EditSupplierStatus() {
-        }
-        return EditSupplierStatus;
-    }());
-    exports.EditSupplierStatus = EditSupplierStatus;
-});
-
-
-
-define('domain/order',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Order = (function () {
-        function Order() {
-        }
-        return Order;
-    }());
-    exports.Order = Order;
-});
-
-
-
-define('domain/simulationInput',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationInput = (function () {
-        function SimulationInput() {
-            this.items = [];
-        }
-        return SimulationInput;
-    }());
-    exports.SimulationInput = SimulationInput;
-});
-
-
-
-define('domain/priceListItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PriceListItem = (function () {
-        function PriceListItem() {
-        }
-        return PriceListItem;
-    }());
-    exports.PriceListItem = PriceListItem;
-});
-
-
-
-define('domain/evaluation',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Evaluation = (function () {
-        function Evaluation() {
-        }
-        return Evaluation;
-    }());
-    exports.Evaluation = Evaluation;
-});
-
-
-
-define('domain/notification',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Notification = (function () {
-        function Notification() {
-        }
-        return Notification;
-    }());
-    exports.Notification = Notification;
-});
-
-
-
-define('domain/alterBuyListProductViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var AlterBuyListProductViewModel = (function () {
-        function AlterBuyListProductViewModel() {
-        }
-        return AlterBuyListProductViewModel;
-    }());
-    exports.AlterBuyListProductViewModel = AlterBuyListProductViewModel;
-});
-
-
-
-define('domain/evaluationStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EvaluationStatus;
-    (function (EvaluationStatus) {
-        EvaluationStatus[EvaluationStatus["Created"] = 0] = "Created";
-        EvaluationStatus[EvaluationStatus["Approved"] = 1] = "Approved";
-        EvaluationStatus[EvaluationStatus["Rejected"] = 2] = "Rejected";
-        EvaluationStatus[EvaluationStatus["Blocked"] = 3] = "Blocked";
-    })(EvaluationStatus = exports.EvaluationStatus || (exports.EvaluationStatus = {}));
-});
-
-
-
-define('domain/unitOfMeasurement',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var UnitOfMeasurement = (function () {
-        function UnitOfMeasurement() {
-        }
-        return UnitOfMeasurement;
-    }());
-    exports.UnitOfMeasurement = UnitOfMeasurement;
-});
-
-
-
-define('domain/userType',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var UserType;
-    (function (UserType) {
-        UserType[UserType["Supplier"] = 0] = "Supplier";
-        UserType[UserType["FoodService"] = 1] = "FoodService";
-        UserType[UserType["Admin"] = 2] = "Admin";
-    })(UserType = exports.UserType || (exports.UserType = {}));
-});
-
-
-
-define('domain/productCategory',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ProductCategory = (function () {
-        function ProductCategory() {
-        }
-        return ProductCategory;
-    }());
-    exports.ProductCategory = ProductCategory;
-});
-
-
-
-define('domain/userStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var UserStatus;
-    (function (UserStatus) {
-        UserStatus[UserStatus["Active"] = 0] = "Active";
-        UserStatus[UserStatus["Inactive"] = 1] = "Inactive";
-        UserStatus[UserStatus["WaitingToConfirmInvite"] = 2] = "WaitingToConfirmInvite";
-        UserStatus[UserStatus["WaitingToConfirmPassword"] = 3] = "WaitingToConfirmPassword";
-    })(UserStatus = exports.UserStatus || (exports.UserStatus = {}));
-});
-
-
-
-define('domain/blockSupplierConnectionViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var BlockSupplierConnectionViewModel = (function () {
-        function BlockSupplierConnectionViewModel() {
-        }
-        return BlockSupplierConnectionViewModel;
-    }());
-    exports.BlockSupplierConnectionViewModel = BlockSupplierConnectionViewModel;
-});
-
-
-
-define('domain/rejectOrderViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var RejectOrderViewModel = (function () {
-        function RejectOrderViewModel() {
-        }
-        return RejectOrderViewModel;
-    }());
-    exports.RejectOrderViewModel = RejectOrderViewModel;
-});
-
-
-
-define('domain/supplierProduct',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierProduct = (function () {
-        function SupplierProduct() {
-        }
-        return SupplierProduct;
-    }());
-    exports.SupplierProduct = SupplierProduct;
-});
-
-
-
-define('domain/user',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var User = (function () {
-        function User() {
-        }
-        return User;
-    }());
-    exports.User = User;
-});
-
-
-
-define('domain/confirmInviteViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ConfirmInviteViewModel = (function () {
-        function ConfirmInviteViewModel() {
-        }
-        return ConfirmInviteViewModel;
-    }());
-    exports.ConfirmInviteViewModel = ConfirmInviteViewModel;
-});
-
-
-
-define('domain/simulationResult',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationResult = (function () {
-        function SimulationResult() {
-        }
-        return SimulationResult;
-    }());
-    exports.SimulationResult = SimulationResult;
-});
-
-
-
-define('domain/editInvoiceViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EditInvoiceViewModel = (function () {
-        function EditInvoiceViewModel() {
-        }
-        return EditInvoiceViewModel;
-    }());
-    exports.EditInvoiceViewModel = EditInvoiceViewModel;
-});
-
-
-
-define('domain/orderStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var OrderStatus;
-    (function (OrderStatus) {
-        OrderStatus[OrderStatus["Created"] = 0] = "Created";
-        OrderStatus[OrderStatus["Accepted"] = 1] = "Accepted";
-        OrderStatus[OrderStatus["Delivered"] = 2] = "Delivered";
-        OrderStatus[OrderStatus["Rejected"] = 3] = "Rejected";
-    })(OrderStatus = exports.OrderStatus || (exports.OrderStatus = {}));
-});
-
-
-
-define('domain/address',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Address = (function () {
-        function Address() {
-        }
-        return Address;
-    }());
-    exports.Address = Address;
-});
-
-
-
-define('domain/supplierViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierViewModel = (function () {
-        function SupplierViewModel() {
-        }
-        return SupplierViewModel;
-    }());
-    exports.SupplierViewModel = SupplierViewModel;
-});
-
-
-
-define('domain/city',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var City = (function () {
-        function City() {
-        }
-        return City;
-    }());
-    exports.City = City;
-});
-
-
-
-define('domain/simulation',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Simulation = (function () {
-        function Simulation() {
-        }
-        return Simulation;
-    }());
-    exports.Simulation = Simulation;
-});
-
-
-
-define('domain/buyList',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var BuyList = (function () {
-        function BuyList() {
-        }
-        return BuyList;
-    }());
-    exports.BuyList = BuyList;
-});
-
-
-
-define('domain/editFoodServiceStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EditFoodServiceStatus = (function () {
-        function EditFoodServiceStatus() {
-        }
-        return EditFoodServiceStatus;
-    }());
-    exports.EditFoodServiceStatus = EditFoodServiceStatus;
-});
-
-
-
-define('validators/foodServiceValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceValidator = (function () {
-        function FoodServiceValidator(foodService) {
-            this.foodService = foodService;
-            this.errorMessages = new Array();
-            if (this.foodService != null && this.foodService.address != null) {
-                this.addressValidator = new addressValidator_1.AddressValidator(this.foodService.address);
-            }
-            if (this.foodService != null && this.foodService.contact != null) {
-                this.contactValidator = new contactValidator_1.ContactValidator(this.foodService.contact);
-            }
-            this.validate();
-        }
-        FoodServiceValidator.prototype.validate = function () {
-            var _this = this;
-            this.errorMessages = [];
-            this.addressValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.contactValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.validateName();
-            this.validateInscricaoEstadual();
-            return this.errorMessages;
-        };
-        FoodServiceValidator.prototype.validateName = function () {
-            if (this.foodService.name == null || this.foodService.name.length == 0) {
-                this.errorMessages.push('O nome do fornecedor é obrigatório');
-                this.isNameInvalid = true;
-            }
-            else {
-                this.isNameInvalid = false;
-            }
-        };
-        FoodServiceValidator.prototype.validateInscricaoEstadual = function () {
-            if (this.foodService.inscricaoEstadual == null || this.foodService.inscricaoEstadual == '') {
-                this.errorMessages.push('A inscrição estadual é obrigatória');
-                this.isInscricaoEstadualInvalid = true;
-            }
-            else {
-                this.isInscricaoEstadualInvalid = false;
-            }
-        };
-        return FoodServiceValidator;
-    }());
-    exports.FoodServiceValidator = FoodServiceValidator;
-});
-
-
-
-define('validators/supplierValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierValidator = (function () {
-        function SupplierValidator(supplier) {
-            this.supplier = supplier;
-            this.errorMessages = new Array();
-            this.addressValidator = new addressValidator_1.AddressValidator(this.supplier.address);
-            this.contactValidator = new contactValidator_1.ContactValidator(this.supplier.contact);
-            this.validate();
-        }
-        SupplierValidator.prototype.validate = function () {
-            var _this = this;
-            this.errorMessages = [];
-            this.addressValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.contactValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.validateName();
-            this.validateInscricaoEstadual();
-            return this.errorMessages;
-        };
-        SupplierValidator.prototype.validateName = function () {
-            if (this.supplier.name == null || this.supplier.name.length == 0) {
-                this.errorMessages.push('O nome do fornecedor é obrigatório');
-                this.isNameInvalid = true;
-            }
-            else {
-                this.isNameInvalid = false;
-            }
-        };
-        SupplierValidator.prototype.validateInscricaoEstadual = function () {
-            if (this.supplier.inscricaoEstadual == null || this.supplier.inscricaoEstadual == '') {
-                this.errorMessages.push('A inscrição estadual é obrigatória');
-                this.isInscricaoEstadualInvalid = true;
-            }
-            else {
-                this.isInscricaoEstadualInvalid = false;
-            }
-        };
-        return SupplierValidator;
-    }());
-    exports.SupplierValidator = SupplierValidator;
-});
-
-
-
-define('validators/contactValidator',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ContactValidator = (function () {
-        function ContactValidator(contact) {
-            this.contact = contact;
-            this.errorMessages = new Array();
-            this.validate();
-        }
-        ContactValidator.prototype.validate = function () {
-            this.errorMessages = [];
-            if (this.contact != null) {
-                this.validateName();
-                this.validatePhone();
-                this.validateEmail();
-            }
-            return this.errorMessages;
-        };
-        ContactValidator.prototype.validateName = function () {
-            if (this.contact.name == null || this.contact.name.length == 0) {
-                this.errorMessages.push('O nome do contato é obrigatório');
-                this.isNameInvalid = true;
-            }
-            else {
-                this.isNameInvalid = false;
-            }
-        };
-        ContactValidator.prototype.validatePhone = function () {
-            if (this.contact.phone == null || ('' + this.contact.phone).length < 10) {
-                this.errorMessages.push('O telefone do contato é obrigatório');
-                this.isPhoneInvalid = true;
-            }
-            else {
-                this.isPhoneInvalid = false;
-            }
-        };
-        ContactValidator.prototype.validateEmail = function () {
-            if (this.contact.email == null || this.contact.email.length <= 10) {
-                this.errorMessages.push('O telefone do contato é obrigatório');
-                this.isEmailInvalid = true;
-            }
-            else if (!this.validateEmailString(this.contact.email)) {
-                this.errorMessages.push('O e-mail digitado é invalido');
-                this.isEmailInvalid = true;
-            }
-            else {
-                this.isEmailInvalid = false;
-            }
-        };
-        ContactValidator.prototype.validateEmailString = function (email) {
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
-        };
-        return ContactValidator;
-    }());
-    exports.ContactValidator = ContactValidator;
-});
-
-
-
-define('validators/addressValidator',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var AddressValidator = (function () {
-        function AddressValidator(address) {
-            this.address = address;
-            this.errorMessages = new Array();
-            this.validate();
-        }
-        AddressValidator.prototype.validate = function () {
-            this.errorMessages = [];
-            if (this.address != null) {
-                this.validateCep();
-                this.validateLogradouro();
-                this.validateNumber();
-                this.validateNeighborhood();
-                this.validateCity();
-                this.validateState();
-            }
-            return this.errorMessages;
-        };
-        AddressValidator.prototype.validateCep = function () {
-            if (this.address.cep == null || this.address.cep.length < 8) {
-                this.errorMessages.push('O cep do endereço é obrigatório');
-                this.isCepInvalid = true;
-            }
-            else {
-                this.isCepInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateLogradouro = function () {
-            if (this.address.logradouro == null || this.address.logradouro.length < 3) {
-                this.errorMessages.push('O logradouro do endereço é obrigatório');
-                this.isLogradouroInvalid = true;
-            }
-            else {
-                this.isLogradouroInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateNumber = function () {
-            if (this.address.number == null || ('' + this.address.number) == '' || this.address.number <= 0) {
-                this.errorMessages.push('O número do endereço é obrigatório');
-                this.isNumberInvalid = true;
-            }
-            else {
-                this.isNumberInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateNeighborhood = function () {
-            if (this.address.neighborhood == null || this.address.neighborhood.length == 0) {
-                this.errorMessages.push('O bairro do endereço é obrigatório');
-                this.isNeighborhoodInvalid = true;
-            }
-            else {
-                this.isNeighborhoodInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateCity = function () {
-            if (this.address.city == null || this.address.city.length == 0) {
-                this.errorMessages.push('A cidade do endereço é obrigatório');
-                this.isCityInvalid = true;
-            }
-            else {
-                this.isCityInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateState = function () {
-            if (this.address.state == null || this.address.state.length == 0) {
-                this.errorMessages.push('O estado do endereço é obrigatório');
-                this.isStateInvalid = true;
-            }
-            else {
-                this.isStateInvalid = false;
-            }
-        };
-        return AddressValidator;
-    }());
-    exports.AddressValidator = AddressValidator;
-});
-
-
-
-define('validators/marketRuleValidator',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var MarketRuleValidator = (function () {
-        function MarketRuleValidator(rule) {
-            this.rule = rule;
-            this.errorMessages = new Array();
-            this.validate();
-        }
-        MarketRuleValidator.prototype.validate = function () {
-            this.errorMessages = [];
-            this.validateMinimumOrderValue();
-            this.validateNumberOfDaysToAccept();
-            this.validatePeriodToAcceptOrder1();
-            this.validatePeriodToAcceptOrder2();
-            this.validateDeliverySchedule1();
-            this.validateDeliverySchedule2();
-            this.validateReceiverNewClient();
-            this.validateReceiverNewOrder();
-            return this.errorMessages;
-        };
-        MarketRuleValidator.prototype.validateReceiverNewClient = function () {
-            if (this.rule.sendNotificationToNewClient && (this.rule.receiverNewClient == null || this.rule.receiverNewClient == '')) {
-                this.errorMessages.push('O e-mail do destinatário em caso de novo cliente está em branco');
-                this.isReceiverNewClientInvalid = true;
-            }
-        };
-        MarketRuleValidator.prototype.validateReceiverNewOrder = function () {
-            if (this.rule.sendNotificationToNewOrder && (this.rule.receiverNewOrder == null || this.rule.receiverNewOrder == '')) {
-                this.errorMessages.push('O e-mail do destinatário em caso de novo pedido está em branco');
-                this.isReceiverNewClientInvalid = true;
-            }
-        };
-        MarketRuleValidator.prototype.validateMinimumOrderValue = function () {
-            if (this.rule.minimumOrderValue == null || ('' + this.rule.minimumOrderValue) == "") {
-                this.errorMessages.push('O valor mínimo do pedido é obrigatório');
-                this.isMinimumOrderValueInvalid = true;
-            }
-            else if (this.rule.minimumOrderValue <= 0) {
-                this.errorMessages.push('O valor mínimo do pedido deve ser maior que zero');
-                this.isMinimumOrderValueInvalid = true;
-            }
-            else {
-                this.isMinimumOrderValueInvalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validateNumberOfDaysToAccept = function () {
-            if (this.rule.numberOfDaysToAccept == null || ('' + this.rule.numberOfDaysToAccept) == "") {
-                this.errorMessages.push('A quantidade de dias para aceite do pedido é obrigatória');
-                this.isnumberOfDaysToAcceptInvalid = true;
-            }
-            else if (this.rule.numberOfDaysToAccept <= 0) {
-                this.errorMessages.push('A quantidade de dias para aceite do pedido deve ser maior que zero');
-                this.isnumberOfDaysToAcceptInvalid = true;
-            }
-            else {
-                this.isnumberOfDaysToAcceptInvalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validatePeriodToAcceptOrder1 = function () {
-            if (this.rule.periodToAcceptOrder1 == null || ('' + this.rule.periodToAcceptOrder1) == '') {
-                this.errorMessages.push('O período inicial de aceite é obrigatório');
-                this.isPeriodToAcceptOrder1Invalid = true;
-            }
-            else if (this.rule.periodToAcceptOrder1 > 1800) {
-                this.errorMessages.push('O período inicial de aceite é inválido');
-                this.isPeriodToAcceptOrder1Invalid = true;
-            }
-            else {
-                this.isPeriodToAcceptOrder1Invalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validatePeriodToAcceptOrder2 = function () {
-            if (this.rule.periodToAcceptOrder2 == null || ('' + this.rule.periodToAcceptOrder2) == '') {
-                this.errorMessages.push('O período final de aceite é obrigatório');
-                this.isPeriodToAcceptOrder2Invalid = true;
-            }
-            else if (this.rule.periodToAcceptOrder2 > 2400) {
-                this.errorMessages.push('O período final  de aceite é inválido');
-                this.isPeriodToAcceptOrder2Invalid = true;
-            }
-            else {
-                this.isPeriodToAcceptOrder2Invalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validateDeliverySchedule1 = function () {
-            if (this.rule.deliverySchedule1 == null || ('' + this.rule.deliverySchedule1) == '') {
-                this.errorMessages.push('O horário inicial de entrega é obrigatório');
-                this.isDeliverySchedule1Invalid = true;
-            }
-            else if (this.rule.deliverySchedule1 > 1800) {
-                this.errorMessages.push('O horário inicial de entrega é inválido');
-                this.isDeliverySchedule1Invalid = true;
-            }
-            else {
-                this.isDeliverySchedule1Invalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validateDeliverySchedule2 = function () {
-            if (this.rule.deliverySchedule2 == null || ('' + this.rule.deliverySchedule2) == '') {
-                this.errorMessages.push('O horário final de entrega é obrigatório');
-                this.isDeliverySchedule2Invalid = true;
-            }
-            else if (this.rule.deliverySchedule1 > 2400) {
-                this.errorMessages.push('O horário final de entrega é inválido');
-                this.isDeliverySchedule2Invalid = true;
-            }
-            else {
-                this.isDeliverySchedule2Invalid = false;
-            }
-        };
-        return MarketRuleValidator;
-    }());
-    exports.MarketRuleValidator = MarketRuleValidator;
 });
 
 
@@ -6460,6 +6460,139 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+define('views/admin/product/listProduct',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../../../services/identityService", "../../../services/notificationService", "../../../repositories/productRepository", "../../../domain/product", "../../../repositories/unitOfMeasurementRepository", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, identityService_1, notificationService_1, productRepository_1, product_1, unitOfMeasurementRepository_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ListProduct = (function () {
+        function ListProduct(router, ea, service, nService, repository, unitRepository, productRepository) {
+            this.router = router;
+            this.ea = ea;
+            this.service = service;
+            this.nService = nService;
+            this.repository = repository;
+            this.unitRepository = unitRepository;
+            this.productRepository = productRepository;
+            this.units = [];
+        }
+        ListProduct.prototype.attached = function () {
+            this.ea.publish('loadingData');
+            this.loadData();
+        };
+        ListProduct.prototype.loadData = function () {
+            var _this = this;
+            this.productRepository
+                .getAllCategories()
+                .then(function (data) {
+                _this.categories = data;
+                _this.ea.publish('dataLoaded');
+            }).catch(function (e) {
+                _this.nService.presentError(e);
+            });
+            this.unitRepository
+                .getAll()
+                .then(function (data) {
+                _this.units = data;
+            }).catch(function (e) {
+                _this.nService.presentError(e);
+            });
+        };
+        ListProduct.prototype.searchProducts = function () {
+            var _this = this;
+            this.repository
+                .getAllProductsByCategory(this.selectedCategory)
+                .then(function (x) {
+                _this.products = x;
+                _this.filteredProducts = x;
+                _this.search();
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+            });
+        };
+        ListProduct.prototype.search = function () {
+            var _this = this;
+            this.filteredProducts = this.products.filter(function (x) {
+                var isFound = true;
+                if ((_this.selectedCategory != null && _this.selectedCategory != '')) {
+                    if (x.category.id == _this.selectedCategory) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+                if (isFound) {
+                    if ((_this.filter != null && _this.filter != '')) {
+                        if (x.name.toUpperCase().includes(_this.filter.toUpperCase())
+                            || x.category.name.toUpperCase().includes(_this.filter.toUpperCase())
+                            || x.brand != null && x.brand.name.toUpperCase().includes(_this.filter.toUpperCase())) {
+                            isFound = true;
+                        }
+                        else {
+                            isFound = false;
+                        }
+                    }
+                }
+                if (isFound) {
+                    return x;
+                }
+            });
+        };
+        ListProduct.prototype.edit = function (product) {
+            var _this = this;
+            this.isEditing = true;
+            this.product = product;
+            this.product.category = this.categories.filter(function (x) { return x.id == _this.product.category.id; })[0];
+            this.product.unit = this.units.filter(function (x) { return x.id == _this.product.unit.id; })[0];
+        };
+        ListProduct.prototype.create = function () {
+            this.product = new product_1.Product();
+            this.isEditing = true;
+            this.product.isActive = true;
+        };
+        ListProduct.prototype.cancel = function () {
+            this.isEditing = false;
+            this.product = null;
+        };
+        ListProduct.prototype.addOrUpdate = function () {
+            var _this = this;
+            this.repository
+                .addOrUpdate(this.product)
+                .then(function (x) {
+                _this.product = null;
+                _this.loadData();
+                _this.isEditing = false;
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+            });
+        };
+        ListProduct = __decorate([
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_router_1.Router,
+                aurelia_event_aggregator_1.EventAggregator,
+                identityService_1.IdentityService,
+                notificationService_1.NotificationService,
+                productRepository_1.ProductRepository,
+                unitOfMeasurementRepository_1.UnitOfMeasurementRepository,
+                productRepository_1.ProductRepository])
+        ], ListProduct);
+        return ListProduct;
+    }());
+    exports.ListProduct = ListProduct;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 define('views/admin/foodService/editFoodService',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-api", "aurelia-event-aggregator", "../../../services/notificationService", "../../../repositories/stateRegistrationRepository", "../../../domain/user", "../../../repositories/userRepository", "../../../domain/userType", "../../../domain/foodService", "../../../repositories/foodServiceRepository", "../../../services/consultaCEPService", "../../../validators/foodServiceValidator", "../../../domain/address", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_api_1, aurelia_event_aggregator_1, notificationService_1, stateRegistrationRepository_1, user_1, userRepository_1, userType_1, foodService_1, foodServiceRepository_1, consultaCEPService_1, foodServiceValidator_1, address_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -6759,139 +6892,6 @@ define('views/admin/foodService/listFoodServices',["require", "exports", "aureli
         return ListFoodServices;
     }());
     exports.ListFoodServices = ListFoodServices;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/admin/product/listProduct',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../../../services/identityService", "../../../services/notificationService", "../../../repositories/productRepository", "../../../domain/product", "../../../repositories/unitOfMeasurementRepository", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, identityService_1, notificationService_1, productRepository_1, product_1, unitOfMeasurementRepository_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ListProduct = (function () {
-        function ListProduct(router, ea, service, nService, repository, unitRepository, productRepository) {
-            this.router = router;
-            this.ea = ea;
-            this.service = service;
-            this.nService = nService;
-            this.repository = repository;
-            this.unitRepository = unitRepository;
-            this.productRepository = productRepository;
-            this.units = [];
-        }
-        ListProduct.prototype.attached = function () {
-            this.ea.publish('loadingData');
-            this.loadData();
-        };
-        ListProduct.prototype.loadData = function () {
-            var _this = this;
-            this.productRepository
-                .getAllCategories()
-                .then(function (data) {
-                _this.categories = data;
-                _this.ea.publish('dataLoaded');
-            }).catch(function (e) {
-                _this.nService.presentError(e);
-            });
-            this.unitRepository
-                .getAll()
-                .then(function (data) {
-                _this.units = data;
-            }).catch(function (e) {
-                _this.nService.presentError(e);
-            });
-        };
-        ListProduct.prototype.searchProducts = function () {
-            var _this = this;
-            this.repository
-                .getAllProductsByCategory(this.selectedCategory)
-                .then(function (x) {
-                _this.products = x;
-                _this.filteredProducts = x;
-                _this.search();
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-            });
-        };
-        ListProduct.prototype.search = function () {
-            var _this = this;
-            this.filteredProducts = this.products.filter(function (x) {
-                var isFound = true;
-                if ((_this.selectedCategory != null && _this.selectedCategory != '')) {
-                    if (x.category.id == _this.selectedCategory) {
-                        isFound = true;
-                    }
-                    else {
-                        isFound = false;
-                    }
-                }
-                if (isFound) {
-                    if ((_this.filter != null && _this.filter != '')) {
-                        if (x.name.toUpperCase().includes(_this.filter.toUpperCase())
-                            || x.category.name.toUpperCase().includes(_this.filter.toUpperCase())
-                            || x.brand != null && x.brand.name.toUpperCase().includes(_this.filter.toUpperCase())) {
-                            isFound = true;
-                        }
-                        else {
-                            isFound = false;
-                        }
-                    }
-                }
-                if (isFound) {
-                    return x;
-                }
-            });
-        };
-        ListProduct.prototype.edit = function (product) {
-            var _this = this;
-            this.isEditing = true;
-            this.product = product;
-            this.product.category = this.categories.filter(function (x) { return x.id == _this.product.category.id; })[0];
-            this.product.unit = this.units.filter(function (x) { return x.id == _this.product.unit.id; })[0];
-        };
-        ListProduct.prototype.create = function () {
-            this.product = new product_1.Product();
-            this.isEditing = true;
-            this.product.isActive = true;
-        };
-        ListProduct.prototype.cancel = function () {
-            this.isEditing = false;
-            this.product = null;
-        };
-        ListProduct.prototype.addOrUpdate = function () {
-            var _this = this;
-            this.repository
-                .addOrUpdate(this.product)
-                .then(function (x) {
-                _this.product = null;
-                _this.loadData();
-                _this.isEditing = false;
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-            });
-        };
-        ListProduct = __decorate([
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [aurelia_router_1.Router,
-                aurelia_event_aggregator_1.EventAggregator,
-                identityService_1.IdentityService,
-                notificationService_1.NotificationService,
-                productRepository_1.ProductRepository,
-                unitOfMeasurementRepository_1.UnitOfMeasurementRepository,
-                productRepository_1.ProductRepository])
-        ], ListProduct);
-        return ListProduct;
-    }());
-    exports.ListProduct = ListProduct;
 });
 
 
@@ -7307,6 +7307,175 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+define('views/admin/finance/listInvoice',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../../../services/notificationService", "../../../repositories/financeRepository", "../../../domain/invoiceStatus", "../../../domain/editInvoiceViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, notificationService_1, financeRepository_1, invoiceStatus_1, editInvoiceViewModel_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ListInvoice = (function () {
+        function ListInvoice(router, ea, nService, repository) {
+            this.router = router;
+            this.ea = ea;
+            this.nService = nService;
+            this.repository = repository;
+            this.controls = [];
+        }
+        ListInvoice.prototype.attached = function () {
+            this.ea.publish('loadingData');
+            this.loadData();
+        };
+        ListInvoice.prototype.changeControl = function () {
+            this.filteredInvoices = this.selectedControl.invoices;
+            this.search();
+            this.calculateTotalValue();
+        };
+        ListInvoice.prototype.calculateTotalValue = function () {
+            if (this.selectedControl.invoices != null) {
+                this.totalValue = this.selectedControl.invoices.reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
+                this.totalValuePaid = this.selectedControl.invoices.filter(function (x) { return x.status == invoiceStatus_1.InvoiceStatus.Paid; }).reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
+            }
+        };
+        ListInvoice.prototype.loadData = function () {
+            var _this = this;
+            this.repository
+                .getControls()
+                .then(function (x) {
+                _this.controls = x;
+                if (x.length > 0) {
+                    _this.selectedControl = x[0];
+                    _this.filteredInvoices = x[0].invoices;
+                    _this.calculateTotalValue();
+                }
+                _this.ea.publish('dataLoaded');
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+            });
+        };
+        ListInvoice.prototype.generateInvoices = function () {
+            var _this = this;
+            this.isLoading = true;
+            this.repository
+                .generateInvoices(this.selectedControl)
+                .then(function (x) {
+                _this.selectedControl.invoices = x;
+                _this.filteredInvoices = x;
+                if (_this.filteredInvoices.length == 0) {
+                    _this.nService.presentError('Não há pedidos para gerar o faturamento');
+                }
+                _this.calculateTotalValue();
+                _this.selectedControl.canGenerateInvoices = false;
+                _this.isLoading = false;
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+                _this.isLoading = false;
+            });
+        };
+        ListInvoice.prototype.edit = function (invoice) {
+            this.isEditing = true;
+            this.selectedInvoice = invoice;
+            this.setInvoiceValues();
+        };
+        ListInvoice.prototype.cancelEdit = function () {
+            this.isEditing = false;
+        };
+        ListInvoice.prototype.setInvoiceValues = function () {
+            if (this.selectedInvoice.originalPrice == null) {
+                this.selectedInvoice.originalPrice = this.selectedInvoice.totalValue;
+            }
+            if (this.selectedInvoice.originalFee == null) {
+                this.selectedInvoice.originalFee = this.selectedInvoice.fee;
+            }
+        };
+        ListInvoice.prototype.editStatus = function (invoice, status) {
+            invoice.status = status;
+            this.selectedInvoice = invoice;
+            this.saveInvoice();
+        };
+        ListInvoice.prototype.saveInvoice = function () {
+            var _this = this;
+            this.isLoading = true;
+            this.selectedInvoice.isEditing = true;
+            var edit = new editInvoiceViewModel_1.EditInvoiceViewModel();
+            edit.id = this.selectedInvoice.id;
+            edit.fee = this.selectedInvoice.fee;
+            edit.maturity = this.selectedInvoice.maturity;
+            edit.status = this.selectedInvoice.status;
+            edit.totalValue = this.selectedInvoice.totalValue;
+            edit.valueToPay = this.selectedInvoice.valueToPay;
+            this.repository
+                .saveInvoice(edit)
+                .then(function (x) {
+                _this.nService.presentSuccess('Fatura atualizada com sucesso!');
+                _this.isLoading = false;
+                _this.selectedInvoice.isEditing = false;
+                _this.calculateTotalValue();
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+                _this.isLoading = false;
+                _this.selectedInvoice.isEditing = false;
+            });
+        };
+        ListInvoice.prototype.calculateInvoicePrice = function () {
+            this.selectedInvoice.valueToPay = this.selectedInvoice.totalValue * (this.selectedInvoice.fee / 100);
+        };
+        ListInvoice.prototype.cancelEditInvoicePrice = function () {
+            if (this.selectedInvoice.originalPrice != null) {
+                this.selectedInvoice.totalValue = this.selectedInvoice.originalPrice;
+            }
+            if (this.selectedInvoice.originalFee != null) {
+                this.selectedInvoice.fee = this.selectedInvoice.originalFee;
+            }
+            this.calculateInvoicePrice();
+        };
+        ListInvoice.prototype.search = function () {
+            var _this = this;
+            this.filteredInvoices = this.selectedControl.invoices.filter(function (x) {
+                var isFound = true;
+                if ((_this.selectedStatus != null && _this.selectedStatus != '')) {
+                    if (x.status.toString() == _this.selectedStatus) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+                if ((_this.filter != null && _this.filter != '')) {
+                    if (x.supplier.name.toUpperCase().includes(_this.filter.toUpperCase())) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+                if (isFound) {
+                    return x;
+                }
+            });
+        };
+        ListInvoice = __decorate([
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_router_1.Router,
+                aurelia_event_aggregator_1.EventAggregator,
+                notificationService_1.NotificationService,
+                financeRepository_1.FinanceRepository])
+        ], ListInvoice);
+        return ListInvoice;
+    }());
+    exports.ListInvoice = ListInvoice;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 define('views/components/attributes/inscricaoEstadualMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -7592,169 +7761,326 @@ define('views/components/attributes/phoneWithDDDMask',["require", "exports", "au
 
 
 
+define('views/components/valueConverters/numberValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var NumberValueConverter = (function () {
+        function NumberValueConverter() {
+        }
+        NumberValueConverter.prototype.toView = function (value) {
+            return value;
+        };
+        NumberValueConverter.prototype.fromView = function (value) {
+            return value;
+        };
+        return NumberValueConverter;
+    }());
+    exports.NumberValueConverter = NumberValueConverter;
+});
+
+
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/admin/finance/listInvoice',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../../../services/notificationService", "../../../repositories/financeRepository", "../../../domain/invoiceStatus", "../../../domain/editInvoiceViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, notificationService_1, financeRepository_1, invoiceStatus_1, editInvoiceViewModel_1) {
+define('views/components/valueConverters/timeValueConverter',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var ListInvoice = (function () {
-        function ListInvoice(router, ea, nService, repository) {
-            this.router = router;
-            this.ea = ea;
-            this.nService = nService;
-            this.repository = repository;
-            this.controls = [];
+    var TimeValueConverter = (function () {
+        function TimeValueConverter() {
         }
-        ListInvoice.prototype.attached = function () {
-            this.ea.publish('loadingData');
-            this.loadData();
-        };
-        ListInvoice.prototype.changeControl = function () {
-            this.filteredInvoices = this.selectedControl.invoices;
-            this.search();
-            this.calculateTotalValue();
-        };
-        ListInvoice.prototype.calculateTotalValue = function () {
-            this.totalValue = this.selectedControl.invoices.reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
-            this.totalValuePaid = this.selectedControl.invoices.filter(function (x) { return x.status == invoiceStatus_1.InvoiceStatus.Paid; }).reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
-        };
-        ListInvoice.prototype.loadData = function () {
-            var _this = this;
-            this.repository
-                .getControls()
-                .then(function (x) {
-                _this.controls = x;
-                if (x.length > 0) {
-                    _this.selectedControl = x[0];
-                    _this.filteredInvoices = x[0].invoices;
-                    _this.calculateTotalValue();
+        TimeValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                if (isNaN(value)) {
+                    return '';
                 }
-                _this.ea.publish('dataLoaded');
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-            });
-        };
-        ListInvoice.prototype.generateInvoices = function () {
-            var _this = this;
-            this.isLoading = true;
-            this.repository
-                .generateInvoices(this.selectedControl)
-                .then(function (x) {
-                _this.selectedControl.invoices = x;
-                _this.filteredInvoices = x;
-                if (_this.filteredInvoices.length == 0) {
-                    _this.nService.presentError('Não há pedidos para gerar o faturamento');
+                value = value + '';
+                if (value.length == 1) {
+                    if (Number.parseInt(value) < 10 && Number.parseInt(value) > 2) {
+                        return '0' + value + ':00';
+                    }
+                    if (Number.parseInt(value) <= 2) {
+                        return value;
+                    }
+                    return value + ':00';
                 }
-                _this.calculateTotalValue();
-                _this.selectedControl.canGenerateInvoices = false;
-                _this.isLoading = false;
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-                _this.isLoading = false;
-            });
-        };
-        ListInvoice.prototype.edit = function (invoice) {
-            this.isEditing = true;
-            this.selectedInvoice = invoice;
-            this.setInvoiceValues();
-        };
-        ListInvoice.prototype.cancelEdit = function () {
-            this.isEditing = false;
-        };
-        ListInvoice.prototype.setInvoiceValues = function () {
-            if (this.selectedInvoice.originalPrice == null) {
-                this.selectedInvoice.originalPrice = this.selectedInvoice.totalValue;
-            }
-            if (this.selectedInvoice.originalFee == null) {
-                this.selectedInvoice.originalFee = this.selectedInvoice.fee;
-            }
-        };
-        ListInvoice.prototype.editStatus = function (invoice, status) {
-            invoice.status = status;
-            this.selectedInvoice = invoice;
-            this.saveInvoice();
-        };
-        ListInvoice.prototype.saveInvoice = function () {
-            var _this = this;
-            this.isLoading = true;
-            this.selectedInvoice.isEditing = true;
-            var edit = new editInvoiceViewModel_1.EditInvoiceViewModel();
-            edit.id = this.selectedInvoice.id;
-            edit.fee = this.selectedInvoice.fee;
-            edit.maturity = this.selectedInvoice.maturity;
-            edit.status = this.selectedInvoice.status;
-            edit.totalValue = this.selectedInvoice.totalValue;
-            edit.valueToPay = this.selectedInvoice.valueToPay;
-            this.repository
-                .saveInvoice(edit)
-                .then(function (x) {
-                _this.nService.presentSuccess('Fatura atualizada com sucesso!');
-                _this.isLoading = false;
-                _this.selectedInvoice.isEditing = false;
-                _this.calculateTotalValue();
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-                _this.isLoading = false;
-                _this.selectedInvoice.isEditing = false;
-            });
-        };
-        ListInvoice.prototype.calculateInvoicePrice = function () {
-            this.selectedInvoice.valueToPay = this.selectedInvoice.totalValue * (this.selectedInvoice.fee / 100);
-        };
-        ListInvoice.prototype.cancelEditInvoicePrice = function () {
-            if (this.selectedInvoice.originalPrice != null) {
-                this.selectedInvoice.totalValue = this.selectedInvoice.originalPrice;
-            }
-            if (this.selectedInvoice.originalFee != null) {
-                this.selectedInvoice.fee = this.selectedInvoice.originalFee;
-            }
-            this.calculateInvoicePrice();
-        };
-        ListInvoice.prototype.search = function () {
-            var _this = this;
-            this.filteredInvoices = this.selectedControl.invoices.filter(function (x) {
-                var isFound = true;
-                if ((_this.selectedStatus != null && _this.selectedStatus != '')) {
-                    if (x.status.toString() == _this.selectedStatus) {
-                        isFound = true;
+                if (value.length == 2) {
+                    if (Number.parseInt(value) > 24) {
+                        return '0' + value + '0';
                     }
                     else {
-                        isFound = false;
+                        return value + ':00';
                     }
                 }
-                if ((_this.filter != null && _this.filter != '')) {
-                    if (x.supplier.name.toUpperCase().includes(_this.filter.toUpperCase())) {
-                        isFound = true;
+                if (value.length == 3) {
+                    var a = ('' + value).substr(0, 2);
+                    var b = ('' + value).substr(2, 1);
+                    if (value == '') {
+                        return null;
                     }
-                    else {
-                        isFound = false;
+                    if (Number.parseInt(a) > 24) {
+                        var b = ('' + value).substr(1, 2);
+                        if (Number.parseInt(b) > 59) {
+                            b = '00';
+                        }
+                        return '0' + (value).substr(0, 1) + ':' + b;
                     }
+                    if (Number.parseInt(b) > 5) {
+                        b = '00';
+                    }
+                    return a + ':' + b;
                 }
-                if (isFound) {
-                    return x;
+                else {
+                    var a = ('' + value).substr(0, 2);
+                    var b = ('' + value).substr(2, 2);
+                    if (value == '') {
+                        return null;
+                    }
+                    if (Number.parseInt(a) >= 24) {
+                        return '';
+                    }
+                    if (b.substr(0, 1) == "0")
+                        b = ((Number.parseInt(b) * 10) / 10).toString();
+                    if (Number.parseInt(b) > 59) {
+                        b = '00';
+                    }
+                    if (b.length < 2) {
+                        b += '0';
+                    }
+                    return a + ':' + b;
                 }
-            });
+            }
         };
-        ListInvoice = __decorate([
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [aurelia_router_1.Router,
-                aurelia_event_aggregator_1.EventAggregator,
-                notificationService_1.NotificationService,
-                financeRepository_1.FinanceRepository])
-        ], ListInvoice);
-        return ListInvoice;
+        TimeValueConverter.prototype.fromView = function (value) {
+            return ('' + value).replace(":", "");
+        };
+        TimeValueConverter = __decorate([
+            aurelia_framework_1.autoinject
+        ], TimeValueConverter);
+        return TimeValueConverter;
     }());
-    exports.ListInvoice = ListInvoice;
+    exports.TimeValueConverter = TimeValueConverter;
+});
+
+
+
+define('views/components/valueConverters/dateAndTimeFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DateAndTimeFormatValueConverter = (function () {
+        function DateAndTimeFormatValueConverter() {
+        }
+        DateAndTimeFormatValueConverter.prototype.toView = function (value) {
+            moment.locale('pt-BR');
+            if (value == null || value == '')
+                return '';
+            return moment(value).format("DD/MM/YYYY HH:mm:ss");
+        };
+        DateAndTimeFormatValueConverter.prototype.fromView = function (value) {
+            moment.locale('pt-BR');
+            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
+        };
+        return DateAndTimeFormatValueConverter;
+    }());
+    exports.DateAndTimeFormatValueConverter = DateAndTimeFormatValueConverter;
+});
+
+
+
+define('views/components/valueConverters/moneyValueConverter',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var MoneyValueConverter = (function () {
+        function MoneyValueConverter() {
+        }
+        MoneyValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                var numero = value.toFixed(2).split('.');
+                numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+                return numero.join(',');
+            }
+            return value;
+        };
+        MoneyValueConverter.prototype.fromView = function (value) {
+            if (value != null) {
+                return (value.split(".").join("").replace(",", "")) / 100;
+            }
+            return null;
+        };
+        return MoneyValueConverter;
+    }());
+    exports.MoneyValueConverter = MoneyValueConverter;
+});
+
+
+
+define('views/components/valueConverters/inscricaoEstadualValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var InscricaoEstadualValueConverter = (function () {
+        function InscricaoEstadualValueConverter() {
+        }
+        InscricaoEstadualValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var a = value.substr(0, 3);
+                var b = value.substr(3, 3);
+                var c = value.substr(6, 3);
+                var d = value.substr(9, 3);
+                return a + '.' + b + '.' + c + '.' + d;
+            }
+            return value;
+        };
+        InscricaoEstadualValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('.', '').replace('.', '').replace('.', '');
+            return null;
+        };
+        return InscricaoEstadualValueConverter;
+    }());
+    exports.InscricaoEstadualValueConverter = InscricaoEstadualValueConverter;
+});
+
+
+
+define('views/components/valueConverters/dateFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DateFormatValueConverter = (function () {
+        function DateFormatValueConverter() {
+        }
+        DateFormatValueConverter.prototype.toView = function (value) {
+            moment.locale('pt-BR');
+            if (value == null || value == '')
+                return null;
+            return moment(value).format("DD/MM/YYYY");
+        };
+        DateFormatValueConverter.prototype.fromView = function (value) {
+            moment.locale('pt-BR');
+            if (value == null || value == '')
+                return null;
+            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
+        };
+        return DateFormatValueConverter;
+    }());
+    exports.DateFormatValueConverter = DateFormatValueConverter;
+});
+
+
+
+define('views/components/valueConverters/phoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PhoneWithDDDValueConverter = (function () {
+        function PhoneWithDDDValueConverter() {
+        }
+        PhoneWithDDDValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var ddd = value.substr(0, 2);
+                var firstPart = value.substr(2, 4);
+                var lastPart = value.substr(6, 4);
+                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
+            }
+            return value;
+        };
+        PhoneWithDDDValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
+            return null;
+        };
+        return PhoneWithDDDValueConverter;
+    }());
+    exports.PhoneWithDDDValueConverter = PhoneWithDDDValueConverter;
+});
+
+
+
+define('views/components/valueConverters/cepValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CepValueConverter = (function () {
+        function CepValueConverter() {
+        }
+        CepValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var a = value.substr(0, 5);
+                var b = value.substr(5, 3);
+                return a + '-' + b;
+            }
+            return value;
+        };
+        CepValueConverter.prototype.fromView = function (value) {
+            if (value != null) {
+                return value.replace('-', '');
+            }
+            return null;
+        };
+        return CepValueConverter;
+    }());
+    exports.CepValueConverter = CepValueConverter;
+});
+
+
+
+define('views/components/valueConverters/cellPhoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CellPhoneWithDDDValueConverter = (function () {
+        function CellPhoneWithDDDValueConverter() {
+        }
+        CellPhoneWithDDDValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var ddd = value.substr(0, 2);
+                var firstPart = value.substr(2, 5);
+                var lastPart = value.substr(7, 4);
+                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
+            }
+            return value;
+        };
+        CellPhoneWithDDDValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
+            return null;
+        };
+        return CellPhoneWithDDDValueConverter;
+    }());
+    exports.CellPhoneWithDDDValueConverter = CellPhoneWithDDDValueConverter;
+});
+
+
+
+define('views/components/valueConverters/cnpjValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CnpjValueConverter = (function () {
+        function CnpjValueConverter() {
+        }
+        CnpjValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var a = value.substr(0, 2);
+                var b = value.substr(2, 3);
+                var c = value.substr(5, 3);
+                var d = value.substr(8, 4);
+                var e = value.substr(12, 2);
+                return a + '.' + b + '.' + c + '/' + d + '-' + e;
+            }
+            return value;
+        };
+        CnpjValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('.', '').replace('.', '').replace('/', '').replace('-', '');
+            return null;
+        };
+        return CnpjValueConverter;
+    }());
+    exports.CnpjValueConverter = CnpjValueConverter;
 });
 
 
@@ -8886,330 +9212,6 @@ define('views/components/partials/produtosSelecionados',["require", "exports", "
         return ProdutosSelecionados;
     }());
     exports.ProdutosSelecionados = ProdutosSelecionados;
-});
-
-
-
-define('views/components/valueConverters/numberValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var NumberValueConverter = (function () {
-        function NumberValueConverter() {
-        }
-        NumberValueConverter.prototype.toView = function (value) {
-            return value;
-        };
-        NumberValueConverter.prototype.fromView = function (value) {
-            return value;
-        };
-        return NumberValueConverter;
-    }());
-    exports.NumberValueConverter = NumberValueConverter;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-define('views/components/valueConverters/timeValueConverter',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var TimeValueConverter = (function () {
-        function TimeValueConverter() {
-        }
-        TimeValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                if (isNaN(value)) {
-                    return '';
-                }
-                value = value + '';
-                if (value.length == 1) {
-                    if (Number.parseInt(value) < 10 && Number.parseInt(value) > 2) {
-                        return '0' + value + ':00';
-                    }
-                    if (Number.parseInt(value) <= 2) {
-                        return value;
-                    }
-                    return value + ':00';
-                }
-                if (value.length == 2) {
-                    if (Number.parseInt(value) > 24) {
-                        return '0' + value + '0';
-                    }
-                    else {
-                        return value + ':00';
-                    }
-                }
-                if (value.length == 3) {
-                    var a = ('' + value).substr(0, 2);
-                    var b = ('' + value).substr(2, 1);
-                    if (value == '') {
-                        return null;
-                    }
-                    if (Number.parseInt(a) > 24) {
-                        var b = ('' + value).substr(1, 2);
-                        if (Number.parseInt(b) > 59) {
-                            b = '00';
-                        }
-                        return '0' + (value).substr(0, 1) + ':' + b;
-                    }
-                    if (Number.parseInt(b) > 5) {
-                        b = '00';
-                    }
-                    return a + ':' + b;
-                }
-                else {
-                    var a = ('' + value).substr(0, 2);
-                    var b = ('' + value).substr(2, 2);
-                    if (value == '') {
-                        return null;
-                    }
-                    if (Number.parseInt(a) >= 24) {
-                        return '';
-                    }
-                    if (b.substr(0, 1) == "0")
-                        b = ((Number.parseInt(b) * 10) / 10).toString();
-                    if (Number.parseInt(b) > 59) {
-                        b = '00';
-                    }
-                    if (b.length < 2) {
-                        b += '0';
-                    }
-                    return a + ':' + b;
-                }
-            }
-        };
-        TimeValueConverter.prototype.fromView = function (value) {
-            return ('' + value).replace(":", "");
-        };
-        TimeValueConverter = __decorate([
-            aurelia_framework_1.autoinject
-        ], TimeValueConverter);
-        return TimeValueConverter;
-    }());
-    exports.TimeValueConverter = TimeValueConverter;
-});
-
-
-
-define('views/components/valueConverters/dateAndTimeFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var DateAndTimeFormatValueConverter = (function () {
-        function DateAndTimeFormatValueConverter() {
-        }
-        DateAndTimeFormatValueConverter.prototype.toView = function (value) {
-            moment.locale('pt-BR');
-            if (value == null || value == '')
-                return '';
-            return moment(value).format("DD/MM/YYYY HH:mm:ss");
-        };
-        DateAndTimeFormatValueConverter.prototype.fromView = function (value) {
-            moment.locale('pt-BR');
-            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
-        };
-        return DateAndTimeFormatValueConverter;
-    }());
-    exports.DateAndTimeFormatValueConverter = DateAndTimeFormatValueConverter;
-});
-
-
-
-define('views/components/valueConverters/moneyValueConverter',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var MoneyValueConverter = (function () {
-        function MoneyValueConverter() {
-        }
-        MoneyValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                var numero = value.toFixed(2).split('.');
-                numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
-                return numero.join(',');
-            }
-            return value;
-        };
-        MoneyValueConverter.prototype.fromView = function (value) {
-            if (value != null) {
-                return (value.split(".").join("").replace(",", "")) / 100;
-            }
-            return null;
-        };
-        return MoneyValueConverter;
-    }());
-    exports.MoneyValueConverter = MoneyValueConverter;
-});
-
-
-
-define('views/components/valueConverters/inscricaoEstadualValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var InscricaoEstadualValueConverter = (function () {
-        function InscricaoEstadualValueConverter() {
-        }
-        InscricaoEstadualValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var a = value.substr(0, 3);
-                var b = value.substr(3, 3);
-                var c = value.substr(6, 3);
-                var d = value.substr(9, 3);
-                return a + '.' + b + '.' + c + '.' + d;
-            }
-            return value;
-        };
-        InscricaoEstadualValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('.', '').replace('.', '').replace('.', '');
-            return null;
-        };
-        return InscricaoEstadualValueConverter;
-    }());
-    exports.InscricaoEstadualValueConverter = InscricaoEstadualValueConverter;
-});
-
-
-
-define('views/components/valueConverters/dateFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var DateFormatValueConverter = (function () {
-        function DateFormatValueConverter() {
-        }
-        DateFormatValueConverter.prototype.toView = function (value) {
-            moment.locale('pt-BR');
-            if (value == null || value == '')
-                return null;
-            return moment(value).format("DD/MM/YYYY");
-        };
-        DateFormatValueConverter.prototype.fromView = function (value) {
-            moment.locale('pt-BR');
-            if (value == null || value == '')
-                return null;
-            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
-        };
-        return DateFormatValueConverter;
-    }());
-    exports.DateFormatValueConverter = DateFormatValueConverter;
-});
-
-
-
-define('views/components/valueConverters/phoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PhoneWithDDDValueConverter = (function () {
-        function PhoneWithDDDValueConverter() {
-        }
-        PhoneWithDDDValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var ddd = value.substr(0, 2);
-                var firstPart = value.substr(2, 4);
-                var lastPart = value.substr(6, 4);
-                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
-            }
-            return value;
-        };
-        PhoneWithDDDValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
-            return null;
-        };
-        return PhoneWithDDDValueConverter;
-    }());
-    exports.PhoneWithDDDValueConverter = PhoneWithDDDValueConverter;
-});
-
-
-
-define('views/components/valueConverters/cepValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CepValueConverter = (function () {
-        function CepValueConverter() {
-        }
-        CepValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var a = value.substr(0, 5);
-                var b = value.substr(5, 3);
-                return a + '-' + b;
-            }
-            return value;
-        };
-        CepValueConverter.prototype.fromView = function (value) {
-            if (value != null) {
-                return value.replace('-', '');
-            }
-            return null;
-        };
-        return CepValueConverter;
-    }());
-    exports.CepValueConverter = CepValueConverter;
-});
-
-
-
-define('views/components/valueConverters/cellPhoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CellPhoneWithDDDValueConverter = (function () {
-        function CellPhoneWithDDDValueConverter() {
-        }
-        CellPhoneWithDDDValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var ddd = value.substr(0, 2);
-                var firstPart = value.substr(2, 5);
-                var lastPart = value.substr(7, 4);
-                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
-            }
-            return value;
-        };
-        CellPhoneWithDDDValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
-            return null;
-        };
-        return CellPhoneWithDDDValueConverter;
-    }());
-    exports.CellPhoneWithDDDValueConverter = CellPhoneWithDDDValueConverter;
-});
-
-
-
-define('views/components/valueConverters/cnpjValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CnpjValueConverter = (function () {
-        function CnpjValueConverter() {
-        }
-        CnpjValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var a = value.substr(0, 2);
-                var b = value.substr(2, 3);
-                var c = value.substr(5, 3);
-                var d = value.substr(8, 4);
-                var e = value.substr(12, 2);
-                return a + '.' + b + '.' + c + '/' + d + '-' + e;
-            }
-            return value;
-        };
-        CnpjValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('.', '').replace('.', '').replace('/', '').replace('-', '');
-            return null;
-        };
-        return CnpjValueConverter;
-    }());
-    exports.CnpjValueConverter = CnpjValueConverter;
 });
 
 

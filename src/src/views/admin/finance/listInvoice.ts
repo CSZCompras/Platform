@@ -62,8 +62,11 @@ export class ListInvoice{
     }
 
     calculateTotalValue(){
-        this.totalValue =  this.selectedControl.invoices.reduce((sum, current) => sum + current.valueToPay, 0);
-        this.totalValuePaid =  this.selectedControl.invoices.filter(x => x.status == InvoiceStatus.Paid).reduce((sum, current) => sum + current.valueToPay, 0);
+
+        if(this.selectedControl.invoices != null){
+            this.totalValue =  this.selectedControl.invoices.reduce((sum, current) => sum + current.valueToPay, 0);
+            this.totalValuePaid =  this.selectedControl.invoices.filter(x => x.status == InvoiceStatus.Paid).reduce((sum, current) => sum + current.valueToPay, 0);
+        }
     }
 
     loadData(){
