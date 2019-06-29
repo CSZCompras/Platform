@@ -60,8 +60,8 @@
                               </div>
                            </td>
                            <th>
-                              <span class="badge badge-success ${supplierProduct.isActive && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }" >Ativo</span>
-                              <span class="badge badge-danger ${ ! supplierProduct.isActive && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }">Inativo</span>                                                                                                   
+                              <span class="badge badge-success ${supplierProduct.status == 0 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }" >Ativo</span>
+                              <span class="badge badge-danger ${supplierProduct.status == 1 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }">Inativo</span>                                                                                                   
                               <br />
                               <span class="badge badge-warning" if.bind="supplierProduct.wasAltered">Alterado</span>                              
                            </th>
@@ -71,8 +71,9 @@
                               </div> 
                               <div class="col-md-12 mx-auto">   
                                     <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ ! supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' }  " if.bind="! supplierProduct.isEditing && ! supplierProduct.isLoading " click.trigger="edit(supplierProduct)">  Editar  </button>
-                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light ${supplierProduct.isActive && supplierProduct.isEditing ? ' float-left' : 'invisible' } " if.bind="supplierProduct.isActive"  click.trigger="alterStatus(supplierProduct)"  >Inativar</button>
-                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light ${! supplierProduct.isActive && supplierProduct.isEditing ? 'float-left' :  'invisible'  } " if.bind="! supplierProduct.isActive" click.trigger="alterStatus(supplierProduct) ">Ativar</button>                                                                  
+                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light ${supplierProduct.status == 0 && supplierProduct.isEditing ? ' float-left' : 'invisible' } " if.bind="supplierProduct.status != 1"  click.trigger="alterStatus(supplierProduct, 1)"  >Inativar</button>
+                                    <button type="button" class="btn btn-warning btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } "   if.bind="supplierProduct.status != 2" click.trigger="alterStatus(supplierProduct, 2)">Remover</button>
+                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light ${supplierProduct.status == 1 && supplierProduct.isEditing ? 'float-left' :  'invisible'  } " if.bind="supplierProduct.status != 0" click.trigger="alterStatus(supplierProduct, 0) ">Ativar</button>
                                     <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } "  if.bind="supplierProduct.isEditing" click.trigger="save(supplierProduct)">Salvar</button>
                                     <button type="button" class="btn btn-secondary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading ? '' : 'invisible' } "  if.bind="supplierProduct.isEditing" click.trigger="cancelEdit(supplierProduct)">Cancelar</button>                                    
                               </div>                                    

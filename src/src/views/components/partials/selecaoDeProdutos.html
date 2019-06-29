@@ -48,7 +48,9 @@
                   <td class="align-middle">
                         <input type="text"  disabled.bind="! (product.supplierProduct && product.unit.mustInformQuantity) " class="money form-control mx-auto col-md-6 text-right  ${ (product.supplierProduct && product.unit.mustInformQuantity) ? '' : 'disabled' } " autocomplete="off" value.bind="product.supplierProduct.weight | money" money placeholder="000,00" />                        
                   </td>
-                  <td class="align-middle">
+                        <td class="align-middle"><div class="fa-2x text-center mx-auto" if.bind="product.isLoading" >
+                           <i class="fa fa-refresh fa-spin"></i>
+                        </div> 
                         <button  if.bind="! product.supplierProduct"    type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="includeProduct(product)">Incluir</button>
                         <button  if.bind="product.supplierProduct"      type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="saveProduct(product)">Salvar</button>
                         <button  if.bind="product.supplierProduct"      type="button" class="btn  btn-secondary  btn-sm waves-effect waves-light" click.trigger="product.supplierProduct = null">Cancelar</button>

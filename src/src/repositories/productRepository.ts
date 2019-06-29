@@ -154,7 +154,7 @@ export class ProductRepository{
 
             var viewModel = {
                 id : x.id,
-                isActive : x.isActive,            
+                status : x.status,            
                 price :  x.price
             }; 
 

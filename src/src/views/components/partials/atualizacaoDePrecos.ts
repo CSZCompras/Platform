@@ -12,6 +12,7 @@ import { Router } from 'aurelia-router';
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { PriceList } from '../../../domain/priceList';
+import { SupplierProductStatus } from '../../../domain/SupplierProductStatus';
 
 @autoinject
 export class AtualizacaoDePrecos{ 
@@ -129,30 +130,21 @@ export class AtualizacaoDePrecos{
     edit(product : SupplierProduct){
         ( <any> product).isEditing = true;
         ( <any> product).oldPrice  = product.price;
-        ( <any> product).oldIsActive  = product.isActive;
+        ( <any> product).oldStatus  = product.status;
     }
 
     cancelEdit(product : SupplierProduct){
         ( <any> product).isEditing = false;
         ( <any> product).walAltered = false;
         product.price  = ( <any> product).oldPrice;
-        product.isActive  = ( <any> product).oldIsActive;
+        product.status  = ( <any> product).oldStatus;
 
         this.alteredProducts = this.alteredProducts.filter(x => x.id != product.id);
     }
 
-    alterStatus(product : SupplierProduct){
+    alterStatus(product : SupplierProduct, status : SupplierProductStatus){
         
-        product.isActive = ! product.isActive;
-        
-        // this.repository
-        //     .alterStatusSuplierProduct(product)
-        //     .then( (data  : any) => {
-        //         this.nService.success('O status do produto foi alterado com sucesso!')
-        //     }).catch( e => {
-        //         product.isActive = ! product.isActive;
-        //         this.nService.presentError(e);
-        //     });
+        product.status = status; 
 
     }
 
@@ -172,6 +164,12 @@ export class AtualizacaoDePrecos{
                 this.ea.publish('uploadSupplierProductFileDone');
                 this.alteredProducts = [];
                 ( <any> product).isLoading = false;
+
+                if(product.status == SupplierProductStatus.Removed){
+                    this.filteredProducts = this.filteredProducts.filter( x => x.id != product.id);
+                    this.supplierProducts = this.supplierProducts.filter( x => x.id != product.id);
+                    this.ea.publish('supplierProductRemoved', product);
+                }
 
             }).catch( e => {
                 this.nService.error(e);

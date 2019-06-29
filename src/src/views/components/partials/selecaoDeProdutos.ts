@@ -11,6 +11,7 @@ import { FoodServiceRepository } from '../../../repositories/foodServiceReposito
 import { FoodServiceProduct } from '../../../domain/foodServiceProduct';
 import { SupplierRepository } from '../../../repositories/supplierRepository';
 import { SupplierProduct } from '../../../domain/supplierProduct';
+import { SupplierProductStatus } from '../../../domain/SupplierProductStatus';
 
 
 @autoinject
@@ -41,6 +42,12 @@ export class SelecaoDeProdutos{
     attached() : void{  
 
         this.loadData();
+        this.ea.subscribe('supplierProductRemoved', (product : SupplierProduct) => {
+            
+            if(this.selectedCategory == product.product.category.id){
+                this.loadProducts();
+            }
+        });
     } 
 
     loadData(){ 
@@ -59,25 +66,25 @@ export class SelecaoDeProdutos{
  
     }
 
-    loadProducts(){
+    loadProducts() : Promise<any>{
 
         this.isLoaded = false;
         this.allProducts = [];
         this.filteredProducts = [];
                 
-        this.productRepository
-            .getOfferedProducts(this.selectedCategory)
-            .then( (data : Product[]) => {
-                this.allProducts = data;
-                this.filteredProducts = data;
-                this.isLoaded = true;
-                this.ea.publish('selecaoDeProdutosLoaded'); 
+        return this.productRepository
+                    .getOfferedProducts(this.selectedCategory)
+                    .then( (data : Product[]) => {
+                        this.allProducts = data;
+                        this.filteredProducts = data;
+                        this.isLoaded = true;
+                        this.ea.publish('selecaoDeProdutosLoaded'); 
 
-            }).catch( e => {
-                this.nService.presentError(e);
-                this.isLoaded = true;
-                this.ea.publish('selecaoDeProdutosLoaded'); 
-            });
+                    }).catch( e => {
+                        this.nService.presentError(e);
+                        this.isLoaded = true;
+                        this.ea.publish('selecaoDeProdutosLoaded'); 
+                    });
 
     }
 
@@ -127,7 +134,7 @@ export class SelecaoDeProdutos{
 
         var supplierProduct = new SupplierProduct();
         supplierProduct.product = product;
-        supplierProduct.isActive = true;         
+        supplierProduct.status = SupplierProductStatus.Active;
         this.isFiltered = true;
         
         ( <any> product).supplierProduct = supplierProduct; 
@@ -141,10 +148,9 @@ export class SelecaoDeProdutos{
         // Remove the virtual property (circular reference!)
         ( <any> product).supplierProduct = null;
   
-        supplierProduct.isActive = true;         
-        this.isFiltered = true;
-        
-
+        supplierProduct.status = SupplierProductStatus.Active;
+        this.isFiltered = true; 
+        ( <any> product).isLoading = true;
 
         this.repository
             .addProduct(supplierProduct)
@@ -157,10 +163,12 @@ export class SelecaoDeProdutos{
                 this.nService.presentSuccess('Produto incluído com sucesso!'); 
 
                 this.ea.publish('productAdded', data);
+                ( <any> product).isLoading = false;
                 
                 this.isEditing = false;
             }).catch( e => {
                 this.nService.presentError(e);
+                ( <any> product).isLoading = false;
             });
         
     }
