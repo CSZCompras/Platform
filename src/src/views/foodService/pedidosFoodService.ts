@@ -29,6 +29,7 @@ export class PedidosFoodService{
         private router                  : Router, 	 
         private dialogService           : DialogService,
         private ea                      : EventAggregator,
+        private config                  : Config,
 		private service                 : IdentityService,
 		private nService                : NotificationService,
         private orderRepo               : OrderRepository) { 
@@ -209,5 +210,10 @@ export class PedidosFoodService{
                 } 
 
             });
+    }
+
+    exportOrder(order : Order){ 
+        var api = this.config.getEndpoint('csz');
+        window.open(api.client.baseUrl + 'ExportOrderToExcel?orderId=' + order.id, '_parent');
     }
 } 

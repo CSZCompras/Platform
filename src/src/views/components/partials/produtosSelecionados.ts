@@ -1,4 +1,3 @@
-import { Rest, Config } from 'aurelia-api'; 
 import { ProductRepository } from '../../../repositories/productRepository';
 import { NotificationService } from '../../../services/notificationService';
 import { IdentityService } from '../../../services/identityService';
@@ -6,6 +5,7 @@ import { ProductCategory } from '../../../domain/productCategory';
 import { ProductClass } from '../../../domain/productClass';
 import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
+import { DialogService } from 'aurelia-dialog';
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { FoodServiceProduct } from '../../../domain/foodServiceProduct';
@@ -13,6 +13,8 @@ import { FoodServiceRepository } from '../../../repositories/foodServiceReposito
 import { BuyList } from '../../../domain/buyList';
 import { BuyListProduct } from '../../../domain/buyListProduct';
 import { AlterBuyListProductViewModel } from '../../../domain/alterBuyListProductViewModel';
+import { DeleteBuyList} from '../../components/partials/deleteBuyList';
+import { BuyListStatus } from '../../../domain/buyListStatus';
 
 @autoinject
 export class ProdutosSelecionados{
@@ -32,7 +34,8 @@ export class ProdutosSelecionados{
 
     constructor(		
         private router              : Router, 
-		private service             : IdentityService,
+        private service             : IdentityService, 
+        private dialogService       : DialogService,
 		private nService            : NotificationService, 
         private ea                  : EventAggregator ,
         private productRepository   : ProductRepository,
@@ -136,22 +139,6 @@ export class ProdutosSelecionados{
                 }
                 
             });
-
-            // this.allProducts.forEach( (x : FoodServiceProduct) => {
-                
-            //     var isInList = false;
-               
-            //     if(y.products != null && y.products.length > 0) {
-
-            //         var result = y.products.filter( (z : BuyListProduct) => {
-            //             z.foodServiceProduct.productId == x.productId;
-            //         });          
-                    
-            //         isInList = result.length == 0 ? false : true;
-
-            //         x[y.name] = isInList;
-            //     }
-           //  });
         })
     }
 
@@ -276,4 +263,18 @@ export class ProdutosSelecionados{
                 ( <any> product).isLoading = true;
             });
     } 
+
+    deleteList(list : BuyList){
+
+        var params = { List : list};
+
+        this.dialogService
+            .open({ viewModel: DeleteBuyList, model: params, lock: false })
+            .whenClosed(response => {
+                if (response.wasCancelled) {
+                    return;
+                } 
+               list.status = BuyListStatus.Inactive; 
+            });
+    }  
 }

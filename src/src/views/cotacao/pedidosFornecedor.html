@@ -160,12 +160,15 @@
                                   </div>
                                   <div class="text-center mt-3"> 
                                      <button type="button" class="btn btn-secondary   waves-effect waves-light" click.trigger="showdDetails = false">
-                                     <i class="fa fa-undo mr-2" aria-hidden="true"></i>
-                                     Voltar
+                                     <i class="fa fa-undo mr-2" aria-hidden="true"></i>Voltar
+                                     </button>
+                                     <button type="button" class="btn btn-success  waves-effect waves-light" click.trigger="exportOrder(selectedOrder)">
+                                          <i class="fa fa-file-excel-o  mr-2"></i> 
+                                           Exportar
                                      </button>
                                      <button type="button"  class="btn btn-success waves-effect waves-light" click.trigger="acceptOrder(selectedOrder)" if.bind="selectedOrder.status == 0">
-                                     Aceitar
-                                     <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                                       Aceitar
+                                       <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
                                      </button>    
                                   </div>
                                </div>
@@ -223,6 +226,10 @@
                                               <td  class="text-right">
                                                  <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="selectOrder(order)">
                                                     Ver detalhes 
+                                                 </button>
+                                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="exportOrder(order)">
+                                                      <i class="fa fa-file-excel-o  mr-2"></i> 
+                                                       Exportar
                                                  </button>
                                                  <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="acceptOrder(order)" if.bind="order.status == 0">
                                                     <i class="fa fa-check mr-2"></i>Aprovar

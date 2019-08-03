@@ -150,7 +150,10 @@ export class Master {
 			}
 		} 
  
-		if(this.identity.type == UserType.Supplier){
+		if(this.identity.type == UserType.Admin){
+			this.router.navigateToRoute('dashboardAdmin');
+		}
+		else if(this.identity.type == UserType.Supplier){
 			this.router.navigateToRoute('dashboardFornecedor');
 			this.ea.subscribe('registrationRejected', () => this.loadFoodServiceConnections());  // ???
 		}
@@ -281,8 +284,8 @@ export class Master {
 		if(this.identity == null || this.identity.type == UserType.Admin){
 
 			config.map([    				
-				{ route: '', redirect: 'dashboard' },
-				{ route: 'dashboard', name: 'dashboard',  moduleId: PLATFORM.moduleName('./dashboard')}
+				{ route: '', redirect: 'dashboardAdmin' },
+				{ route: 'dashboard', name: 'dashboard',  moduleId: PLATFORM.moduleName('./admin/dashboard')}
 			]);
 		}
 		else if(this.identity.type == UserType.Supplier){
@@ -302,7 +305,7 @@ export class Master {
 		}
 
 		config.map([    
-		 
+			{ route: 'dashboardAdmin', name: 'dashboardAdmin', moduleId: PLATFORM.moduleName('./admin/dashboard') },
 			{ route: 'dashboardFornecedor', name: 'dashboardFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/dashboard') },
 			{ route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./cadastro') } ,
 			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./produtos') } ,

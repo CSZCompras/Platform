@@ -1,0 +1,36 @@
+<template> 
+        <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+        <require from="../attributes/moneyMask"></require>
+        <require from="../attributes/datepicker"></require>
+        <require from="../valueConverters/dateFormatValueConverter"></require>
+    
+        <div class="row mb-5">
+                <div class="col-md-12">
+                   <div class="card">
+                      <div class="card-header">
+                         Deleção de lista
+                      </div>
+                      <div class="card-body">                     
+                          <div class="row"> 
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Tem certeza que deseja apagar a lista de compras <strong>${list.name}</strong>?</label>
+                                </div>        
+                            </div> 
+                        </div>                 
+                      </div> 
+                     <div class="row">
+                        <button type="button" class="btn  btn-success   waves-effect waves-light mx-auto ml-5"  click.trigger="deleteList()"  if.bind="! processing" >
+                            <i class="fa fa-check mr-2"></i>Apagar
+                        </button>
+                        <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="cancel()" if.bind="! processing" >
+                            <i class="fa fa-undo mr-2"></i>Cancelar
+                        </button>
+                        <div class="fa-2x text-center  mx-auto  " if.bind="processing" >
+                                <i class="fa fa-refresh fa-spin"></i>
+                        </div>                     
+                     </div>      
+                   </div>
+                </div>
+             </div>    
+    </template>

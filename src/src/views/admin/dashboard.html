@@ -1,0 +1,36 @@
+<template>
+        <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+        <require from="../components/attributes/moneyMask"></require>
+        <require from="../components/attributes/datepicker"></require>
+        <require from="../components/valueConverters/dateFormatValueConverter"></require>
+    
+        <div class="row mb-5 au-animate">
+            <div class="col-md-12">
+                <div class="row mb-5">
+                    <div class="col-md-2">
+                        <div class="card ">
+                            <div class="card-header">
+                                Exportação de pedidos 
+                            </div>  
+                            <div class="card-body">
+                                <div class="row pb-5">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label active">Informe a data inicial</label>                             
+                                            <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="startDate | dateFormat" datepicker >
+                                        
+                                            <label class="control-label active">Informe a data final</label>                             
+                                            <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="endDate | dateFormat " datepicker >
+                                        </div>  
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <button type="button" class="btn btn-success mx-auto waves-effect waves-light" click.trigger="exportOrders()">Exportar</button>
+                                </div>        
+                            </div>
+                        </div>      
+                    </div>     
+                </div>
+            </div>
+        </div>
+</template>        

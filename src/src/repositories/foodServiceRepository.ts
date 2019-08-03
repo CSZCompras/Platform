@@ -176,6 +176,20 @@ export class FoodServiceRepository {
             });
     }
 
+    deleteBuyList(buyList : BuyList) : Promise<any>{
+        return this.api
+            .destroy('buyList?id=' + buyList.id)
+            .then( (result : Promise<any>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
     alterBuyList(viewModel : AlterBuyListProductViewModel) : Promise<any> {
         return this.api
             .post('alterBuyListProduct', viewModel)

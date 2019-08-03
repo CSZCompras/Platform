@@ -29,6 +29,7 @@ export class PedidosFornecedor{
     constructor(		
         private router                  : Router, 	 
         private dialogService           : DialogService,
+        private config                  : Config,
         private ea                      : EventAggregator,
 		private service                 : IdentityService,
 		private nService                : NotificationService,
@@ -204,5 +205,10 @@ export class PedidosFornecedor{
                 } 
 
             });
+        } 
+
+        exportOrder(order : Order){ 
+            var api = this.config.getEndpoint('csz');
+            window.open(api.client.baseUrl + 'ExportOrderToExcel?orderId=' + order.id, '_parent');
         }
 } 

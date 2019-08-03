@@ -167,9 +167,11 @@
                            </div>
                            <div class="text-center mt-3"> 
                               <button type="button" class="btn btn-secondary   waves-effect waves-light" click.trigger="showdDetails = false">
-                              <i class="fa fa-undo mr-2" aria-hidden="true"></i>
-                              Voltar
-                              </button>                        
+                                 <i class="fa fa-undo mr-2" aria-hidden="true"></i>Voltar
+                              </button>
+                              <button type="button" class="btn btn-success waves-effect waves-light" click.trigger="exportOrder(selectedOrder)">
+                                 Exportar
+                              </button>
                            </div>
                         </div>
                         <div class="col-md-12"   if.bind="! showdDetails"> 
@@ -224,6 +226,9 @@
                                        <td  class="text-right">
                                           <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="selectOrder(order)">
                                                 Ver detalhes 
+                                          </button>
+                                          <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="exportOrder(order)">
+                                                Exportar
                                           </button>
                                           <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="deliverOrder(order)" if.bind="order.status == 1">
                                                 Efetuar baixa

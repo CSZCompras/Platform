@@ -36,11 +36,18 @@
                  <thead>
                     <tr>
                        <th>Nome</th>
-                       <th class="text-center align-middle">Descrição</th>
+                       <th class="text-center">Descrição</th>
                        <th>Categoria</th>
                        <th>UM</th> 
                        <th>Marca</th>
-                       <th repeat.for="list of lists" class="ml-2">${list.name}</th>    
+                       <th repeat.for="list of lists" class="ml-2 text-center" if.bind="list.status == 0">
+                           ${list.name}
+                           <br />
+                           <button type="button" if.bind="! x.isLoading"  class="btn btn-danger btn-sm waves-effect waves-light "  click.trigger="deleteList(list)">
+                              <i class="fa fa-times mr-2"  style="cursor: pointer;" ></i>
+                              Apagar
+                           </button>
+                       </th>    
                        <th></th>
                     </tr>
                  </thead>
@@ -50,11 +57,11 @@
                              ${x.product.name}
                              <span if.bind="x.isNew" class="badge badge-warning">Novo!</span>
                        </td>
-                       <td class="text-center align-middle">${x.product.description}</td>
+                       <td class="text-center">${x.product.description}</td>
                        <td>${x.product.category.name}</td>
                        <td>${x.product.unit.name}</td> 
                        <td></td>
-                       <td  repeat.for="list of lists">          
+                       <td  repeat.for="list of lists" if.bind="list.status == 0" class="text-center">          
                               <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" checked.bind="list[x.product.name + '_'+ x.product.unit.name]"  change.trigger="changeList(list, x)">
                                     <span class="custom-control-indicator"></span> 
