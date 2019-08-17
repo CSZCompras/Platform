@@ -4,7 +4,7 @@
               <div class="form-group">
                  <label class="control-label">Categoria</label>
                  <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">                    
-                    <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+                    <option  repeat.for="category of categories" model.bind="category">${category.name}</option>
                  </select>
               </div>
            </div>
@@ -15,7 +15,7 @@
               </div>
            </div>
         </div> 
-        <div class="row">           
+        <div class="row" if.bind="selectedClass != null">
            <div class="col-lg-4">
               <div class="form-group">  
                   <button type="button"   if.bind="! isCreatingList"   class="btn btn-primary btn-sm waves-effect waves-light au-target au-target" click.trigger="isCreatingList = true">Criar Lista</button>

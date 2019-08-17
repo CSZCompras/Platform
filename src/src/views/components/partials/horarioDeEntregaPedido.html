@@ -12,8 +12,29 @@
                       <div class="card-header">
                          Horário de Entrega
                       </div>
-                      <div class="card-body">                     
-                          <div class="row"> 
+                      <div class="card-body">                   
+                        <div class="row"> 
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                <label class="control-label">As informações abaixo são definidas com base nas regras de entrega cadastradas</label>
+                              </div>        
+                          </div> 
+                        </div>   
+                        <div class="row"> 
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                  <h5 class="control-label">Confirme a data de entrega desejada do pedido</h5>
+                              </div>        
+                          </div> 
+                        </div>  
+                        <div class="row"> 
+                              <div class="col-md-12 mt-3">
+                                  <div class="form-group">
+                                    <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="vm.deliveryDate | dateFormat & updateTrigger:'blur' & validate"  datepicker >
+                                  </div>        
+                              </div> 
+                        </div>                          
+                        <div class="row"> 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <h5 class="control-label">Confirme o horário de entrega do pedido</h5>

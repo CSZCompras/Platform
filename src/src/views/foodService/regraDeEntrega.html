@@ -1,0 +1,98 @@
+<template>
+        <require from="../components/attributes/moneyMask"></require>
+        <require from="../components/attributes/numberMask"></require>
+        <require from="../components/attributes/timeMask"></require>
+    
+        <require from="../components/valueConverters/moneyValueConverter"></require>
+        <require from="../components/valueConverters/numberValueConverter"></require>
+        <require from="../components/valueConverters/timeValueConverter"></require>
+    
+        <div class="row mb-5 au-animate">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Regras de Entrega
+                    </div>
+                    <div class="card-body">
+                        <div class="row mt-5">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h4>Tipo de mercado</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4"> 
+                                <select class="form-control" change.delegate="loadRule()" value.bind="selectedClass">
+                                    <option  value=""></option>
+                                    <option  repeat.for="x of productClasses"  model.bind="x">${x.name}</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-5" if.bind="rule != null">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h4>Dias de entrega</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label  ml-2">
+                                        <input class="form-check-input" type="checkbox" value="0" checked.bind="rule.deliveryOnMonday" /> <span class="badge ${ rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                    </label>
+                                    <label class="form-check-label  ml-2">
+                                        <input class="form-check-input" type="checkbox" value="1" checked.bind="rule.deliveryOnTuesday" /> <span class="badge  ${ rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                    </label>
+                                    <label class="form-check-label ml-2">
+                                        <input class="form-check-input" type="checkbox" value="2" checked.bind="rule.deliveryOnWednesday" /> <span class="badge ${ rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                    </label>
+                                    <label class="form-check-label ml-2">
+                                        <input class="form-check-input" type="checkbox" value="3" checked.bind="rule.deliveryOnThursday" /> <span class="badge  ${ rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                    </label>
+                                    <label class="form-check-label ml-2">
+                                        <input class="form-check-input" type="checkbox" value="4" checked.bind="rule.deliveryOnFriday" /> <span class="badge ${ rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label  ml-2">
+                                        <input class="form-check-input" type="checkbox" value="5" checked.bind="rule.deliveryOnSaturday" /> <span class="badge  ${ rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
+                                    </label>
+                                    <label class="form-check-label  ml-2">
+                                        <input class="form-check-input" type="checkbox" value="6" checked.bind="rule.deliveryOnSunday" /> <span class="badge ${ rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5" if.bind="rule != null">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h4>Período de entrega</h4>
+                                </div>
+                                <div class="col-md-12 mt-5">
+                                    <div class="input-group">
+                                        <span class="input-group-addon input-group-icon">
+                                            <i class="batch-icon batch-icon-clock"></i>
+                                        </span>
+                                        <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="rule.deliveryScheduleInitial | time & updateTrigger:'blur' " />
+                                        <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                                        <span class="input-group-addon input-group-icon">
+                                            <i class="batch-icon batch-icon-clock"></i>
+                                        </span>
+                                        <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="rule.deliveryScheduleFinal | time & updateTrigger:'blur' " />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5" if.bind="rule != null">
+                            <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light mx-auto" click.trigger="save()" if.bind="! isLoading">
+                                <span class="gradient">Salvar</span>
+                            </button>
+                            <div class="fa-2x text-center mx-auto" if.bind="isLoading">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>

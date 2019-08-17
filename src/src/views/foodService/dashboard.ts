@@ -22,8 +22,7 @@ export class App {
 
 
 	constructor(private aurelia: Aurelia, private config: Config) {
-
-        this.api = this.config.getEndpoint('fol'); 
+		
     }
 
 	  

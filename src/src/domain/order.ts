@@ -18,4 +18,6 @@ export class Order{
     deliveryDate        : Date;
     paymentDate         : Date;
     reasonToReject      : string;
+    deliveryScheduleStart : number;
+    deliveryScheduleEnd : number;
 }

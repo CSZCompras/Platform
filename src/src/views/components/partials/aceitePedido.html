@@ -2,7 +2,9 @@
     <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
     <require from="../attributes/moneyMask"></require>
     <require from="../attributes/datepicker"></require>
+    <require from="../attributes/timeMask"></require>
     <require from="../valueConverters/dateFormatValueConverter"></require>
+    <require from="../valueConverters/timeValueConverter"></require>
 
     <div class="row mb-5">
             <div class="col-md-12">
@@ -14,17 +16,47 @@
                       <div class="row"> 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Tem certeza que deseja aceitar o pedido <strong>nº ${order.code}</strong>?</label>                                
+                                <label class="control-label">Tem certeza que deseja aceitar o pedido <strong>nº ${order.code}</strong>?</label>
+                                <br />
+                                <span class="badge badge-warning">
+                                    <i class="fa fa-warning"></i>Atenção: a data e horários definidos abaixo devem ser cumpridos
+                                </span>                                                                                         
                             </div>        
                         </div> 
                     </div>                     
-                    <div class="row pb-5">
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label active">Informe a data prevista de entrega<span class="text-danger  ml-1 bold">*</span></label>                             
-                                <input type="text" class="form-control" autocomplete="off" placeholder="00/00/0000" value.bind="order.deliveryDate | dateFormat  & validate" datepicker >
+                                <label class="control-label active">Data de entrega<span class="text-danger  ml-1 bold">*</span></label>                             
+                                <input type="text" class="form-control  ${ order.deliveryDate == null ? '' : 'disabled' }"  disabled.bind="order.deliveryDate != null"  autocomplete="off" placeholder="00/00/0000" value.bind="order.deliveryDate | dateFormat  & validate" datepicker >
                             </div>   
                         </div> 
+                    </div>    
+                    <div class="row"> 
+                          <div class="col-md-12 mt-3">
+                              <div class="form-group">
+                                  <label class="control-label">Horário inicial</label> 
+                                    <div class="input-group">
+                                        <span class="input-group-addon input-group-icon">
+                                            <i class="batch-icon batch-icon-clock"></i>
+                                        </span>
+                                        <input type="time" class="time form-control  ${ order.deliveryScheduleStart == null ? '' : 'disabled' }"  disabled.bind="order.deliveryScheduleStart != null"  autocomplete="off" placeholder="HH:mm" time value.bind="order.deliveryScheduleStart | time & updateTrigger:'blur' & validate" />
+                                    </div>  
+                              </div>        
+                          </div> 
+                    </div>    
+                    <div class="row"> 
+                          <div class="col-md-12 mt-3">
+                              <div class="form-group">
+                                    <label class="control-label">Horário final</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon input-group-icon">
+                                            <i class="batch-icon batch-icon-clock"></i>
+                                        </span>
+                                        <input type="time" class="time form-control  ${ order.deliveryScheduleEnd == null ? '' : 'disabled' }"  disabled.bind="order.deliveryScheduleEnd != null"  autocomplete="off" placeholder="HH:mm" time value.bind="order.deliveryScheduleEnd | time & updateTrigger:'blur' & validate " />
+                                    </div>
+                              </div>        
+                          </div> 
                     </div>                   
                     <div class="row pb-5"> 
                             <div class="col-md-12">

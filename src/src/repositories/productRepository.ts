@@ -1,8 +1,7 @@
 import { SupplierProductFile } from '../domain/supplierProductFile';
 import { IdentityService } from '../services/identityService';
 import { SupplierProduct } from '../domain/supplierProduct';
-import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
+import { autoinject } from 'aurelia-framework'; 
 import { Rest, Config } from 'aurelia-api'; 
 import { ProductCategory } from './../domain/productCategory';
 import { ProductClass } from './../domain/productClass';

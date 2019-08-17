@@ -13,4 +13,5 @@ export class SimulationResult{
     isSelected              : boolean;
     deliveryScheduleStart   : Number;
     deliveryScheduleEnd     : Number;
+    deliveryDate            : Date;
 }

@@ -30,9 +30,11 @@
                                        <span class="badge badge-warning float-right" if.bind="selectedOrder.status == 1">Aprovado</span>  
                                        <span class="badge badge-primary float-right" if.bind="selectedOrder.status == 2">Entregue</span>
                                        <span class="badge badge-default float-right" if.bind="selectedOrder.status == 3">Rejeitado</span>
-                                       <br /><br />                                       
+                                       <br />                                
+                                       <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryDate != null">Data da Entrega: ${selectedOrder.deliveryDate | dateFormat}</span>    
+                                       <br />
                                        <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryScheduleStart != null">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time} as ${selectedOrder.deliveryScheduleEnd | time} </span>    
-                                       <br /><br />
+                                       <br />
                                        <span class="badge badge-danger float-left" if.bind="selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' ">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span>
                                     </h5> 
                                  <div>							 
@@ -201,9 +203,10 @@
                                        <th class="text-center">Status</th>
                                        <th>Data do Pedido</th>
                                        <th class="text-center">Criado por</th>
+                                       <th class="text-center">Data de entrega</th>
+                                       <th class="text-center">Horário de entrega</th>
                                        <th class="text-center">Data de pgto</th>
-                                       <th class="text-center">Fornecedor</th>
-                                       <th class="text-center">Previsão de entrega</th>
+                                       <th class="text-center">Fornecedor</th> 
                                        <th class="text-center">Total</th>
                                        <th></th>
                                     </tr>
@@ -219,9 +222,14 @@
                                        </td>
                                        <td>${order.createdOn | dateFormat}</td>
                                        <td class="text-center">${order.createdBy.name} <span class="ml-2">(${order.createdBy.email})</span></td>
+                                       <td class="text-center">${order.deliveryDate | dateFormat}</td>
+                                       <td class="text-center">
+                                          <span if.bind="order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null">
+                                             das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time}
+                                          </span>
+                                       </td>
                                        <td>${order.paymentDate | dateFormat}</td>
-                                       <td class="text-center">${order.supplier.name}</td>
-                                       <td>${order.deliveryDate | dateFormat}</td>
+                                       <td class="text-center">${order.supplier.name}</td> 
                                        <td class="text-right">${order.total | money}</td>
                                        <td  class="text-right">
                                           <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="selectOrder(order)">

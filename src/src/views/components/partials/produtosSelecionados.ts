@@ -1,10 +1,8 @@
 import { ProductRepository } from '../../../repositories/productRepository';
 import { NotificationService } from '../../../services/notificationService';
-import { IdentityService } from '../../../services/identityService';
 import { ProductCategory } from '../../../domain/productCategory';
 import { ProductClass } from '../../../domain/productClass';
 import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
 import { DialogService } from 'aurelia-dialog';
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -20,12 +18,12 @@ import { BuyListStatus } from '../../../domain/buyListStatus';
 export class ProdutosSelecionados{
 
     
-    classes             : ProductClass[];
+    selectedClass       : ProductClass;
     categories          : ProductCategory[];
     allProducts         : FoodServiceProduct[];
     filteredProducts    : FoodServiceProduct[];
     isFiltered          : boolean;
-    selectedCategory    : string;
+    selectedCategory    : ProductCategory; 
     filter              : string;
     isCreatingList      : boolean;
     newListName         : string;
@@ -33,14 +31,11 @@ export class ProdutosSelecionados{
     isProcessing        : boolean;
 
     constructor(		
-        private router              : Router, 
-        private service             : IdentityService, 
         private dialogService       : DialogService,
 		private nService            : NotificationService, 
         private ea                  : EventAggregator ,
         private productRepository   : ProductRepository,
-        private repository          : FoodServiceRepository, 
-        private identityService     : IdentityService) {
+        private repository          : FoodServiceRepository) {
         
         this.isFiltered = false;
         this.isCreatingList = false;
@@ -56,7 +51,7 @@ export class ProdutosSelecionados{
 
            (<any>product).isNew  = true;
 
-            if(this.selectedCategory == '-1' ||this.selectedCategory == '-2' ||  this.selectedCategory == '' || this.selectedCategory == null){ // novos 
+            if(this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2' ||  this.selectedCategory.id == '' || this.selectedCategory == null){ // novos 
                
                 this.isFiltered = true; 
 
@@ -100,7 +95,8 @@ export class ProdutosSelecionados{
                 novo.id = '-1';
                 novo.name = "Novos Produtos";
                 this.categories.unshift(novo)
-
+                
+                this.selectedCategory = novo;
 
             }).catch( e => {
                 this.nService.presentError(e);
@@ -145,21 +141,28 @@ export class ProdutosSelecionados{
     search(){ 
             
             this.isFiltered = true;
+            
+            if(this.selectedCategory != null && this.selectedCategory.class != null){
+                this.selectedClass = this.selectedCategory.class;
+            }
+            else{
+                this.selectedClass = null;
+            }
 
-            if(this.selectedCategory == '-2'){
+            if(this.selectedCategory != null && this.selectedCategory.id == '-2'){
                 this.filteredProducts = this.allProducts;
             } 
-                this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
+            this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
 
                     var isFound = true;
 
-                    if(this.selectedCategory == '-1'){
+                    if(this.selectedCategory.id == '-1'){
                         return  (<any>x).isNew != null && (<any>x).isNew == true;
                     }
                     else{ 
 
-                        if( (this.selectedCategory != null && this.selectedCategory != '' && this.selectedCategory != '-2')){ 
-                            if(x.product.category.id == this.selectedCategory){
+                        if( (this.selectedCategory != null && this.selectedCategory.id != '' && this.selectedCategory.id  != '-2')){ 
+                            if(x.product.category.id == this.selectedCategory.id){
                                 isFound = true;
                             }
                             else {
@@ -207,7 +210,7 @@ export class ProdutosSelecionados{
             
             var buyList = new BuyList();
             buyList.name = this.newListName;
-            
+            buyList.productClass = this.selectedClass;
             this.repository
                 .addBuyList(buyList)
                 .then( (data : BuyList) => { 

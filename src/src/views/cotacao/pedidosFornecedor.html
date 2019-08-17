@@ -30,8 +30,12 @@
                                         <span class="badge badge-danger float-right" if.bind="selectedOrder.status == 0">Aguardando aprovação</span>    
                                         <span class="badge badge-warning float-right" if.bind="selectedOrder.status == 1">Aprovado</span>  
                                         <span class="badge badge-primary float-right" if.bind="selectedOrder.status == 2">Entregue</span>
-                                        <br /><br />
+                                        <br />                                
+                                        <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryDate != null">Data da Entrega: ${selectedOrder.deliveryDate | dateFormat}</span>    
+                                        <br />
                                         <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryScheduleStart != null">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time} as ${selectedOrder.deliveryScheduleEnd | time} </span>    
+                                        <br />
+                                        <span class="badge badge-danger float-left" if.bind="selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' ">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span>
                                      </h5>
                                      <div>
                                         <div class="card-body">
@@ -198,9 +202,10 @@
                                               <th class="text-center">Código</th>
                                               <th class="text-center">Status</th>
                                               <th>Data do Pedido</th>
+                                              <th class="text-center">Data de entrega</th>
+                                              <th class="text-center">Horário de entrega</th>
                                               <th class="text-center">Cliente</th>
                                               <th class="text-center">Contato</th>
-                                              <th class="text-center">Entrega</th>
                                               <th class="text-center">Quantidade de Produtos</th>
                                               <th class="text-center">Total</th>
                                               <th></th>
@@ -216,11 +221,14 @@
                                                  <span class="badge badge-default" if.bind="order.status == 3">Rejeitado</span>
                                               </td>
                                               <td>${order.createdOn | dateFormat}</td>
+                                              <td class="text-center">${order.deliveryDate | dateFormat}</td>
+                                              <td class="text-center">
+                                                 <span if.bind="order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null">
+                                                    das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time}
+                                                 </span>
+                                              </td>
                                               <td class="text-center">${order.foodService.name}</td>
                                               <td class="text-center">${order.createdBy.name}</td>
-                                              <td class="text-center">
-                                                 <span if.bind="order.deliveryScheduleStart != null">das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time} </span>
-                                              </td>
                                               <td class="text-center">${order.items.length}</td>
                                               <td class="text-right">${order.total | money}</td>
                                               <td  class="text-right">

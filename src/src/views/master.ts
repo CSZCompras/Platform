@@ -2,13 +2,6 @@ import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-rout
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { autoinject } from 'aurelia-dependency-injection'; 
-import { Config, Rest } from 'aurelia-api'; 
-
-import 'jquery-visible';
-import 'popper.js';
-import 'bootstrap';
-import 'velocity-animate';
-/* import 'malihu-custom-scrollbar-plugin';*/ 
 import { Identity } from '../domain/identity';
 import { IdentityService } from '../services/identityService';
 import { ScriptRunner } from '../services/scriptRunner';
@@ -20,6 +13,10 @@ import { NotificationService } from '../services/notificationService';
 import { NotificationRepository } from '../repositories/notificationRepository';
 import { OrderRepository } from '../repositories/orderRepository';
 import { MessageService } from '../services/messageService';
+import 'jquery-visible';
+import 'popper.js';
+import 'bootstrap';
+import 'velocity-animate';
 
 @autoinject
 export class Master {
@@ -312,7 +309,8 @@ export class Master {
 			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./regrasDeMercado') } ,
 			{ route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
 			{ route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./foodService/dashboard') }, 
-			{ route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./foodService/cadastro') }, 
+			{ route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./foodService/cadastro') },
+			{ route: 'regraDeEntrega', name: 'regraDeEntrega', moduleId: PLATFORM.moduleName('./foodService/regraDeEntrega') }, 
 			{ route: 'fornecedores', name: 'fornecedores', moduleId: PLATFORM.moduleName('./foodService/fornecedores') }, 
 			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./foodService/meusProdutos') },  
 			{ route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./fornecedor/clientes') } ,  

@@ -24,6 +24,10 @@ import { SupplierViewModel } from '../../domain/supplierViewModel';
 import { DialogService } from 'aurelia-dialog';
 import { HorarioDeEntregaPedido } from '../components/partials/horarioDeEntregaPedido';
 import { ConfirmScheduleOrderViewModel } from '../../domain/confirmScheduleOrderViewModel';
+import { ValidationControllerFactory, ValidationController, validateTrigger } from 'aurelia-validation';
+import { FormValidationRenderer } from '../formValidationRenderer';
+import { DeliveryRuleRepository } from '../../repositories/deliveryRuleRepository';
+import { DeliveryRule } from '../../domain/deliveryRule';
 
 @autoinject
 export class Pedido{
@@ -40,16 +44,24 @@ export class Pedido{
 	selectedResult 					: SimulationResult;	
 	supplierBlackList				: SupplierViewModel[];	
 	orderWasGenerated				: boolean;
-    
+	validationController            : ValidationController;
+	deliveryDate					: Date;
+	deliveryScheduleStart			: number;
+	deliveryScheduleEnd				: number;
+	deliveryRule					: DeliveryRule;
+
+	
     constructor(		
-        private router                  : Router, 	
-		private repository              : FoodServiceRepository,	
-		private ea 						: EventAggregator,
-		private dialogService			: DialogService,
-		private simulationRepository    : SimulationRepository,
-		private orderRepository    		: OrderRepository,
-		private service                 : IdentityService,
-		private nService                : NotificationService) {
+        private router                  	: Router, 	
+		private repository              	: FoodServiceRepository,	
+		private ea 							: EventAggregator,
+		private dialogService				: DialogService,
+		private simulationRepository    	: SimulationRepository,
+		private orderRepository    			: OrderRepository,
+		private service                 	: IdentityService,
+		private nService                	: NotificationService,
+        private deliveryRepository      	: DeliveryRuleRepository, 
+        private validationControllerFactory : ValidationControllerFactory) {
 
 		this.currentStep = 1;
         this.totalSteps = 3;		
@@ -57,6 +69,12 @@ export class Pedido{
 		this.orderWasGenerated = false;
 		this.input = new SimulationInput();
 		this.supplierBlackList = [];
+
+		// Validation.
+		this.validationController = this.validationControllerFactory.createForCurrentScope();
+		this.validationController.addRenderer(new FormValidationRenderer());
+		this.validationController.validateTrigger = validateTrigger.blur;
+		//this.validationController.addObject(this.order);     
     } 
  
 
@@ -245,7 +263,7 @@ export class Pedido{
 				}) 
 				.then( () => this.ea.publish('dataLoaded'))
 				.catch( e =>  this.nService.presentError(e));
-
+				this.loadDeliveryRule();
 		}
 		else{
  
@@ -257,13 +275,30 @@ export class Pedido{
 				.then( () => this.ea.publish('dataLoaded'))
 				.catch( e =>  this.nService.presentError(e));
 
-		}
+		} 
+	}
+
+	loadDeliveryRule(){
+
+		this.deliveryRepository
+			.getRule(this.selectedQuote.productClass.id)
+			.then( (x : DeliveryRule) => { 
+				if(x != null){
+					this.deliveryRule = <DeliveryRule> x;
+					this.deliveryScheduleStart = x.deliveryScheduleInitial;
+					this.deliveryScheduleEnd = x.deliveryScheduleFinal;
+					this.deliveryDate = DeliveryRule.getNextDeliveryDate(this.deliveryRule);
+				}
+			})
+			.catch( e => this.nService.presentError(e)); 
 	}
 	
 	generateOrder(){
 
+		var params = {Quote : this.selectedQuote};
+
         this.dialogService
-            .open({ viewModel: HorarioDeEntregaPedido,  lock: false })
+            .open({ viewModel: HorarioDeEntregaPedido,  lock: false, model : params })
             .whenClosed(response => {
 
 				
@@ -276,6 +311,7 @@ export class Pedido{
 
 				this.selectedResult.deliveryScheduleStart = (<ConfirmScheduleOrderViewModel>response.output).deliveryScheduleStart;
 				this.selectedResult.deliveryScheduleEnd = (<ConfirmScheduleOrderViewModel>response.output).deliveryScheduleEnd;
+				this.selectedResult.deliveryDate =  (<ConfirmScheduleOrderViewModel>response.output).deliveryDate;
 				
                 this.orderRepository
 					.createOrder(this.selectedResult)
