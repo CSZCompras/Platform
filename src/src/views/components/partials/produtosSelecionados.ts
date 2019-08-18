@@ -89,11 +89,13 @@ export class ProdutosSelecionados{
                 var novo = new ProductCategory();
                 novo.id = '-2';
                 novo.name = "Todos";
+                novo.class = data[0].class;
                 this.categories.unshift(novo)
                 
                 var novo = new ProductCategory();
                 novo.id = '-1';
                 novo.name = "Novos Produtos";
+                novo.class = data[0].class;
                 this.categories.unshift(novo)
                 
                 this.selectedCategory = novo;

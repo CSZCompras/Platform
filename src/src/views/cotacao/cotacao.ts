@@ -1,20 +1,10 @@
-import { inject, NewInstance} from 'aurelia-framework';
-import { NotificationService } from '../../services/notificationService';
-import { Identity } from '../../domain/identity';
-import { IdentityService } from '../../services/identityService';
-import { FoodService } from '../../domain/foodService';
+import { NotificationService } from '../../services/notificationService'; 
 import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
-import 'twitter-bootstrap-wizard';
-import 'jquery-mask-plugin';
-import 'aurelia-validation';
-import { FoodServiceRepository } from '../../repositories/foodServiceRepository';
-import { BuyList } from '../../domain/buyList';
+import { Router, RouterConfiguration } from 'aurelia-router'; 
+import { FoodServiceRepository } from '../../repositories/foodServiceRepository'; 
 import { SimulationRepository } from '../../repositories/simulationRepository';
 import { Simulation } from '../../domain/simulation';
-import { SimulationInput } from '../../domain/simulationInput';
-import { BuyListProduct } from '../../domain/buyListProduct';
+import { SimulationInput } from '../../domain/simulationInput'; 
 import { SimulationInputItem } from '../../domain/simulationInputItem';
 import { SimulationResult } from '../../domain/simulationResult';
 import { OrderRepository } from '../../repositories/orderRepository';
@@ -22,12 +12,16 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { CotacaoViewModel } from '../../domain/cotacaoViewModel';
 import { SupplierViewModel } from '../../domain/supplierViewModel';
 import { DialogService } from 'aurelia-dialog';
-import { HorarioDeEntregaPedido } from '../components/partials/horarioDeEntregaPedido';
-import { ConfirmScheduleOrderViewModel } from '../../domain/confirmScheduleOrderViewModel';
 import { ValidationControllerFactory, ValidationController, validateTrigger } from 'aurelia-validation';
 import { FormValidationRenderer } from '../formValidationRenderer';
 import { DeliveryRuleRepository } from '../../repositories/deliveryRuleRepository';
 import { DeliveryRule } from '../../domain/deliveryRule';
+import { CheckDeliveryViewModel } from '../../domain/checkDeliveryViewModel';
+import { CheckDeliveryResult } from '../../domain/checkDeliveryResult';
+import { CheckDeliveryResultItem } from '../../domain/CheckDeliveryResultItem';
+import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class Pedido{
@@ -45,10 +39,11 @@ export class Pedido{
 	supplierBlackList				: SupplierViewModel[];	
 	orderWasGenerated				: boolean;
 	validationController            : ValidationController;
-	deliveryDate					: Date;
-	deliveryScheduleStart			: number;
-	deliveryScheduleEnd				: number;
+	viewModel 						: CheckDeliveryViewModel;
+	checkDeliveryResult				: CheckDeliveryResult;
 	deliveryRule					: DeliveryRule;
+	deliveryWasChecked				: boolean;
+	isOrderValid					: boolean;
 
 	
     constructor(		
@@ -57,8 +52,7 @@ export class Pedido{
 		private ea 							: EventAggregator,
 		private dialogService				: DialogService,
 		private simulationRepository    	: SimulationRepository,
-		private orderRepository    			: OrderRepository,
-		private service                 	: IdentityService,
+		private orderRepository    			: OrderRepository, 
 		private nService                	: NotificationService,
         private deliveryRepository      	: DeliveryRuleRepository, 
         private validationControllerFactory : ValidationControllerFactory) {
@@ -74,7 +68,9 @@ export class Pedido{
 		this.validationController = this.validationControllerFactory.createForCurrentScope();
 		this.validationController.addRenderer(new FormValidationRenderer());
 		this.validationController.validateTrigger = validateTrigger.blur;
-		//this.validationController.addObject(this.order);     
+		this.deliveryWasChecked  = false;   
+		this.viewModel = new CheckDeliveryViewModel();
+		this.isOrderValid = true;
     } 
  
 
@@ -121,7 +117,6 @@ export class Pedido{
 		}
 	}
 
-	
 
     activate(params){  
 
@@ -190,19 +185,18 @@ export class Pedido{
     attached() : void {		 
 
 		this.ea.publish('loadingData'); 
-
 		this.runScript();
 		this.loadData(); 
 	}  
 
 	addRemoveSupplier (supplier : SupplierViewModel){ 
 
-		if(( <any> supplier).wasRemoved){
+		if(( <any> supplier).wasRemoved && ! (<any> supplier).isInvalid){
 
 			this.selectedQuote.suppliers.forEach(x => {
 				
 				if( x.id  == supplier.id){
-
+					( <any> x).isInvalid = false;
 					( <any> x).wasRemoved = false;
 				}
 			});
@@ -212,7 +206,7 @@ export class Pedido{
 				x.suppliers.forEach(y =>{
 
 					if( y.id  == supplier.id){
-
+						( <any> y).isInvalid = false; 
 						( <any> y).wasRemoved = false;
 					}
 				});
@@ -220,12 +214,13 @@ export class Pedido{
 
 			this.supplierBlackList = this.supplierBlackList.filter(x => x.id != supplier.id);
 		}
-		else{ 
+		else if( ! (<any> supplier).isInvalid){ 
 
 			this.selectedQuote.suppliers.forEach(x => {
 				
 				if( x.id  == supplier.id){
 
+					( <any> x).isInvalid = false; 
 					( <any> x).wasRemoved = true;
 				}
 			});
@@ -236,7 +231,7 @@ export class Pedido{
 				x.suppliers.forEach(y =>{
 
 					if( y.id  == supplier.id){
-
+						( <any> y).isInvalid = false;
 						( <any> y).wasRemoved = true;
 					}
 				});
@@ -244,6 +239,7 @@ export class Pedido{
 
 			this.supplierBlackList.push(supplier);
 		}
+		this.checkIfOrderIsvalid();
 	}
 
     loadData(){
@@ -285,48 +281,124 @@ export class Pedido{
 			.then( (x : DeliveryRule) => { 
 				if(x != null){
 					this.deliveryRule = <DeliveryRule> x;
-					this.deliveryScheduleStart = x.deliveryScheduleInitial;
-					this.deliveryScheduleEnd = x.deliveryScheduleFinal;
-					this.deliveryDate = DeliveryRule.getNextDeliveryDate(this.deliveryRule);
+					this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
+					this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
+					this.viewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(this.deliveryRule);
+					this.checkDeliveryDate();
 				}
-			})
+			}) 
 			.catch( e => this.nService.presentError(e)); 
+	}
+
+	checkDeliveryDate(){
+
+		this.deliveryWasChecked = false;
+		this.viewModel.suppliers = [];
+		this.selectedQuote.suppliers.forEach(x => {
+			this.viewModel.suppliers.push(x.id);
+		});
+
+		if(this.viewModel.deliveryDate < new Date()){
+			
+			this.nService.presentError('A data de entrega deve ser maior ou igual a hoje');		
+			this.isOrderValid = false;
+		}
+
+		if(this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd){
+			this.nService.presentError('O horário inicial deve ser maior que o horário final');		
+			this.isOrderValid = false;
+		}
+
+		this.deliveryRepository
+			.checkDeliveryRule(this.viewModel)
+			.then( (x : CheckDeliveryResult) => {
+				
+				this.checkDeliveryResult = x;
+
+				x.items.forEach( (item : CheckDeliveryResultItem) =>{
+					
+						this.selectedQuote.suppliers.forEach(y =>{
+							if(y.id == item.supplierId){
+
+								if(! item.isValid){
+									( <any> y).isInvalid = true; 
+									this.supplierBlackList.push(y);
+								}
+								else{
+									( <any> y).isInvalid = false;
+									this.supplierBlackList = this.supplierBlackList.filter(x => x.id != y.id);
+								} 
+							}
+						});
+
+						this.selectedQuote.products.forEach(x => {
+
+							x.suppliers.forEach(y =>{
+			
+								if( y.id  == item.supplierId){
+
+									if(! item.isValid){
+										( <any> y).isInvalid = true;
+									}
+									else{
+										( <any> y).isInvalid = false;
+									}
+								}
+							});
+						}); 
+				});
+
+				this.deliveryWasChecked = true;
+				this.checkIfOrderIsvalid();
+			})
+			.catch( e => this.nService.presentError(e));  
+	}
+
+	checkIfOrderIsvalid(){
+		
+		var isValid = true;
+
+		if(this.viewModel.deliveryDate < new Date()){
+			isValid = false;
+		}
+
+		if(this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd){
+			isValid = false;
+		}
+
+		if(this.supplierBlackList.length == this.selectedQuote.suppliers.length){
+			isValid = false;
+		}
+
+		if(isValid){
+			this.isOrderValid = true;
+		}
+		else{
+			this.isOrderValid = false;
+		}
 	}
 	
 	generateOrder(){
 
-		var params = {Quote : this.selectedQuote};
-
-        this.dialogService
-            .open({ viewModel: HorarioDeEntregaPedido,  lock: false, model : params })
-            .whenClosed(response => {
-
+		this.isProcessing = true;
 				
-				this.isProcessing = true;
+	
+		this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
+		this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
+		this.selectedResult.deliveryDate =  this.viewModel.deliveryDate;
 				
-				if (response.wasCancelled) {
-					this.isProcessing = false;
-                    return;
-				} 
-
-				this.selectedResult.deliveryScheduleStart = (<ConfirmScheduleOrderViewModel>response.output).deliveryScheduleStart;
-				this.selectedResult.deliveryScheduleEnd = (<ConfirmScheduleOrderViewModel>response.output).deliveryScheduleEnd;
-				this.selectedResult.deliveryDate =  (<ConfirmScheduleOrderViewModel>response.output).deliveryDate;
-				
-                this.orderRepository
-					.createOrder(this.selectedResult)
-					.then( (result : any) =>{   
-						this.nService.success('Pedido realizado!');
-						this.router.navigateToRoute('pedidosFoodService');
-						this.isProcessing = false;
-						this.orderWasGenerated = true;
-					}).catch( e => {
+		this.orderRepository
+			.createOrder(this.selectedResult)
+			.then( (result : any) =>{   
+				this.nService.success('Pedido realizado!');
+				this.router.navigateToRoute('pedidosFoodService');
+				this.isProcessing = false;
+				this.orderWasGenerated = true;
+			}).catch( e => {
 						
-						this.isProcessing = false;
-						this.nService.error(e);
-					});
-            }); 
-		
+				this.isProcessing = false;
+				this.nService.error(e);
+			}); 
 	}
 
 	changeSelectedCotacao(result : SimulationResult){

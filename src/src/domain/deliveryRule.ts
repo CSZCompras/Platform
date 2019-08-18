@@ -67,7 +67,6 @@ export class DeliveryRule {
 
         if(isFound){
             var x = new Date(today.getTime() + (1000 * 60 * 60 * 24 * day));
-            x.setUTCHours(-3);
             return x;
         }
         return null;

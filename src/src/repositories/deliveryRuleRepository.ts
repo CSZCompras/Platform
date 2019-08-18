@@ -1,11 +1,8 @@
-import { PriceList } from '../domain/priceList';
-import { MarketRule } from '../domain/marketRule';
-import { autoinject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
-import { Rest, Config } from 'aurelia-api';
-import { Identity } from '../domain/identity';
-import { Credential } from "../domain/credential"; 
+import { autoinject } from 'aurelia-framework'; 
+import { Rest, Config } from 'aurelia-api'; ; 
 import { DeliveryRule } from '../domain/deliveryRule';
+import { CheckDeliveryViewModel } from '../domain/checkDeliveryViewModel';
+import { CheckDeliveryResult } from '../domain/checkDeliveryResult';
 
 @autoinject
 export class DeliveryRuleRepository{
@@ -36,6 +33,21 @@ export class DeliveryRuleRepository{
         return this.api
             .post('deliveryRule', rule)
             .then( (result : Promise<DeliveryRule>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+    checkDeliveryRule(rule : CheckDeliveryViewModel) : Promise<CheckDeliveryResult>{
+
+        return this.api
+            .post('checkDelivery', rule)
+            .then( (result : Promise<CheckDeliveryResult>) => {                 
                 return result;
             })
             .catch( (e) => {
