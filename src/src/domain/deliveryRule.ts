@@ -58,8 +58,7 @@ export class DeliveryRule {
             day = 7;
         }
         else if(day < dayToday){
-            day += dayToday;
-            day++;
+            day += (7 - dayToday);
         }
         else{
             day -= dayToday;
@@ -67,6 +66,7 @@ export class DeliveryRule {
 
         if(isFound){
             var x = new Date(today.getTime() + (1000 * 60 * 60 * 24 * day));
+            x.setHours(0,0,0,0);
             return x;
         }
         return null;

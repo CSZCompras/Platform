@@ -281,6 +281,7 @@ export class Pedido{
 			.then( (x : DeliveryRule) => { 
 				if(x != null){
 					this.deliveryRule = <DeliveryRule> x;
+					
 					this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
 					this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
 					this.viewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(this.deliveryRule);
