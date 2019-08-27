@@ -302,12 +302,14 @@ export class Master {
 		}
 
 		config.map([    
+			{ route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
 			{ route: 'dashboardAdmin', name: 'dashboardAdmin', moduleId: PLATFORM.moduleName('./admin/dashboard') },
 			{ route: 'dashboardFornecedor', name: 'dashboardFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/dashboard') },
 			{ route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./cadastro') } ,
-			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./produtos') } ,
-			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./regrasDeMercado') } ,
-			{ route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
+
+			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./fornecedor/produtos') } ,
+			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./fornecedor/regrasDeMercado') } ,
+			
 			{ route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./foodService/dashboard') }, 
 			{ route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./foodService/cadastro') },
 			{ route: 'regraDeEntrega', name: 'regraDeEntrega', moduleId: PLATFORM.moduleName('./foodService/regraDeEntrega') }, 
@@ -317,6 +319,7 @@ export class Master {
 			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./cotacao/cotacao') }  ,  
 			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./cotacao/pedidosFornecedor') } ,  
 			{ route: 'pedidosFoodService', name: 'pedidosFoodService', moduleId: PLATFORM.moduleName('./foodService/pedidosFoodService') },
+			{ route: 'mercadosAdmin', name: 'mercadosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listMarkets') },
 			{ route: 'produtosAdmin', name: 'produtosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listProduct') },
 			{ route: 'suppliersAdmin', name: 'suppliersAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/listSuppliers') },
 			{ route: 'foodServicesAdmin', name: 'foodServicesAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/listFoodServices') },

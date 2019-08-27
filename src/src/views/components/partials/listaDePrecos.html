@@ -19,6 +19,7 @@
                         <tr>
                            <th>Nome</th>
                            <th>Descrição</th>
+                           <th>Mercado</th>
                            <th>Categoria</th>
                            <th>UM</th>
                            <th>Marca</th>
@@ -29,6 +30,7 @@
                         <tr repeat.for="item of list.items">                           
                            <td>${item.product.product.name}</td>                       
                            <td>${item.product.product.description}</td>
+                           <td>${item.product.product.category.productClass.name}</td>
                            <td>${item.product.product.category.name}</td>
                            <td>${item.product.product.unit.name}</td>
                            <td>${item.product.product.brand.name}</td>                           

@@ -10,7 +10,8 @@ import { HttpClient } from 'aurelia-fetch-client';
 
 
 @autoinject
-export class ProductRepository{ 
+export class ProductRepository{
+    
 
     api: Rest;
 
@@ -53,6 +54,23 @@ export class ProductRepository{
 
         return this.api
                 .find('productClass')
+                .then( (result : Promise<ProductClass[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    } 
+
+    
+
+    getClassesByOfferedProducts() : Promise<ProductClass[]> {
+
+        return this.api
+                .find('productClassByOfferedProducts')
                 .then( (result : Promise<ProductClass[]>) => {                 
                     return result;
                 })
@@ -225,4 +243,19 @@ export class ProductRepository{
                             })); 
                         });
     }
+
+    addOrUpdateClass(market: ProductClass) : Promise<ProductClass>{
+
+        return this.api
+                .post('productClass', market)
+                .then( (result : Promise<any>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                }); 
+    } 
 }

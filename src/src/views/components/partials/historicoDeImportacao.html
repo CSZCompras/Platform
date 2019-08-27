@@ -22,6 +22,7 @@
                           <th>Nº da Linha</th>
                            <th>Nome</th>
                            <th>Descrição</th>
+                           <th>Mercado</th>
                            <th>Categoria</th>
                            <th>UM</th>
                            <th>Marca</th>
@@ -35,6 +36,7 @@
                             <td>${row.lineNumber}</td>
                            <td>${row.supplierProduct.product.name}</td>
                            <td>${row.supplierProduct.product.description}</td>
+                           <td>${row.supplierProduct.product.category.productClass.name}</td>
                            <td>${row.supplierProduct.product.category.name}</td>
                            <td>${row.supplierProduct.product.unit.name}</td>
                            <td>${row.supplierProduct.product.brand.name}</td>

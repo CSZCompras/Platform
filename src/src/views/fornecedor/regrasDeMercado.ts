@@ -1,12 +1,12 @@
-import { MarketRuleValidator } from '../validators/marketRuleValidator';
-import { MarketRule } from '../domain/marketRule';
-import { MarketRuleRepository } from '../repositories/marketRuleRepository';
-import { NotificationService } from '../services/notificationService';
-import { IdentityService } from '../services/identityService';
-import { inject, NewInstance, Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import 'jquery-mask-plugin';
+import { MarketRuleValidator } from '../../validators/marketRuleValidator';
+import { MarketRule } from '../../domain/marketRule';
+import { MarketRuleRepository } from '../../repositories/marketRuleRepository';
+import { NotificationService } from '../../services/notificationService';
+import { IdentityService } from '../../services/identityService';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import 'jquery-mask-plugin';
 
 @autoinject
 export class RegrasDeMercado{

@@ -21,8 +21,10 @@ export class AtualizacaoDePrecos{
     filteredProducts    : Array<SupplierProduct>; 
     selectedFiles       : any; 
     isUploading         : boolean;
+    classes             : ProductClass[];
     categories          : ProductCategory[];
-    selectedCategory    : string;
+    selectedClass       : ProductClass;
+    selectedCategory    : ProductCategory;
     filter              : string;
     alteredProducts     : Array<SupplierProduct>; 
     isLoading           : boolean;
@@ -51,23 +53,29 @@ export class AtualizacaoDePrecos{
             (<any>product).isNew = true;
             this.supplierProducts.push(product);                       
             this.supplierProducts = this.supplierProducts.sort( (a : SupplierProduct, b : SupplierProduct) => 0 - (a.product.name > b.product.name ? -1 : 1));
-            this.search();
+            this.loadData().then( () => this.search());
         }) 
     }
 
-    loadData(){    
+    loadData() : Promise<any>{    
 
-        this.productRepository
-               .getAllCategories()
-               .then( (data : ProductCategory[]) => { 
-                   this.categories = data;
-                   this.selectedCategory = data[0].id;
+     return    this.productRepository
+               .getClassesByOfferedProducts()
+               .then( (data : ProductClass[]) => { 
+                   debugger;
+                   this.classes = data;
+                   this.selectedCategory = data[0].categories[0];
                    this.ea.publish('atualizacaoDePrecosLoaded');
                    this.loadProducts();
                }).catch( e => {
                    this.nService.presentError(e);
                });
     } 
+
+    updateCategories(){
+        this.selectedCategory = this.selectedClass.categories[0];
+        this.loadProducts();
+    }
 
     loadProducts(){
 
@@ -78,7 +86,7 @@ export class AtualizacaoDePrecos{
         this.filter = '';
 
         this.repository
-            .getAllSuplierProducts(this.selectedCategory)            
+            .getAllSuplierProducts(this.selectedCategory.id)            
             .then( (data : SupplierProduct[]) => {
                 this.supplierProducts = data;
                 this.filteredProducts = data;  
@@ -95,8 +103,8 @@ export class AtualizacaoDePrecos{
 
             var isFound = true; 
 
-                if( (this.selectedCategory != null && this.selectedCategory != '')){ 
-                    if(x.product.category.id == this.selectedCategory){
+                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
+                    if(x.product.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -159,7 +167,7 @@ export class AtualizacaoDePrecos{
             .alterSuplierProduct(this.alteredProducts)
             .then( (result : any) =>{    
                 
-                this.nService.success('O produto foram atualizado com sucesso!');  
+                this.nService.success('O produto foi atualizado com sucesso!');  
                 this.isLoading = false;
                 this.ea.publish('uploadSupplierProductFileDone');
                 this.alteredProducts = [];

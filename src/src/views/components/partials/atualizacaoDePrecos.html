@@ -12,14 +12,21 @@
                </h5>
             </div> 
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" style="">
-               <div class="card-body">   
+               <div class="card-body">  
                         <div class="row mt-2">
+                              <div class="col-lg-4">
+                                 <div class="form-group">
+                                    <label class="control-label">Mercado</label>            
+                                    <select class="form-control"  value.bind="selectedClass" change.delegate="updateCategories()">
+                                       <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
+                                    </select>
+                                 </div>
+                              </div> 
                            <div class="col-lg-4">
                               <div class="form-group">
                                  <label class="control-label">Categoria</label>            
-                                 <select class="form-control "    value.bind="selectedCategory" change.delegate="loadProducts()">
-                                    <option  value=""></option>
-                                    <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+                                 <select class="form-control "    value.bind="selectedCategory" change.delegate="loadProducts()">                                    
+                                    <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
                                  </select>
                               </div>
                            </div>

@@ -17,13 +17,12 @@ import { BuyListStatus } from '../../../domain/buyListStatus';
 @autoinject
 export class ProdutosSelecionados{
 
-    
+    classes             : ProductClass[]; 
     selectedClass       : ProductClass;
-    categories          : ProductCategory[];
+    selectedCategory    : ProductCategory; 
     allProducts         : FoodServiceProduct[];
     filteredProducts    : FoodServiceProduct[];
     isFiltered          : boolean;
-    selectedCategory    : ProductCategory; 
     filter              : string;
     isCreatingList      : boolean;
     newListName         : string;
@@ -82,23 +81,25 @@ export class ProdutosSelecionados{
     loadData(){
 
         this.productRepository
-            .getAllCategories()
-            .then( (data : ProductCategory[]) => { 
-                this.categories = data;
+            .getAllClasses()
+            .then( (data : ProductClass[]) => { 
 
-                var novo = new ProductCategory();
-                novo.id = '-2';
-                novo.name = "Todos";
-                novo.class = data[0].class;
-                this.categories.unshift(novo)
-                
-                var novo = new ProductCategory();
-                novo.id = '-1';
-                novo.name = "Novos Produtos";
-                novo.class = data[0].class;
-                this.categories.unshift(novo)
-                
-                this.selectedCategory = novo;
+                this.classes = data;
+
+                data.forEach(x =>{
+
+                    var novo = new ProductCategory();
+                    novo.id = '-2';
+                    novo.name = "Todos";
+                    x.categories.unshift(novo);
+
+                    var novo = new ProductCategory();
+                    novo.id = '-1';
+                    novo.name = "Novos Produtos";
+                    x.categories.unshift(novo)
+                    
+                    this.selectedCategory = novo;
+                });
 
             }).catch( e => {
                 this.nService.presentError(e);
@@ -144,13 +145,6 @@ export class ProdutosSelecionados{
             
             this.isFiltered = true;
             
-            if(this.selectedCategory != null && this.selectedCategory.class != null){
-                this.selectedClass = this.selectedCategory.class;
-            }
-            else{
-                this.selectedClass = null;
-            }
-
             if(this.selectedCategory != null && this.selectedCategory.id == '-2'){
                 this.filteredProducts = this.allProducts;
             } 

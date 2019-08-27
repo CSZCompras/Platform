@@ -8,9 +8,7 @@ import { Router } from 'aurelia-router';
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { FoodServiceRepository } from '../../../repositories/foodServiceRepository';
-import { FoodServiceProduct } from '../../../domain/foodServiceProduct';
-import { SupplierRepository } from '../../../repositories/supplierRepository';
-import { SupplierProduct } from '../../../domain/supplierProduct';
+import { FoodServiceProduct } from '../../../domain/foodServiceProduct'; 
 
 
 @autoinject
@@ -21,7 +19,8 @@ export class SelecaoDeProdutosFoodService{
     allProducts         : Product[];
     filteredProducts    : Product[];
     isFiltered          : boolean;
-    selectedCategory    : string;
+    selectedCategory    : ProductCategory;
+    selectedClass       : ProductClass;
     filter              : string;
     isProcessing        : boolean;
 
@@ -51,26 +50,21 @@ export class SelecaoDeProdutosFoodService{
     loadData(){
 
         var promisse0 = this. productRepository
-                            .getAllCategories()
-                            .then( (data : ProductCategory[]) => { 
-                                this.categories = data;
-                            }).catch( e => {
-                                this.nService.presentError(e);
-                            });
+                            .getAllClasses()
+                            .then( (data : ProductClass[]) => this.classes = data)
+                            .catch( e => this.nService.presentError(e));
 
         var promisse1 = this. productRepository
                             .getAllProducts()
-                            .then( (data : Product[]) => { 
-                                this.allProducts = data;
-                            }).catch( e => {
-                                this.nService.presentError(e);
-                            });
+                            .then( (data : Product[]) => this.allProducts = data)
+                            .catch( e => this.nService.presentError(e));
 
         Promise.all([promisse0, promisse1]).then( () => this.ea.publish('dataLoaded'))
     }
 
     search(){ 
-        if( (this.selectedCategory == null || this.selectedCategory == '') && (this.filter == null || this.filter == '') ) {
+
+        if( (this.selectedCategory == null || this.selectedCategory.id == '') && (this.filter == null || this.filter == '') ) {
             this.isFiltered = false;
         }
         else{
@@ -81,8 +75,8 @@ export class SelecaoDeProdutosFoodService{
 
                 var isFound = true;
 
-                if( (this.selectedCategory != null && this.selectedCategory != '')){ 
-                    if(x.category.id == this.selectedCategory){
+                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
+                    if(x.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {

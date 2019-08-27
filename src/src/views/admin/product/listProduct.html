@@ -7,17 +7,24 @@
              </div> 
              <div class="card-body"> 
                  <div if.bind="! isEditing">
-                    <div class="row mt-2">
+                    <div class="row mt-2"> 
+                        <div class="col-lg-4">
+                                       <div class="form-group" change.delegate="updateCategories()">
+                                          <label class="control-label">Mercado</label>            
+                                          <select class="form-control"  value.bind="selectedClass">
+                                             <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
+                                          </select>
+                                       </div>
+                        </div>  
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label class="control-label">Categoria</label>            
                                 <select class="form-control "    value.bind="selectedCategory" change.delegate="searchProducts()">
-                                    <option  value=""></option>
-                                    <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+                                    <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label class="control-label">Filtro</label> 
                                 <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
@@ -27,7 +34,10 @@
                     <div class="row mt-2 ml-2">
                         <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="create()">Novo produto</button>
                     </div> 
-                    <table class="table table-hover">
+                    <div class="row text-center mt-4 fa-2x" if.bind="isLoading">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                    <table class="table table-hover" if.bind="! isLoading">
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -62,12 +72,12 @@
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label class="control-label">Nome<span class="text-danger  ml-1 bold">*</span></label>
-                                 <input type="text" class="form-control "    value.bind="product.name"  />
+                                 <input type="text" class="form-control "    value.bind="product.name & validate"  />
                               </div> 
                            </div>
                     </div>
                     <div class="row mt-4">
-                           <div class="col-md-12">
+                           <div class="col-md-8">
                               <div class="form-group">
                                     <label class="control-label">Descrição<span class="text-danger  ml-1 bold">*</span></label>
                                  <input type="text" class="form-control "   value.bind="product.description" />
@@ -75,26 +85,34 @@
                            </div>
                     </div>
                     <div class="row mt-4">
-                           <div class="col-md-6">
+                            <div class="col-md-4">
+                                       <div class="form-group">
+                                          <label class="control-label">Mercado</label>            
+                                          <select class="form-control"  value.bind="selectedClassProduct">
+                                             <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
+                                          </select>
+                                       </div>
+                            </div>
+                           <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label">Categoria</label>            
-                                    <select class="form-control "    value.bind="product.category">
+                                    <select class="form-control "    value.bind="product.category & validate">
                                         <option  value=""></option>
-                                        <option  repeat.for="category of categories" model.bind="category">${category.name}</option>
+                                        <option  repeat.for="category of selectedClassProduct.categories" model.bind="category">${category.name}</option>
                                     </select>
                                 </div>
                            </div>
-                           <div class="col-md-6">
-                              <div class="form-group">
-                                    <label class="control-label">Marca</label>            
-                                    <select class="form-control "    value.bind="selectedCategory">
-                                        <option  value=""></option> 
-                                    </select>
-                              </div> 
-                           </div>
                     </div>
                     <div class="row mt-4">
-                           <div class="col-md-6">
+                            <div class="col-md-4">
+                               <div class="form-group">
+                                     <label class="control-label">Marca</label>            
+                                     <select class="form-control "    value.bind="selectedCategory">
+                                         <option  value=""></option> 
+                                     </select>
+                               </div> 
+                            </div>
+                           <div class="col-md-4">
                               <div class="form-group">
                                     <label class="control-label">UM<span class="text-danger  ml-1 bold">*</span></label>            
                                     <select class="form-control "    value.bind="product.unit">
@@ -103,7 +121,7 @@
                                     </select>
                               </div> 
                            </div>
-                           <div class="col-md-6">      
+                           <div class="col-md-4">      
                                 <div class="col-md-4"></div>
                                 <label class="control-label mt-5">Ativo<span class="text-danger  ml-1 bold">*</span></label>                       
                                 <label class="form-check-label  ml-2 float-left mt-5">                                    
@@ -111,9 +129,12 @@
                                 </label>
                            </div>
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4" if.bind="! isLoading">
                         <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>
                         <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>    
+                    </div>
+                    <div class="text-center mt-4 fa-2x" if.bind="isLoading">
+                        <i class="fa fa-refresh fa-spin"></i>
                     </div>
                 </div>
              </div>

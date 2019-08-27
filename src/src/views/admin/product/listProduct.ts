@@ -1,43 +1,52 @@
-import { inject, NewInstance} from 'aurelia-framework';
 import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { IdentityService } from '../../../services/identityService';
 import { NotificationService } from '../../../services/notificationService';
 import { ProductRepository } from '../../../repositories/productRepository';
 import { Product } from '../../../domain/product';
 import { ProductCategory } from '../../../domain/productCategory';
 import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasurementRepository';
 import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
+import { ProductClass } from '../../../domain/productClass';
+import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
+import { FormValidationRenderer } from '../../formValidationRenderer';
 
 @autoinject
 export class ListProduct{
 
     products                    : Product[];
     filteredProducts            : Product[];
+    classes                     : ProductClass[];
     categories                  : ProductCategory[];
     units                       : UnitOfMeasurement[];
-    selectedCategory            : string;
-    selectedCategoryProduct     : string;
+    selectedCategory            : ProductCategory;
+    selectedClass               : ProductClass;
+    selectedClassProduct        : ProductClass;
+    selectedCategoryProduct     : ProductCategory;
     filter                      : string;
     isEditing                   : boolean;
     product                     : Product;
-    selectedUnit                : UnitOfMeasurement
+    selectedUnit                : UnitOfMeasurement;
+    isLoading                   : boolean;
+	validationController        : ValidationController;
 
-    constructor(		
-		private router              : Router, 
-		private ea                  : EventAggregator,
-		private service             : IdentityService,
-        private nService            : NotificationService,
-        private repository          : ProductRepository ,
-        private unitRepository      : UnitOfMeasurementRepository,
-        private  productRepository  : ProductRepository) {
+    constructor(		 
+		private ea                          : EventAggregator, 
+        private nService                    : NotificationService,
+        private repository                  : ProductRepository ,
+        private unitRepository              : UnitOfMeasurementRepository,
+        private productRepository           : ProductRepository, 
+        private validationControllerFactory : ValidationControllerFactory){
+            
+            
+            this.product = new Product();
 
-            this.units = [];
+            this.units = [];// Validation.
+            this.validationController = this.validationControllerFactory.createForCurrentScope();
+            this.validationController.addRenderer(new FormValidationRenderer());
+            this.validationController.validateTrigger = validateTrigger.blur;
     } 
 
     attached(){
@@ -45,13 +54,25 @@ export class ListProduct{
         this.loadData();
     }
 
+    activate(){ 
+
+
+        ValidationRules 
+            .ensure((p : Product) => p.name).displayName('Nome do produto').required() 
+            .ensure((p : Product) => p.category).displayName('Categoria do produto').required() 
+            .on(this.product);  
+    }
+
     loadData(){
          
 
         this.productRepository
-               .getAllCategories()
-               .then( (data : ProductCategory[]) => { 
-                   this.categories = data;
+               .getAllClasses()
+               .then( (data : ProductClass[]) => { 
+                   this.classes = data;
+                   this.categories = data[0].categories;
+                   this.selectedCategory = this.categories[0];
+                   this.searchProducts();
                    this.ea.publish('dataLoaded');
                }).catch( e => {
                    this.nService.presentError(e);
@@ -66,18 +87,37 @@ export class ListProduct{
             });
     }
 
-    searchProducts(){  
+    updateCategories(){
+        this.categories = this.selectedClass.categories;
+        this.selectedCategory = this.categories[0];
+        this.searchProducts();
+        this.products = [];
+        this.filteredProducts = [];
+    }
+
+    searchProducts() {  
+
+        if(this.selectedCategory != null){
         
-        this.repository
-            .getAllProductsByCategory(this.selectedCategory)
-            .then(x => {
-                this.products = x;
-                this.filteredProducts = x;
-                this.search(); 
-            })
-            .catch( e => {
-                this.nService.presentError(e);
-            }); 
+            this.isLoading = true;
+
+            this.repository
+                .getAllProductsByCategory(this.selectedCategory.id)
+                .then(x => {
+                    this.products = x;
+                    this.filteredProducts = x;
+                    this.isLoading = false;
+                    this.search(); 
+                })
+                .catch( e => {
+                    this.nService.presentError(e);
+                    this.isLoading = false;
+                }); 
+        }
+        else{
+            this.products = [];
+            this.filteredProducts = [];
+        }
 
     }
 
@@ -87,8 +127,8 @@ export class ListProduct{
 
             var isFound = true; 
 
-                if( (this.selectedCategory != null && this.selectedCategory != '')){ 
-                    if(x.category.id == this.selectedCategory){
+                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
+                    if(x.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -141,17 +181,33 @@ export class ListProduct{
 
     addOrUpdate(){
 
-        this.repository
-            .addOrUpdate(this.product)
-            .then(x => {               
+        this.validationController
+            .validate()
+            .then((result: ControllerValidateResult) => { 
+            
+                if (result.valid) {   
 
-                this.product = null;
-                this.loadData();
-                this.isEditing = false;
-            })
-            .catch( e => {
-                this.nService.presentError(e);
-            }); 
+                    this.isLoading = true;
+
+                    this.repository
+                        .addOrUpdate(this.product)
+                        .then(x => {               
+
+                            this.product = null;
+                            this.searchProducts();
+                            this.isEditing = false;
+                            this.isLoading = false;
+                            this.nService.success('Produto cadastrado com sucesso!');
+                        })
+                        .catch( e => {
+                            this.nService.error(e);
+                            this.isLoading = false;
+                        }); 
+                    }
+                    else { 
+                        this.nService.error('Erros de validação foram encontrados');
+                    }
+                });     
     }
 
 }

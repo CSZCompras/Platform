@@ -1,14 +1,23 @@
 <template>
         <div class="row mt-4">
-           <div class="col-lg-4">
-              <div class="form-group">
-                 <label class="control-label">Categoria</label>
-                 <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">                    
-                    <option  repeat.for="category of categories" model.bind="category">${category.name}</option>
-                 </select>
-              </div>
-           </div>
-           <div class="col-lg-4">
+            <div class="col-lg-4">
+               <div class="form-group">
+                  <label class="control-label">Mercado</label>            
+                  <select class="form-control"  value.bind="selectedClass">
+                     <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
+                  </select>
+               </div>
+            </div>
+            <div class="col-lg-4" if.bind="selectedClass != null">
+               <div class="form-group">
+                  <label class="control-label">Categoria</label>
+                  <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+                     <option  value=""></option>
+                     <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
+                  </select>
+               </div>
+            </div>
+           <div class="col-lg-4" if.bind="selectedClass != null">
               <div class="form-group">
                  <label class="control-label">Filtro</label> 
                  <input type="text" class="form-control "  value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>

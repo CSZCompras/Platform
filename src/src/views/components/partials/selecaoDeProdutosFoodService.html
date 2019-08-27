@@ -2,32 +2,29 @@
    <div class="row">
       <div class="col-lg-4">
          <div class="form-group">
-            <label class="control-label">Categoria</label>
-            <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+            <label class="control-label">Mercado</label>
+            <select class="form-control"  value.bind="selectedClass">
                <option  value=""></option>
-               <option  repeat.for="category of categories" value.bind="category.id">${category.name}</option>
+               <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
             </select>
          </div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-4" if.bind="selectedClass != null">
+         <div class="form-group">
+            <label class="control-label">Categoria</label>
+            <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+               <option  value=""></option>
+               <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
+            </select>
+         </div>
+      </div>
+      <div class="col-lg-4" if.bind="selectedClass != null">
          <div class="form-group">
             <label class="control-label">Filtro</label> 
             <input type="text" class="form-control "  value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
          </div>
       </div>
    </div>
-   <!--<div class="row">
-      <div class="col-lg-2">
-         <div class="form-group">
-            <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light "  click.trigger="search()">
-               <span class="gradient">
-                  <!--<i class="batch-icon batch-icon-search-alt"></i> -->
-                  <!--Pesquisar
-               </span>
-            </button>
-         </div>
-      </div>
-   </div>-->
    <div class="row" if.bind="isFiltered">
       <div class="col-md-12 pb-5"> 
          <table class="table table-hover">

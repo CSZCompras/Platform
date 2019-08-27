@@ -1,14 +1,10 @@
 import { ProductRepository } from '../../../repositories/productRepository';
-import { NotificationService } from '../../../services/notificationService';
-import { IdentityService } from '../../../services/identityService';
+import { NotificationService } from '../../../services/notificationService'; 
 import { ProductCategory } from '../../../domain/productCategory';
 import { ProductClass } from '../../../domain/productClass';
-import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
+import { autoinject } from 'aurelia-framework'; 
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { FoodServiceRepository } from '../../../repositories/foodServiceRepository';
-import { FoodServiceProduct } from '../../../domain/foodServiceProduct';
 import { SupplierRepository } from '../../../repositories/supplierRepository';
 import { SupplierProduct } from '../../../domain/supplierProduct';
 import { SupplierProductStatus } from '../../../domain/SupplierProductStatus';
@@ -19,21 +15,20 @@ export class SelecaoDeProdutos{
     
     classes             : ProductClass[];
     categories          : ProductCategory[];
+    selectedClass       : ProductClass; 
+    selectedCategory    : ProductCategory;
     allProducts         : Product[];
     filteredProducts    : Product[];
     isFiltered          : boolean;
-    selectedCategory    : string;
     filter              : string;
     isEditing           : boolean;
     isLoaded            : boolean;
 
     constructor(		
-        private router: Router, 
-		private service : IdentityService,
-		private nService : NotificationService, 
-        private ea : EventAggregator ,
-        private  productRepository : ProductRepository,
-        private repository : SupplierRepository) {
+		private nService            : NotificationService, 
+        private ea                  : EventAggregator ,
+        private  productRepository  : ProductRepository,
+        private repository          : SupplierRepository) {
         
         this.isFiltered = true;
         this.isLoaded = false;
@@ -42,9 +37,9 @@ export class SelecaoDeProdutos{
     attached() : void{  
 
         this.loadData();
-        this.ea.subscribe('supplierProductRemoved', (product : SupplierProduct) => {
-            
-            if(this.selectedCategory == product.product.category.id){
+        
+        this.ea.subscribe('supplierProductRemoved', (product : SupplierProduct) => {            
+            if(this.selectedCategory.id == product.product.category.id){
                 this.loadProducts();
             }
         });
@@ -54,12 +49,14 @@ export class SelecaoDeProdutos{
 
  
         this.productRepository
-            .getAllCategories()
-            .then( (data : ProductCategory[]) => { 
-                this.categories = data;
-                this.selectedCategory = this.categories[0].id;
+            .getAllClasses()
+            .then( (data : ProductClass[]) => { 
+                this.classes = data; 
+                this.selectedClass = data[0];
+                this.selectedCategory = data[0].categories[0];
                 this.loadProducts();
-
+                this.ea.publish('selecaoDeProdutosLoaded'); 
+                this.isLoaded = true; 
             }).catch( e => {
                 this.nService.presentError(e);
             });
@@ -71,25 +68,32 @@ export class SelecaoDeProdutos{
         this.isLoaded = false;
         this.allProducts = [];
         this.filteredProducts = [];
-                
-        return this.productRepository
-                    .getOfferedProducts(this.selectedCategory)
-                    .then( (data : Product[]) => {
-                        this.allProducts = data;
-                        this.filteredProducts = data;
-                        this.isLoaded = true;
-                        this.ea.publish('selecaoDeProdutosLoaded'); 
 
-                    }).catch( e => {
-                        this.nService.presentError(e);
-                        this.isLoaded = true;
-                        this.ea.publish('selecaoDeProdutosLoaded'); 
-                    });
+        if(this.selectedCategory != null){
+                
+            return this.productRepository
+                        .getOfferedProducts(this.selectedCategory.id)
+                        .then( (data : Product[]) => {
+                            this.allProducts = data;
+                            this.filteredProducts = data;
+                            this.isLoaded = true;
+                        }).catch( e => {
+                            this.nService.presentError(e);
+                            this.isLoaded = true;
+                        });
+
+        }
+
+    }
+
+    updateCategories(){
+        this.selectedCategory = this.selectedClass.categories[0];
+        this.loadProducts();
 
     }
 
     search(){ 
-        if( (this.selectedCategory == null || this.selectedCategory == '') && (this.filter == null || this.filter == '') ) {
+        if( (this.selectedCategory == null || this.selectedCategory.id == '') && (this.filter == null || this.filter == '') ) {
             this.isFiltered = false;
         }
         else{
@@ -101,8 +105,8 @@ export class SelecaoDeProdutos{
 
                 var isFound = true;
 
-                if( (this.selectedCategory != null && this.selectedCategory != '')){ 
-                    if(x.category.id == this.selectedCategory){
+                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
+                    if(x.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {

@@ -172,6 +172,7 @@
                                  <i class="fa fa-undo mr-2" aria-hidden="true"></i>Voltar
                               </button>
                               <button type="button" class="btn btn-success waves-effect waves-light" click.trigger="exportOrder(selectedOrder)">
+                                 <i class="fa fa-file-excel-o  mr-2"></i> 
                                  Exportar
                               </button>
                            </div>
@@ -236,7 +237,8 @@
                                                 Ver detalhes 
                                           </button>
                                           <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="exportOrder(order)">
-                                                Exportar
+                                             <i class="fa fa-file-excel-o  mr-2"></i> 
+                                             Exportar
                                           </button>
                                           <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="deliverOrder(order)" if.bind="order.status == 1">
                                                 Efetuar baixa

@@ -1,7 +1,5 @@
-import { Product } from '../domain/product';
-import { Aurelia, autoinject, inject, NewInstance} from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
+import {  autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
