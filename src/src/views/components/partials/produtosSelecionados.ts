@@ -49,68 +49,94 @@ export class ProdutosSelecionados{
         this.ea.subscribe('productAdded', (product : FoodServiceProduct) =>{  
 
            (<any>product).isNew  = true;
+           
+            if( 
+                    (this.selectedClass.id == product.product.category.productClass.id && (this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2')) 
+                ||  this.selectedCategory.id == product.product.category.id){
 
-            if(this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2' ||  this.selectedCategory.id == '' || this.selectedCategory == null){ // novos 
-               
-                this.isFiltered = true; 
+                    
 
-                this.filteredProducts.unshift(product);
-                this.allProducts.unshift(product);
+                    if(this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2' ||  this.selectedCategory.id == '' || this.selectedCategory == null){ // novos 
+                    
+                        this.isFiltered = true; 
 
-               this.lists.forEach( ( x : BuyList) => {
+                        this.filteredProducts.unshift(product);
+                        this.allProducts.unshift(product);
 
-                    var foodProduct = x.products.filter( x => x.foodServiceProduct.productId == product.productId);
+                        this.lists.forEach( ( x : BuyList) => {
 
-                    if(foodProduct == null){
-                        var item = new BuyListProduct();
-                        item.foodServiceProduct = product;
-                        item.isInList = false;
-                        x.products.unshift(item);
+                            var foodProduct = x.products.filter( x => x.foodServiceProduct.productId == product.productId);
+
+                            if(foodProduct == null){
+                                var item = new BuyListProduct();
+                                item.foodServiceProduct = product;
+                                item.isInList = false;
+                                x.products.unshift(item);
+                            }
+                            else{
+                                foodProduct[0].foodServiceProduct.isActive = true;
+                            }
+                        });
                     }
                     else{
-                        foodProduct[0].foodServiceProduct.isActive = true;
-                    }
-                });
-            }
+                        this.allProducts.unshift(product);
+                    }  
+            } 
             else{
                 this.allProducts.unshift(product);
             }  
         });
+        
     } 
+
+    updateCategories(){
+        this.selectedCategory = this.selectedClass.categories[0];
+        this.search();
+    }
 
     loadData(){
 
-        this.productRepository
-            .getAllClasses()
-            .then( (data : ProductClass[]) => { 
+                    this.productRepository
+                        .getAllClasses()
+                        .then( (data : ProductClass[]) => { 
 
-                this.classes = data;
+                            this.classes = data;
 
-                data.forEach(x =>{
+                            data.forEach(x =>{
 
-                    var novo = new ProductCategory();
-                    novo.id = '-2';
-                    novo.name = "Todos";
-                    x.categories.unshift(novo);
+                                var novo = new ProductCategory();
+                                novo.id = '-2';
+                                novo.name = "Todos";
+                                x.categories.unshift(novo);
 
-                    var novo = new ProductCategory();
-                    novo.id = '-1';
-                    novo.name = "Novos Produtos";
-                    x.categories.unshift(novo)
-                    
-                    this.selectedCategory = novo;
-                });
+                                var novo = new ProductCategory();
+                                novo.id = '-1';
+                                novo.name = "Novos Produtos";
+                                x.categories.unshift(novo)
+                                
+                                this.selectedCategory = novo; 
+                            });
+                            
+                            this.selectedClass = data[0];
+                            this.selectedCategory = this.selectedClass.categories[0];
+                            
+                            this.loadProducts();
 
-            }).catch( e => {
-                this.nService.presentError(e);
-            });
+                        }).catch( e => {
+                            this.nService.presentError(e);
+                        });
 
-        this.repository
+         
+    }
+
+    loadProducts(){
+
+         this.repository
             .getProducts()
             .then( (data : FoodServiceProduct[]) => { 
 
                 this.allProducts = data; 
-                
+                                
                 this.repository
                     .getLists()
                     .then( (data : BuyList[]) => { 
@@ -144,11 +170,14 @@ export class ProdutosSelecionados{
     search(){ 
             
             this.isFiltered = true;
+
+            var products = this.allProducts.filter( (x : FoodServiceProduct) => x.product.category.productClass.id == this.selectedClass.id);
             
             if(this.selectedCategory != null && this.selectedCategory.id == '-2'){
-                this.filteredProducts = this.allProducts;
+                this.filteredProducts = products;
             } 
-            this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
+
+            this.filteredProducts = products.filter( (x : FoodServiceProduct) =>{
 
                     var isFound = true;
 

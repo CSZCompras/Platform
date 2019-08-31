@@ -86,6 +86,21 @@ export class FoodServiceRepository {
             });
     }
 
+    getProductsByMarket(classId : string) : Promise<FoodServiceProduct[]> {
+
+        return this.api
+            .find('foodServiceProduct?marketId='+ classId)
+            .then( (result : Promise<FoodServiceProduct[]>) => {                 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
     getProducts() : Promise<FoodServiceProduct[]> {
 
         return this.api

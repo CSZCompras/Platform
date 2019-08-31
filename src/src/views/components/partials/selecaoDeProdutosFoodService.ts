@@ -25,7 +25,6 @@ export class SelecaoDeProdutosFoodService{
     isProcessing        : boolean;
 
     constructor(		
-        private router          : Router, 
 		private service         : IdentityService,
 		private nService        : NotificationService, 
         private ea              : EventAggregator ,
@@ -40,26 +39,41 @@ export class SelecaoDeProdutosFoodService{
         
 		this.loadData(); 
         
-        this.ea.subscribe('productRemoved', (x : FoodServiceProduct) => {
+        this.ea.subscribe('productRemoved', (x : FoodServiceProduct) => { 
 
             this.allProducts.unshift(x.product);
-            this.search();
+            this.search(); 
         }); 
     } 
+
+    updateCategory(){
+        this.selectedCategory = this.selectedClass.categories[0];
+        this.search();
+    }
 
     loadData(){
 
         var promisse0 = this. productRepository
                             .getAllClasses()
-                            .then( (data : ProductClass[]) => this.classes = data)
+                            .then( (data : ProductClass[]) => { 
+                                this.classes = data
+                                this.selectedClass = data[0];
+                                this.selectedCategory = this.selectedClass.categories[0];
+                            })
                             .catch( e => this.nService.presentError(e));
 
         var promisse1 = this. productRepository
                             .getAllProducts()
-                            .then( (data : Product[]) => this.allProducts = data)
+                            .then( (data : Product[]) => { 
+                                this.allProducts = data
+                            })
                             .catch( e => this.nService.presentError(e));
 
-        Promise.all([promisse0, promisse1]).then( () => this.ea.publish('dataLoaded'))
+        Promise.all([promisse0, promisse1]).then( () => { 
+
+            this.search();
+            this.ea.publish('dataLoaded');
+        });
     }
 
     search(){ 
