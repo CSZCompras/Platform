@@ -71,7 +71,7 @@
                        <td></td>
                        <td  repeat.for="list of lists" if.bind="list.status == 0" class="text-center">          
                               <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" checked.bind="list[x.product.name + '_'+ x.product.unit.name]"  change.trigger="changeList(list, x)">
+                                    <input type="checkbox" class="custom-control-input" checked.bind="list[x.product.name + '_'+ x.product.unit.name + '_' + x.product.description]"  change.trigger="changeList(list, x)">
                                     <span class="custom-control-indicator"></span> 
                               </label>
                        </td> 

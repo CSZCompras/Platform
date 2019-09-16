@@ -1,0 +1,45 @@
+<template> 
+    <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+    <require from="../attributes/moneyMask"></require>
+    <require from="../attributes/timeMask"></require>
+    <require from="../attributes/datepicker"></require>
+    <require from="../valueConverters/dateFormatValueConverter"></require>
+    <require from="../valueConverters/timeValueConverter"></require>
+
+    <div class="row mb-5">
+            <div class="col-md-12">
+               <div class="card">
+                  <div class="card-header">
+                     Observação pedido
+                  </div>
+                  <div class="card-body">                   
+                    <div class="row"> 
+                      <div class="col-md-12">
+                          <div class="form-group">
+                            <label class="control-label">Deseja acrescentar alguma observação ao pedido?</label>
+                          </div>        
+                      </div> 
+                    </div>   
+                    <div class="row"> 
+                      <div class="col-md-12">
+                        <div class="form-group mx-auto">      
+                            <textarea class="form-control disabled" disabled value.bind="selectedQuote.observation"  rows="2"></textarea>
+                        </div>
+                      </div> 
+                    </div>
+                 </div>       
+                 <div class="row mb-4">                        
+                    <div class="fa-2x text-center mx-auto " if.bind="processing" >
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div> 
+                    <button type="button" class="btn btn-success  waves-effect waves-light mx-auto ml-5"  click.trigger="confirmOrder()" >
+                        <i class="fa fa-check mr-2"></i>Confirmar
+                    </button>
+                    <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5"   click.trigger="cancel()">
+                        <i class="fa fa-undo mr-2"></i>Cancelar
+                    </button> 
+                 </div>      
+               </div>
+            </div>
+         </div>    
+</template>

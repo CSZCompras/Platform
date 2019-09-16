@@ -14,4 +14,5 @@ export class SimulationResult{
     deliveryScheduleStart   : Number;
     deliveryScheduleEnd     : Number;
     deliveryDate            : Date;
+	observation             : string;
 }

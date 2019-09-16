@@ -157,11 +157,14 @@ export class ListProduct{
                 }
         });
     }
-
+ 
     edit(product : Product){
 
         this.isEditing = true;
         this.product = product;
+
+        this.selectedClassProduct = this.classes.filter(x => x.id == product.category.productClass.id)[0];
+        this.categories = this.selectedClassProduct.categories;
         this.product.category = this.categories.filter( x => x.id == this.product.category.id)[0];
         this.product.unit = this.units.filter( x => x.id == this.product.unit.id)[0];
     }

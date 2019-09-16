@@ -1,6 +1,6 @@
 import { NotificationService } from '../../services/notificationService'; 
-import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router'; 
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router'; 
 import { FoodServiceRepository } from '../../repositories/foodServiceRepository'; 
 import { SimulationRepository } from '../../repositories/simulationRepository';
 import { Simulation } from '../../domain/simulation';
@@ -19,6 +19,7 @@ import { DeliveryRule } from '../../domain/deliveryRule';
 import { CheckDeliveryViewModel } from '../../domain/checkDeliveryViewModel';
 import { CheckDeliveryResult } from '../../domain/checkDeliveryResult';
 import { CheckDeliveryResultItem } from '../../domain/CheckDeliveryResultItem';
+import { ObservacoesPedido } from '../components/partials/observacoesPedido';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
@@ -381,25 +382,38 @@ export class Pedido{
 	
 	generateOrder(){
 
-		this.isProcessing = true;
-				
+		var params = {Quote : this.selectedQuote};
+
+	/*	this.dialogService
+            .open({ viewModel: ObservacoesPedido,  lock: false, model : params })
+            .whenClosed(response => {
+*/ 
+				this.isProcessing = true;
+
+			/*	if (response.wasCancelled) {
+					this.isProcessing = false;
+                    return;
+				} */ 
 	
-		this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
-		this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
-		this.selectedResult.deliveryDate =  this.viewModel.deliveryDate;
-				
-		this.orderRepository
-			.createOrder(this.selectedResult)
-			.then( (result : any) =>{   
-				this.nService.success('Pedido realizado!');
-				this.router.navigateToRoute('pedidosFoodService');
-				this.isProcessing = false;
-				this.orderWasGenerated = true;
-			}).catch( e => {
+				this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
+				this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
+				this.selectedResult.deliveryDate =  this.viewModel.deliveryDate;
+			//	this.selectedResult.observation =  this.selectedQuote.observation;
 						
-				this.isProcessing = false;
-				this.nService.error(e);
-			}); 
+				this.orderRepository
+					.createOrder(this.selectedResult)
+					.then( (result : any) =>{   
+						this.nService.success('Pedido realizado!');
+						this.router.navigateToRoute('pedidosFoodService');
+						this.isProcessing = false;
+						this.orderWasGenerated = true;
+					}).catch( e => {
+								
+						this.isProcessing = false;
+						this.nService.error(e);
+					});  
+	// 	}); 
+
 	}
 
 	changeSelectedCotacao(result : SimulationResult){

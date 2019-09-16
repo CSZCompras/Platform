@@ -178,6 +178,11 @@ export class FoodServiceRepository {
     }
 
     addBuyList(buyList : BuyList) : Promise<BuyList>{
+
+        if(buyList.productClass.categories != null){
+            buyList.productClass.categories = [];
+        }
+
         return this.api
             .post('buyList', buyList)
             .then( (result : Promise<BuyList>) => {                 

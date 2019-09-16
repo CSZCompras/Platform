@@ -46,27 +46,36 @@ export class AtualizacaoDePrecos{
 
     attached(){
 
-        this.loadData(); 
+        this.loadData(true); 
 
         this.ea.subscribe('productAdded', (product : SupplierProduct) =>{
             
             (<any>product).isNew = true;
-            this.supplierProducts.push(product);                       
+            this.supplierProducts.push(product);   
+            this.isLoading = true;                    
             this.supplierProducts = this.supplierProducts.sort( (a : SupplierProduct, b : SupplierProduct) => 0 - (a.product.name > b.product.name ? -1 : 1));
-            this.loadData().then( () => this.search());
+            this.loadData(false).then( () => this.search());
         }) 
     }
 
-    loadData() : Promise<any>{    
+    loadData(loadProducts : boolean) : Promise<any>{    
 
      return    this.productRepository
                .getClassesByOfferedProducts()
                .then( (data : ProductClass[]) => { 
                    debugger;
                    this.classes = data;
-                   this.selectedCategory = data[0].categories[0];
+
+                   if(this.selectedCategory == null){
+                        this.selectedCategory = data[0].categories[0];
+                   }
                    this.ea.publish('atualizacaoDePrecosLoaded');
-                   this.loadProducts();
+                   if(loadProducts){
+                        this.loadProducts();
+                   }
+                   else{
+                       this.isLoading = false;
+                   }
                }).catch( e => {
                    this.nService.presentError(e);
                });
@@ -206,7 +215,7 @@ export class AtualizacaoDePrecos{
             .uploadFile(formData) 
             .then( (result : SupplierProductFile) =>{                    
                 
-                this.loadData();
+                this.loadData(true);
 
                 if(result.rows != null && result.rows.length > 0){
                     var hasErrors = result.rows.filter( (x : SupplierProductFileRow) => x.status == 1).length > 0

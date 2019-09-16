@@ -26,6 +26,7 @@ export class ProdutosSelecionados{
     filter              : string;
     isCreatingList      : boolean;
     newListName         : string;
+    allLists            : BuyList[];
     lists               : BuyList[];
     isProcessing        : boolean;
 
@@ -91,6 +92,8 @@ export class ProdutosSelecionados{
 
     updateCategories(){
         this.selectedCategory = this.selectedClass.categories[0];
+        this.defineCurrentLists();
+        this.defineProductsInList();
         this.search();
     }
 
@@ -136,21 +139,30 @@ export class ProdutosSelecionados{
             .then( (data : FoodServiceProduct[]) => { 
 
                 this.allProducts = data; 
-                                
-                this.repository
-                    .getLists()
-                    .then( (data : BuyList[]) => { 
-
-                        this.lists = data; 
-                        this.defineProductsInList();
-                        this.search();
-                    }).catch( e => {
-                        this.nService.presentError(e);
-                    });
-
+                this.loadBuyLists();
             }).catch( e => {
                 this.nService.presentError(e);
             });
+    }
+
+    loadBuyLists(){
+                                
+        this.repository
+            .getLists()
+            .then( (data : BuyList[]) => { 
+
+                this.allLists = data; 
+                this.defineCurrentLists();
+                this.defineProductsInList();
+                this.search();
+            }).catch( e => {
+                this.nService.presentError(e);
+            });
+    }
+
+    defineCurrentLists(){
+
+        this.lists = this.allLists.filter( (x : BuyList) => x.productClass.id == this.selectedClass.id);
     }
 
     defineProductsInList(){
@@ -160,7 +172,7 @@ export class ProdutosSelecionados{
             y.products.forEach( (z : BuyListProduct) => {
                 
                 if(z.foodServiceProduct != null){
-                    y[z.foodServiceProduct.product.name + '_' + z.foodServiceProduct.product.unit.name] =  z.isInList;
+                    y[z.foodServiceProduct.product.name + '_' + z.foodServiceProduct.product.unit.name + '_' + z.foodServiceProduct.product.description] =  z.isInList;
                 }
                 
             });
@@ -252,7 +264,7 @@ export class ProdutosSelecionados{
     changeList(list : BuyList, product : FoodServiceProduct){
 
         var viewModel = new AlterBuyListProductViewModel();
-        viewModel.isInList = list[product.product.name + '_' + product.product.unit.name];
+        viewModel.isInList = list[product.product.name + '_' + product.product.unit.name + '_' + product.product.description];
         viewModel.foodServiceProductId = product.productId;
         viewModel.buyListId = list.id;
  

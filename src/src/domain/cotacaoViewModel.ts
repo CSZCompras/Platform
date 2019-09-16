@@ -10,4 +10,5 @@ export class CotacaoViewModel{
     products                : ProductViewModel[];
     suppliers               : SupplierViewModel[];
     blackListSupplier       : SupplierViewModel;
+    observation             : string;
 }
