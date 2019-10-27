@@ -5,7 +5,7 @@ export class SimulationResult{
 
     id                      : string;
     items                   : SimulationResultItem[];
-    simulationSummaryItem   : SimulationSummaryItem[];
+    summaryItems            : SimulationSummaryItem[];
     isValid                 : boolean;
     total                   : number;
     logMessages             : string;

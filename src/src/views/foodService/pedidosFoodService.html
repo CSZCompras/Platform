@@ -165,7 +165,13 @@
                                           </tbody>
                                        </table>
                                     </div> 
-                                              </div> 
+                                    <div class="mt-5" if.bind="selectedOrder.observation != null && selectedOrder.observation.length > 0">
+                                       <h4>Observações</h4>                                      
+                                       <div class="form-group mx-auto">      
+                                           <textarea class="form-control disabled" disabled value.bind="selectedOrder.observation" disable rows="2" ></textarea>
+                                       </div>
+                                    </div>
+                                 </div> 
                            </div>
                            <div class="text-center mt-3"> 
                               <button type="button" class="btn btn-secondary   waves-effect waves-light" click.trigger="showdDetails = false">

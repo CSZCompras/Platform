@@ -169,6 +169,14 @@
                                                           <span class="badge badge-warning">Selecione uma das cotações abaixo</span>
                                                       </div>
                                                   </div>
+                                                  <div class="mt-4" if.bind="! isProcessing && simulation == null">
+                                                    <p class="mt-3">Mínimo de compras não atingido, aumente suas compras. Mínimo de compras de cada fornecedor:</p>
+                                                    <p class="mt-3" repeat.for="supplier of selectedQuote.suppliers">
+                                                        <span class="badge badge-success">
+                                                            <i class="fa fa-tag mr-2"></i> ${supplier.name} : R$ ${supplier.minimumOrderValue | money}
+                                                        </span>
+                                                    </p>
+                                                  </div>
                                                   <div class="mt-4" if.bind="! isProcessing" repeat.for="result of simulation.betterResults">
                                                       <div class="card-header ml-0" role="tab" id="result${result.id}">
                                                           <h5 class="mb-0">
@@ -404,10 +412,15 @@
                                                           </td>
                                                           <td class="text-right">
                                                               <strong>${summary.total  | money}</strong>
-                                                          </td>
+                                                          </td> 
                                                       </tr>
                                                   </tbody>
-                                              </table>
+                                              </table>   
+                                                <p class="mt-5">Deseja acrescentar alguma observação ao pedido?</p>                                          
+                                                <div class="form-group mx-auto">      
+                                                    <textarea class="form-control" value.bind="summary.observation " rows="2" keypress.delegate="validateLengthObs(summary)"></textarea>
+                                                </div>
+                                                <p>${250 - summary.observation.length} caractere(s) restantes</p>
                                           </div>
                                       </div>
                                       <ul class="pager wizard mt-5">

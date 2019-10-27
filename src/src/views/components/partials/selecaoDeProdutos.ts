@@ -52,8 +52,14 @@ export class SelecaoDeProdutos{
             .getAllClasses()
             .then( (data : ProductClass[]) => { 
                 this.classes = data; 
-                this.selectedClass = data[0];
-                this.selectedCategory = data[0].categories[0];
+                if(data.length > 0){
+                    this.selectedClass = data[0];
+                    
+                    if(data[0].categories.length > 0){
+                        this.selectedCategory = data[0].categories[0];
+                    }
+                }
+                
                 this.loadProducts();
                 this.ea.publish('selecaoDeProdutosLoaded'); 
                 this.isLoaded = true; 

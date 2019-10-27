@@ -107,6 +107,10 @@ export class ProdutosSelecionados{
 
                             data.forEach(x =>{
 
+                                if(x.categories == null ){
+                                    x.categories = [];
+                                }
+
                                 var novo = new ProductCategory();
                                 novo.id = '-2';
                                 novo.name = "Todos";
@@ -120,8 +124,14 @@ export class ProdutosSelecionados{
                                 this.selectedCategory = novo; 
                             });
                             
-                            this.selectedClass = data[0];
-                            this.selectedCategory = this.selectedClass.categories[0];
+                            if(data.length > 0){
+                                
+                                this.selectedClass = data[0];
+
+                                if(data[0].categories.length > 0){
+                                    this.selectedCategory = this.selectedClass.categories[0];
+                                }
+                            }
                             
                             this.loadProducts();
 

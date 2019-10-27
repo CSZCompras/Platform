@@ -217,7 +217,7 @@ export class App {
 
 	loadData(){ 
 
-	/*	this.loadOrdersValues(OrderPeriod.ThisYear);
+		this.loadOrdersValues(OrderPeriod.ThisYear);
 
 		this.loadMainClients(OrderPeriod.ThisYear);
 
@@ -253,7 +253,7 @@ export class App {
 			.catch(e => {
 				this.nService.error(e);
 				this.isLoadingNumberOfOrders = false;
-			}); */
+			});  
 	}
 
 	loadOrdersValues(period : OrderPeriod){  

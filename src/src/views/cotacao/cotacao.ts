@@ -23,6 +23,7 @@ import { ObservacoesPedido } from '../components/partials/observacoesPedido';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
+import { SimulationSummaryItem } from '../../domain/simulationSummaryItem';
 
 @autoinject
 export class Pedido{
@@ -163,6 +164,7 @@ export class Pedido{
 
 		this.input.supplierBlackList = this.supplierBlackList;
 
+		this.selectedResult = null;
         this.simulationRepository
             .simulate(this.input)
             .then(  x => { 
@@ -173,6 +175,7 @@ export class Pedido{
 				this.ea.publish('dataLoaded');
             })
             .catch( e => {
+				this.simulation = null;
                 this.nService.presentError(e);
 				this.isProcessing = false;
 				this.ea.publish('dataLoaded');
@@ -421,5 +424,13 @@ export class Pedido{
 		this.simulation.betterResults.forEach(x => x != result ? x.isSelected = false : x.isSelected = true );
 		this.selectedResult = result;
 
+	}
+
+	validateLengthObs(summary : SimulationSummaryItem){
+
+		if(summary.observation != null && summary.observation.length >= 250){
+			summary.observation = summary.observation.substr(0, 249);
+		}
+		return true;
 	}
 }

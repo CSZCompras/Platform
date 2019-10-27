@@ -8,4 +8,5 @@ export class SimulationSummaryItem{
     rule                : MarketRule;
     products            : string;
     total               : number;
+	observation         : string;
 }
