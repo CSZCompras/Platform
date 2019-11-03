@@ -1,25 +1,13 @@
-import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
-import { PLATFORM } from 'aurelia-pal';
-import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
-import { autoinject } from 'aurelia-dependency-injection'; 
-import { Config, Rest } from 'aurelia-api'; 
-
 import 'jquery-visible';
 import 'popper.js';
 import 'bootstrap';
 import 'velocity-animate';
-/* import 'malihu-custom-scrollbar-plugin';*/ 
-import { Identity } from '../domain/identity';
+import { Router  } from 'aurelia-router'; 
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { autoinject } from 'aurelia-dependency-injection';  
 import { IdentityService } from '../services/identityService';
 import { ScriptRunner } from '../services/scriptRunner';
-import { FoodServiceConnectionViewModel } from '../domain/foodServiceViewModel';
-import { UserType } from '../domain/userType';
-import { Notification } from '../domain/notification';
-import { FoodServiceConnectionRepository } from '../repositories/foodServiceConnectionRepository';
 import { NotificationService } from '../services/notificationService';
-import { NotificationRepository } from '../repositories/notificationRepository';
-import { OrderRepository } from '../repositories/orderRepository';
-import { MessageService } from '../services/messageService';
 import { Aurelia } from 'aurelia-framework';
 import { LoginRepository } from '../repositories/loginRepository';
 import { UserRepository } from '../repositories/userRepository';
@@ -35,19 +23,12 @@ export class Welcome{
     wasCreated                              : boolean;
     isLoading                               : boolean;
     
-    constructor(
-        private router                      : Router, 
-        private aurelia                     : Aurelia, 
-        private validationControllerFactory : ValidationControllerFactory,
-        private loginRepository             : LoginRepository, 
+    constructor( 
+        private validationControllerFactory : ValidationControllerFactory, 
         private userRepository              : UserRepository,
-        private notification                : NotificationService,
-        private service                     : IdentityService, 
-        private ea                          : EventAggregator ,
-        private nService                    : NotificationService ) { 
+        private notification                : NotificationService ) { 
 
-        this.user = new WelcomeUser();
-        this.user.selectedType = "0";
+        this.user = new WelcomeUser(); 
         this.wasCreated = false;
         this.isLoading = false;
 

@@ -114,6 +114,7 @@ export class Login {
                     
                     
                     this.processing = false;   
+                    this.nService.presentSuccess('Seu cadastro foi criado com sucesso!')
                     this.router.navigateToRoute('login');
                     
                 }).catch( e => {

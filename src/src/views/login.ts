@@ -31,12 +31,11 @@ export class Login {
 
      
     constructor(
-        private router: Router, 
-        private aurelia: Aurelia, 
-        private loginRepository: LoginRepository, 
-        private service : IdentityService, 
-        private ea : EventAggregator ,
-        private nService : NotificationService ) {
+        private router          : Router, 
+        private loginRepository : LoginRepository, 
+        private service         : IdentityService, 
+        private ea              : EventAggregator ,
+        private nService        : NotificationService ) {
     }
 
     doLogin() : void {

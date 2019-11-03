@@ -1,23 +1,22 @@
-import { SupplierValidator } from '../validators/supplierValidator';
-import { CustomValidationRenderer } from '../services/customValidationRenderer';
-import { inject, NewInstance} from 'aurelia-framework';
-import { ConsultaCepResult } from '../domain/consultaCepResult';
-import { ConsultaCEPService } from '../services/consultaCEPService';
-import { StateRegistrationRepository } from '../repositories/stateRegistrationRepository';
-import { StateRegistration } from '../domain/stateRegistration';
-import { NotificationService } from '../services/notificationService';
-import { Supplier } from '../domain/supplier';
-import { Identity } from '../domain/identity';
-import { IdentityService } from '../services/identityService';
-import { SupplierRepository } from '../repositories/supplierRepository';
-import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
+import { SupplierValidator } from '../../validators/supplierValidator'; 
+import { ConsultaCepResult } from '../../domain/consultaCepResult';
+import { ConsultaCEPService } from '../../services/consultaCEPService';
+import { StateRegistrationRepository } from '../../repositories/stateRegistrationRepository';
+import { StateRegistration } from '../../domain/stateRegistration';
+import { NotificationService } from '../../services/notificationService';
+import { Supplier } from '../../domain/supplier';
+import { Identity } from '../../domain/identity';
+import { IdentityService } from '../../services/identityService';
+import { SupplierRepository } from '../../repositories/supplierRepository';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router'; 
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { Address } from '../domain/address';
+import { Address } from '../../domain/address';
+import { ConsultaCNPJResult } from '../../domain/consultaCNPJResult';
+import { ConsultaCNPJService } from '../../services/consultaCNPJService';
 
 @autoinject
 export class Cadastro{
@@ -29,7 +28,7 @@ export class Cadastro{
 	totalSteps 				: number;
 	validator 				: SupplierValidator;
 	isLoading				: boolean;
-	
+	isCNPJLoading			: boolean;
  
     constructor(		
 		private router				: Router, 
@@ -38,6 +37,7 @@ export class Cadastro{
 		private service 			: IdentityService,
 		private nService 			: NotificationService,
 		private stateRepo			: StateRegistrationRepository, 
+		private consultaCNPJService	: ConsultaCNPJService,
 		private consultaCepService 	: ConsultaCEPService) {
 
 		this.currentStep = 1;
@@ -96,8 +96,7 @@ export class Cadastro{
 		this.loadData(); 
     } 
 
-	loadData() : void { 
-		var identity = this.service.getIdentity();
+	loadData() : void {  
 
 		var promisse1 = this.repository
 							.getSupplier()
@@ -127,6 +126,38 @@ export class Cadastro{
 							}); 
 
 		Promise.all([promisse1, promisse2]).then( () => this.ea.publish('dataLoaded'));
+	}
+
+	consultaCNPJ(){
+
+		if(this.supplier.cnpj.length >= 14){
+
+			this.isCNPJLoading = true;
+
+			debugger;
+
+			this.consultaCNPJService
+					.findCNPJ(this.supplier.cnpj)
+					.then( (result : ConsultaCNPJResult) => {
+
+						if(result != null){
+
+							this.supplier.fantasyName = result.fantasia;
+							this.supplier.address.cep = result.cep;
+							this.supplier.address.city = result.municipio;
+							this.supplier.address.neighborhood = result.bairro;
+							this.supplier.address.number = <any> result.numero;
+							this.supplier.address.logradouro = result.logradouro;
+							this.supplier.address.complement = result.complemento;
+							this.supplier.address.state = result.uf;
+							this.validator.validate();
+						}
+						this.isCNPJLoading = false;
+					}).catch( e => {
+						this.nService.presentError(e);
+						this.isCNPJLoading = false;
+					});
+		}
 	}
 
 	consultaCEP(){
@@ -176,7 +207,12 @@ export class Cadastro{
 
 			this.repository
 				.save(this.supplier)
-				.then( (identity : Identity) =>{         
+				.then( (supplier : Supplier) =>{
+
+					if(this.supplier.registerStatus != supplier.registerStatus){
+						this.ea.publish('registerStatusModified', supplier.registerStatus);
+						this.supplier.registerStatus = supplier.registerStatus;
+					}
 					this.nService.success('Cadastro realizado!')       
 					this.router.navigate('/#/cadastro');                
 					this.isLoading = false;            

@@ -70,7 +70,7 @@ export class IdentityService {
                 request: (request) => {
 
                     
-                    if(request.url.indexOf('viacep.com.br') == -1){
+                    if(request.url.indexOf('viacep.com.br') == -1 || request.url.indexOf('receitaws.com.br') == -1 ){
                     
                         if (IdentityService._identity) {
                             request.headers.set('authtoken', IdentityService._identity.token);

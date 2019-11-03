@@ -1,14 +1,14 @@
 <template> 
-	<require from="./components/attributes/cnpjMask"></require>
-	<require from="./components/attributes/cepMask"></require>
-   	<require from="./components/attributes/phoneWithDDDMask"></require>
-        <require from="./components/attributes/cellPhoneWithDDDMask"></require>        
-	<require from="./components/attributes/inscricaoEstadualMask"></require> 
-	<require from="./components/valueConverters/cnpjValueConverter"></require>
-	<require from="./components/valueConverters/cepValueConverter"></require>
-	<require from="./components/valueConverters/phoneWithDDDValueConverter"></require>
-	<require from="./components/valueConverters/cellPhoneWithDDDValueConverter"></require> 
-	<require from="./components/valueConverters/inscricaoEstadualValueConverter"></require>
+	<require from="../components/attributes/cnpjMask"></require>
+	<require from="../components/attributes/cepMask"></require>
+   	<require from="../components/attributes/phoneWithDDDMask"></require>
+        <require from="../components/attributes/cellPhoneWithDDDMask"></require>        
+	<require from="../components/attributes/inscricaoEstadualMask"></require> 
+	<require from="../components/valueConverters/cnpjValueConverter"></require>
+	<require from="../components/valueConverters/cepValueConverter"></require>
+	<require from="../components/valueConverters/phoneWithDDDValueConverter"></require>
+	<require from="../components/valueConverters/cellPhoneWithDDDValueConverter"></require> 
+	<require from="../components/valueConverters/inscricaoEstadualValueConverter"></require>
 
    <div class="row mb-5 au-animate">
       <div class="col-md-12">
@@ -52,22 +52,23 @@
                               <div class="row">
                                  <div class="col-md-6">
                                     <div class="form-group">
-                                       <label class="control-label">Razão Social *</label>
-                                       <input type="text" class="form-control disabled " disabled  value.bind="supplier.name"  />
+                                       <label class="control-label">Razão Social <span class="text-danger">*</span></label>
+                                       <input type="text" class="form-control"  value.bind="supplier.name"  />
                                     </div>
                                     <div class="form-group">
-                                       <label class="control-label">CNPJ *</label>
-                                       <input type="text" class="form-control  disabled" disabled cnpj value.bind="supplier.cnpj | cnpj  " />
+                                       <label class="control-label">CNPJ <span class="text-danger">*</span></label>
+                                       <span class="ml-2 fa-1x text-center" if.bind="isCNPJLoading"><i class="fa fa-refresh fa-spin"></i></span>
+                                       <input type="text" class="form-control" cnpj value.bind="supplier.cnpj | cnpj  " change.delegate="consultaCNPJ()"/>
                                     </div>
                                  </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
-                                       <label class="control-label">Nome Fantasia *</label>
-                                       <input type="text" class="form-control  disabled" disabled value.bind="supplier.fantasyName" />
+                                       <label class="control-label">Nome Fantasia <span class="text-danger">*</span></label>
+                                       <input type="text" class="form-control" value.bind="supplier.fantasyName" />
                                     </div>
                                     <div class="form-group">
-                                       <label class="control-label">Inscrição Estadual *</label> 
-                                       <input type="text" class="form-control  disabled" disabled inscricaoEstadual  value.bind="supplier.inscricaoEstadual | inscricaoEstadual" />
+                                       <label class="control-label">Inscrição Estadual <span class="text-danger">*</span></label> 
+                                       <input type="text" class="form-control" inscricaoEstadual  value.bind="supplier.inscricaoEstadual | inscricaoEstadual" />
                                     </div>
                                  </div>
                               </div>

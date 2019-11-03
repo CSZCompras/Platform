@@ -122,7 +122,7 @@ export class SupplierRepository {
             });
     }
 
-    save(supplier : Supplier) : Promise<any> {
+    save(supplier : Supplier) : Promise<Supplier> {
         
         return this.api
             .post('supplier', supplier)

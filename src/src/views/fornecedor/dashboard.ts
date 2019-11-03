@@ -22,6 +22,8 @@ import { OrderPeriod } from '../../domain/analytics/orderPeriod';
 import { Order } from '../../domain/order';
 import { EvaluationRepository } from '../../repositories/evaluationRepository';
 import { Evaluation } from '../../domain/evaluation';
+import { Identity } from '../../domain/identity';
+import { RegisterStatus } from '../../domain/registerStatus';
 
 @autoinject
 export class App {
@@ -38,6 +40,7 @@ export class App {
 	clientesChart				: Chart;
 	produtosChart				: Chart;
 	evaluations                 : Evaluation[];
+	identity					: Identity;
 
 	constructor(
 			private aurelia			: Aurelia, 
@@ -51,14 +54,16 @@ export class App {
 		this.api = this.config.getEndpoint('csz'); 
 		this.isLoadingNumberOfCustomers = true;
 		this.isLoadingNumberOfOrders = true;
+		this.identity = this.service.getIdentity();
 		this.period = OrderPeriod.ThisYear;
     }
 
 	  
    	attached(): void { 
 
-
-		this.loadData();
+		if(this.identity.registerStatus == RegisterStatus.Valid){
+			this.loadData();
+		} 
 		/* ScriptRunner.runScript();*/  
 
 	}

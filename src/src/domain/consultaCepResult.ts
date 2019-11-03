@@ -1,10 +1,9 @@
-import { Completer } from 'readline';
 
 export class ConsultaCepResult {
-    cep : string;
-    logradouro : string;
+    cep         : string;
+    logradouro  : string;
     complemento : string;
-    bairro : string;
-    localidade : string;
-    uf : string;    
+    bairro      : string;
+    localidade  : string;
+    uf          : string;    
 }

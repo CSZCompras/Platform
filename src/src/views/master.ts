@@ -17,6 +17,7 @@ import 'jquery-visible';
 import 'popper.js';
 import 'bootstrap';
 import 'velocity-animate';
+import { RegisterStatus } from '../domain/registerStatus';
 
 @autoinject
 export class Master {
@@ -94,6 +95,14 @@ export class Master {
 		if(this.isLogged){
 			this.identity = this.service.getIdentity();
 		} 
+
+		this.ea.subscribe('registerStatusModified', (x : RegisterStatus) => {
+
+			if(this.identity != null){
+				this.identity.registerStatus = x;
+			}
+		});
+		
 		
 		if(this.isLogged){
 
@@ -305,11 +314,9 @@ export class Master {
 			{ route: 'login', name: 'login', moduleId: PLATFORM.moduleName('./login') },
 			{ route: 'dashboardAdmin', name: 'dashboardAdmin', moduleId: PLATFORM.moduleName('./admin/dashboard') },
 			{ route: 'dashboardFornecedor', name: 'dashboardFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/dashboard') },
-			{ route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./cadastro') } ,
-
+			{ route: 'cadastro', name: 'cadastro', moduleId: PLATFORM.moduleName('./fornecedor/cadastro') } ,
 			{ route: 'produtos', name: 'produtos', moduleId: PLATFORM.moduleName('./fornecedor/produtos') } ,
 			{ route: 'regrasDeMercado', name: 'regrasDeMercado', moduleId: PLATFORM.moduleName('./fornecedor/regrasDeMercado') } ,
-			
 			{ route: 'dashboardFoodService', name: 'dashboardFoodService', moduleId: PLATFORM.moduleName('./foodService/dashboard') }, 
 			{ route: 'cadastroFoodService', name: 'cadastroFoodService', moduleId: PLATFORM.moduleName('./foodService/cadastro') },
 			{ route: 'regraDeEntrega', name: 'regraDeEntrega', moduleId: PLATFORM.moduleName('./foodService/regraDeEntrega') }, 
