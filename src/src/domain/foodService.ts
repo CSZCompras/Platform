@@ -4,6 +4,7 @@ import { StateRegistration } from './stateRegistration';
 import { Contact } from "./contact";
 import { FoodServiceSupplier } from './foodServiceSupplier';
 import { FoodServiceStatus } from './foodServiceStatus';
+import { RegisterStatus } from './registerStatus';
 
 export class FoodService{
 
@@ -17,6 +18,7 @@ export class FoodService{
     contact                 : Contact; 
     inscricaoEstadual       : string;
     status                  : FoodServiceStatus;
+    registerStatus          : RegisterStatus;
     foodServiceSuppliers    : FoodServiceSupplier[];
 
     constructor() {

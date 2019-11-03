@@ -153,8 +153,7 @@ export class Cadastro{
 							this.validator.validate();
 						}
 						this.isCNPJLoading = false;
-					}).catch( e => {
-						this.nService.presentError(e);
+					}).catch( e => { 
 						this.isCNPJLoading = false;
 					});
 		}
@@ -180,9 +179,8 @@ export class Cadastro{
 						this.supplier.address.state = result.uf;
 						this.validator.validate();
 					}
-				}).catch( e => 
-				{
-					this.nService.presentError(e);
+				}).catch( e => {
+
 				});
 		}
 	}
@@ -203,8 +201,10 @@ export class Cadastro{
 
 		if(errors.length == 0){
 
-			this.supplier.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.supplier.stateRegistration.id)[0];
-
+			if(this.supplier.stateRegistration.id != null){
+				this.supplier.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.supplier.stateRegistration.id)[0];
+			}
+			
 			this.repository
 				.save(this.supplier)
 				.then( (supplier : Supplier) =>{

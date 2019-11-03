@@ -1,6 +1,4 @@
 import { FoodServiceValidator } from '../../validators/foodServiceValidator';
-import { CustomValidationRenderer } from '../../services/customValidationRenderer';
-import { inject, NewInstance} from 'aurelia-framework';
 import { ConsultaCepResult } from '../../domain/consultaCepResult';
 import { ConsultaCEPService } from '../../services/consultaCEPService';
 import { StateRegistrationRepository } from '../../repositories/stateRegistrationRepository';
@@ -8,17 +6,17 @@ import { StateRegistration } from '../../domain/stateRegistration';
 import { NotificationService } from '../../services/notificationService';
 import { FoodServiceRepository } from '../../repositories/foodServiceRepository';
 import { Identity } from '../../domain/identity';
-import { IdentityService } from '../../services/identityService';
-import { SupplierRepository } from '../../repositories/supplierRepository';
+import { IdentityService } from '../../services/identityService'; 
 import { FoodService } from '../../domain/foodService';
-import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router'; 
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { Address } from '../../domain/address';
+import { Address } from '../../domain/address';	 
+import { ConsultaCNPJResult } from '../../domain/consultaCNPJResult';
+import { ConsultaCNPJService } from '../../services/consultaCNPJService';
 
 @autoinject
 export class Cadastro{
@@ -29,16 +27,18 @@ export class Cadastro{
 	currentStep 			: number;
 	totalSteps 				: number;
 	validator 				: FoodServiceValidator;
-	isLoading				: boolean;
+	isLoading				: boolean; 
+	isCNPJLoading			: boolean;
  
     constructor(		
-		private router: Router, 
-		private repository : FoodServiceRepository, 
-		private service : IdentityService,
-		private ea : EventAggregator, 
-		private nService : NotificationService,
-		private stateRepo: StateRegistrationRepository, 
-		private consultaCepService : ConsultaCEPService) {
+		private router				: Router, 
+		private repository 			: FoodServiceRepository, 
+		private service 			: IdentityService,
+		private ea 					: EventAggregator, 
+		private nService 			: NotificationService,
+		private stateRepo			: StateRegistrationRepository, 
+		private consultaCNPJService	: ConsultaCNPJService,
+		private consultaCepService 	: ConsultaCEPService) {
 
 		this.currentStep = 1;
 		this.totalSteps = 3;		
@@ -48,9 +48,7 @@ export class Cadastro{
 
 	runScript() : void{
 
-		var thisForm = '#rootwizard-1';
-
-		var outher = this;
+		var thisForm = '#rootwizard-1'; 
 
 		if( $(thisForm).length) {
 
@@ -132,6 +130,37 @@ export class Cadastro{
 		Promise.all([promisse0, promisse1]).then( () => this.ea.publish('dataLoaded') );
 	}
 
+	consultaCNPJ(){
+
+		if(this.foodService.cnpj.length >= 14){
+
+			this.isCNPJLoading = true;
+
+			debugger;
+
+			this.consultaCNPJService
+					.findCNPJ(this.foodService.cnpj)
+					.then( (result : ConsultaCNPJResult) => {
+
+						if(result != null){
+
+							this.foodService.fantasyName = result.fantasia;
+							this.foodService.address.cep = result.cep;
+							this.foodService.address.city = result.municipio;
+							this.foodService.address.neighborhood = result.bairro;
+							this.foodService.address.number = <any> result.numero;
+							this.foodService.address.logradouro = result.logradouro;
+							this.foodService.address.complement = result.complemento;
+							this.foodService.address.state = result.uf;
+							this.validator.validate();
+						}
+						this.isCNPJLoading = false;
+					}).catch( e => {
+						this.isCNPJLoading = false;
+					});
+		}
+	}
+
 	consultaCEP(){
 
 		this.validator.addressValidator.validateCep();
@@ -152,9 +181,8 @@ export class Cadastro{
 						this.foodService.address.state = result.uf;
 						this.validator.validate();
 					}
-				}).catch( e => 
-				{
-					this.nService.presentError(e);
+				}).catch( e =>{
+					
 				});
 		}
 	}
@@ -175,11 +203,18 @@ export class Cadastro{
 
 		if(errors.length == 0){
 
-			this.foodService.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.foodService.stateRegistration.id)[0];
-
+			if(this.foodService.stateRegistration.id != null){
+				this.foodService.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.foodService.stateRegistration.id)[0];
+			}
+			
 			this.repository
 				.save(this.foodService)
-				.then( (identity : Identity) =>{         
+				.then( (foodService : FoodService) =>{
+					
+					if(this.foodService.registerStatus != foodService.registerStatus){
+						this.ea.publish('registerStatusModified', foodService.registerStatus);
+						this.foodService.registerStatus = foodService.registerStatus;
+					}
 					
 					this.nService.success('Cadastro realizado!')       
 					this.router.navigate('/#/cadastroFoodService');                

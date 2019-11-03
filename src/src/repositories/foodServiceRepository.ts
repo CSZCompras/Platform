@@ -69,7 +69,7 @@ export class FoodServiceRepository {
             });
     }
 
-    save(foodService : FoodService) : Promise<any> {
+    save(foodService : FoodService) : Promise<FoodService> {
         
         return this.api
             .post('foodService', foodService)
