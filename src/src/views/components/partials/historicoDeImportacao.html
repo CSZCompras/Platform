@@ -26,6 +26,7 @@
                            <th>Categoria</th>
                            <th>UM</th>
                            <th>Marca</th>
+                           <th>Cod. Cliente</th>
                            <th class="text-center">Preço Antigo</th>
                            <th class="text-center">Novo Preço</th>                           
                            <th>Status</th>
@@ -40,6 +41,7 @@
                            <td>${row.supplierProduct.product.category.name}</td>
                            <td>${row.supplierProduct.product.unit.name}</td>
                            <td>${row.supplierProduct.product.brand.name}</td>
+                           <td>${row.supplierProduct.clientCode}</td>
                            <td class="text-center">${row.oldPrice.toFixed(2)}</td>
                            <td class="text-center">${row.newPrice.toFixed(2)}</td>
                            <td>       

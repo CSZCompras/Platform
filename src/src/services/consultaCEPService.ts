@@ -15,7 +15,7 @@ export class ConsultaCEPService {
 
     findCEP(cep : string) : Promise<ConsultaCepResult>{
         
-         var url = 'https://viacep.com.br/ws/'+ cep +'/json';
+         var url = 'https://cors-anywhere.herokuapp.com/https://viacep.com.br/ws/'+ cep +'/json';
 
          this.httpClient.configure(config => config.withBaseUrl(url));
 

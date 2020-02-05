@@ -23,6 +23,7 @@
                            <th>Categoria</th>
                            <th>UM</th>
                            <th>Marca</th>
+                           <th>Cod. Cliente</th>
                            <th class="text-center">Preço</th>
                         </tr>
                      </thead>
@@ -33,7 +34,8 @@
                            <td>${item.product.product.category.productClass.name}</td>
                            <td>${item.product.product.category.name}</td>
                            <td>${item.product.product.unit.name}</td>
-                           <td>${item.product.product.brand.name}</td>                           
+                           <td>${item.product.product.brand.name}</td>  
+                           <td>${item.clientCode}</td>                           
                            <td class="text-center">${item.price.toFixed(2)}</td>
                         </tr>
                      </tbody>

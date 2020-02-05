@@ -3,7 +3,7 @@
   <require from="../components/valueConverters/moneyValueConverter"></require>
   <require from="../components/valueConverters/dateFormatValueConverter"></require>
   <div class="row mb-5 au-animate">
-     <div class="col-md-12" if.bind="identity.registerStatus == RegisterStatus.Valid">
+     <div class="col-md-12" if.bind="identity.registerStatus == 0">
         <div class="row">
            <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
               <div class="card card-tile card-xs bg-primary bg-gradient text-center">
@@ -202,7 +202,7 @@
               </div> -->
         </div>
      </div>
-     <div class="col-md-12" if.bind="identity.registerStatus != RegisterStatus.Valid">
+     <div class="col-md-12" if.bind="identity.registerStatus != 0">
          <div class="card">
              <div class="card-body">
                   <h2 class="text-center">Estamos quase la!</h2>        

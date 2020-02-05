@@ -30,7 +30,6 @@ export class AtualizacaoDePrecos{
     isLoading           : boolean;
 
     constructor(		
-        private router              : Router, 
 		private service             : IdentityService,
 		private nService            : NotificationService, 
         private ea                  : EventAggregator ,

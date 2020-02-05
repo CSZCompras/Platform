@@ -141,7 +141,7 @@
                                                                             <span class="font-bold" if.bind="product.suppliers == null || product.suppliers.length == 0">Não há fornecedores cadastrados que oferecem esse produto</span>
                                                                           </td>
                                                                           <td class="text-center">
-                                                                              <div class="col-md-8 mx-auto">
+                                                                              <div class="col-md-12 mx-auto">
                                                                                   <input type="text" class="money text-right  form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }" autocomplete="off" value.bind="product.quantity | money" money placeholder="000" disabled.bind="product.suppliers == null || product.suppliers.length == 0" />
                                                                               </div>
                                                                           </td>

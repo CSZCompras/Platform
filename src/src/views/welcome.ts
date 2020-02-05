@@ -76,14 +76,14 @@ export class Welcome{
                             })
                             .catch( e => {
                                 this.isLoading = false;
-                                this.notification.presentError(e); 
+                                this.notification.error(e); 
                             });
                     }
                     else {
                         this.isLoading = false;
                         this.notification.error('Erros de validação foram encontrados');
                     }
-                });      
+                })    
     }
 
 }

@@ -45,6 +45,7 @@
                   <table class="table table-hover mt-2" if.bind="! isLoading">
                      <thead>
                         <tr>
+                           <th class="text-center">Cod. Cliente</th>
                            <th>Nome</th>
                            <th>Descrição</th>
                            <th>Categoria</th>
@@ -57,6 +58,11 @@
                      </thead>
                      <tbody>
                         <tr repeat.for="supplierProduct of filteredProducts">
+                           <td>
+                                 <div class="col-md-6 mx-auto">
+                                    <input type="text" class="text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.clientCode" />
+                                 </div>
+                           </td>
                            <td>
                                  ${supplierProduct.product.name}
                                  <span if.bind="supplierProduct.isNew" class="badge badge-warning">Novo!</span>                                

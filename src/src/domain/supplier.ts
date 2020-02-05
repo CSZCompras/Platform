@@ -20,6 +20,7 @@ export class Supplier {
     foodServiceSuppliers    : FoodServiceSupplier[];
     status                  : SupplierStatus;
     registerStatus          : RegisterStatus;
+    fee                     : Number;
 
     constructor() {
          

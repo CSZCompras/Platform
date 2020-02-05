@@ -7,4 +7,5 @@ export class OrderItem{
     quantity        : number;
     price           : number;
     total           : number;
+    clientCode      : string;
 }

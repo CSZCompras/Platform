@@ -172,14 +172,15 @@ export class ProductRepository{
             var viewModel = {
                 id : x.id,
                 status : x.status,            
-                price :  x.price
+                price :  x.price,
+                clientCode : x.clientCode
             }; 
 
             list.push(viewModel);
         })
 
         return this.api 
-            .post('AlterSuplierProduct', list)
+            .post('alterSuplierProduct', list)
             .then( (result : Promise<any>) => {    
                 if(result == null)             
                     return Promise.resolve();

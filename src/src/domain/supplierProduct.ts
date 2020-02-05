@@ -9,5 +9,6 @@ export class SupplierProduct{
     supplier    : Supplier;
     product     : Product;
     price       : number;
+    clientCode  : string;
     status      : SupplierProductStatus;
 }

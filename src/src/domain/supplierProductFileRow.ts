@@ -11,4 +11,5 @@ export class SupplierProductFileRow {
     newPrice : number;
     lineContent : string;
     lineNumber : number;
+    clientCode  : string;
 }

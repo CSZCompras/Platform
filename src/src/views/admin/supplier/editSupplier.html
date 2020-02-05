@@ -2,10 +2,14 @@
     <require from="../../components/valueConverters/phoneWithDDDValueConverter"></require> 
     <require from="../../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
 	<require from="../../components/valueConverters/cnpjValueConverter"></require>
-	<require from="../../components/valueConverters/cepValueConverter"></require>
+   <require from="../../components/valueConverters/cepValueConverter"></require>
+   <require from="../../components/valueConverters/moneyValueConverter"></require>
+   <require from="../../components/valueConverters/numberValueConverter"></require>
 	<require from="../../components/valueConverters/inscricaoEstadualValueConverter"></require>
-    <require from="../../components/attributes/cnpjMask"></require>
-    <require from="../../components/attributes/cepMask"></require>
+   <require from="../../components/attributes/cnpjMask"></require>
+   <require from="../../components/attributes/cepMask"></require>
+   <require from="../../components/attributes/numberMask"></require>
+   <require from="../../components/attributes/moneyMask"></require>
     <require from="../../components/attributes/inscricaoEstadualMask"></require>
 
 <div class="row mb-5 task-manager au-animate">
@@ -141,7 +145,16 @@
                              </div>
                           </div>
                        </div>
-                    </div>    
+                    </div>                                                                                                                                                             
+                    <h4 class="mt-4" if.bind="edit">Financeiro</h4>       
+                    <div class="row"  if.bind="edit">
+                        <div class="col-md-2">
+                           <div class="form-group">
+                              <label class="control-label">Valor de comissão (%)</label>
+                              <input type="text" class="form-control " cep value.bind="supplier.fee | money" money disabled.bind="! edit"  />
+                           </div>
+                        </div>
+                     </div>  
                     <h4 class="mt-4"  if.bind="edit" >Usuários</h4>       
                     <span class="badge badge-warning mt-2 mb-2" if.bind="supplier.status != 0 && edit">Para poder criar usuários faça a ativação do cadastro</span>                      
                     <div class="tab-pane" if.bind="supplier.status != 2 && edit">

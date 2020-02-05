@@ -14,14 +14,11 @@ export class ConsultaCNPJService {
 
     findCNPJ(cnpj : string) : Promise<ConsultaCNPJResult>{
         
-         var url = 'https://www.receitaws.com.br/v1/cnpj/'+ cnpj ;
+         var url = 'https://cors-anywhere.herokuapp.com/https://www.receitaws.com.br/v1/cnpj/'+ cnpj ;
 
          this.httpClient.configure(config => 
             config
                 .withBaseUrl(url)
-                .withDefaults({ 
-                    mode: 'no-cors',
-                })
         );
          
          return <any> 

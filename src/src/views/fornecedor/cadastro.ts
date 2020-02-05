@@ -141,9 +141,10 @@ export class Cadastro{
 					.then( (result : ConsultaCNPJResult) => {
 
 						if(result != null){
-
+							
+							this.supplier.name = result.nome;
 							this.supplier.fantasyName = result.fantasia;
-							this.supplier.address.cep = result.cep;
+							this.supplier.address.cep = result.cep.split(".").join("").replace("-","");
 							this.supplier.address.city = result.municipio;
 							this.supplier.address.neighborhood = result.bairro;
 							this.supplier.address.number = <any> result.numero;
@@ -204,7 +205,7 @@ export class Cadastro{
 			if(this.supplier.stateRegistration.id != null){
 				this.supplier.stateRegistration = this.stateRegistrations.filter( (x : StateRegistration) => x.id == this.supplier.stateRegistration.id)[0];
 			}
-			
+
 			this.repository
 				.save(this.supplier)
 				.then( (supplier : Supplier) =>{
