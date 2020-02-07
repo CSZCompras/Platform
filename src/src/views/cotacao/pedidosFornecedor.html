@@ -139,8 +139,8 @@
                                         <table class="table  table-hover table-responsive">
                                            <thead>
                                               <tr>
+                                                <th class="text-center">Cod. Produto</th>
                                                  <th class="text-left">Nome do Produto</th>
-                                                 <th class="text-center">Cod. Cliente</th>
                                                  <th>Descrição</th>
                                                  <th>Categoria</th>
                                                  <th>UM</th>
@@ -152,8 +152,8 @@
                                            </thead>
                                            <tbody>
                                               <tr repeat.for="item of selectedOrder.items">
-                                                 <td>${item.product.name}</td>
                                                  <td class="text-center">${item.clientCode}</td>
+                                                 <td>${item.product.name}</td>
                                                  <td>${item.product.description}</td>
                                                  <td>${item.product.category.name}</td>
                                                  <td>${item.product.unit.name}</td>
