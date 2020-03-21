@@ -2749,927 +2749,6 @@ define('views/formValidationRenderer',["require", "exports"], function (require,
 
 
 
-define('domain/invoice',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Invoice = (function () {
-        function Invoice() {
-        }
-        return Invoice;
-    }());
-    exports.Invoice = Invoice;
-});
-
-
-
-define('domain/confirmScheduleOrderViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ConfirmScheduleOrderViewModel = (function () {
-        function ConfirmScheduleOrderViewModel() {
-        }
-        return ConfirmScheduleOrderViewModel;
-    }());
-    exports.ConfirmScheduleOrderViewModel = ConfirmScheduleOrderViewModel;
-});
-
-
-
-define('domain/foodServiceProduct',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceProduct = (function () {
-        function FoodServiceProduct() {
-        }
-        return FoodServiceProduct;
-    }());
-    exports.FoodServiceProduct = FoodServiceProduct;
-});
-
-
-
-define('domain/productClass',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ProductClass = (function () {
-        function ProductClass() {
-        }
-        return ProductClass;
-    }());
-    exports.ProductClass = ProductClass;
-});
-
-
-
-define('domain/buyListProduct',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var BuyListProduct = (function () {
-        function BuyListProduct() {
-        }
-        return BuyListProduct;
-    }());
-    exports.BuyListProduct = BuyListProduct;
-});
-
-
-
-define('domain/state',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var State = (function () {
-        function State() {
-        }
-        return State;
-    }());
-    exports.State = State;
-});
-
-
-
-define('domain/contact',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Contact = (function () {
-        function Contact() {
-        }
-        return Contact;
-    }());
-    exports.Contact = Contact;
-});
-
-
-
-define('domain/credential',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Credential = (function () {
-        function Credential() {
-        }
-        return Credential;
-    }());
-    exports.Credential = Credential;
-});
-
-
-
-define('domain/stateRegistration',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var StateRegistration = (function () {
-        function StateRegistration() {
-        }
-        return StateRegistration;
-    }());
-    exports.StateRegistration = StateRegistration;
-});
-
-
-
-define('domain/identity',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Identity = (function () {
-        function Identity() {
-        }
-        return Identity;
-    }());
-    exports.Identity = Identity;
-});
-
-
-
-define('domain/brand',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Brand = (function () {
-        function Brand() {
-        }
-        return Brand;
-    }());
-    exports.Brand = Brand;
-});
-
-
-
-define('domain/invoiceStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var InvoiceStatus;
-    (function (InvoiceStatus) {
-        InvoiceStatus[InvoiceStatus["Created"] = 0] = "Created";
-        InvoiceStatus[InvoiceStatus["Paid"] = 1] = "Paid";
-        InvoiceStatus[InvoiceStatus["NotPaid"] = 2] = "NotPaid";
-    })(InvoiceStatus = exports.InvoiceStatus || (exports.InvoiceStatus = {}));
-});
-
-
-
-define('domain/consultaCNPJResult',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ConsultaCNPJResult = (function () {
-        function ConsultaCNPJResult() {
-        }
-        return ConsultaCNPJResult;
-    }());
-    exports.ConsultaCNPJResult = ConsultaCNPJResult;
-});
-
-
-
-define('domain/supplierProductFileRow',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierProductFileRow = (function () {
-        function SupplierProductFileRow() {
-        }
-        return SupplierProductFileRow;
-    }());
-    exports.SupplierProductFileRow = SupplierProductFileRow;
-});
-
-
-
-define('domain/orderItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var OrderItem = (function () {
-        function OrderItem() {
-        }
-        return OrderItem;
-    }());
-    exports.OrderItem = OrderItem;
-});
-
-
-
-define('domain/supplier',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Supplier = (function () {
-        function Supplier() {
-        }
-        return Supplier;
-    }());
-    exports.Supplier = Supplier;
-});
-
-
-
-define('domain/foodServiceSupplier',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceSupplier = (function () {
-        function FoodServiceSupplier() {
-        }
-        return FoodServiceSupplier;
-    }());
-    exports.FoodServiceSupplier = FoodServiceSupplier;
-});
-
-
-
-define('domain/priceList',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PriceList = (function () {
-        function PriceList() {
-        }
-        return PriceList;
-    }());
-    exports.PriceList = PriceList;
-});
-
-
-
-define('domain/foodService',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodService = (function () {
-        function FoodService() {
-        }
-        return FoodService;
-    }());
-    exports.FoodService = FoodService;
-});
-
-
-
-define('domain/supplierProductFile',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierProductFile = (function () {
-        function SupplierProductFile() {
-        }
-        return SupplierProductFile;
-    }());
-    exports.SupplierProductFile = SupplierProductFile;
-});
-
-
-
-define('domain/simulationItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationItem = (function () {
-        function SimulationItem() {
-        }
-        return SimulationItem;
-    }());
-    exports.SimulationItem = SimulationItem;
-});
-
-
-
-define('domain/product',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Product = (function () {
-        function Product() {
-        }
-        return Product;
-    }());
-    exports.Product = Product;
-});
-
-
-
-define('domain/simulationInputItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationInputItem = (function () {
-        function SimulationInputItem() {
-        }
-        return SimulationInputItem;
-    }());
-    exports.SimulationInputItem = SimulationInputItem;
-});
-
-
-
-define('domain/checkDeliveryResult',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CheckDeliveryResult = (function () {
-        function CheckDeliveryResult() {
-        }
-        return CheckDeliveryResult;
-    }());
-    exports.CheckDeliveryResult = CheckDeliveryResult;
-});
-
-
-
-define('domain/registerStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var RegisterStatus;
-    (function (RegisterStatus) {
-        RegisterStatus[RegisterStatus["Valid"] = 0] = "Valid";
-        RegisterStatus[RegisterStatus["Invalid"] = 1] = "Invalid";
-    })(RegisterStatus = exports.RegisterStatus || (exports.RegisterStatus = {}));
-});
-
-
-
-define('domain/consultaCepResult',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ConsultaCepResult = (function () {
-        function ConsultaCepResult() {
-        }
-        return ConsultaCepResult;
-    }());
-    exports.ConsultaCepResult = ConsultaCepResult;
-});
-
-
-
-define('domain/marketRule',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var MarketRule = (function () {
-        function MarketRule() {
-        }
-        return MarketRule;
-    }());
-    exports.MarketRule = MarketRule;
-});
-
-
-
-define('domain/simulationSummaryItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationSummaryItem = (function () {
-        function SimulationSummaryItem() {
-        }
-        return SimulationSummaryItem;
-    }());
-    exports.SimulationSummaryItem = SimulationSummaryItem;
-});
-
-
-
-define('domain/foodServiceStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceStatus;
-    (function (FoodServiceStatus) {
-        FoodServiceStatus[FoodServiceStatus["Active"] = 0] = "Active";
-        FoodServiceStatus[FoodServiceStatus["Inactive"] = 1] = "Inactive";
-        FoodServiceStatus[FoodServiceStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
-    })(FoodServiceStatus = exports.FoodServiceStatus || (exports.FoodServiceStatus = {}));
-});
-
-
-
-define('domain/simulationResultItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationResultItem = (function () {
-        function SimulationResultItem() {
-        }
-        return SimulationResultItem;
-    }());
-    exports.SimulationResultItem = SimulationResultItem;
-});
-
-
-
-define('domain/productViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ProductViewModel = (function () {
-        function ProductViewModel() {
-        }
-        return ProductViewModel;
-    }());
-    exports.ProductViewModel = ProductViewModel;
-});
-
-
-
-define('domain/supplierStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierStatus;
-    (function (SupplierStatus) {
-        SupplierStatus[SupplierStatus["Active"] = 0] = "Active";
-        SupplierStatus[SupplierStatus["Inactive"] = 1] = "Inactive";
-        SupplierStatus[SupplierStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
-    })(SupplierStatus = exports.SupplierStatus || (exports.SupplierStatus = {}));
-});
-
-
-
-define('domain/invoiceControl',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var InvoiceControl = (function () {
-        function InvoiceControl() {
-        }
-        return InvoiceControl;
-    }());
-    exports.InvoiceControl = InvoiceControl;
-});
-
-
-
-define('domain/foodServiceViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceConnectionViewModel = (function () {
-        function FoodServiceConnectionViewModel() {
-        }
-        return FoodServiceConnectionViewModel;
-    }());
-    exports.FoodServiceConnectionViewModel = FoodServiceConnectionViewModel;
-});
-
-
-
-define('domain/welcomeUser',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var WelcomeUser = (function () {
-        function WelcomeUser() {
-        }
-        return WelcomeUser;
-    }());
-    exports.WelcomeUser = WelcomeUser;
-});
-
-
-
-define('domain/cotacaoViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CotacaoViewModel = (function () {
-        function CotacaoViewModel() {
-        }
-        return CotacaoViewModel;
-    }());
-    exports.CotacaoViewModel = CotacaoViewModel;
-});
-
-
-
-define('domain/editSupplierStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EditSupplierStatus = (function () {
-        function EditSupplierStatus() {
-        }
-        return EditSupplierStatus;
-    }());
-    exports.EditSupplierStatus = EditSupplierStatus;
-});
-
-
-
-define('domain/order',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Order = (function () {
-        function Order() {
-        }
-        return Order;
-    }());
-    exports.Order = Order;
-});
-
-
-
-define('domain/simulationInput',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationInput = (function () {
-        function SimulationInput() {
-            this.items = [];
-        }
-        return SimulationInput;
-    }());
-    exports.SimulationInput = SimulationInput;
-});
-
-
-
-define('domain/priceListItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PriceListItem = (function () {
-        function PriceListItem() {
-        }
-        return PriceListItem;
-    }());
-    exports.PriceListItem = PriceListItem;
-});
-
-
-
-define('domain/evaluation',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Evaluation = (function () {
-        function Evaluation() {
-        }
-        return Evaluation;
-    }());
-    exports.Evaluation = Evaluation;
-});
-
-
-
-define('domain/notification',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Notification = (function () {
-        function Notification() {
-        }
-        return Notification;
-    }());
-    exports.Notification = Notification;
-});
-
-
-
-define('domain/alterBuyListProductViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var AlterBuyListProductViewModel = (function () {
-        function AlterBuyListProductViewModel() {
-        }
-        return AlterBuyListProductViewModel;
-    }());
-    exports.AlterBuyListProductViewModel = AlterBuyListProductViewModel;
-});
-
-
-
-define('domain/evaluationStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EvaluationStatus;
-    (function (EvaluationStatus) {
-        EvaluationStatus[EvaluationStatus["Created"] = 0] = "Created";
-        EvaluationStatus[EvaluationStatus["Approved"] = 1] = "Approved";
-        EvaluationStatus[EvaluationStatus["Rejected"] = 2] = "Rejected";
-        EvaluationStatus[EvaluationStatus["Blocked"] = 3] = "Blocked";
-    })(EvaluationStatus = exports.EvaluationStatus || (exports.EvaluationStatus = {}));
-});
-
-
-
-define('domain/checkDeliveryViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CheckDeliveryViewModel = (function () {
-        function CheckDeliveryViewModel() {
-            this.suppliers = new Array();
-        }
-        return CheckDeliveryViewModel;
-    }());
-    exports.CheckDeliveryViewModel = CheckDeliveryViewModel;
-});
-
-
-
-define('domain/unitOfMeasurement',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var UnitOfMeasurement = (function () {
-        function UnitOfMeasurement() {
-        }
-        return UnitOfMeasurement;
-    }());
-    exports.UnitOfMeasurement = UnitOfMeasurement;
-});
-
-
-
-define('domain/userType',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var UserType;
-    (function (UserType) {
-        UserType[UserType["Supplier"] = 0] = "Supplier";
-        UserType[UserType["FoodService"] = 1] = "FoodService";
-        UserType[UserType["Admin"] = 2] = "Admin";
-    })(UserType = exports.UserType || (exports.UserType = {}));
-});
-
-
-
-define('domain/productCategory',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ProductCategory = (function () {
-        function ProductCategory() {
-        }
-        return ProductCategory;
-    }());
-    exports.ProductCategory = ProductCategory;
-});
-
-
-
-define('domain/userStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var UserStatus;
-    (function (UserStatus) {
-        UserStatus[UserStatus["Active"] = 0] = "Active";
-        UserStatus[UserStatus["Inactive"] = 1] = "Inactive";
-        UserStatus[UserStatus["WaitingToConfirmInvite"] = 2] = "WaitingToConfirmInvite";
-        UserStatus[UserStatus["WaitingToConfirmPassword"] = 3] = "WaitingToConfirmPassword";
-    })(UserStatus = exports.UserStatus || (exports.UserStatus = {}));
-});
-
-
-
-define('domain/blockSupplierConnectionViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var BlockSupplierConnectionViewModel = (function () {
-        function BlockSupplierConnectionViewModel() {
-        }
-        return BlockSupplierConnectionViewModel;
-    }());
-    exports.BlockSupplierConnectionViewModel = BlockSupplierConnectionViewModel;
-});
-
-
-
-define('domain/rejectOrderViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var RejectOrderViewModel = (function () {
-        function RejectOrderViewModel() {
-        }
-        return RejectOrderViewModel;
-    }());
-    exports.RejectOrderViewModel = RejectOrderViewModel;
-});
-
-
-
-define('domain/supplierProduct',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierProduct = (function () {
-        function SupplierProduct() {
-        }
-        return SupplierProduct;
-    }());
-    exports.SupplierProduct = SupplierProduct;
-});
-
-
-
-define('domain/checkDeliveryResultItem',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CheckDeliveryResultItem = (function () {
-        function CheckDeliveryResultItem() {
-        }
-        return CheckDeliveryResultItem;
-    }());
-    exports.CheckDeliveryResultItem = CheckDeliveryResultItem;
-});
-
-
-
-define('domain/user',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var User = (function () {
-        function User() {
-        }
-        return User;
-    }());
-    exports.User = User;
-});
-
-
-
-define('domain/confirmInviteViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ConfirmInviteViewModel = (function () {
-        function ConfirmInviteViewModel() {
-        }
-        return ConfirmInviteViewModel;
-    }());
-    exports.ConfirmInviteViewModel = ConfirmInviteViewModel;
-});
-
-
-
-define('domain/simulationResult',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SimulationResult = (function () {
-        function SimulationResult() {
-        }
-        return SimulationResult;
-    }());
-    exports.SimulationResult = SimulationResult;
-});
-
-
-
-define('domain/editInvoiceViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EditInvoiceViewModel = (function () {
-        function EditInvoiceViewModel() {
-        }
-        return EditInvoiceViewModel;
-    }());
-    exports.EditInvoiceViewModel = EditInvoiceViewModel;
-});
-
-
-
-define('domain/orderStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var OrderStatus;
-    (function (OrderStatus) {
-        OrderStatus[OrderStatus["Created"] = 0] = "Created";
-        OrderStatus[OrderStatus["Accepted"] = 1] = "Accepted";
-        OrderStatus[OrderStatus["Delivered"] = 2] = "Delivered";
-        OrderStatus[OrderStatus["Rejected"] = 3] = "Rejected";
-    })(OrderStatus = exports.OrderStatus || (exports.OrderStatus = {}));
-});
-
-
-
-define('domain/deliveryRule',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var DeliveryRule = (function () {
-        function DeliveryRule() {
-        }
-        DeliveryRule.getNextDeliveryDate = function (rule) {
-            var isFound = false;
-            var count = 0;
-            var days = [
-                rule.deliveryOnSunday,
-                rule.deliveryOnMonday,
-                rule.deliveryOnTuesday,
-                rule.deliveryOnWednesday,
-                rule.deliveryOnThursday,
-                rule.deliveryOnFriday,
-                rule.deliveryOnSaturday
-            ];
-            var today = new Date();
-            var dayToday = today.getDay();
-            var day = dayToday + 1;
-            while (isFound == false) {
-                if (count >= days.length + 1) {
-                    break;
-                }
-                if (days[day]) {
-                    isFound = true;
-                    break;
-                }
-                count++;
-                if (day >= days.length - 1) {
-                    day = 0;
-                }
-                else {
-                    day++;
-                }
-            }
-            if (day == dayToday) {
-                day = 7;
-            }
-            else if (day < dayToday) {
-                day += (7 - dayToday);
-            }
-            else {
-                day -= dayToday;
-            }
-            if (isFound) {
-                var x = new Date(today.getTime() + (1000 * 60 * 60 * 24 * day));
-                x.setHours(0, 0, 0, 0);
-                return x;
-            }
-            return null;
-        };
-        return DeliveryRule;
-    }());
-    exports.DeliveryRule = DeliveryRule;
-});
-
-
-
-define('domain/buyListStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var BuyListStatus;
-    (function (BuyListStatus) {
-        BuyListStatus[BuyListStatus["Active"] = 0] = "Active";
-        BuyListStatus[BuyListStatus["Inactive"] = 1] = "Inactive";
-    })(BuyListStatus = exports.BuyListStatus || (exports.BuyListStatus = {}));
-});
-
-
-
-define('domain/SupplierProductStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierProductStatus;
-    (function (SupplierProductStatus) {
-        SupplierProductStatus[SupplierProductStatus["Active"] = 0] = "Active";
-        SupplierProductStatus[SupplierProductStatus["Inactive"] = 1] = "Inactive";
-        SupplierProductStatus[SupplierProductStatus["Removed"] = 2] = "Removed";
-    })(SupplierProductStatus = exports.SupplierProductStatus || (exports.SupplierProductStatus = {}));
-});
-
-
-
-define('domain/address',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Address = (function () {
-        function Address() {
-        }
-        return Address;
-    }());
-    exports.Address = Address;
-});
-
-
-
-define('domain/supplierViewModel',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierViewModel = (function () {
-        function SupplierViewModel() {
-        }
-        return SupplierViewModel;
-    }());
-    exports.SupplierViewModel = SupplierViewModel;
-});
-
-
-
-define('domain/city',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var City = (function () {
-        function City() {
-        }
-        return City;
-    }());
-    exports.City = City;
-});
-
-
-
-define('domain/simulation',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Simulation = (function () {
-        function Simulation() {
-        }
-        return Simulation;
-    }());
-    exports.Simulation = Simulation;
-});
-
-
-
-define('domain/buyList',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var BuyList = (function () {
-        function BuyList() {
-        }
-        return BuyList;
-    }());
-    exports.BuyList = BuyList;
-});
-
-
-
-define('domain/editFoodServiceStatus',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var EditFoodServiceStatus = (function () {
-        function EditFoodServiceStatus() {
-        }
-        return EditFoodServiceStatus;
-    }());
-    exports.EditFoodServiceStatus = EditFoodServiceStatus;
-});
-
-
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4758,6 +3837,927 @@ define('services/consultaCEPService',["require", "exports", "aurelia-framework",
 
 
 
+define('domain/invoice',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Invoice = (function () {
+        function Invoice() {
+        }
+        return Invoice;
+    }());
+    exports.Invoice = Invoice;
+});
+
+
+
+define('domain/confirmScheduleOrderViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConfirmScheduleOrderViewModel = (function () {
+        function ConfirmScheduleOrderViewModel() {
+        }
+        return ConfirmScheduleOrderViewModel;
+    }());
+    exports.ConfirmScheduleOrderViewModel = ConfirmScheduleOrderViewModel;
+});
+
+
+
+define('domain/foodServiceProduct',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceProduct = (function () {
+        function FoodServiceProduct() {
+        }
+        return FoodServiceProduct;
+    }());
+    exports.FoodServiceProduct = FoodServiceProduct;
+});
+
+
+
+define('domain/productClass',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ProductClass = (function () {
+        function ProductClass() {
+        }
+        return ProductClass;
+    }());
+    exports.ProductClass = ProductClass;
+});
+
+
+
+define('domain/buyListProduct',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BuyListProduct = (function () {
+        function BuyListProduct() {
+        }
+        return BuyListProduct;
+    }());
+    exports.BuyListProduct = BuyListProduct;
+});
+
+
+
+define('domain/state',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var State = (function () {
+        function State() {
+        }
+        return State;
+    }());
+    exports.State = State;
+});
+
+
+
+define('domain/contact',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Contact = (function () {
+        function Contact() {
+        }
+        return Contact;
+    }());
+    exports.Contact = Contact;
+});
+
+
+
+define('domain/credential',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Credential = (function () {
+        function Credential() {
+        }
+        return Credential;
+    }());
+    exports.Credential = Credential;
+});
+
+
+
+define('domain/stateRegistration',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var StateRegistration = (function () {
+        function StateRegistration() {
+        }
+        return StateRegistration;
+    }());
+    exports.StateRegistration = StateRegistration;
+});
+
+
+
+define('domain/identity',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Identity = (function () {
+        function Identity() {
+        }
+        return Identity;
+    }());
+    exports.Identity = Identity;
+});
+
+
+
+define('domain/brand',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Brand = (function () {
+        function Brand() {
+        }
+        return Brand;
+    }());
+    exports.Brand = Brand;
+});
+
+
+
+define('domain/invoiceStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var InvoiceStatus;
+    (function (InvoiceStatus) {
+        InvoiceStatus[InvoiceStatus["Created"] = 0] = "Created";
+        InvoiceStatus[InvoiceStatus["Paid"] = 1] = "Paid";
+        InvoiceStatus[InvoiceStatus["NotPaid"] = 2] = "NotPaid";
+    })(InvoiceStatus = exports.InvoiceStatus || (exports.InvoiceStatus = {}));
+});
+
+
+
+define('domain/consultaCNPJResult',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConsultaCNPJResult = (function () {
+        function ConsultaCNPJResult() {
+        }
+        return ConsultaCNPJResult;
+    }());
+    exports.ConsultaCNPJResult = ConsultaCNPJResult;
+});
+
+
+
+define('domain/supplierProductFileRow',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierProductFileRow = (function () {
+        function SupplierProductFileRow() {
+        }
+        return SupplierProductFileRow;
+    }());
+    exports.SupplierProductFileRow = SupplierProductFileRow;
+});
+
+
+
+define('domain/orderItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var OrderItem = (function () {
+        function OrderItem() {
+        }
+        return OrderItem;
+    }());
+    exports.OrderItem = OrderItem;
+});
+
+
+
+define('domain/supplier',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Supplier = (function () {
+        function Supplier() {
+        }
+        return Supplier;
+    }());
+    exports.Supplier = Supplier;
+});
+
+
+
+define('domain/foodServiceSupplier',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceSupplier = (function () {
+        function FoodServiceSupplier() {
+        }
+        return FoodServiceSupplier;
+    }());
+    exports.FoodServiceSupplier = FoodServiceSupplier;
+});
+
+
+
+define('domain/priceList',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PriceList = (function () {
+        function PriceList() {
+        }
+        return PriceList;
+    }());
+    exports.PriceList = PriceList;
+});
+
+
+
+define('domain/foodService',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodService = (function () {
+        function FoodService() {
+        }
+        return FoodService;
+    }());
+    exports.FoodService = FoodService;
+});
+
+
+
+define('domain/supplierProductFile',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierProductFile = (function () {
+        function SupplierProductFile() {
+        }
+        return SupplierProductFile;
+    }());
+    exports.SupplierProductFile = SupplierProductFile;
+});
+
+
+
+define('domain/simulationItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationItem = (function () {
+        function SimulationItem() {
+        }
+        return SimulationItem;
+    }());
+    exports.SimulationItem = SimulationItem;
+});
+
+
+
+define('domain/product',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Product = (function () {
+        function Product() {
+        }
+        return Product;
+    }());
+    exports.Product = Product;
+});
+
+
+
+define('domain/simulationInputItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationInputItem = (function () {
+        function SimulationInputItem() {
+        }
+        return SimulationInputItem;
+    }());
+    exports.SimulationInputItem = SimulationInputItem;
+});
+
+
+
+define('domain/checkDeliveryResult',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CheckDeliveryResult = (function () {
+        function CheckDeliveryResult() {
+        }
+        return CheckDeliveryResult;
+    }());
+    exports.CheckDeliveryResult = CheckDeliveryResult;
+});
+
+
+
+define('domain/registerStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var RegisterStatus;
+    (function (RegisterStatus) {
+        RegisterStatus[RegisterStatus["Valid"] = 0] = "Valid";
+        RegisterStatus[RegisterStatus["Invalid"] = 1] = "Invalid";
+    })(RegisterStatus = exports.RegisterStatus || (exports.RegisterStatus = {}));
+});
+
+
+
+define('domain/consultaCepResult',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConsultaCepResult = (function () {
+        function ConsultaCepResult() {
+        }
+        return ConsultaCepResult;
+    }());
+    exports.ConsultaCepResult = ConsultaCepResult;
+});
+
+
+
+define('domain/marketRule',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var MarketRule = (function () {
+        function MarketRule() {
+        }
+        return MarketRule;
+    }());
+    exports.MarketRule = MarketRule;
+});
+
+
+
+define('domain/simulationSummaryItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationSummaryItem = (function () {
+        function SimulationSummaryItem() {
+        }
+        return SimulationSummaryItem;
+    }());
+    exports.SimulationSummaryItem = SimulationSummaryItem;
+});
+
+
+
+define('domain/foodServiceStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceStatus;
+    (function (FoodServiceStatus) {
+        FoodServiceStatus[FoodServiceStatus["Active"] = 0] = "Active";
+        FoodServiceStatus[FoodServiceStatus["Inactive"] = 1] = "Inactive";
+        FoodServiceStatus[FoodServiceStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
+    })(FoodServiceStatus = exports.FoodServiceStatus || (exports.FoodServiceStatus = {}));
+});
+
+
+
+define('domain/simulationResultItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationResultItem = (function () {
+        function SimulationResultItem() {
+        }
+        return SimulationResultItem;
+    }());
+    exports.SimulationResultItem = SimulationResultItem;
+});
+
+
+
+define('domain/productViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ProductViewModel = (function () {
+        function ProductViewModel() {
+        }
+        return ProductViewModel;
+    }());
+    exports.ProductViewModel = ProductViewModel;
+});
+
+
+
+define('domain/supplierStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierStatus;
+    (function (SupplierStatus) {
+        SupplierStatus[SupplierStatus["Active"] = 0] = "Active";
+        SupplierStatus[SupplierStatus["Inactive"] = 1] = "Inactive";
+        SupplierStatus[SupplierStatus["WaitingToApprove"] = 2] = "WaitingToApprove";
+    })(SupplierStatus = exports.SupplierStatus || (exports.SupplierStatus = {}));
+});
+
+
+
+define('domain/invoiceControl',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var InvoiceControl = (function () {
+        function InvoiceControl() {
+        }
+        return InvoiceControl;
+    }());
+    exports.InvoiceControl = InvoiceControl;
+});
+
+
+
+define('domain/foodServiceViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceConnectionViewModel = (function () {
+        function FoodServiceConnectionViewModel() {
+        }
+        return FoodServiceConnectionViewModel;
+    }());
+    exports.FoodServiceConnectionViewModel = FoodServiceConnectionViewModel;
+});
+
+
+
+define('domain/welcomeUser',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var WelcomeUser = (function () {
+        function WelcomeUser() {
+        }
+        return WelcomeUser;
+    }());
+    exports.WelcomeUser = WelcomeUser;
+});
+
+
+
+define('domain/cotacaoViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CotacaoViewModel = (function () {
+        function CotacaoViewModel() {
+        }
+        return CotacaoViewModel;
+    }());
+    exports.CotacaoViewModel = CotacaoViewModel;
+});
+
+
+
+define('domain/editSupplierStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EditSupplierStatus = (function () {
+        function EditSupplierStatus() {
+        }
+        return EditSupplierStatus;
+    }());
+    exports.EditSupplierStatus = EditSupplierStatus;
+});
+
+
+
+define('domain/order',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Order = (function () {
+        function Order() {
+        }
+        return Order;
+    }());
+    exports.Order = Order;
+});
+
+
+
+define('domain/simulationInput',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationInput = (function () {
+        function SimulationInput() {
+            this.items = [];
+        }
+        return SimulationInput;
+    }());
+    exports.SimulationInput = SimulationInput;
+});
+
+
+
+define('domain/priceListItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PriceListItem = (function () {
+        function PriceListItem() {
+        }
+        return PriceListItem;
+    }());
+    exports.PriceListItem = PriceListItem;
+});
+
+
+
+define('domain/evaluation',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Evaluation = (function () {
+        function Evaluation() {
+        }
+        return Evaluation;
+    }());
+    exports.Evaluation = Evaluation;
+});
+
+
+
+define('domain/notification',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Notification = (function () {
+        function Notification() {
+        }
+        return Notification;
+    }());
+    exports.Notification = Notification;
+});
+
+
+
+define('domain/alterBuyListProductViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AlterBuyListProductViewModel = (function () {
+        function AlterBuyListProductViewModel() {
+        }
+        return AlterBuyListProductViewModel;
+    }());
+    exports.AlterBuyListProductViewModel = AlterBuyListProductViewModel;
+});
+
+
+
+define('domain/evaluationStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EvaluationStatus;
+    (function (EvaluationStatus) {
+        EvaluationStatus[EvaluationStatus["Created"] = 0] = "Created";
+        EvaluationStatus[EvaluationStatus["Approved"] = 1] = "Approved";
+        EvaluationStatus[EvaluationStatus["Rejected"] = 2] = "Rejected";
+        EvaluationStatus[EvaluationStatus["Blocked"] = 3] = "Blocked";
+    })(EvaluationStatus = exports.EvaluationStatus || (exports.EvaluationStatus = {}));
+});
+
+
+
+define('domain/checkDeliveryViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CheckDeliveryViewModel = (function () {
+        function CheckDeliveryViewModel() {
+            this.suppliers = new Array();
+        }
+        return CheckDeliveryViewModel;
+    }());
+    exports.CheckDeliveryViewModel = CheckDeliveryViewModel;
+});
+
+
+
+define('domain/unitOfMeasurement',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UnitOfMeasurement = (function () {
+        function UnitOfMeasurement() {
+        }
+        return UnitOfMeasurement;
+    }());
+    exports.UnitOfMeasurement = UnitOfMeasurement;
+});
+
+
+
+define('domain/userType',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UserType;
+    (function (UserType) {
+        UserType[UserType["Supplier"] = 0] = "Supplier";
+        UserType[UserType["FoodService"] = 1] = "FoodService";
+        UserType[UserType["Admin"] = 2] = "Admin";
+    })(UserType = exports.UserType || (exports.UserType = {}));
+});
+
+
+
+define('domain/productCategory',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ProductCategory = (function () {
+        function ProductCategory() {
+        }
+        return ProductCategory;
+    }());
+    exports.ProductCategory = ProductCategory;
+});
+
+
+
+define('domain/userStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UserStatus;
+    (function (UserStatus) {
+        UserStatus[UserStatus["Active"] = 0] = "Active";
+        UserStatus[UserStatus["Inactive"] = 1] = "Inactive";
+        UserStatus[UserStatus["WaitingToConfirmInvite"] = 2] = "WaitingToConfirmInvite";
+        UserStatus[UserStatus["WaitingToConfirmPassword"] = 3] = "WaitingToConfirmPassword";
+    })(UserStatus = exports.UserStatus || (exports.UserStatus = {}));
+});
+
+
+
+define('domain/blockSupplierConnectionViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BlockSupplierConnectionViewModel = (function () {
+        function BlockSupplierConnectionViewModel() {
+        }
+        return BlockSupplierConnectionViewModel;
+    }());
+    exports.BlockSupplierConnectionViewModel = BlockSupplierConnectionViewModel;
+});
+
+
+
+define('domain/rejectOrderViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var RejectOrderViewModel = (function () {
+        function RejectOrderViewModel() {
+        }
+        return RejectOrderViewModel;
+    }());
+    exports.RejectOrderViewModel = RejectOrderViewModel;
+});
+
+
+
+define('domain/supplierProduct',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierProduct = (function () {
+        function SupplierProduct() {
+        }
+        return SupplierProduct;
+    }());
+    exports.SupplierProduct = SupplierProduct;
+});
+
+
+
+define('domain/checkDeliveryResultItem',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CheckDeliveryResultItem = (function () {
+        function CheckDeliveryResultItem() {
+        }
+        return CheckDeliveryResultItem;
+    }());
+    exports.CheckDeliveryResultItem = CheckDeliveryResultItem;
+});
+
+
+
+define('domain/user',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var User = (function () {
+        function User() {
+        }
+        return User;
+    }());
+    exports.User = User;
+});
+
+
+
+define('domain/confirmInviteViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConfirmInviteViewModel = (function () {
+        function ConfirmInviteViewModel() {
+        }
+        return ConfirmInviteViewModel;
+    }());
+    exports.ConfirmInviteViewModel = ConfirmInviteViewModel;
+});
+
+
+
+define('domain/simulationResult',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SimulationResult = (function () {
+        function SimulationResult() {
+        }
+        return SimulationResult;
+    }());
+    exports.SimulationResult = SimulationResult;
+});
+
+
+
+define('domain/editInvoiceViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EditInvoiceViewModel = (function () {
+        function EditInvoiceViewModel() {
+        }
+        return EditInvoiceViewModel;
+    }());
+    exports.EditInvoiceViewModel = EditInvoiceViewModel;
+});
+
+
+
+define('domain/orderStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var OrderStatus;
+    (function (OrderStatus) {
+        OrderStatus[OrderStatus["Created"] = 0] = "Created";
+        OrderStatus[OrderStatus["Accepted"] = 1] = "Accepted";
+        OrderStatus[OrderStatus["Delivered"] = 2] = "Delivered";
+        OrderStatus[OrderStatus["Rejected"] = 3] = "Rejected";
+    })(OrderStatus = exports.OrderStatus || (exports.OrderStatus = {}));
+});
+
+
+
+define('domain/deliveryRule',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DeliveryRule = (function () {
+        function DeliveryRule() {
+        }
+        DeliveryRule.getNextDeliveryDate = function (rule) {
+            var isFound = false;
+            var count = 0;
+            var days = [
+                rule.deliveryOnSunday,
+                rule.deliveryOnMonday,
+                rule.deliveryOnTuesday,
+                rule.deliveryOnWednesday,
+                rule.deliveryOnThursday,
+                rule.deliveryOnFriday,
+                rule.deliveryOnSaturday
+            ];
+            var today = new Date();
+            var dayToday = today.getDay();
+            var day = dayToday + 1;
+            while (isFound == false) {
+                if (count >= days.length + 1) {
+                    break;
+                }
+                if (days[day]) {
+                    isFound = true;
+                    break;
+                }
+                count++;
+                if (day >= days.length - 1) {
+                    day = 0;
+                }
+                else {
+                    day++;
+                }
+            }
+            if (day == dayToday) {
+                day = 7;
+            }
+            else if (day < dayToday) {
+                day += (7 - dayToday);
+            }
+            else {
+                day -= dayToday;
+            }
+            if (isFound) {
+                var x = new Date(today.getTime() + (1000 * 60 * 60 * 24 * day));
+                x.setHours(0, 0, 0, 0);
+                return x;
+            }
+            return null;
+        };
+        return DeliveryRule;
+    }());
+    exports.DeliveryRule = DeliveryRule;
+});
+
+
+
+define('domain/buyListStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BuyListStatus;
+    (function (BuyListStatus) {
+        BuyListStatus[BuyListStatus["Active"] = 0] = "Active";
+        BuyListStatus[BuyListStatus["Inactive"] = 1] = "Inactive";
+    })(BuyListStatus = exports.BuyListStatus || (exports.BuyListStatus = {}));
+});
+
+
+
+define('domain/SupplierProductStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierProductStatus;
+    (function (SupplierProductStatus) {
+        SupplierProductStatus[SupplierProductStatus["Active"] = 0] = "Active";
+        SupplierProductStatus[SupplierProductStatus["Inactive"] = 1] = "Inactive";
+        SupplierProductStatus[SupplierProductStatus["Removed"] = 2] = "Removed";
+    })(SupplierProductStatus = exports.SupplierProductStatus || (exports.SupplierProductStatus = {}));
+});
+
+
+
+define('domain/address',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Address = (function () {
+        function Address() {
+        }
+        return Address;
+    }());
+    exports.Address = Address;
+});
+
+
+
+define('domain/supplierViewModel',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierViewModel = (function () {
+        function SupplierViewModel() {
+        }
+        return SupplierViewModel;
+    }());
+    exports.SupplierViewModel = SupplierViewModel;
+});
+
+
+
+define('domain/city',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var City = (function () {
+        function City() {
+        }
+        return City;
+    }());
+    exports.City = City;
+});
+
+
+
+define('domain/simulation',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Simulation = (function () {
+        function Simulation() {
+        }
+        return Simulation;
+    }());
+    exports.Simulation = Simulation;
+});
+
+
+
+define('domain/buyList',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var BuyList = (function () {
+        function BuyList() {
+        }
+        return BuyList;
+    }());
+    exports.BuyList = BuyList;
+});
+
+
+
+define('domain/editFoodServiceStatus',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EditFoodServiceStatus = (function () {
+        function EditFoodServiceStatus() {
+        }
+        return EditFoodServiceStatus;
+    }());
+    exports.EditFoodServiceStatus = EditFoodServiceStatus;
+});
+
+
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4847,492 +4847,6 @@ define('repositories/analytics/analyticsRepository',["require", "exports", "aure
         return AnalyticsRepository;
     }());
     exports.AnalyticsRepository = AnalyticsRepository;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/cotacao/pedidosFornecedor',["require", "exports", "../../services/notificationService", "../../services/identityService", "aurelia-framework", "aurelia-router", "aurelia-api", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "../components/partials/aceitePedido", "../../domain/orderStatus", "../components/partials/rejeicaoPedido"], function (require, exports, notificationService_1, identityService_1, aurelia_framework_1, aurelia_router_1, aurelia_api_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aceitePedido_1, orderStatus_1, rejeicaoPedido_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PedidosFornecedor = (function () {
-        function PedidosFornecedor(router, dialogService, config, ea, service, nService, orderRepo) {
-            this.router = router;
-            this.dialogService = dialogService;
-            this.config = config;
-            this.ea = ea;
-            this.service = service;
-            this.nService = nService;
-            this.orderRepo = orderRepo;
-            this.selectedStatus = 0;
-        }
-        PedidosFornecedor.prototype.attached = function () {
-            var _this = this;
-            this.ea.publish('loadingData');
-            this.ea.subscribe('newOrder', function (data) {
-                if (_this.selectedStatus == 0 || _this.selectedStatus.toString() == "0") {
-                    _this.orders.push(data);
-                }
-            });
-            this.ea.subscribe('orderFinished', function (data) {
-                _this.orders.forEach(function (x) {
-                    if (x.id == data.id) {
-                        x = data;
-                    }
-                });
-                _this.filteredOrders.forEach(function (x) {
-                    if (x.id == data.id) {
-                        x.status = data.status;
-                    }
-                });
-            });
-            this.loadData();
-        };
-        PedidosFornecedor.prototype.loadData = function () {
-            this.load();
-        };
-        PedidosFornecedor.prototype.load = function () {
-            var _this = this;
-            if (this.selectedStatus == orderStatus_1.OrderStatus.Created || this.selectedStatus == null) {
-                this.orderRepo
-                    .getMyNewOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-            else if (this.selectedStatus == orderStatus_1.OrderStatus.Accepted) {
-                this.orderRepo
-                    .getMyAcceptedOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-            else if (this.selectedStatus == orderStatus_1.OrderStatus.Rejected) {
-                this.orderRepo
-                    .getMyRejectedOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-            else if (this.selectedStatus == orderStatus_1.OrderStatus.Delivered) {
-                this.orderRepo
-                    .getMyDeliveredOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-        };
-        PedidosFornecedor.prototype.selectOrder = function (order) {
-            this.selectedOrder = order;
-            this.foodService = order.foodService;
-            this.showdDetails = true;
-        };
-        PedidosFornecedor.prototype.showOrders = function () {
-            this.showdDetails = false;
-        };
-        PedidosFornecedor.prototype.acceptOrder = function (order) {
-            var params = { Order: order };
-            this.dialogService
-                .open({ viewModel: aceitePedido_1.AceitePedido, model: params, lock: false })
-                .whenClosed(function (response) {
-                if (response.wasCancelled) {
-                    return;
-                }
-                order.status = orderStatus_1.OrderStatus.Accepted;
-            });
-        };
-        PedidosFornecedor.prototype.rejectOrder = function (order) {
-            var params = { Order: order };
-            this.dialogService
-                .open({ viewModel: rejeicaoPedido_1.RejeicaoPedido, model: params, lock: false })
-                .whenClosed(function (response) {
-                if (response.wasCancelled) {
-                    return;
-                }
-                order.status = orderStatus_1.OrderStatus.Rejected;
-            });
-        };
-        PedidosFornecedor.prototype.search = function () {
-            var _this = this;
-            this.isFiltered = true;
-            this.filteredOrders = this.orders.filter(function (x) {
-                var isFound = true;
-                if ((_this.filter != null && _this.filter != '')) {
-                    if ((x.code.toString().toUpperCase().includes(_this.filter.toUpperCase()))
-                        || (x.foodService.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
-                        || (x.createdBy.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
-                        || (x.total.toString().toUpperCase().includes(_this.filter.toUpperCase()))) {
-                        isFound = true;
-                    }
-                    else {
-                        isFound = false;
-                    }
-                }
-                if (isFound) {
-                    return x;
-                }
-            });
-        };
-        PedidosFornecedor.prototype.exportOrder = function (order) {
-            var api = this.config.getEndpoint('csz');
-            window.open(api.client.baseUrl + 'ExportOrderToExcel?orderId=' + order.id, '_parent');
-        };
-        PedidosFornecedor = __decorate([
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [aurelia_router_1.Router,
-                aurelia_dialog_1.DialogService,
-                aurelia_api_1.Config,
-                aurelia_event_aggregator_1.EventAggregator,
-                identityService_1.IdentityService,
-                notificationService_1.NotificationService,
-                orderRepository_1.OrderRepository])
-        ], PedidosFornecedor);
-        return PedidosFornecedor;
-    }());
-    exports.PedidosFornecedor = PedidosFornecedor;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/cotacao/cotacao',["require", "exports", "../../services/notificationService", "aurelia-framework", "aurelia-router", "../../repositories/foodServiceRepository", "../../repositories/simulationRepository", "../../domain/simulationInput", "../../domain/simulationInputItem", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "aurelia-validation", "../formValidationRenderer", "../../repositories/deliveryRuleRepository", "../../domain/deliveryRule", "../../domain/checkDeliveryViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, notificationService_1, aurelia_framework_1, aurelia_router_1, foodServiceRepository_1, simulationRepository_1, simulationInput_1, simulationInputItem_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aurelia_validation_1, formValidationRenderer_1, deliveryRuleRepository_1, deliveryRule_1, checkDeliveryViewModel_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Pedido = (function () {
-        function Pedido(router, repository, ea, dialogService, simulationRepository, orderRepository, nService, deliveryRepository, validationControllerFactory) {
-            this.router = router;
-            this.repository = repository;
-            this.ea = ea;
-            this.dialogService = dialogService;
-            this.simulationRepository = simulationRepository;
-            this.orderRepository = orderRepository;
-            this.nService = nService;
-            this.deliveryRepository = deliveryRepository;
-            this.validationControllerFactory = validationControllerFactory;
-            this.currentStep = 1;
-            this.totalSteps = 3;
-            this.isProcessing = false;
-            this.orderWasGenerated = false;
-            this.input = new simulationInput_1.SimulationInput();
-            this.supplierBlackList = [];
-            this.validationController = this.validationControllerFactory.createForCurrentScope();
-            this.validationController.addRenderer(new formValidationRenderer_1.FormValidationRenderer());
-            this.validationController.validateTrigger = aurelia_validation_1.validateTrigger.blur;
-            this.deliveryWasChecked = false;
-            this.viewModel = new checkDeliveryViewModel_1.CheckDeliveryViewModel();
-            this.isOrderValid = true;
-        }
-        Pedido.prototype.runScript = function () {
-            var thisForm = '#rootwizard-1';
-            var outher = this;
-            if ($(thisForm).length) {
-                $('.pager li a, .pager li span').on('click', function (e) {
-                    e.preventDefault();
-                });
-                var wizardStagesTotal = $(thisForm + ' .tab-pane').length;
-                $(thisForm).bootstrapWizard({ onNext: function (tab, navigation, index) {
-                        if (index <= wizardStagesTotal) {
-                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
-                            $(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
-                        }
-                    }, onPrevious: function (tab, navigation, index) {
-                        if (index !== -1) {
-                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
-                            $(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
-                        }
-                    }, onTabShow: function (tab, navigation, index) {
-                        var total = navigation.find('li').length;
-                        var current = index + 1;
-                        var completionPercentage = (current / total) * 100;
-                        var progressBar = $(thisForm).closest('.card').find(".card-header .progress-bar");
-                        progressBar.css({ "width": completionPercentage + "%" }).attr("aria-valuenow", completionPercentage);
-                    }, onTabClick: function (tab, navigation, index) {
-                        return false;
-                    } });
-            }
-        };
-        Pedido.prototype.activate = function (params) {
-            if (params.orderId != null && params.orderId != '') {
-                this.orderId = params.orderId;
-            }
-        };
-        Pedido.prototype.advance = function () {
-            this.currentStep++;
-            if (this.currentStep == 2) {
-                this.simulate();
-            }
-            if (this.currentStep == 3) {
-                window.scrollTo(0, 0);
-            }
-        };
-        Pedido.prototype.simulate = function () {
-            var _this = this;
-            this.ea.publish('loadingData');
-            this.isProcessing = true;
-            this.input.buyListId = this.selectedQuote.id;
-            this.input.items = [];
-            this.selectedQuote.products.forEach(function (x) {
-                if (x.quantity != null && x.quantity != 0) {
-                    var item = new simulationInputItem_1.SimulationInputItem();
-                    item.productId = x.id;
-                    item.quantity = x.quantity;
-                    _this.input.items.push(item);
-                }
-            });
-            this.input.supplierBlackList = this.supplierBlackList;
-            this.selectedResult = null;
-            this.simulationRepository
-                .simulate(this.input)
-                .then(function (x) {
-                _this.simulation = x;
-                _this.isProcessing = false;
-                _this.runScript();
-                _this.ea.publish('dataLoaded');
-            })
-                .catch(function (e) {
-                _this.simulation = null;
-                _this.nService.presentError(e);
-                _this.isProcessing = false;
-                _this.ea.publish('dataLoaded');
-            });
-        };
-        Pedido.prototype.back = function () {
-            this.currentStep--;
-        };
-        Pedido.prototype.attached = function () {
-            this.ea.publish('loadingData');
-            this.runScript();
-            this.loadData();
-        };
-        Pedido.prototype.addRemoveSupplier = function (supplier) {
-            if (supplier.wasRemoved && !supplier.isInvalid) {
-                this.selectedQuote.suppliers.forEach(function (x) {
-                    if (x.id == supplier.id) {
-                        x.isInvalid = false;
-                        x.wasRemoved = false;
-                    }
-                });
-                this.selectedQuote.products.forEach(function (x) {
-                    x.suppliers.forEach(function (y) {
-                        if (y.id == supplier.id) {
-                            y.isInvalid = false;
-                            y.wasRemoved = false;
-                        }
-                    });
-                });
-                this.supplierBlackList = this.supplierBlackList.filter(function (x) { return x.id != supplier.id; });
-            }
-            else if (!supplier.isInvalid) {
-                this.selectedQuote.suppliers.forEach(function (x) {
-                    if (x.id == supplier.id) {
-                        x.isInvalid = false;
-                        x.wasRemoved = true;
-                    }
-                });
-                this.selectedQuote.products.forEach(function (x) {
-                    x.suppliers.forEach(function (y) {
-                        if (y.id == supplier.id) {
-                            y.isInvalid = false;
-                            y.wasRemoved = true;
-                        }
-                    });
-                });
-                this.supplierBlackList.push(supplier);
-            }
-            this.checkIfOrderIsvalid();
-        };
-        Pedido.prototype.loadData = function () {
-            var _this = this;
-            if (this.orderId != null && this.orderId != '') {
-                this.simulationRepository
-                    .getCotacaoFromOrder(this.orderId)
-                    .then(function (x) {
-                    _this.selectedQuote = x;
-                    if (x.blackListSupplier != null) {
-                        _this.addRemoveSupplier(x.blackListSupplier);
-                    }
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) { return _this.nService.presentError(e); });
-                this.loadDeliveryRule();
-            }
-            else {
-                this.repository
-                    .getBuyListsParaCotacao()
-                    .then(function (x) {
-                    _this.quotes = x;
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) { return _this.nService.presentError(e); });
-            }
-        };
-        Pedido.prototype.loadDeliveryRule = function () {
-            var _this = this;
-            this.deliveryRepository
-                .getRule(this.selectedQuote.productClass.id)
-                .then(function (x) {
-                if (x != null) {
-                    _this.deliveryRule = x;
-                    _this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
-                    _this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
-                    _this.viewModel.deliveryDate = deliveryRule_1.DeliveryRule.getNextDeliveryDate(_this.deliveryRule);
-                    _this.checkDeliveryDate();
-                }
-            })
-                .catch(function (e) { return _this.nService.presentError(e); });
-        };
-        Pedido.prototype.checkDeliveryDate = function () {
-            var _this = this;
-            this.deliveryWasChecked = false;
-            this.viewModel.suppliers = [];
-            this.selectedQuote.suppliers.forEach(function (x) {
-                _this.viewModel.suppliers.push(x.id);
-            });
-            if (this.viewModel.deliveryDate < new Date()) {
-                this.nService.presentError('A data de entrega deve ser maior ou igual a hoje');
-                this.isOrderValid = false;
-            }
-            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
-                this.nService.presentError('O horário inicial deve ser maior que o horário final');
-                this.isOrderValid = false;
-            }
-            this.deliveryRepository
-                .checkDeliveryRule(this.viewModel)
-                .then(function (x) {
-                _this.checkDeliveryResult = x;
-                x.items.forEach(function (item) {
-                    _this.selectedQuote.suppliers.forEach(function (y) {
-                        if (y.id == item.supplierId) {
-                            if (!item.isValid) {
-                                y.isInvalid = true;
-                                _this.supplierBlackList.push(y);
-                            }
-                            else {
-                                y.isInvalid = false;
-                                _this.supplierBlackList = _this.supplierBlackList.filter(function (x) { return x.id != y.id; });
-                            }
-                        }
-                    });
-                    _this.selectedQuote.products.forEach(function (x) {
-                        x.suppliers.forEach(function (y) {
-                            if (y.id == item.supplierId) {
-                                if (!item.isValid) {
-                                    y.isInvalid = true;
-                                }
-                                else {
-                                    y.isInvalid = false;
-                                }
-                            }
-                        });
-                    });
-                });
-                _this.deliveryWasChecked = true;
-                _this.checkIfOrderIsvalid();
-            })
-                .catch(function (e) { return _this.nService.presentError(e); });
-        };
-        Pedido.prototype.checkIfOrderIsvalid = function () {
-            var isValid = true;
-            if (this.viewModel.deliveryDate < new Date()) {
-                isValid = false;
-            }
-            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
-                isValid = false;
-            }
-            if (this.supplierBlackList.length == this.selectedQuote.suppliers.length) {
-                isValid = false;
-            }
-            if (isValid) {
-                this.isOrderValid = true;
-            }
-            else {
-                this.isOrderValid = false;
-            }
-        };
-        Pedido.prototype.generateOrder = function () {
-            var _this = this;
-            var params = { Quote: this.selectedQuote };
-            this.isProcessing = true;
-            this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
-            this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
-            this.selectedResult.deliveryDate = this.viewModel.deliveryDate;
-            this.orderRepository
-                .createOrder(this.selectedResult)
-                .then(function (result) {
-                _this.nService.success('Pedido realizado!');
-                _this.router.navigateToRoute('pedidosFoodService');
-                _this.isProcessing = false;
-                _this.orderWasGenerated = true;
-            }).catch(function (e) {
-                _this.isProcessing = false;
-                _this.nService.error(e);
-            });
-        };
-        Pedido.prototype.changeSelectedCotacao = function (result) {
-            this.simulation.betterResults.forEach(function (x) { return x != result ? x.isSelected = false : x.isSelected = true; });
-            this.selectedResult = result;
-        };
-        Pedido.prototype.validateLengthObs = function (summary) {
-            if (summary.observation != null && summary.observation.length >= 250) {
-                summary.observation = summary.observation.substr(0, 249);
-            }
-            return true;
-        };
-        Pedido = __decorate([
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [aurelia_router_1.Router,
-                foodServiceRepository_1.FoodServiceRepository,
-                aurelia_event_aggregator_1.EventAggregator,
-                aurelia_dialog_1.DialogService,
-                simulationRepository_1.SimulationRepository,
-                orderRepository_1.OrderRepository,
-                notificationService_1.NotificationService,
-                deliveryRuleRepository_1.DeliveryRuleRepository,
-                aurelia_validation_1.ValidationControllerFactory])
-        ], Pedido);
-        return Pedido;
-    }());
-    exports.Pedido = Pedido;
 });
 
 
@@ -6998,6 +6512,492 @@ define('views/fornecedor/regrasDeMercado',["require", "exports", "../../validato
 
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/cotacao/pedidosFornecedor',["require", "exports", "../../services/notificationService", "../../services/identityService", "aurelia-framework", "aurelia-router", "aurelia-api", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "../components/partials/aceitePedido", "../../domain/orderStatus", "../components/partials/rejeicaoPedido"], function (require, exports, notificationService_1, identityService_1, aurelia_framework_1, aurelia_router_1, aurelia_api_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aceitePedido_1, orderStatus_1, rejeicaoPedido_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PedidosFornecedor = (function () {
+        function PedidosFornecedor(router, dialogService, config, ea, service, nService, orderRepo) {
+            this.router = router;
+            this.dialogService = dialogService;
+            this.config = config;
+            this.ea = ea;
+            this.service = service;
+            this.nService = nService;
+            this.orderRepo = orderRepo;
+            this.selectedStatus = 0;
+        }
+        PedidosFornecedor.prototype.attached = function () {
+            var _this = this;
+            this.ea.publish('loadingData');
+            this.ea.subscribe('newOrder', function (data) {
+                if (_this.selectedStatus == 0 || _this.selectedStatus.toString() == "0") {
+                    _this.orders.push(data);
+                }
+            });
+            this.ea.subscribe('orderFinished', function (data) {
+                _this.orders.forEach(function (x) {
+                    if (x.id == data.id) {
+                        x = data;
+                    }
+                });
+                _this.filteredOrders.forEach(function (x) {
+                    if (x.id == data.id) {
+                        x.status = data.status;
+                    }
+                });
+            });
+            this.loadData();
+        };
+        PedidosFornecedor.prototype.loadData = function () {
+            this.load();
+        };
+        PedidosFornecedor.prototype.load = function () {
+            var _this = this;
+            if (this.selectedStatus == orderStatus_1.OrderStatus.Created || this.selectedStatus == null) {
+                this.orderRepo
+                    .getMyNewOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+            else if (this.selectedStatus == orderStatus_1.OrderStatus.Accepted) {
+                this.orderRepo
+                    .getMyAcceptedOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+            else if (this.selectedStatus == orderStatus_1.OrderStatus.Rejected) {
+                this.orderRepo
+                    .getMyRejectedOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+            else if (this.selectedStatus == orderStatus_1.OrderStatus.Delivered) {
+                this.orderRepo
+                    .getMyDeliveredOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+        };
+        PedidosFornecedor.prototype.selectOrder = function (order) {
+            this.selectedOrder = order;
+            this.foodService = order.foodService;
+            this.showdDetails = true;
+        };
+        PedidosFornecedor.prototype.showOrders = function () {
+            this.showdDetails = false;
+        };
+        PedidosFornecedor.prototype.acceptOrder = function (order) {
+            var params = { Order: order };
+            this.dialogService
+                .open({ viewModel: aceitePedido_1.AceitePedido, model: params, lock: false })
+                .whenClosed(function (response) {
+                if (response.wasCancelled) {
+                    return;
+                }
+                order.status = orderStatus_1.OrderStatus.Accepted;
+            });
+        };
+        PedidosFornecedor.prototype.rejectOrder = function (order) {
+            var params = { Order: order };
+            this.dialogService
+                .open({ viewModel: rejeicaoPedido_1.RejeicaoPedido, model: params, lock: false })
+                .whenClosed(function (response) {
+                if (response.wasCancelled) {
+                    return;
+                }
+                order.status = orderStatus_1.OrderStatus.Rejected;
+            });
+        };
+        PedidosFornecedor.prototype.search = function () {
+            var _this = this;
+            this.isFiltered = true;
+            this.filteredOrders = this.orders.filter(function (x) {
+                var isFound = true;
+                if ((_this.filter != null && _this.filter != '')) {
+                    if ((x.code.toString().toUpperCase().includes(_this.filter.toUpperCase()))
+                        || (x.foodService.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
+                        || (x.createdBy.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
+                        || (x.total.toString().toUpperCase().includes(_this.filter.toUpperCase()))) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+                if (isFound) {
+                    return x;
+                }
+            });
+        };
+        PedidosFornecedor.prototype.exportOrder = function (order) {
+            var api = this.config.getEndpoint('csz');
+            window.open(api.client.baseUrl + 'ExportOrderToExcel?orderId=' + order.id, '_parent');
+        };
+        PedidosFornecedor = __decorate([
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_router_1.Router,
+                aurelia_dialog_1.DialogService,
+                aurelia_api_1.Config,
+                aurelia_event_aggregator_1.EventAggregator,
+                identityService_1.IdentityService,
+                notificationService_1.NotificationService,
+                orderRepository_1.OrderRepository])
+        ], PedidosFornecedor);
+        return PedidosFornecedor;
+    }());
+    exports.PedidosFornecedor = PedidosFornecedor;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/cotacao/cotacao',["require", "exports", "../../services/notificationService", "aurelia-framework", "aurelia-router", "../../repositories/foodServiceRepository", "../../repositories/simulationRepository", "../../domain/simulationInput", "../../domain/simulationInputItem", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "aurelia-validation", "../formValidationRenderer", "../../repositories/deliveryRuleRepository", "../../domain/deliveryRule", "../../domain/checkDeliveryViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, notificationService_1, aurelia_framework_1, aurelia_router_1, foodServiceRepository_1, simulationRepository_1, simulationInput_1, simulationInputItem_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aurelia_validation_1, formValidationRenderer_1, deliveryRuleRepository_1, deliveryRule_1, checkDeliveryViewModel_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Pedido = (function () {
+        function Pedido(router, repository, ea, dialogService, simulationRepository, orderRepository, nService, deliveryRepository, validationControllerFactory) {
+            this.router = router;
+            this.repository = repository;
+            this.ea = ea;
+            this.dialogService = dialogService;
+            this.simulationRepository = simulationRepository;
+            this.orderRepository = orderRepository;
+            this.nService = nService;
+            this.deliveryRepository = deliveryRepository;
+            this.validationControllerFactory = validationControllerFactory;
+            this.currentStep = 1;
+            this.totalSteps = 3;
+            this.isProcessing = false;
+            this.orderWasGenerated = false;
+            this.input = new simulationInput_1.SimulationInput();
+            this.supplierBlackList = [];
+            this.validationController = this.validationControllerFactory.createForCurrentScope();
+            this.validationController.addRenderer(new formValidationRenderer_1.FormValidationRenderer());
+            this.validationController.validateTrigger = aurelia_validation_1.validateTrigger.blur;
+            this.deliveryWasChecked = false;
+            this.viewModel = new checkDeliveryViewModel_1.CheckDeliveryViewModel();
+            this.isOrderValid = true;
+        }
+        Pedido.prototype.runScript = function () {
+            var thisForm = '#rootwizard-1';
+            var outher = this;
+            if ($(thisForm).length) {
+                $('.pager li a, .pager li span').on('click', function (e) {
+                    e.preventDefault();
+                });
+                var wizardStagesTotal = $(thisForm + ' .tab-pane').length;
+                $(thisForm).bootstrapWizard({ onNext: function (tab, navigation, index) {
+                        if (index <= wizardStagesTotal) {
+                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
+                            $(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
+                        }
+                    }, onPrevious: function (tab, navigation, index) {
+                        if (index !== -1) {
+                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
+                            $(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
+                        }
+                    }, onTabShow: function (tab, navigation, index) {
+                        var total = navigation.find('li').length;
+                        var current = index + 1;
+                        var completionPercentage = (current / total) * 100;
+                        var progressBar = $(thisForm).closest('.card').find(".card-header .progress-bar");
+                        progressBar.css({ "width": completionPercentage + "%" }).attr("aria-valuenow", completionPercentage);
+                    }, onTabClick: function (tab, navigation, index) {
+                        return false;
+                    } });
+            }
+        };
+        Pedido.prototype.activate = function (params) {
+            if (params.orderId != null && params.orderId != '') {
+                this.orderId = params.orderId;
+            }
+        };
+        Pedido.prototype.advance = function () {
+            this.currentStep++;
+            if (this.currentStep == 2) {
+                this.simulate();
+            }
+            if (this.currentStep == 3) {
+                window.scrollTo(0, 0);
+            }
+        };
+        Pedido.prototype.simulate = function () {
+            var _this = this;
+            this.ea.publish('loadingData');
+            this.isProcessing = true;
+            this.input.buyListId = this.selectedQuote.id;
+            this.input.items = [];
+            this.selectedQuote.products.forEach(function (x) {
+                if (x.quantity != null && x.quantity != 0) {
+                    var item = new simulationInputItem_1.SimulationInputItem();
+                    item.productId = x.id;
+                    item.quantity = x.quantity;
+                    _this.input.items.push(item);
+                }
+            });
+            this.input.supplierBlackList = this.supplierBlackList;
+            this.selectedResult = null;
+            this.simulationRepository
+                .simulate(this.input)
+                .then(function (x) {
+                _this.simulation = x;
+                _this.isProcessing = false;
+                _this.runScript();
+                _this.ea.publish('dataLoaded');
+            })
+                .catch(function (e) {
+                _this.simulation = null;
+                _this.nService.presentError(e);
+                _this.isProcessing = false;
+                _this.ea.publish('dataLoaded');
+            });
+        };
+        Pedido.prototype.back = function () {
+            this.currentStep--;
+        };
+        Pedido.prototype.attached = function () {
+            this.ea.publish('loadingData');
+            this.runScript();
+            this.loadData();
+        };
+        Pedido.prototype.addRemoveSupplier = function (supplier) {
+            if (supplier.wasRemoved && !supplier.isInvalid) {
+                this.selectedQuote.suppliers.forEach(function (x) {
+                    if (x.id == supplier.id) {
+                        x.isInvalid = false;
+                        x.wasRemoved = false;
+                    }
+                });
+                this.selectedQuote.products.forEach(function (x) {
+                    x.suppliers.forEach(function (y) {
+                        if (y.id == supplier.id) {
+                            y.isInvalid = false;
+                            y.wasRemoved = false;
+                        }
+                    });
+                });
+                this.supplierBlackList = this.supplierBlackList.filter(function (x) { return x.id != supplier.id; });
+            }
+            else if (!supplier.isInvalid) {
+                this.selectedQuote.suppliers.forEach(function (x) {
+                    if (x.id == supplier.id) {
+                        x.isInvalid = false;
+                        x.wasRemoved = true;
+                    }
+                });
+                this.selectedQuote.products.forEach(function (x) {
+                    x.suppliers.forEach(function (y) {
+                        if (y.id == supplier.id) {
+                            y.isInvalid = false;
+                            y.wasRemoved = true;
+                        }
+                    });
+                });
+                this.supplierBlackList.push(supplier);
+            }
+            this.checkIfOrderIsvalid();
+        };
+        Pedido.prototype.loadData = function () {
+            var _this = this;
+            if (this.orderId != null && this.orderId != '') {
+                this.simulationRepository
+                    .getCotacaoFromOrder(this.orderId)
+                    .then(function (x) {
+                    _this.selectedQuote = x;
+                    if (x.blackListSupplier != null) {
+                        _this.addRemoveSupplier(x.blackListSupplier);
+                    }
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) { return _this.nService.presentError(e); });
+                this.loadDeliveryRule();
+            }
+            else {
+                this.repository
+                    .getBuyListsParaCotacao()
+                    .then(function (x) {
+                    _this.quotes = x;
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) { return _this.nService.presentError(e); });
+            }
+        };
+        Pedido.prototype.loadDeliveryRule = function () {
+            var _this = this;
+            this.deliveryRepository
+                .getRule(this.selectedQuote.productClass.id)
+                .then(function (x) {
+                if (x != null) {
+                    _this.deliveryRule = x;
+                    _this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
+                    _this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
+                    _this.viewModel.deliveryDate = deliveryRule_1.DeliveryRule.getNextDeliveryDate(_this.deliveryRule);
+                    _this.checkDeliveryDate();
+                }
+            })
+                .catch(function (e) { return _this.nService.presentError(e); });
+        };
+        Pedido.prototype.checkDeliveryDate = function () {
+            var _this = this;
+            this.deliveryWasChecked = false;
+            this.viewModel.suppliers = [];
+            this.selectedQuote.suppliers.forEach(function (x) {
+                _this.viewModel.suppliers.push(x.id);
+            });
+            if (this.viewModel.deliveryDate < new Date()) {
+                this.nService.presentError('A data de entrega deve ser maior ou igual a hoje');
+                this.isOrderValid = false;
+            }
+            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
+                this.nService.presentError('O horário inicial deve ser maior que o horário final');
+                this.isOrderValid = false;
+            }
+            this.deliveryRepository
+                .checkDeliveryRule(this.viewModel)
+                .then(function (x) {
+                _this.checkDeliveryResult = x;
+                x.items.forEach(function (item) {
+                    _this.selectedQuote.suppliers.forEach(function (y) {
+                        if (y.id == item.supplierId) {
+                            if (!item.isValid) {
+                                y.isInvalid = true;
+                                _this.supplierBlackList.push(y);
+                            }
+                            else {
+                                y.isInvalid = false;
+                                _this.supplierBlackList = _this.supplierBlackList.filter(function (x) { return x.id != y.id; });
+                            }
+                        }
+                    });
+                    _this.selectedQuote.products.forEach(function (x) {
+                        x.suppliers.forEach(function (y) {
+                            if (y.id == item.supplierId) {
+                                if (!item.isValid) {
+                                    y.isInvalid = true;
+                                }
+                                else {
+                                    y.isInvalid = false;
+                                }
+                            }
+                        });
+                    });
+                });
+                _this.deliveryWasChecked = true;
+                _this.checkIfOrderIsvalid();
+            })
+                .catch(function (e) { return _this.nService.presentError(e); });
+        };
+        Pedido.prototype.checkIfOrderIsvalid = function () {
+            var isValid = true;
+            if (this.viewModel.deliveryDate < new Date()) {
+                isValid = false;
+            }
+            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
+                isValid = false;
+            }
+            if (this.supplierBlackList.length == this.selectedQuote.suppliers.length) {
+                isValid = false;
+            }
+            if (isValid) {
+                this.isOrderValid = true;
+            }
+            else {
+                this.isOrderValid = false;
+            }
+        };
+        Pedido.prototype.generateOrder = function () {
+            var _this = this;
+            var params = { Quote: this.selectedQuote };
+            this.isProcessing = true;
+            this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
+            this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
+            this.selectedResult.deliveryDate = this.viewModel.deliveryDate;
+            this.orderRepository
+                .createOrder(this.selectedResult)
+                .then(function (result) {
+                _this.nService.success('Pedido realizado!');
+                _this.router.navigateToRoute('pedidosFoodService');
+                _this.isProcessing = false;
+                _this.orderWasGenerated = true;
+            }).catch(function (e) {
+                _this.isProcessing = false;
+                _this.nService.error(e);
+            });
+        };
+        Pedido.prototype.changeSelectedCotacao = function (result) {
+            this.simulation.betterResults.forEach(function (x) { return x != result ? x.isSelected = false : x.isSelected = true; });
+            this.selectedResult = result;
+        };
+        Pedido.prototype.validateLengthObs = function (summary) {
+            if (summary.observation != null && summary.observation.length >= 250) {
+                summary.observation = summary.observation.substr(0, 249);
+            }
+            return true;
+        };
+        Pedido = __decorate([
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_router_1.Router,
+                foodServiceRepository_1.FoodServiceRepository,
+                aurelia_event_aggregator_1.EventAggregator,
+                aurelia_dialog_1.DialogService,
+                simulationRepository_1.SimulationRepository,
+                orderRepository_1.OrderRepository,
+                notificationService_1.NotificationService,
+                deliveryRuleRepository_1.DeliveryRuleRepository,
+                aurelia_validation_1.ValidationControllerFactory])
+        ], Pedido);
+        return Pedido;
+    }());
+    exports.Pedido = Pedido;
+});
+
+
+
 define('domain/analytics/genericAnalytics',["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -8208,6 +8208,300 @@ define('views/admin/finance/listInvoice',["require", "exports", "aurelia-framewo
 
 
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/inscricaoEstadualMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var InscricaoEstadualMask = (function () {
+        function InscricaoEstadualMask(element) {
+            this.element = element;
+        }
+        InscricaoEstadualMask.prototype.attached = function () {
+            $(this.element).mask('000.000.000.000');
+        };
+        InscricaoEstadualMask = __decorate([
+            aurelia_framework_1.customAttribute('inscricaoEstadual'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], InscricaoEstadualMask);
+        return InscricaoEstadualMask;
+    }());
+    exports.InscricaoEstadualMask = InscricaoEstadualMask;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/numberMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var NumberMask = (function () {
+        function NumberMask(element) {
+            this.element = element;
+        }
+        NumberMask.prototype.attached = function () {
+            $(this.element).mask('00');
+        };
+        NumberMask = __decorate([
+            aurelia_framework_1.customAttribute('number'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], NumberMask);
+        return NumberMask;
+    }());
+    exports.NumberMask = NumberMask;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/datepicker',["require", "exports", "aurelia-framework", "jquery-datetimepicker"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DatePicker = (function () {
+        function DatePicker(element) {
+            this.element = element;
+        }
+        DatePicker.prototype.attached = function () {
+            $(this.element).datetimepicker({
+                onGenerate: function (ct) {
+                },
+                format: 'd/m/Y',
+                timepicker: false,
+                mask: true,
+            })
+                .on('blur', function (e) { return fireEvent(e.target, 'change'); });
+        };
+        DatePicker.prototype.detached = function () {
+        };
+        DatePicker = __decorate([
+            aurelia_framework_1.customAttribute('datepicker'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], DatePicker);
+        return DatePicker;
+    }());
+    exports.DatePicker = DatePicker;
+    function fireEvent(element, name) {
+        var event = document.createEvent('Event');
+        event.initEvent(name, true, true);
+        element.dispatchEvent(event);
+    }
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/timeMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var TimeMask = (function () {
+        function TimeMask(element) {
+            this.element = element;
+        }
+        TimeMask.prototype.attached = function () {
+            $(this.element).mask('00:00');
+            var other = this;
+        };
+        TimeMask = __decorate([
+            aurelia_framework_1.customAttribute('time'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], TimeMask);
+        return TimeMask;
+    }());
+    exports.TimeMask = TimeMask;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/cellPhoneWithDDDMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CellPhoneWithDDDMask = (function () {
+        function CellPhoneWithDDDMask(element) {
+            this.element = element;
+        }
+        CellPhoneWithDDDMask.prototype.attached = function () {
+            $(this.element).mask('(00) 00000-0000');
+        };
+        CellPhoneWithDDDMask = __decorate([
+            aurelia_framework_1.customAttribute('cell-phone-with-ddd'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], CellPhoneWithDDDMask);
+        return CellPhoneWithDDDMask;
+    }());
+    exports.CellPhoneWithDDDMask = CellPhoneWithDDDMask;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/moneyMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var MoneyMask = (function () {
+        function MoneyMask(element) {
+            this.element = element;
+        }
+        MoneyMask.prototype.attached = function () {
+            $(this.element).mask('000.000.000.000.000,00', { reverse: true });
+        };
+        MoneyMask = __decorate([
+            aurelia_framework_1.customAttribute('money'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], MoneyMask);
+        return MoneyMask;
+    }());
+    exports.MoneyMask = MoneyMask;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/cepMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CEPMask = (function () {
+        function CEPMask(element) {
+            this.element = element;
+        }
+        CEPMask.prototype.attached = function () {
+            $(this.element).mask('00000-000');
+        };
+        CEPMask = __decorate([
+            aurelia_framework_1.customAttribute('cep'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], CEPMask);
+        return CEPMask;
+    }());
+    exports.CEPMask = CEPMask;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/cnpjMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CNPJMask = (function () {
+        function CNPJMask(element) {
+            this.element = element;
+        }
+        CNPJMask.prototype.attached = function () {
+            $(this.element).mask('00.000.000/0000-00');
+        };
+        CNPJMask = __decorate([
+            aurelia_framework_1.customAttribute('cnpj'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], CNPJMask);
+        return CNPJMask;
+    }());
+    exports.CNPJMask = CNPJMask;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/components/attributes/phoneWithDDDMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PhoneWithDDDMask = (function () {
+        function PhoneWithDDDMask(element) {
+            this.element = element;
+        }
+        PhoneWithDDDMask.prototype.attached = function () {
+            $(this.element).mask('(00) 0000-0000');
+        };
+        PhoneWithDDDMask = __decorate([
+            aurelia_framework_1.customAttribute('phone-with-ddd'),
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [Element])
+        ], PhoneWithDDDMask);
+        return PhoneWithDDDMask;
+    }());
+    exports.PhoneWithDDDMask = PhoneWithDDDMask;
+});
+
+
+
 define('views/components/valueConverters/numberValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -8528,300 +8822,6 @@ define('views/components/valueConverters/cnpjValueConverter',["require", "export
         return CnpjValueConverter;
     }());
     exports.CnpjValueConverter = CnpjValueConverter;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/inscricaoEstadualMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var InscricaoEstadualMask = (function () {
-        function InscricaoEstadualMask(element) {
-            this.element = element;
-        }
-        InscricaoEstadualMask.prototype.attached = function () {
-            $(this.element).mask('000.000.000.000');
-        };
-        InscricaoEstadualMask = __decorate([
-            aurelia_framework_1.customAttribute('inscricaoEstadual'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], InscricaoEstadualMask);
-        return InscricaoEstadualMask;
-    }());
-    exports.InscricaoEstadualMask = InscricaoEstadualMask;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/numberMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var NumberMask = (function () {
-        function NumberMask(element) {
-            this.element = element;
-        }
-        NumberMask.prototype.attached = function () {
-            $(this.element).mask('00');
-        };
-        NumberMask = __decorate([
-            aurelia_framework_1.customAttribute('number'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], NumberMask);
-        return NumberMask;
-    }());
-    exports.NumberMask = NumberMask;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/datepicker',["require", "exports", "aurelia-framework", "jquery-datetimepicker"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var DatePicker = (function () {
-        function DatePicker(element) {
-            this.element = element;
-        }
-        DatePicker.prototype.attached = function () {
-            $(this.element).datetimepicker({
-                onGenerate: function (ct) {
-                },
-                format: 'd/m/Y',
-                timepicker: false,
-                mask: true,
-            })
-                .on('blur', function (e) { return fireEvent(e.target, 'change'); });
-        };
-        DatePicker.prototype.detached = function () {
-        };
-        DatePicker = __decorate([
-            aurelia_framework_1.customAttribute('datepicker'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], DatePicker);
-        return DatePicker;
-    }());
-    exports.DatePicker = DatePicker;
-    function fireEvent(element, name) {
-        var event = document.createEvent('Event');
-        event.initEvent(name, true, true);
-        element.dispatchEvent(event);
-    }
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/timeMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var TimeMask = (function () {
-        function TimeMask(element) {
-            this.element = element;
-        }
-        TimeMask.prototype.attached = function () {
-            $(this.element).mask('00:00');
-            var other = this;
-        };
-        TimeMask = __decorate([
-            aurelia_framework_1.customAttribute('time'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], TimeMask);
-        return TimeMask;
-    }());
-    exports.TimeMask = TimeMask;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/cellPhoneWithDDDMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CellPhoneWithDDDMask = (function () {
-        function CellPhoneWithDDDMask(element) {
-            this.element = element;
-        }
-        CellPhoneWithDDDMask.prototype.attached = function () {
-            $(this.element).mask('(00) 00000-0000');
-        };
-        CellPhoneWithDDDMask = __decorate([
-            aurelia_framework_1.customAttribute('cell-phone-with-ddd'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], CellPhoneWithDDDMask);
-        return CellPhoneWithDDDMask;
-    }());
-    exports.CellPhoneWithDDDMask = CellPhoneWithDDDMask;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/moneyMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var MoneyMask = (function () {
-        function MoneyMask(element) {
-            this.element = element;
-        }
-        MoneyMask.prototype.attached = function () {
-            $(this.element).mask('000.000.000.000.000,00', { reverse: true });
-        };
-        MoneyMask = __decorate([
-            aurelia_framework_1.customAttribute('money'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], MoneyMask);
-        return MoneyMask;
-    }());
-    exports.MoneyMask = MoneyMask;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/cepMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CEPMask = (function () {
-        function CEPMask(element) {
-            this.element = element;
-        }
-        CEPMask.prototype.attached = function () {
-            $(this.element).mask('00000-000');
-        };
-        CEPMask = __decorate([
-            aurelia_framework_1.customAttribute('cep'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], CEPMask);
-        return CEPMask;
-    }());
-    exports.CEPMask = CEPMask;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/cnpjMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CNPJMask = (function () {
-        function CNPJMask(element) {
-            this.element = element;
-        }
-        CNPJMask.prototype.attached = function () {
-            $(this.element).mask('00.000.000/0000-00');
-        };
-        CNPJMask = __decorate([
-            aurelia_framework_1.customAttribute('cnpj'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], CNPJMask);
-        return CNPJMask;
-    }());
-    exports.CNPJMask = CNPJMask;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/components/attributes/phoneWithDDDMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PhoneWithDDDMask = (function () {
-        function PhoneWithDDDMask(element) {
-            this.element = element;
-        }
-        PhoneWithDDDMask.prototype.attached = function () {
-            $(this.element).mask('(00) 0000-0000');
-        };
-        PhoneWithDDDMask = __decorate([
-            aurelia_framework_1.customAttribute('phone-with-ddd'),
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [Element])
-        ], PhoneWithDDDMask);
-        return PhoneWithDDDMask;
-    }());
-    exports.PhoneWithDDDMask = PhoneWithDDDMask;
 });
 
 
@@ -10182,7 +10182,7 @@ define('text!views/login.html', ['module'], function(module) { module.exports = 
 define('text!views/welcome.html', ['module'], function(module) { module.exports = "<template><require from=\"./components/attributes/cnpjMask\"></require><require from=\"./components/attributes/cepMask\"></require><require from=\"./components/attributes/phoneWithDDDMask\"></require><require from=\"./components/attributes/cellPhoneWithDDDMask\"></require><require from=\"./components/valueConverters/cnpjValueConverter\"></require><require from=\"./components/valueConverters/cepValueConverter\"></require><require from=\"./components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"./components/valueConverters/cellPhoneWithDDDValueConverter\"></require><div class=\"row\"><div class=\"right-column sisu\"><div class=\"row mx-0\"><div class=\"col-md-7 order-md-2 signin-right-column px-5 bg-dark\"><a class=\"signin-logo d-sm-block d-md-none\" href=\"#\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\"></a><h1 class=\"display-4\">CSZ Compras Inteligentes</h1><p class=\"lead mb-5\">Olá, seja bem-vindo</p></div><div class=\"col-md-5 order-md-1 signin-left-column bg-white px-5\"><div if.bind=\"wasCreated\"><h2>Obrigado!</h2><p class=\"mt-4\">Um e-mail foi enviado para ${user.email} com as instruções para acesso!</p></div><form if.bind=\"! wasCreated\"><h4 class=\"text-center\">Dados de Cadastro</h4><p>Preencha os dados abaixo para sabermos mais sobre você</p><div class=\"form-group\"><label class=\"control-label active\">Nome<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"user.contactName  & validate\"></div><div class=\"form-group\"><label class=\"control-label active\">E-mail<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"email\" class=\"form-control\" value.bind=\"user.email  & validate\"></div><div class=\"form-group\"><label class=\"control-label active\">Razão Social<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"user.companyName  & validate\"></div><div class=\"form-group\"><label class=\"control-label active\">Telefone</label> <input type=\"text\" class=\"form-control\" phone-with-ddd value.bind=\"user.commercialPhone | phoneWithDDD  & validate\" id=\"exampleInputEmail1\" value.bind=\"credential.email\"></div><div class=\"form-group\"><label class=\"control-label active\">Telefone Celular</label> <input type=\"text\" class=\"form-control\" cell-phone-with-ddd value.bind=\"user.mobilePhone | cellPhoneWithDDD  & validate\" id=\"exampleInputEmail1\" value.bind=\"credential.email\"></div><div class=\"form-group text-center mt-4\"><div class=\"form-check form-check-inline mt-3\"><input class=\"form-check-input\" type=\"radio\" name=\"inlineRadioOptions\" value=\"1\" checked.bind=\"user.selectedType\"> <label class=\"form-check-label\" for=\"inlineRadio2\">Food service</label></div><div class=\"form-check form-check-inline ml-5 mt-3\"><input class=\"form-check-input\" type=\"radio\" name=\"inlineRadioOptions\" value=\"0\" checked.bind=\"user.selectedType\"> <label class=\"form-check-label\" for=\"inlineRadio1\">Fornecedor</label></div></div><button type=\"submit\" if.bind=\"! isLoading\" class=\"btn btn-primary btn-gradient btn-block waves-effect waves-light mt-4\" click.delegate=\"save()\" if.bind=\"! isloading\"><i class=\"batch-icon batch-icon-mail\"></i> Salvar</button><div class=\"fa-2x text-center\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></form></div></div></div></div></template>"; });
 define('text!views/forgotMyPassword.html', ['module'], function(module) { module.exports = "<template><div class=\"row\"><div class=\"right-column sisu\"><div class=\"row mx-0\"><div class=\"col-md-7 order-md-2 signin-right-column px-5 bg-dark\"><a class=\"signin-logo d-sm-block d-md-none\" href=\"#\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\"></a><h1 class=\"display-4\">CSZ Compras Inteligentes</h1><p class=\"lead mb-5\">Olá, seja bem-vindo</p></div><div class=\"col-md-5 order-md-1 signin-left-column bg-white px-5\"><a class=\"signin-logo d-sm-none d-md-block\" style=\"margin-left:10%\"><img class=\"ml-5\" src=\"assets/img/logo2T.png\" style=\"cursor:default\" width=\"150\" height=\"92\" alt=\"CSZ\"></a><div if.bind=\"wasReseted\"><h2>Obrigado!</h2><p class=\"mt-4\">Em breve você receberá um e-mail para redefinir a sua senha</p></div><form if.bind=\"! wasReseted\"><div class=\"form-group\"><label>E-mail</label> <input type=\"text\" class=\"form-control\" value.bind=\"email\" placeholder=\"E-mail\"></div><button type=\"submit\" if.bind=\"! isLoading\" class=\"btn btn-primary btn-gradient btn-block waves-effect waves-light\" click.delegate=\"resetPassword()\"><i class=\"batch-icon batch-icon-key mr-2\"></i> Confirmar</button><div class=\"fa-2x text-center\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></form></div></div></div></div></template>"; });
 define('text!views/confirmInvite.html', ['module'], function(module) { module.exports = "<template><div class=\"row\" if.bind=\"! isLoading\"><div class=\"right-column sisu\"><div class=\"row mx-0\"><div class=\"col-md-7 order-md-2 signin-right-column px-5 bg-dark\"><a class=\"signin-logo d-sm-block d-md-none\" href=\"#\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\"></a><h1 class=\"display-4\">CSZ Compras Inteligentes</h1><p class=\"lead mb-5\">Olá, seja bem-vindo ${user.name} </p></div><div class=\"col-md-5 order-md-1 signin-left-column bg-white px-5\"><a class=\"signin-logo d-sm-none d-md-block\" style=\"margin-left:10%\"><img class=\"ml-5\" src=\"assets/img/logo2T.png\" style=\"cursor:default\" width=\"150\" height=\"92\" alt=\"CSZ\"></a><div><h2>Falta pouco!</h2><p class=\"mt-4\">Defina sua senha abaixo para finalizarmos o seu cadastro</p></div><form class=\"mt-2\"><div class=\"form-group\"><label for=\"exampleInputPassword1\">Senha</label> <input type=\"password\" class=\"form-control\" id=\"exampleInputPassword1\" value.bind=\"invite.password\" placeholder=\"Password\"></div><div class=\"form-group\"><label for=\"exampleInputPassword1\">Confirme sua senha</label> <input type=\"password\" class=\"form-control\" id=\"exampleInputPassword1\" value.bind=\"invite.confirmPassword\" placeholder=\"Password\"></div><button type=\"submit\" if.bind=\"! processing\" class=\"btn btn-primary btn-gradient btn-block waves-effect waves-light\" click.delegate=\"save()\"><i class=\"batch-icon batch-icon-key mr-2\"></i> Definir senha</button> <span if.bind=\"processing\" class=\"badge badge-warning\">Efetuando autenticação</span></form></div></div></div></div><div class=\"fa-5x ${  isLoading  ? '' : 'invisible'}\" style=\"position:fixed;top:40%;left:50%\"><i class=\"fa fa-refresh fa-spin\"></i></div></template>"; });
-define('text!views/cotacao/pedidosFornecedor.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/moneyMask\"></require><require from=\"../components/valueConverters/moneyValueConverter\"></require><require from=\"../components/attributes/timeMask\"></require><require from=\"../components/valueConverters/timeValueConverter\"></require><require from=\"../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/cepMask\"></require><require from=\"../components/attributes/phoneWithDDDMask\"></require><require from=\"../components/attributes/inscricaoEstadualMask\"></require><require from=\"../components/attributes/cellPhoneWithDDDMask\"></require><require from=\"../components/valueConverters/cnpjValueConverter\"></require><require from=\"../components/valueConverters/cepValueConverter\"></require><require from=\"../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/inscricaoEstadualValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\"><span if.bind=\"! showdDetails\">Meus Pedidos </span><span if.bind=\"showdDetails\">Pedido nº ${selectedOrder.code}</span></div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\" if.bind=\"showdDetails\"><div class=\"mt-1\"><h5 class=\"mb-0\"> ${selectedOrder.foodService.name} <span class=\"badge badge-danger float-right\" if.bind=\"selectedOrder.status == 0\">Aguardando aprovação</span> <span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.status == 1\">Aprovado</span> <span class=\"badge badge-primary float-right\" if.bind=\"selectedOrder.status == 2\">Entregue</span><br><span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.deliveryDate != null\">Data da Entrega: ${selectedOrder.deliveryDate | dateFormat}</span><br><span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.deliveryScheduleStart != null\">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time} as ${selectedOrder.deliveryScheduleEnd | time} </span><br><span class=\"badge badge-danger float-left\" if.bind=\"selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' \">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span></h5><div><div class=\"card-body\"><h6 class=\"mt-2 mb-5\"><i class=\"fa fa-tag mr-2\"></i>Cadastro</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Razão Social</label> <label class=\"control-label col-md-6\">${foodService.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">CNPJ</label> <label class=\"control-label col-md-6\">${foodService.cnpj | cnpj}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome Fantasia</label> <label class=\"control-label col-md-6\">${foodService.fantasyName}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Inscrição Estadual</label> <label class=\"control-label col-md-6\">${foodService.inscricaoEstadual | inscricaoEstadual}</label></div></div></div><h6 class=\"mt-5 mb-5\"><i class=\"fa fa-envelope-o mr-2\"></i> Endereço</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">CEP</label> <label class=\"control-label col-md-6\">${foodService.address.cep | cep}</label></div></div></div><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Logradouro</label> <label class=\"control-label col-md-6\">${foodService.address.logradouro}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Bairro</label> <label class=\"control-label col-md-6\">${foodService.address.neighborhood}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Estado</label> <label class=\"control-label col-md-6\">${foodService.address.state}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Número</label> <label class=\"control-label col-md-6\">${foodService.address.number}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Cidade</label> <label class=\"control-label col-md-6\">${foodService.address.city}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Complemento</label> <label class=\"control-label col-md-6\">${foodService.address.complement}</label></div></div></div><h6 class=\"mt-5 mb-5\"><i class=\"batch-icon batch-icon-users mr-2\"></i>Contato</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome</label> <label class=\"control-label col-md-6\">${foodService.contact.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Comercial</label> <label class=\"control-label col-md-6\">${foodService.contact.commercialPhone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">E-mail</label> <label class=\"control-label col-md-6\">${foodService.contact.email}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone</label> <label class=\"control-label col-md-6\">${foodService.contact.phone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Celular</label> <label class=\"control-label col-md-6\">${foodService.contact.personalPhone | phoneWithDDD}</label></div></div></div></div></div><div class=\"card-header ml-0\" role=\"tab\" id=\"headingTwo\"><h4>Dados do pedido</h4></div><div><table class=\"table table-hover table-responsive\"><thead><tr><th class=\"text-left\">Nome do Produto</th><th class=\"text-center\">Cod. Cliente</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Quantidade</th><th class=\"text-center\">Preço unitário</th><th class=\"text-center\">Total</th></tr></thead><tbody><tr repeat.for=\"item of selectedOrder.items\"><td>${item.product.name}</td><td class=\"text-center\">${item.clientCode}</td><td>${item.product.description}</td><td>${item.product.category.name}</td><td>${item.product.unit.name}</td><td>${item.product.brand.name}</td><td class=\"text-center\">${item.quantity | money}</td><td class=\"text-center\">${item.price | money}</td><td class=\"text-center\">${item.total | money}</td></tr></tbody></table></div><div class=\"mt-5\" if.bind=\"selectedOrder.observation != null && selectedOrder.observation.length > 0\"><h4>Observações</h4><div class=\"form-group mx-auto\"><textarea class=\"form-control disabled\" disabled=\"disabled\" value.bind=\"selectedOrder.observation\" disable rows=\"2\"></textarea></div></div></div><div class=\"text-center mt-3\"><button type=\"button\" class=\"btn btn-secondary waves-effect waves-light\" click.trigger=\"showdDetails = false\"><i class=\"fa fa-undo mr-2\" aria-hidden=\"true\"></i>Voltar</button> <button type=\"button\" class=\"btn btn-success waves-effect waves-light\" click.trigger=\"exportOrder(selectedOrder)\"><i class=\"fa fa-file-excel-o mr-2\"></i> Exportar</button> <button type=\"button\" class=\"btn btn-success waves-effect waves-light\" click.trigger=\"acceptOrder(selectedOrder)\" if.bind=\"selectedOrder.status == 0\">Aceitar <i class=\"fa fa-arrow-right ml-2\" aria-hidden=\"true\"></i></button></div></div><div class=\"col-md-12\" if.bind=\"! showdDetails\"><div class=\"form-row align-items-center\"><div class=\"col-lg-4 ml-1\"><label for=\"input-task-title\" class=\"active\">Status</label> <select class=\"form-control\" value.bind=\"selectedStatus\" change.delegate=\"load()\"><option value=\"0\" selected=\"selected\">Novo pedido</option><option value=\"1\">Aceito</option><option value=\"2\">Entregue</option><option value=\"3\">Rejeitado</option></select></div><div class=\"col-lg-4\"><label for=\"input-task-title\" class=\"active\">Dados do pedido</label> <input type=\"text\" class=\"form-control input-task-title\" placeholder=\"Codigo / Cliente / Contato / Valor\" change.trigger=\"search()\" value.bind=\"filter\"></div><div class=\"col-lg-3 ml-4 mt-3\"><button type=\"button\" click.trigger=\"search()\" class=\"btn btn-primary btn-gradient assign-task waves-effect waves-light\"><span class=\"gradient\">Pesquisar</span></button></div></div><div><table class=\"table table-hover table-responsive\"><thead><tr><th class=\"text-center\">Código</th><th class=\"text-center\">Status</th><th>Data do Pedido</th><th class=\"text-center\">Data de entrega</th><th class=\"text-center\">Horário de entrega</th><th class=\"text-center\">Cliente</th><th class=\"text-center\">Contato</th><th class=\"text-center\">Quantidade de Produtos</th><th class=\"text-center\">Total</th><th></th></tr></thead><tbody><tr repeat.for=\"order of filteredOrders\"><td class=\"text-center\">${order.code}</td><td class=\"text-center\"><span class=\"badge badge-danger\" if.bind=\"order.status == 0\">Novo pedido</span> <span class=\"badge badge-warning\" if.bind=\"order.status == 1\">Aceito</span> <span class=\"badge badge-primary\" if.bind=\"order.status == 2\">Entregue</span> <span class=\"badge badge-default\" if.bind=\"order.status == 3\">Rejeitado</span></td><td>${order.createdOn | dateFormat}</td><td class=\"text-center\">${order.deliveryDate | dateFormat}</td><td class=\"text-center\"><span if.bind=\"order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null\">das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time} </span></td><td class=\"text-center\">${order.foodService.name}</td><td class=\"text-center\">${order.createdBy.name}</td><td class=\"text-center\">${order.items.length}</td><td class=\"text-right\">${order.total | money}</td><td class=\"text-right\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"selectOrder(order)\">Ver detalhes</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" click.trigger=\"exportOrder(order)\"><i class=\"fa fa-file-excel-o mr-2\"></i> Exportar</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" click.trigger=\"acceptOrder(order)\" if.bind=\"order.status == 0\"><i class=\"fa fa-check mr-2\"></i>Aprovar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" click.trigger=\"rejectOrder(order)\" if.bind=\"order.status == 0\"><i class=\"fa fa-times mr-2\" aria-hidden=\"true\"></i> Rejeitar</button></td></tr></tbody></table></div></div></div></div></div></div></div></template>"; });
+define('text!views/cotacao/pedidosFornecedor.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/moneyMask\"></require><require from=\"../components/valueConverters/moneyValueConverter\"></require><require from=\"../components/attributes/timeMask\"></require><require from=\"../components/valueConverters/timeValueConverter\"></require><require from=\"../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/cepMask\"></require><require from=\"../components/attributes/phoneWithDDDMask\"></require><require from=\"../components/attributes/inscricaoEstadualMask\"></require><require from=\"../components/attributes/cellPhoneWithDDDMask\"></require><require from=\"../components/valueConverters/cnpjValueConverter\"></require><require from=\"../components/valueConverters/cepValueConverter\"></require><require from=\"../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/inscricaoEstadualValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\"><span if.bind=\"! showdDetails\">Meus Pedidos </span><span if.bind=\"showdDetails\">Pedido nº ${selectedOrder.code}</span></div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\" if.bind=\"showdDetails\"><div class=\"mt-1\"><h5 class=\"mb-0\"> ${selectedOrder.foodService.name} <span class=\"badge badge-danger float-right\" if.bind=\"selectedOrder.status == 0\">Aguardando aprovação</span> <span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.status == 1\">Aprovado</span> <span class=\"badge badge-primary float-right\" if.bind=\"selectedOrder.status == 2\">Entregue</span><br><span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.deliveryDate != null\">Data da Entrega: ${selectedOrder.deliveryDate | dateFormat}</span><br><span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.deliveryScheduleStart != null\">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time} as ${selectedOrder.deliveryScheduleEnd | time} </span><br><span class=\"badge badge-danger float-left\" if.bind=\"selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' \">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span></h5><div><div class=\"card-body\"><h6 class=\"mt-2 mb-5\"><i class=\"fa fa-tag mr-2\"></i>Cadastro</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Razão Social</label> <label class=\"control-label col-md-6\">${foodService.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">CNPJ</label> <label class=\"control-label col-md-6\">${foodService.cnpj | cnpj}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome Fantasia</label> <label class=\"control-label col-md-6\">${foodService.fantasyName}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Inscrição Estadual</label> <label class=\"control-label col-md-6\">${foodService.inscricaoEstadual | inscricaoEstadual}</label></div></div></div><h6 class=\"mt-5 mb-5\"><i class=\"fa fa-envelope-o mr-2\"></i> Endereço</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">CEP</label> <label class=\"control-label col-md-6\">${foodService.address.cep | cep}</label></div></div></div><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Logradouro</label> <label class=\"control-label col-md-6\">${foodService.address.logradouro}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Bairro</label> <label class=\"control-label col-md-6\">${foodService.address.neighborhood}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Estado</label> <label class=\"control-label col-md-6\">${foodService.address.state}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Número</label> <label class=\"control-label col-md-6\">${foodService.address.number}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Cidade</label> <label class=\"control-label col-md-6\">${foodService.address.city}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Complemento</label> <label class=\"control-label col-md-6\">${foodService.address.complement}</label></div></div></div><h6 class=\"mt-5 mb-5\"><i class=\"batch-icon batch-icon-users mr-2\"></i>Contato</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome</label> <label class=\"control-label col-md-6\">${foodService.contact.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Comercial</label> <label class=\"control-label col-md-6\">${foodService.contact.commercialPhone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">E-mail</label> <label class=\"control-label col-md-6\">${foodService.contact.email}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone</label> <label class=\"control-label col-md-6\">${foodService.contact.phone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Celular</label> <label class=\"control-label col-md-6\">${foodService.contact.personalPhone | phoneWithDDD}</label></div></div></div></div></div><div class=\"card-header ml-0\" role=\"tab\" id=\"headingTwo\"><h4>Dados do pedido</h4></div><div><table class=\"table table-hover table-responsive\"><thead><tr><th class=\"text-center\">Cod. Produto</th><th class=\"text-left\">Nome do Produto</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Quantidade</th><th class=\"text-center\">Preço unitário</th><th class=\"text-center\">Total</th></tr></thead><tbody><tr repeat.for=\"item of selectedOrder.items\"><td class=\"text-center\">${item.clientCode}</td><td>${item.product.name}</td><td>${item.product.description}</td><td>${item.product.category.name}</td><td>${item.product.unit.name}</td><td>${item.product.brand.name}</td><td class=\"text-center\">${item.quantity | money}</td><td class=\"text-center\">${item.price | money}</td><td class=\"text-center\">${item.total | money}</td></tr></tbody></table></div><div class=\"mt-5\" if.bind=\"selectedOrder.observation != null && selectedOrder.observation.length > 0\"><h4>Observações</h4><div class=\"form-group mx-auto\"><textarea class=\"form-control disabled\" disabled=\"disabled\" value.bind=\"selectedOrder.observation\" disable rows=\"2\"></textarea></div></div></div><div class=\"text-center mt-3\"><button type=\"button\" class=\"btn btn-secondary waves-effect waves-light\" click.trigger=\"showdDetails = false\"><i class=\"fa fa-undo mr-2\" aria-hidden=\"true\"></i>Voltar</button> <button type=\"button\" class=\"btn btn-success waves-effect waves-light\" click.trigger=\"exportOrder(selectedOrder)\"><i class=\"fa fa-file-excel-o mr-2\"></i> Exportar</button> <button type=\"button\" class=\"btn btn-success waves-effect waves-light\" click.trigger=\"acceptOrder(selectedOrder)\" if.bind=\"selectedOrder.status == 0\">Aceitar <i class=\"fa fa-arrow-right ml-2\" aria-hidden=\"true\"></i></button></div></div><div class=\"col-md-12\" if.bind=\"! showdDetails\"><div class=\"form-row align-items-center\"><div class=\"col-lg-4 ml-1\"><label for=\"input-task-title\" class=\"active\">Status</label> <select class=\"form-control\" value.bind=\"selectedStatus\" change.delegate=\"load()\"><option value=\"0\" selected=\"selected\">Novo pedido</option><option value=\"1\">Aceito</option><option value=\"2\">Entregue</option><option value=\"3\">Rejeitado</option></select></div><div class=\"col-lg-4\"><label for=\"input-task-title\" class=\"active\">Dados do pedido</label> <input type=\"text\" class=\"form-control input-task-title\" placeholder=\"Codigo / Cliente / Contato / Valor\" change.trigger=\"search()\" value.bind=\"filter\"></div><div class=\"col-lg-3 ml-4 mt-3\"><button type=\"button\" click.trigger=\"search()\" class=\"btn btn-primary btn-gradient assign-task waves-effect waves-light\"><span class=\"gradient\">Pesquisar</span></button></div></div><div><table class=\"table table-hover table-responsive\"><thead><tr><th class=\"text-center\">Código</th><th class=\"text-center\">Status</th><th>Data do Pedido</th><th class=\"text-center\">Data de entrega</th><th class=\"text-center\">Horário de entrega</th><th class=\"text-center\">Cliente</th><th class=\"text-center\">Contato</th><th class=\"text-center\">Quantidade de Produtos</th><th class=\"text-center\">Total</th><th></th></tr></thead><tbody><tr repeat.for=\"order of filteredOrders\"><td class=\"text-center\">${order.code}</td><td class=\"text-center\"><span class=\"badge badge-danger\" if.bind=\"order.status == 0\">Novo pedido</span> <span class=\"badge badge-warning\" if.bind=\"order.status == 1\">Aceito</span> <span class=\"badge badge-primary\" if.bind=\"order.status == 2\">Entregue</span> <span class=\"badge badge-default\" if.bind=\"order.status == 3\">Rejeitado</span></td><td>${order.createdOn | dateFormat}</td><td class=\"text-center\">${order.deliveryDate | dateFormat}</td><td class=\"text-center\"><span if.bind=\"order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null\">das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time} </span></td><td class=\"text-center\">${order.foodService.name}</td><td class=\"text-center\">${order.createdBy.name}</td><td class=\"text-center\">${order.items.length}</td><td class=\"text-right\">${order.total | money}</td><td class=\"text-right\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"selectOrder(order)\">Ver detalhes</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" click.trigger=\"exportOrder(order)\"><i class=\"fa fa-file-excel-o mr-2\"></i> Exportar</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" click.trigger=\"acceptOrder(order)\" if.bind=\"order.status == 0\"><i class=\"fa fa-check mr-2\"></i>Aprovar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" click.trigger=\"rejectOrder(order)\" if.bind=\"order.status == 0\"><i class=\"fa fa-times mr-2\" aria-hidden=\"true\"></i> Rejeitar</button></td></tr></tbody></table></div></div></div></div></div></div></div></template>"; });
 define('text!views/cotacao/cotacao.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../components/attributes/datepicker\"></require><require from=\"../components/attributes/moneyMask\"></require><require from=\"../components/valueConverters/moneyValueConverter\"></require><require from=\"../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../components/attributes/timeMask\"></require><require from=\"../components/valueConverters/timeValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Cotação<div class=\"progress\"><div class=\"progress-bar progress-bar-sm bg-gradient\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0%\"></div></div></div><div class=\"card-form-wizard\"><div class=\"row\"><div class=\"col-lg-12\"><div id=\"rootwizard-1\"><ul class=\"nav nav-pills\"><li><a href=\"#tab1\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">1. Lista de Compras</span></span></a></li><li><a href=\"#tab2\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">2. Cotações</span></span></a></li><li><a href=\"#tab3\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">3. Pedido</span></span></a></li></ul><div class=\"tab-content clearfix\"><div class=\"tab-pane\" id=\"tab1\"><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Selecione a lista de compras</label> <select class=\"form-control\" value.bind=\"selectedQuote\" change.trigger=\"loadDeliveryRule()\"><option value=\"\"></option><option repeat.for=\"quote of quotes\" model.bind=\"quote\">${quote.buyListName}</option></select></div></div></div><div class=\"row mt-2\" if.bind=\"selectedQuote.products.length > 0\"><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Informe a data de entrega</label> <input type=\"text\" class=\"form-control\" autocomplete=\"off\" placeholder=\"00/00/0000\" value.bind=\"viewModel.deliveryDate | dateFormat \" datepicker change.trigger=\"checkDeliveryDate()\"></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Horário inicial</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"viewModel.deliveryScheduleStart | time \" change.trigger=\"checkDeliveryDate()\"></div></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Horário final</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"viewModel.deliveryScheduleEnd | time \" change.trigger=\"checkDeliveryDate()\"></div></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-5\"><span class=\"badge badge-warning\" if.bind=\"selectedQuote.products.length == 0\">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos</span><div if.bind=\"selectedQuote.products.length > 0 \"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><p>Você pode remover fornecedores da sua cotação</p><span style=\"padding:10px;cursor:pointer\" click.trigger=\"addRemoveSupplier(supplier)\" repeat.for=\"supplier of selectedQuote.suppliers\" class=\"badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' } ml-3 mt-2\"><i class=\"fa fa-times mr-3\" if.bind=\"supplier.isInvalid\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-times mr-3\" if.bind=\"! supplier.wasRemoved && ! supplier.isInvalid\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-plus mr-3\" if.bind=\"supplier.wasRemoved && ! supplier.isInvalid\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"addSupplier(supplier)\"></i> ${supplier.name} </span><div class=\"row mt-3\"><div class=\"col-md-12\" repeat.for=\"x of checkDeliveryResult.items\"><span class=\"badge badge-danger\">${x.message}</span></div></div></div><table class=\"table table-hover table-responsive mt-2\"><thead><tr><th>Nome do produto</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Fornecedores</th><th class=\"text-center\">Quantidade</th></tr></thead><tbody><tr repeat.for=\"product of selectedQuote.products\"><td><span class=\"badge badge-warning\" if.bind=\"product.suppliers == null || product.suppliers.length == 0\"><i class=\"fa fa-warning\"></i> ${product.name} </span><span if.bind=\"product.suppliers != null && product.suppliers.length > 0\">${product.name}</span></td><td>${product.description}</td><td>${product.category}</td><td>${product.unitOfMeasure}</td><td>${product.brand}</td><td class=\"text-right\"><span style=\"padding:10px;cursor:pointer\" click.trigger=\"addRemoveSupplier(supplier)\" repeat.for=\"supplier of product.suppliers\" class=\"badge ${  supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' } ml-3 mt-2\"><i class=\"fa fa-times mr-3\" if.bind=\"! supplier.wasRemoved && ! suplier.isInvalid \" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-plus mr-3\" if.bind=\"supplier.wasRemoved && ! suplier.isInvalid  \" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"addSupplier(supplier)\"></i> ${supplier.name} </span><span class=\"font-bold\" if.bind=\"product.suppliers == null || product.suppliers.length == 0\">Não há fornecedores cadastrados que oferecem esse produto</span></td><td class=\"text-center\"><div class=\"col-md-12 mx-auto\"><input type=\"text\" class=\"money text-right form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }\" autocomplete=\"off\" value.bind=\"product.quantity | money\" money placeholder=\"000\" disabled.bind=\"product.suppliers == null || product.suppliers.length == 0\"></div></td></tr></tbody></table></div></div></div></div></div></div><div class=\"tab-pane\" id=\"tab2\"><div class=\"row\" if.bind=\"isProcessing\"><div class=\"col-md-6\"><div class=\"form-group\"><span if.bind=\"processing\" class=\"badge badge-warning\">Efetuando cotação</span></div></div></div><div class=\"col-md-12\"><div id=\"accordion2\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"col-md-12 mt-3\" if.bind=\"buyList\"><div class=\"form-group\"><span class=\"badge badge-warning\">Selecione uma das cotações abaixo</span></div></div><div class=\"mt-4\" if.bind=\"! isProcessing && simulation == null\"><p class=\"mt-3\">Mínimo de compras não atingido, aumente suas compras. Mínimo de compras de cada fornecedor:</p><p class=\"mt-3\" repeat.for=\"supplier of selectedQuote.suppliers\"><span class=\"badge badge-success\"><i class=\"fa fa-tag mr-2\"></i> ${supplier.name} : R$ ${supplier.minimumOrderValue | money} </span></p></div><div class=\"mt-4\" if.bind=\"! isProcessing\" repeat.for=\"result of simulation.betterResults\"><div class=\"card-header ml-0\" role=\"tab\" id=\"result${result.id}\"><h5 class=\"mb-0\"><label class=\"custom-control custom-checkbox text-center\"><input type=\"checkbox\" class=\"custom-control-input\" change.trigger=\"changeSelectedCotacao(result)\" checked.bind=\"result.isSelected\"> <span class=\"custom-control-indicator\"></span></label> <a data-toggle=\"collapse\" data-parent=\"#accordion2\" href=\"#collapse${result.id}\" aria-expanded=\"false\" aria-controls=\"collapse${result.id}\" class=\"\">Cotação ${$index + 1} <i class=\"fa fa-check\" if.bind=\"result.isSelected\"></i> <span class=\"text-right float-right\">${result.total  | money}</span></a></h5></div><div id=\"collapse${result.id}\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" style=\"\"><div class=\"card-body\"><h4 class=\"mt-4\">Alertas</h4><p style=\"padding:10px;cursor:pointer\" repeat.for=\"item of result.logMessages.split(';')\" if.bind=\"item != null && item != ''\" class=\"badge badge-warning ml-3 mt-2\"><i class=\"fa fa-warning\"></i> ${item} </p><h4 class=\"mt-5\">Fornecedores</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.summaryItems\"><td> ${item.supplier.fantasyName} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${item.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${item.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.periodToAcceptOrder2 | time} </td><td class=\"text-center\"><span if.bind=\"item.rule.deliveryOnMonday\" class=\"badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"item.rule.deliveryOnTuesday\" class=\"badge ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"item.rule.deliveryOnWednesday\" class=\"badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"item.rule.deliveryOnThursday\" class=\"badge ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"item.rule.deliveryOnFriday\" class=\"badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"item.rule.deliveryOnSaturday\" class=\"badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"item.rule.deliveryOnSunday\" class=\"badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${item.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${item.total | money} </td></tr></tbody></table></div><h4 class=\"mt-5\">Produtos</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Nome do Produto</th><th class=\"text-left\">Descrição</th><th class=\"text-center\">UM</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.items\"><td> ${item.product.name} <div><small class=\"boldness-light\">${item.supplier.fantasyName}</small></div></td><td class=\"text-center align-middle\"> ${item.product.description} </td><td class=\"text-center\"> ${item.product.unit.name} </td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total | money} </td></tr><tr><td colspan=\"4\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${result.total  | money}</strong></td></tr></tbody></table></div></div></div></div></div></div></div><div class=\"tab-pane\" id=\"tab3\"><div class=\"col-md-12 mt-3\" if.bind=\"isProcessing\"><div class=\"form-group\"><span class=\"badge badge-warning\">Confirme os dados antes de gerar o pedido</span></div></div><div class=\"card-table table-responsive\" repeat.for=\"summary of selectedResult.summaryItems\"><h4><i class=\"fa fa-tag mr-2\"></i> Pedido ${$index + 1} - ${summary.supplier.fantasyName}</h4><h5 class=\"mt-5\">Informações do fornecedor</h5><table class=\"table table-hover table-sm align-middle mt-1\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr><td> ${summary.supplier.fantasyName} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${summary.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${summary.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${summary.rule.periodToAcceptOrder2 | time} </td><td class=\"text-center\"><span if.bind=\"summary.rule.deliveryOnMonday\" class=\"badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"summary.rule.deliveryOnTuesday\" class=\"badge ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"summary.rule.deliveryOnWednesday\" class=\"badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"summary.rule.deliveryOnThursday\" class=\"badge ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"summary.rule.deliveryOnFriday\" class=\"badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"summary.rule.deliveryOnSaturday\" class=\"badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"summary.rule.deliveryOnSunday\" class=\"badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${summary.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${summary.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${summary.total | money} </td></tr></tbody></table><h5 class=\"mt-5\">Produtos</h5><table class=\"table table-hover mt-1\"><thead><tr><th class=\"text-left\">Nome do Produto</th><th class=\"text-center\">Descrição</th><th class=\"text-center\">UM</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of summary.items\"><td> ${item.product.name} </td><td class=\"text-center align-middle\"> ${item.product.description} </td><td class=\"text-center\"> ${item.product.unit.name} </td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total | money} </td></tr><tr><td colspan=\"4\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${summary.total  | money}</strong></td></tr></tbody></table><p class=\"mt-5\">Deseja acrescentar alguma observação ao pedido?</p><div class=\"form-group mx-auto\"><textarea class=\"form-control\" value.bind=\"summary.observation \" rows=\"2\" keypress.delegate=\"validateLengthObs(summary)\"></textarea></div><p>${250 - summary.observation.length} caractere(s) restantes</p></div></div><ul class=\"pager wizard mt-5\"><li class=\"previous\" if.bind=\"currentStep != 1\"><a href=\"#\" class=\"waves-effect waves-light\" click.trigger=\"back()\" if.bind=\"currentStep > 0 \">Voltar</a></li><li class=\"next\" if.bind=\"isOrderValid && currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) \"><a href=\"#\" id=\"next\" class=\" ${ ! isOrderValid ? 'disabled' : '' } waves-effect waves-light\" click.trigger=\"advance()\">Avançar</a></li><li class=\"finish float-right\" if.bind=\"currentStep == totalSteps\"><button type=\"button\" class=\"btn btn-success waves-effect waves-light\" if.bind=\"! isProcessing && ! orderWasGenerated\" click.trigger=\"generateOrder()\"><span class=\"gradient\">Gerar pedido</span> <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></button><div class=\"fa-2x text-center\" if.bind=\"isProcessing\"><i class=\"fa fa-refresh fa-spin\"></i></div></li></ul></div></div></div></div></div></div></div></div></template>"; });
 define('text!views/foodService/cadastro.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/cepMask\"></require><require from=\"../components/attributes/phoneWithDDDMask\"></require><require from=\"../components/attributes/cellPhoneWithDDDMask\"></require><require from=\"../components/attributes/inscricaoEstadualMask\"></require><require from=\"../components/valueConverters/cnpjValueConverter\"></require><require from=\"../components/valueConverters/cepValueConverter\"></require><require from=\"../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/inscricaoEstadualValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Cadastro de Cliente<div class=\"progress\"><div class=\"progress-bar progress-bar-sm bg-gradient\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0%\"></div></div></div><div class=\"card-form-wizard\"><div class=\"row\"><div class=\"col-lg-12\"><div id=\"rootwizard-1\"><ul class=\"nav nav-pills\"><li><a href=\"#tab1\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">1. Dados Básicos</span></span></a></li><li><a href=\"#tab2\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">2. Endereço</span> <small>No validation required</small></span></a></li><li><a href=\"#tab3\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">3. Contatos</span></span></a></li></ul><div class=\"tab-content clearfix\"><div class=\"tab-pane\" id=\"tab1\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Razão Social <span class=\"text-danger\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"foodService.name\"></div><div class=\"form-group\"><label class=\"control-label\">CNPJ <span class=\"text-danger\">*</span></label> <span class=\"ml-2 fa-1x text-center\" if.bind=\"isCNPJLoading\"><i class=\"fa fa-refresh fa-spin\"></i></span> <input type=\"text\" class=\"form-control\" cnpj value.bind=\"foodService.cnpj | cnpj \" change.delegate=\"consultaCNPJ()\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome Fantasia <span class=\"text-danger\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"foodService.fantasyName\"></div><div class=\"form-group\"><label class=\"control-label\">Inscrição Estadual <span class=\"text-danger\">*</span></label> <input type=\"text\" class=\"form-control\" inscricaoestadual value.bind=\"foodService.inscricaoEstadual | inscricaoEstadual\"></div></div></div></div><div class=\"tab-pane\" id=\"tab2\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">CEP</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isCepInvalid  ? 'border-danger' : '' } \" cep value.bind=\"foodService.address.cep | cep\" change.delegate=\"consultaCEP()\"></div></div></div><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Logradouro</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isLogradouroInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.address.logradouro\" change.delegate=\"validator.addressValidator.validateLogradouro()\"></div><div class=\"form-group\"><label class=\"control-label\">Bairro</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isNeighborhoodInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.address.neighborhood\" change.delegate=\"validator.addressValidator.validateNeighborhood()\"></div><div class=\"form-group\"><label class=\"control-label\">Estado</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isStateInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.address.state\" change.delegate=\"validator.addressValidator.validateState()\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Número</label> <input type=\"number\" class=\"form-control ${validator.addressValidator.isNumberInvalid  ? 'border-danger' : '' }\" value.bind=\"foodService.address.number\" change.delegate=\"validator.addressValidator.validateNumber()\"></div><div class=\"form-group\"><label class=\"control-label\">Cidade</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isCityInvalid  ? 'border-danger' : '' }\" value.bind=\"foodService.address.city\" change.delegate=\"validator.addressValidator.validateCity()\"></div><div class=\"form-group\"><label class=\"control-label\">Complemento</label> <input type=\"text\" class=\"form-control\" value.bind=\"foodService.address.complement\"></div></div></div></div><div class=\"tab-pane\" id=\"tab3\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }\" value.bind=\"foodService.contact.name\" change.delegate=\"validator.contactValidator.validateName()\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Comercial</label> <input type=\"text\" class=\"form-control\" phone-with-ddd value.bind=\"foodService.contact.commercialPhone | phoneWithDDD\" placeholder=\"(01) 1234-5678\"></div><div class=\"form-group\"><label class=\"control-label\">E-mail</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.contact.email\" change.delegate=\"validator.contactValidator.validateEmail()\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Telefone</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } \" phone-with-ddd value.bind=\"foodService.contact.phone | phoneWithDDD\" change.delegate=\"validator.contactValidator.validatePhone()\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Celular</label> <input type=\"text\" class=\"form-control\" cell-phone-with-ddd value.bind=\"foodService.contact.personalPhone | cellPhoneWithDDD\" placeholder=\"(01) 01234-5678\"></div></div></div></div><ul class=\"pager wizard\"><li class=\"previous\"><a href=\"#\" class=\"waves-effect waves-light\" click.trigger=\"back()\">Voltar</a></li><li class=\"next\" if.bind=\"currentStep < totalSteps\"><a href=\"#\" class=\"waves-effect waves-light\" click.trigger=\"advance()\">Avançar</a></li><li class=\"finish float-right\" if.bind=\"currentStep == totalSteps\"><button type=\"button\" if.bind=\"! isLoading\" class=\"btn btn-primary btn-gradient assign-task waves-effect waves-light\" click.trigger=\"save()\"><span class=\"gradient\">Salvar</span></button><div class=\"fa-2x text-center\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></li></ul></div></div></div></div></div></div></div></div></template>"; });
 define('text!views/foodService/fornecedores.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/phoneWithDDDMask\"></require><require from=\"../admin/supplier/editSupplier\"></require><div class=\"row mb-5 task-manager au-animate\" if.bind=\"! showDetails\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\"> ${title} </div><div class=\"card-body\"><div class=\"form-row align-items-center\"><div class=\"col-lg-3\"><label for=\"input-task-title\" class=\"active\">Filtro</label> <select class=\"form-control\" value.bind=\"tipoFiltro\" change.delegate=\"alterView()\"><option value=\"1\">Sugeridos</option><option value=\"2\">Meus fornecedores</option><option value=\"4\">Bloqueados</option><option value=\"3\">Todos</option></select></div><div class=\"col-lg-3\"><label for=\"input-task-title\" class=\"active\">Nome do fornecedor <span class=\"required-item\">*</span></label> <input type=\"text\" class=\"form-control input-task-title\" id=\"input-task-title\" placeholder=\"nome...\" change.trigger=\"search()\" value.bind=\"filter\"></div><div class=\"col-lg-3 ml-4 mt-3\" if.bind=\"! isLoading\"><button type=\"button\" class=\"btn btn-primary btn-gradient assign-task waves-effect waves-light\"><span class=\"gradient\">Pesquisar</span></button></div><div class=\"col-lg-3 ml-4 mt-3 fa-2x text-center\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div><div class=\"card-body\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th>Situação Cadastral</th><th>Contato</th><th>E-mail</th><th>Telefone</th><th>Mercados</th><th></th><th></th></tr></thead><tbody><tr repeat.for=\"x of filteredSuppliers\"><td>${x.supplier.fantasyName}</td><td><span class=\"badge badge-primary\" if.bind=\"x.status == 0\">Não cadastrado</span> <span class=\"badge badge-warning\" if.bind=\"x.status == 1\">Cadastro enviado</span> <span class=\"badge badge-success\" if.bind=\"x.status == 2\">Disponível</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 3\">Cadastro Rejeitado</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 4\">Bloqueado</span> <span class=\"badge badge-warning\" if.bind=\"x.status == 5\">Aguardando aprovação</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 6\">Bloqueado</span></td><td>${x.supplier.contact.name}</td><td>${x.supplier.contact.email}</td><td phone-with-ddd>${x.supplier.contact.phone}</td><td><span class=\"badge badge-success ml-2\" repeat.for=\"m of x.markets\"> ${m} </span></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" if.bind=\"x.status == 0 && ! x.isLoading\" click.trigger=\"connect(x)\">Conectar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" if.bind=\"x.status == 2 && ! x.isLoading\" click.trigger=\"block(x)\">Bloquear</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" if.bind=\"x.status == 6 && ! x.isLoading\" click.trigger=\"unblock(x)\">Desbloquear</button></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"showSupplierDetails(x)\">Detalhes</button><div class=\"fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'} mx-auto\"><i class=\"fa fa-refresh fa-spin\"></i></div></td></tr></tbody></table></div></div></div></div><div class=\" ${ showDetails ? '' : 'invisible' }\" class=\"au-animate\"><edit-supplier></edit-supplier></div></template>"; });
@@ -10206,7 +10206,7 @@ define('text!views/admin/supplier/evaluations.html', ['module'], function(module
 define('text!views/admin/supplier/editSupplier.html', ['module'], function(module) { module.exports = "<template><require from=\"../../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../../components/valueConverters/cnpjValueConverter\"></require><require from=\"../../components/valueConverters/cepValueConverter\"></require><require from=\"../../components/valueConverters/moneyValueConverter\"></require><require from=\"../../components/valueConverters/numberValueConverter\"></require><require from=\"../../components/valueConverters/inscricaoEstadualValueConverter\"></require><require from=\"../../components/attributes/cnpjMask\"></require><require from=\"../../components/attributes/cepMask\"></require><require from=\"../../components/attributes/numberMask\"></require><require from=\"../../components/attributes/moneyMask\"></require><require from=\"../../components/attributes/inscricaoEstadualMask\"></require><div class=\"row mb-5 task-manager au-animate\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\">Edição de fornecedor</div><div class=\"card-body\"><h4>Dados básicos</h4><div class=\"row mt-4\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Razão Social<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.name\" disabled.bind=\"! edit\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome Fantasia<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.fantasyName\" disabled.bind=\"! edit\"></div></div></div><div class=\"row mt-4\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">CNPJ<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.cnpj | cnpj  \" cnpj disabled.bind=\"! edit\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Inscrição Estadual<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control\" inscricaoestadual value.bind=\"supplier.inscricaoEstadual | inscricaoEstadual\" disabled.bind=\"! edit\"></div></div></div><h4 class=\"mt-4\">Endereço</h4><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">CEP</label> <input type=\"text\" class=\"form-control\" cep value.bind=\"supplier.address.cep | cep\" change.delegate=\"consultaCEP()\" disabled.bind=\"! edit\"></div></div></div><div class=\"row mt-4\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Logradouro</label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.address.logradouro\" disabled.bind=\"! edit\"></div><div class=\"form-group\"><label class=\"control-label\">Bairro</label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.address.neighborhood\" disabled.bind=\"! edit\"></div><div class=\"form-group\"><label class=\"control-label\">Estado</label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.address.state\" disabled.bind=\"! edit\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Número</label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.address.number\" disabled.bind=\"! edit\"></div><div class=\"form-group\"><label class=\"control-label\">Complemento</label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.address.complement\" disabled.bind=\"! edit\"></div><div class=\"form-group\"><label class=\"control-label\">Cidade</label> <input type=\"text\" class=\"form-control\" value.bind=\"supplier.address.city\" disabled.bind=\"! edit\"></div></div></div><h4 class=\"mt-4\">Contato</h4><div class=\"tab-pane\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }\" value.bind=\"supplier.contact.name\" change.delegate=\"validator.contactValidator.validateName()\" disabled.bind=\"! edit\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Comercial</label> <input type=\"text\" class=\"form-control\" phone-with-ddd value.bind=\"supplier.contact.commercialPhone | phoneWithDDD\" placeholder=\"(01) 1234-5678\"></div><div class=\"form-group\"><label class=\"control-label\">E-mail</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' } \" value.bind=\"supplier.contact.email\" change.delegate=\"validator.contactValidator.validateEmail()\" disabled.bind=\"! edit\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Telefone</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } \" phone-with-ddd value.bind=\"supplier.contact.phone | phoneWithDDD\" change.delegate=\"validator.contactValidator.validatePhone()\" disabled.bind=\"! edit\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Celular</label> <input type=\"text\" class=\"form-control\" cell-phone-with-ddd value.bind=\"supplier.contact.personalPhone | cellPhoneWithDDD\" placeholder=\"(01) 01234-5678\" disabled.bind=\"! edit\"></div></div></div></div><h4 class=\"mt-4\">Contrato Social</h4><div class=\"tab-pane\" id=\"tab3\"><div class=\"row\"><div class=\"col-md-6\" if.bind=\"selectedFiles == null || selectedFiles.length == 0\"><div class=\"form-group\"><button type=\"button\" class=\"btn btn-primary waves-effect waves-light col-md-6\" click.trigger=\"downloadSocialContract()\"><i class=\"batch-icon batch-icon-cloud-download\"></i> Download</button></div></div><div class=\"col-md-6\"><div class=\"form-group\"><form submit.delegate=\"uploadSocialContract()\" if.bind=\"edit\"><button type=\"submit\" if.bind=\"selectedFiles.length > 0\" class=\"btn ${ ! isUploading ? 'btn-primary' : 'btn-warning'} waves-effect waves-light col-md-6\" disable.bind=\"isUploading\"><span if.bind=\"! isUploading\"><i class=\"batch-icon batch-icon-cloud-upload\"></i> Upload </span><span if.bind=\"isUploading\"><i class=\"fa fa-circle-o-notch fa-spin\"></i> Processando arquivo</span></button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light\" if.bind=\"selectedFiles != null && selectedFiles.length > 0\" click.trigger=\"cancelUpload()\">Cancelar</button> <input id=\"files\" type=\"file\" accept=\".pdf\" files.bind=\"selectedFiles\" class=\"${ isUploading || (selectedFiles != null && selectedFiles.length > 0) ? 'invisible' : ''} mt-4\"></form></div></div></div></div><h4 class=\"mt-4\" if.bind=\"edit\">Financeiro</h4><div class=\"row\" if.bind=\"edit\"><div class=\"col-md-2\"><div class=\"form-group\"><label class=\"control-label\">Valor de comissão (%)</label> <input type=\"text\" class=\"form-control\" cep value.bind=\"supplier.fee | money\" money disabled.bind=\"! edit\"></div></div></div><h4 class=\"mt-4\" if.bind=\"edit\">Usuários</h4><span class=\"badge badge-warning mt-2 mb-2\" if.bind=\"supplier.status != 0 && edit\">Para poder criar usuários faça a ativação do cadastro</span><div class=\"tab-pane\" if.bind=\"supplier.status != 2 && edit\"><div class=\"row\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th>E-mail</th><th>Status</th><th></th></tr></thead><tbody><tr repeat.for=\"x of users\"><td><span if.bind=\"! x.isEditing\">${x.name}</span><input type=\"text\" class=\"form-control col-md-8\" if.bind=\"x.isEditing\" value.bind=\"x.name\"></td><td><span if.bind=\"! x.isEditing\">${x.email}</span><input type=\"text\" class=\"form-control col-md-8\" if.bind=\"x.isEditing\" value.bind=\"x.email\"></td><td><span class=\"badge badge-success\" if.bind=\"x.status == 0\">Ativo</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 1\">Inativo</span> <span class=\"badge badge-warning\" if.bind=\"x.status == 2\">Aguardando confirmação</span></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" if.bind=\"x.isEditing && supplier.status == 0\" click.trigger=\"saveEditUser(x)\">Salvar</button> <button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" if.bind=\"! x.isEditing  && supplier.status == 0\" click.trigger=\"editUser(x)\">Editar</button> <button type=\"button\" class=\"btn btn-secondary btn-sm waves-effect waves-light\" if.bind=\"  x.isEditing  && supplier.status == 0\" click.trigger=\"cancelEditUser(x)\">Cancelar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" if.bind=\"x.status == 0 && ! x.isEditing && supplier.status == 0\" click.trigger=\"editUserStatus(x, 1)\">Inativar</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" if.bind=\"x.status == 1 && ! x.isEditing  && supplier.status == 0\" click.trigger=\"editUserStatus(x, 0)\">Ativar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" if.bind=\"x.status == 2  && !    x.isEditing  && supplier.status == 0\" click.trigger=\"resendInvite(x)\">Reenviar convite</button></td></tr><tr if.bind=\"supplier.status == 0\"><td><input type=\"text\" class=\"form-control col-md-8\" value.bind=\"user.name\"></td><td><input type=\"text\" class=\"form-control col-md-8\" value.bind=\"user.email\"></td><td></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"createUser()\">Criar</button></td></tr></tbody></table></div></div></div><div class=\"row mt-5 mb-5 mx-auto\" if.bind=\"edit\"><button type=\"button\" class=\"btn btn-primary btn-gradient waves-effect waves-light\" click.trigger=\"save()\"><span class=\"gradient\">Salvar</span></button> <button type=\"button\" class=\"btn btn-success ml-2 waves-effect waves-light\" if.bind=\"supplier.status != 0\" click.trigger=\"editStatus(0)\">Ativar</button> <button type=\"button\" class=\"btn btn-danger ml-2 waves-effect waves-light\" if.bind=\"supplier.status == 0\" click.trigger=\"editStatus(1)\">Inativar</button> <button type=\"button\" class=\"btn btn-secondary ml-2 waves-effect waves-light\" click.trigger=\"cancel()\">Cancelar</button></div><div class=\"row mt-5 mb-5 mx-auto\" if.bind=\"! edit\"><button type=\"button\" class=\"btn btn-secondary ml-2 waves-effect waves-light\" click.trigger=\"cancelView()\">Cancelar</button></div></div></div></div></template>"; });
 define('text!views/admin/supplier/listSuppliers.html', ['module'], function(module) { module.exports = "<template><require from=\"../../components/valueConverters/phoneWithDDDValueConverter\"></require><div class=\"row mb-5 task-manager au-animate\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\">Fornecedores</div><div class=\"card-body\"><div if.bind=\"! isEditing\"><div class=\"row mt-2\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Nome/ Contato\" change.trigger=\"search()\"></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Status</label> <select class=\"form-control\" value.bind=\"selectedStatus\" change.delegate=\"search()\"><option value=\"\"></option><option value=\"0\">Ativos</option><option value=\"1\">Inativos</option><option value=\"2\">Aguardando liberação</option></select></div></div></div><table class=\"table table-hover\"><thead><tr><th>Nome</th><th>Contato</th><th>E-mail</th><th>Telefone</th><th>Status</th><th></th></tr></thead><tbody><tr repeat.for=\"x of filteredSuppliers\"><td>${x.name}</td><td>${x.contact.name}</td><td>${x.contact.email}</td><td>${x.contact.phone  | phoneWithDDD }</td><td><span class=\"badge badge-success\" if.bind=\"x.status == 0\">Ativo</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 1\">Inativo</span> <span class=\"badge badge-warning\" if.bind=\"x.status == 2\">Aguardando liberação</span></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"edit(x)\">Editar</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" if.bind=\"x.status != 0\" click.trigger=\"editStatus(x, 0)\">Ativar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" if.bind=\"x.status == 0\" click.trigger=\"editStatus(x, 1)\">Inativar</button></td></tr></tbody></table></div></div></div></div></div></template>"; });
 define('text!views/admin/finance/listInvoice.html', ['module'], function(module) { module.exports = "<template><require from=\"../../components/attributes/moneyMask\"></require><require from=\"../../components/valueConverters/moneyValueConverter\"></require><require from=\"../../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../../components/valueConverters/cnpjValueConverter\"></require><require from=\"../../components/valueConverters/cepValueConverter\"></require><require from=\"../../components/valueConverters/inscricaoEstadualValueConverter\"></require><require from=\"../../components/attributes/cnpjMask\"></require><require from=\"../../components/attributes/cepMask\"></require><require from=\"../../components/attributes/inscricaoEstadualMask\"></require><require from=\"../../components/attributes/timeMask\"></require><require from=\"../../components/valueConverters/timeValueConverter\"></require><div class=\"row mb-5 task-manager au-animate\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\">Faturas</div><div class=\"card-body\"><div if.bind=\"! isEditing\"><div class=\"row mt-2\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Data de referência</label> <select class=\"form-control\" value.bind=\"selectedControl\" change.delegate=\"changeControl()\"><option repeat.for=\"control of controls\" model.bind=\"control\">${control.dateLabel}</option></select></div></div><div class=\"col-lg-4 mt-4\" if.bind=\"selectedControl.canGenerateInvoices\"><button type=\"button\" if.bind=\"! isLoading\" class=\"btn btn-primary waves-effect waves-light\" click.trigger=\"generateInvoices()\">Gerar Faturamento</button><div class=\"fa-2x\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div><div class=\"row mt-2\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Valor a receber</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"totalValue | money\" money></div></div><div class=\"col-lg-4\"><label class=\"control-label\">Valor recebido</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"totalValuePaid | money\" money></div></div><div class=\"row mt-2\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Nome/ Contato\" change.trigger=\"search()\"></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Status</label> <select class=\"form-control\" value.bind=\"selectedStatus\" change.delegate=\"search()\"><option value=\"\"></option><option value=\"0\">Gerado</option><option value=\"1\">Pago</option><option value=\"2\">Inadimplente</option></select></div></div></div><table class=\"table table-hover\"><thead><tr><th>Fornecedor</th><th>Vencimento</th><th class=\"text-center\">Qtde de Pedidos</th><th class=\"text-center\">Total dos Pedidos</th><th class=\"text-center\">Valor da Fatura</th><th>Status</th><th></th></tr></thead><tbody><tr repeat.for=\"x of filteredInvoices\"><td>${x.supplier.name}</td><td>${x.maturity | dateFormat}</td><td class=\"text-center\">${x.orders.length}</td><td class=\"text-center\">${x.totalValue | money}</td><td class=\"text-center\">${x.valueToPay | money}</td><td><span class=\"badge badge-primary\" if.bind=\"x.status == 0\">Gerado</span> <span class=\"badge badge-success\" if.bind=\"x.status == 1\">Pago</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 2\">Inadimplente</span></td><td if.bind=\"! x.isEditing\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"edit(x)\">Detalhes</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" if.bind=\"x.status != 1\" click.trigger=\"editStatus(x, 1)\">Efetuar baixa</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" if.bind=\"x.status != 2\" click.trigger=\"editStatus(x, 2)\">Pendenciar</button></td><td if.bind=\"x.isEditing\"><div class=\"fa-3x mx-auto\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></td></tr></tbody></table></div><div if.bind=\"isEditing\"><h4>Dados do fornecedor</h4><div class=\"row mt-4\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Razão Social</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"selectedInvoice.supplier.name\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome Fantasia<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"selectedInvoice.supplier.fantasyName\"></div></div></div><div class=\"row mt-4\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">CNPJ</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"selectedInvoice.supplier.cnpj | cnpj\" cnpj></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Inscrição Estadual</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" inscricaoestadual value.bind=\"selectedInvoice.supplier.inscricaoEstadual | inscricaoEstadual\"></div></div></div><h4 class=\"mt-4\">Contato</h4><div class=\"tab-pane\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }\" disabled.bind=\"! edit\" value.bind=\"selectedInvoice.supplier.contact.name\" change.delegate=\"validator.contactValidator.validateName()\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Comercial</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" phone-with-ddd value.bind=\"selectedInvoice.supplier.contact.commercialPhone | phoneWithDDD\" disabled.bind=\"! edit\" placeholder=\"(01) 1234-5678\"></div><div class=\"form-group\"><label class=\"control-label\">E-mail</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"selectedInvoice.supplier.contact.email\" change.delegate=\"validator.contactValidator.validateEmail()\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Telefone</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" phone-with-ddd value.bind=\"selectedInvoice.supplier.contact.phone | phoneWithDDD\" change.delegate=\"validator.contactValidator.validatePhone()\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Celular</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" cell-phone-with-ddd value.bind=\"selectedInvoice.supplier.contact.personalPhone | cellPhoneWithDDD\" disabled.bind=\"! edit\" placeholder=\"(01) 01234-5678\"></div></div></div></div><h4 class=\"mt-4\">Dados da Fatura</h4><div class=\"tab-pane\"><div class=\"row\"><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Valor Total dos pedidos</label> <input type=\"text\" class=\"form-control\" value.bind=\"selectedInvoice.totalValue | money\" money change.delegate=\"calculateInvoicePrice()\"></div><div class=\"form-group\"><label class=\"control-label\">Data de vencimento</label> <input type=\"text\" class=\"form-control\" value.bind=\"selectedInvoice.maturity | dateFormat\" date></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Percentual de cobrança (%)</label> <input type=\"text\" class=\"form-control\" value.bind=\"selectedInvoice.fee | money\" money change.delegate=\"calculateInvoicePrice()\"></div><div class=\"form-group\"><label class=\"control-label\">Gerado em</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"selectedControl.createdOn | dateFormat\" date></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Valor da fatura</label> <input type=\"text\" class=\"form-control disabled\" disabled.bind=\"true\" value.bind=\"selectedInvoice.valueToPay | money\" money></div></div><div class=\"col-md-3 mt-4\"><div class=\"form-group\"><button type=\"button\" class=\"btn btn-primary btn-sm btn-danger waves-effect waves-light\" click.trigger=\"cancelEditInvoicePrice()\"><span class=\"gradient\">Cancelar</span></button></div></div></div></div><h4 class=\"mt-4\">Pedidos</h4><div class=\"row mt-2\"><table class=\"table table-hover table-responsive\"><thead><tr><th class=\"text-center\">Código</th><th class=\"text-center\">Status</th><th class=\"text-center\">Data do Pedido</th><th class=\"text-center\">Food Service</th><th class=\"text-center\">Entrega</th><th class=\"text-center\">Quantidade de Produtos</th><th class=\"text-center\">Total</th></tr></thead><tbody><tr repeat.for=\"order of selectedInvoice.orders\"><td class=\"text-center\">${order.code}</td><td class=\"text-center\"><span class=\"badge badge-danger\" if.bind=\"order.status == 0\">Novo pedido</span> <span class=\"badge badge-warning\" if.bind=\"order.status == 1\">Aceito</span> <span class=\"badge badge-primary\" if.bind=\"order.status == 2\">Entregue</span> <span class=\"badge badge-default\" if.bind=\"order.status == 3\">Rejeitado</span></td><td class=\"text-center\">${order.createdOn | dateFormat}</td><td>${order.foodService.name}</td><td class=\"text-center\"><span if.bind=\"order.deliveryScheduleStart != null\">das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time} </span></td><td class=\"text-center\">${order.items.length}</td><td class=\"text-center\">${order.total | money}</td></tr></tbody></table></div></div><div class=\"row mt-5 mb-5\"><div class=\"mx-auto\" if.bind=\"isEditing && ! isLoading\"><button type=\"button\" class=\"btn btn-primary btn-gradient waves-effect waves-light\" if.bind=\"edit\" click.trigger=\"saveInvoice()\"><span class=\"gradient\">Salvar</span></button> <button type=\"button\" class=\"btn btn-success waves-effect waves-light\" if.bind=\"selectedInvoice.status != 1\" click.trigger=\"editStatus(selectedInvoice, 1)\">Efetuar baixa</button> <button type=\"button\" class=\"btn btn-danger waves-effect waves-light\" if.bind=\"selectedInvoice.status != 2\" click.trigger=\"editStatus(selectedInvoice, 2)\">Pendenciar</button> <button type=\"button\" class=\"btn btn-secondary ml-2 waves-effect waves-light\" click.trigger=\"cancelEdit()\">Voltar</button></div><div class=\"fa-3x mx-auto\" if.bind=\"isEditing && isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></div></template>"; });
-define('text!views/components/partials/listaDePrecos.html', ['module'], function(module) { module.exports = "<template><require from=\"../attributes/moneyMask\"></require><require from=\"../valueConverters/moneyValueConverter\"></require><div class=\"col-md-12\"><div id=\"accordion2\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"\" repeat.for=\"list of lists\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingFile${list.id}\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse${list.id}\" aria-expanded=\"false\" aria-controls=\"collapse${list.id}\" class=\"\"> ${dataAtualFormatada(list.date)} </a></h5></div><div id=\"collapse${list.id}\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" style=\"\"><div class=\"card-body\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th>Descrição</th><th>Mercado</th><th>Categoria</th><th>UM</th><th>Marca</th><th>Cod. Cliente</th><th class=\"text-center\">Preço</th></tr></thead><tbody><tr repeat.for=\"item of list.items\"><td>${item.product.product.name}</td><td>${item.product.product.description}</td><td>${item.product.product.category.productClass.name}</td><td>${item.product.product.category.name}</td><td>${item.product.product.unit.name}</td><td>${item.product.product.brand.name}</td><td>${item.clientCode}</td><td class=\"text-center\">${item.price.toFixed(2)}</td></tr></tbody></table><button type=\"button\" class=\"btn btn-primary waves-effect waves-light col-md-2\" click.trigger=\"downloadList(list)\"><i class=\"batch-icon batch-icon-cloud-download\"></i> Baixar Lista</button></div></div></div></div></div></template>"; });
+define('text!views/components/partials/listaDePrecos.html', ['module'], function(module) { module.exports = "<template><require from=\"../attributes/moneyMask\"></require><require from=\"../valueConverters/moneyValueConverter\"></require><div class=\"col-md-12\"><div id=\"accordion2\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"\" repeat.for=\"list of lists\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingFile${list.id}\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse${list.id}\" aria-expanded=\"false\" aria-controls=\"collapse${list.id}\" class=\"\"> ${dataAtualFormatada(list.date)} </a></h5></div><div id=\"collapse${list.id}\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" style=\"\"><div class=\"card-body\"><table class=\"table table-hover\"><thead><tr><th>Cod. Produto</th><th>Nome</th><th>Descrição</th><th>Mercado</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Preço</th></tr></thead><tbody><tr repeat.for=\"item of list.items\"><td>${item.clientCode}</td><td>${item.product.product.name}</td><td>${item.product.product.description}</td><td>${item.product.product.category.productClass.name}</td><td>${item.product.product.category.name}</td><td>${item.product.product.unit.name}</td><td>${item.product.product.brand.name}</td><td class=\"text-center\">${item.price.toFixed(2)}</td></tr></tbody></table><button type=\"button\" class=\"btn btn-primary waves-effect waves-light col-md-2\" click.trigger=\"downloadList(list)\"><i class=\"batch-icon batch-icon-cloud-download\"></i> Baixar Lista</button></div></div></div></div></div></template>"; });
 define('text!views/components/partials/baixaPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Baixa de Pedido</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group text-center\"><label class=\"control-label\">Tem certeza que deseja efetuar a baixa o pedido <strong>nº ${order.code}</strong>?</label></div></div></div><div class=\"row mt-3\"><div class=\"col-md-12 mt-3\"><div class=\"form-group mx-auto text-center\"><p class=\"text-center\">Avalie a qualidade do fornecedor</p><i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 1 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg mt-2\" click.trigger=\"setAvaliacao(1)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 2 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\" click.trigger=\"setAvaliacao(2)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 3 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\" click.trigger=\"setAvaliacao(3)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 4 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\" click.trigger=\"setAvaliacao(4)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 5 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg mb-2\" click.trigger=\"setAvaliacao(5)\"></i></div></div><div class=\"col-md-12 mt-3\"><div class=\"form-group mx-auto\"><label class=\"control-label\">Comentários</label> <textarea class=\"form-control\" value.bind=\"evaluation.comment\" rows=\"2\"></textarea></div></div></div><div class=\"row mt-3\"><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"acceptOrder()\" if.bind=\"! processing\"><i class=\"fa fa-check mr-2\"></i>Confirmar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\" if.bind=\"! processing\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></div></template>"; });
 define('text!views/components/partials/cotacaoPedido.html', ['module'], function(module) { module.exports = "<template><div class=\"card-body\"><h4 class=\"mt-5\">Dados do pedido</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-center\">Nome do Produto</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr><td> ${item.product.name} <div><small class=\"boldness-light\">${item.supplier.name}</small></div></td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total  | money} </td></tr><tr><td colspan=\"3\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${result.total  | money}</strong></td></tr></tbody></table></div><h4>Sumário</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.summaryItems\"><td> ${item.supplier.name} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${item.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${item.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.periodToAcceptOrder2 | time} </td><td><span if.bind=\"item.rule.deliveryOnMonday\" class=\"badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"item.rule.deliveryOnTuesday\" class=\"badge ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"item.rule.deliveryOnWednesday\" class=\"badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"item.rule.deliveryOnThursday\" class=\"badge ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"item.rule.deliveryOnFriday\" class=\"badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"item.rule.deliveryOnSaturday\" class=\"badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"item.rule.deliveryOnSunday\" class=\"badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${item.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${item.total  | money} </td></tr></tbody></table></div></div></template>"; });
 define('text!views/components/partials/observacoesPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/timeMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><require from=\"../valueConverters/timeValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Observação pedido</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label\">Deseja acrescentar alguma observação ao pedido?</label></div></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group mx-auto\"><textarea class=\"form-control disabled\" disabled=\"disabled\" value.bind=\"selectedQuote.observation\" rows=\"2\"></textarea></div></div></div></div><div class=\"row mb-4\"><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"confirmOrder()\"><i class=\"fa fa-check mr-2\"></i>Confirmar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button></div></div></div></div></template>"; });
@@ -10214,9 +10214,9 @@ define('text!views/components/partials/produtosSelecionados.html', ['module'], f
 define('text!views/components/partials/selecaoDeProdutosFoodService.html', ['module'], function(module) { module.exports = "<template><div class=\"row\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Mercado</label> <select class=\"form-control\" value.bind=\"selectedClass\" change.delegate=\"updateCategory()\"><option repeat.for=\"class of classes\" model.bind=\"class\">${class.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Categoria</label> <select class=\"form-control\" value.bind=\"selectedCategory\" change.delegate=\"search()\"><option repeat.for=\"category of selectedClass.categories\" model.bind=\"category\">${category.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Produto / Descrição\" change.trigger=\"search()\"></div></div></div><div class=\"row\" if.bind=\"isFiltered\"><div class=\"col-md-12 pb-5\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th class=\"text-center align-middle\">Descrição</th><th>Categoria</th><th>UM</th><th></th></tr></thead><tbody><tr repeat.for=\"product of filteredProducts\"><td>${product.name}</td><td class=\"text-center align-middle\">${product.description}</td><td>${product.category.name}</td><td>${product.unit.name}</td><td><button if.bind=\"! product.isLoading\" type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }\" disabled.bind=\"isProcessing\" click.trigger=\"addProduct(product)\">Incluir</button><div class=\"fa-2x\" if.bind=\"product.isLoading  == true\"><i class=\"fa fa-refresh fa-spin\"></i></div></td></tr></tbody></table></div></div></template>"; });
 define('text!views/components/partials/rejeicaoPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Rejeição de Pedido</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><h5 class=\"control-label\">Tem certeza que deseja rejeitar o pedido <strong>nº ${order.code}</strong>?</h5></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Informe o motivo da rejeição</label> <textarea class=\"form-control\" value.bind=\"vm.reason & validate\" rows=\"3\"></textarea><h6 class=\"text-center mt-2 font-bold\"><strong>Ao rejeitar pedidos sua avaliação pode ser penalizada</strong></h6></div></div></div></div><div class=\"row mb-4\"><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div><button type=\"button\" class=\"btn btn-danger waves-effect waves-light mx-auto ml-5\" if.bind=\"! processing\" click.trigger=\"rejectOrder()\"><i class=\"fa fa-times mr-2\"></i>Rejeitar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" if.bind=\"! processing\" click.trigger=\"cancel()\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></template>"; });
 define('text!views/components/partials/horarioDeEntregaPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/timeMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><require from=\"../valueConverters/timeValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Horário de Entrega</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label\">As informações abaixo são definidas com base nas regras de entrega cadastradas</label></div></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><h5 class=\"control-label\">Confirme a data de entrega desejada do pedido</h5></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><input type=\"text\" class=\"form-control text-right\" autocomplete=\"off\" placeholder=\"00/00/0000\" value.bind=\"vm.deliveryDate | dateFormat & updateTrigger:'blur' & validate\" datepicker></div></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><h5 class=\"control-label\">Confirme o horário de entrega do pedido</h5></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Horário inicial</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"vm.deliveryScheduleStart | time & updateTrigger:'blur' & validate\"></div></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Horário final</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"vm.deliveryScheduleEnd | time & updateTrigger:'blur' & validate \"></div></div></div></div></div><div class=\"row mb-4\"><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"confirmSchedule()\"><i class=\"fa fa-check mr-2\"></i>Confirmar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></template>"; });
-define('text!views/components/partials/atualizacaoDePrecos.html', ['module'], function(module) { module.exports = "<template><require from=\"../attributes/moneyMask\"></require><require from=\"../valueConverters/moneyValueConverter\"></require><div class=\"col-md-12\"><div id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingTwo\"><h5 class=\"mb-0\"><a class=\"\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTwo\" aria-expanded=\"false\" aria-controls=\"collapseTwo\">Produtos fornecidos</a></h5></div><div id=\"collapseTwo\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTwo\" style=\"\"><div class=\"card-body\"><div class=\"row mt-2\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Mercado</label> <select class=\"form-control\" value.bind=\"selectedClass\" change.delegate=\"updateCategories()\"><option repeat.for=\"class of classes\" model.bind=\"class\">${class.name}</option></select></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Categoria</label> <select class=\"form-control\" value.bind=\"selectedCategory\" change.delegate=\"loadProducts()\"><option repeat.for=\"category of selectedClass.categories\" model.bind=\"category\">${category.name}</option></select></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Produto / Descrição\" change.trigger=\"search()\"></div></div></div></div><table class=\"table table-hover mt-2\" if.bind=\"! isLoading\"><thead><tr><th class=\"text-center\">Cod. Cliente</th><th>Nome</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Preço</th><th>Status</th><th></th></tr></thead><tbody><tr repeat.for=\"supplierProduct of filteredProducts\"><td><div class=\"col-md-6 mx-auto\"><input type=\"text\" class=\"text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } \" disabled.bind=\"! supplierProduct.isEditing\" autocomplete=\"off\" value.bind=\"supplierProduct.clientCode\"></div></td><td> ${supplierProduct.product.name} <span if.bind=\"supplierProduct.isNew\" class=\"badge badge-warning\">Novo!</span></td><td>${supplierProduct.product.description}</td><td>${supplierProduct.product.category.name}</td><td>${supplierProduct.product.unit.name}</td><td></td><td><div class=\"col-md-12 mx-auto\"><input type=\"text\" class=\"money text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } \" disabled.bind=\"! supplierProduct.isEditing\" autocomplete=\"off\" value.bind=\"supplierProduct.price | money\" money placeholder=\"000,00\"></div></td><th><span class=\"badge badge-success ${supplierProduct.status == 0 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }\">Ativo</span> <span class=\"badge badge-danger ${supplierProduct.status == 1 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }\">Inativo</span><br><span class=\"badge badge-warning\" if.bind=\"supplierProduct.wasAltered\">Alterado</span></th><td><div class=\"fa-2x text-center mx-auto\" if.bind=\"supplierProduct.isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div><div class=\"col-md-12 mx-auto\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light ${ ! supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } \" if.bind=\"! supplierProduct.isEditing && ! supplierProduct.isLoading \" click.trigger=\"edit(supplierProduct)\">Editar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light ${supplierProduct.status == 0 && supplierProduct.isEditing ? ' float-left' : 'invisible' } \" if.bind=\"supplierProduct.status != 1\" click.trigger=\"alterStatus(supplierProduct, 1)\">Inativar</button> <button type=\"button\" class=\"btn btn-warning btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } \" if.bind=\"supplierProduct.status != 2\" click.trigger=\"alterStatus(supplierProduct, 2)\">Remover</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light ${supplierProduct.status == 1 && supplierProduct.isEditing ? 'float-left' :  'invisible'  } \" if.bind=\"supplierProduct.status != 0\" click.trigger=\"alterStatus(supplierProduct, 0) \">Ativar</button> <button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } \" if.bind=\"supplierProduct.isEditing\" click.trigger=\"save(supplierProduct)\">Salvar</button> <button type=\"button\" class=\"btn btn-secondary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading ? '' : 'invisible' } \" if.bind=\"supplierProduct.isEditing\" click.trigger=\"cancelEdit(supplierProduct)\">Cancelar</button></div></td></tr></tbody></table></div></div></div><div class=\"\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingThree\"><h5 class=\"mb-0\"><a class=\"\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseThree\" aria-expanded=\"false\" aria-controls=\"collapseThree\">Download</a></h5></div><div id=\"collapseThree\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingThree\" style=\"\"><div class=\"card-body\"><p class=\"text-left\">Atualize o preço para os seus produtos através do download e upload de planilha</p><button type=\"button\" class=\"btn btn-primary waves-effect waves-light col-md-3\" click.trigger=\"downloadFile()\"><i class=\"batch-icon batch-icon-cloud-download\"></i> Download</button></div></div></div><div class=\"\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingFour\"><h5 class=\"mb-0\"><a class=\"\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFour\" aria-expanded=\"false\" aria-controls=\"collapseFour\">Upload</a></h5></div><div id=\"collapseFour\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFour\" style=\"\"><div class=\"card-body\"><p class=\"text-left\">Atualize o preço para os seus produtos através do download e upload de planilha</p><br><form submit.delegate=\"uploadFile()\"><button type=\"submit\" if.bind=\"selectedFiles.length > 0\" class=\"btn ${ ! isUploading ? 'btn-primary' : 'btn-warning'} waves-effect waves-light col-md-3\" disable.bind=\"isUploading\"><span if.bind=\"! isUploading\"><i class=\"batch-icon batch-icon-cloud-upload\"></i> Upload </span><span if.bind=\"isUploading\"><i class=\"fa fa-circle-o-notch fa-spin\"></i> Processando arquivo</span></button> <input id=\"files\" type=\"file\" accept=\".csv\" files.bind=\"selectedFiles\" class=\"${ isUploading ? 'invisible' : ''}\"></form></div></div></div></div></template>"; });
+define('text!views/components/partials/atualizacaoDePrecos.html', ['module'], function(module) { module.exports = "<template><require from=\"../attributes/moneyMask\"></require><require from=\"../valueConverters/moneyValueConverter\"></require><div class=\"col-md-12\"><div id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingTwo\"><h5 class=\"mb-0\"><a class=\"\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTwo\" aria-expanded=\"false\" aria-controls=\"collapseTwo\">Produtos fornecidos</a></h5></div><div id=\"collapseTwo\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTwo\" style=\"\"><div class=\"card-body\"><div class=\"row mt-2\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Mercado</label> <select class=\"form-control\" value.bind=\"selectedClass\" change.delegate=\"updateCategories()\"><option repeat.for=\"class of classes\" model.bind=\"class\">${class.name}</option></select></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Categoria</label> <select class=\"form-control\" value.bind=\"selectedCategory\" change.delegate=\"loadProducts()\"><option repeat.for=\"category of selectedClass.categories\" model.bind=\"category\">${category.name}</option></select></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Produto / Descrição\" change.trigger=\"search()\"></div></div></div></div><table class=\"table table-hover mt-2\" if.bind=\"! isLoading\"><thead><tr><th class=\"text-center\">Cod. Produto</th><th>Nome</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Preço</th><th>Status</th><th></th></tr></thead><tbody><tr repeat.for=\"supplierProduct of filteredProducts\"><td><div class=\"col-md-6 mx-auto\"><input type=\"text\" class=\"text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } \" disabled.bind=\"! supplierProduct.isEditing\" autocomplete=\"off\" value.bind=\"supplierProduct.clientCode\"></div></td><td> ${supplierProduct.product.name} <span if.bind=\"supplierProduct.isNew\" class=\"badge badge-warning\">Novo!</span></td><td>${supplierProduct.product.description}</td><td>${supplierProduct.product.category.name}</td><td>${supplierProduct.product.unit.name}</td><td></td><td><div class=\"col-md-12 mx-auto\"><input type=\"text\" class=\"money text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } \" disabled.bind=\"! supplierProduct.isEditing\" autocomplete=\"off\" value.bind=\"supplierProduct.price | money\" money placeholder=\"000,00\"></div></td><th><span class=\"badge badge-success ${supplierProduct.status == 0 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }\">Ativo</span> <span class=\"badge badge-danger ${supplierProduct.status == 1 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }\">Inativo</span><br><span class=\"badge badge-warning\" if.bind=\"supplierProduct.wasAltered\">Alterado</span></th><td><div class=\"fa-2x text-center mx-auto\" if.bind=\"supplierProduct.isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div><div class=\"col-md-12 mx-auto\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light ${ ! supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } \" if.bind=\"! supplierProduct.isEditing && ! supplierProduct.isLoading \" click.trigger=\"edit(supplierProduct)\">Editar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light ${supplierProduct.status == 0 && supplierProduct.isEditing ? ' float-left' : 'invisible' } \" if.bind=\"supplierProduct.status != 1\" click.trigger=\"alterStatus(supplierProduct, 1)\">Inativar</button> <button type=\"button\" class=\"btn btn-warning btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } \" if.bind=\"supplierProduct.status != 2\" click.trigger=\"alterStatus(supplierProduct, 2)\">Remover</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light ${supplierProduct.status == 1 && supplierProduct.isEditing ? 'float-left' :  'invisible'  } \" if.bind=\"supplierProduct.status != 0\" click.trigger=\"alterStatus(supplierProduct, 0) \">Ativar</button> <button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } \" if.bind=\"supplierProduct.isEditing\" click.trigger=\"save(supplierProduct)\">Salvar</button> <button type=\"button\" class=\"btn btn-secondary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading ? '' : 'invisible' } \" if.bind=\"supplierProduct.isEditing\" click.trigger=\"cancelEdit(supplierProduct)\">Cancelar</button></div></td></tr></tbody></table></div></div></div><div class=\"\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingThree\"><h5 class=\"mb-0\"><a class=\"\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseThree\" aria-expanded=\"false\" aria-controls=\"collapseThree\">Download</a></h5></div><div id=\"collapseThree\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingThree\" style=\"\"><div class=\"card-body\"><p class=\"text-left\">Atualize o preço para os seus produtos através do download e upload de planilha</p><button type=\"button\" class=\"btn btn-primary waves-effect waves-light col-md-3\" click.trigger=\"downloadFile()\"><i class=\"batch-icon batch-icon-cloud-download\"></i> Download</button></div></div></div><div class=\"\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingFour\"><h5 class=\"mb-0\"><a class=\"\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFour\" aria-expanded=\"false\" aria-controls=\"collapseFour\">Upload</a></h5></div><div id=\"collapseFour\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFour\" style=\"\"><div class=\"card-body\"><p class=\"text-left\">Atualize o preço para os seus produtos através do download e upload de planilha</p><br><form submit.delegate=\"uploadFile()\"><button type=\"submit\" if.bind=\"selectedFiles.length > 0\" class=\"btn ${ ! isUploading ? 'btn-primary' : 'btn-warning'} waves-effect waves-light col-md-3\" disable.bind=\"isUploading\"><span if.bind=\"! isUploading\"><i class=\"batch-icon batch-icon-cloud-upload\"></i> Upload </span><span if.bind=\"isUploading\"><i class=\"fa fa-circle-o-notch fa-spin\"></i> Processando arquivo</span></button> <input id=\"files\" type=\"file\" accept=\".csv\" files.bind=\"selectedFiles\" class=\"${ isUploading ? 'invisible' : ''}\"></form></div></div></div></div></template>"; });
 define('text!views/components/partials/aceitePedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../attributes/timeMask\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><require from=\"../valueConverters/timeValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Aceite de Pedido</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label\">Tem certeza que deseja aceitar o pedido <strong>nº ${order.code}</strong>?</label><br><span class=\"badge badge-warning\"><i class=\"fa fa-warning\"></i>Atenção: a data e horários definidos abaixo devem ser cumpridos</span></div></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label active\">Data de entrega<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control ${ order.deliveryDate == null ? '' : 'disabled' }\" disabled.bind=\"order.deliveryDate != null\" autocomplete=\"off\" placeholder=\"00/00/0000\" value.bind=\"order.deliveryDate | dateFormat  & validate\" datepicker></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Horário inicial</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control ${ order.deliveryScheduleStart == null ? '' : 'disabled' }\" disabled.bind=\"order.deliveryScheduleStart != null\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"order.deliveryScheduleStart | time & updateTrigger:'blur' & validate\"></div></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Horário final</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control ${ order.deliveryScheduleEnd == null ? '' : 'disabled' }\" disabled.bind=\"order.deliveryScheduleEnd != null\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"order.deliveryScheduleEnd | time & updateTrigger:'blur' & validate \"></div></div></div></div><div class=\"row pb-5\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label active\">Informe a data de pagamento do boleto<span class=\"text-danger ml-1 bold\">*</span></label> <input type=\"text\" class=\"form-control\" autocomplete=\"off\" placeholder=\"00/00/0000\" value.bind=\"order.paymentDate | dateFormat & validate\" datepicker></div></div></div></div><div class=\"row\"><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"acceptOrder()\" if.bind=\"! processing\"><i class=\"fa fa-check mr-2\"></i>Aceitar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\" if.bind=\"! processing\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></template>"; });
 define('text!views/components/partials/selecaoDeProdutos.html', ['module'], function(module) { module.exports = "<template><require from=\"../attributes/moneyMask\"></require><require from=\"../valueConverters/moneyValueConverter\"></require><div class=\"row mt-2\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Mercado</label> <select class=\"form-control ${ isLoaded ? '' : 'disabled' }\" disabled.bind=\"! isLoaded\" value.bind=\"selectedClass\" change.delegate=\"updateCategories()\"><option repeat.for=\"class of classes\" model.bind=\"class\">${class.name}</option></select></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Categoria</label> <select class=\"form-control ${ isLoaded ? '' : 'disabled' }\" disabled.bind=\"! isLoaded\" value.bind=\"selectedCategory\" change.delegate=\"loadProducts()\"><option value=\"\"></option><option repeat.for=\"category of selectedClass.categories\" model.bind=\"category\">${category.name}</option></select></div></div><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control ${ isLoaded ? '' : 'disabled' }\" disabled.bind=\"! isLoaded\" value.bind=\"filter\" placeholder=\"Pesquise por Produto / Descrição\" change.trigger=\"search()\"></div></div></div><div class=\"row\" if.bind=\"isFiltered\"><div class=\"col-md-12 pb-5 mt-5\"><table class=\"table table-hover table-sm\"><thead><tr><th class=\"text-left\">Nome</th><th class=\"text-center\">Descrição</th><th class=\"text-center\">Marca</th><th class=\"text-center\">UM</th><th class=\"text-center\">Preço</th><th class=\"text-center\">Peso (kgs)</th><th></th></tr></thead><tbody><tr repeat.for=\"product of filteredProducts\"><td class=\"align-middle\">${product.name}</td><td class=\"text-center align-middle\">${product.description}</td><td class=\"align-middle\">${product.brand.name}</td><td class=\"text-center align-middle\">${product.unit.name}</td><td class=\"align-middle text-center\"><input type=\"text\" disabled.bind=\"! product.supplierProduct\" class=\"money form-control mx-auto col-md-6 text-right ${ product.supplierProduct ? '' : 'disabled' } \" autocomplete=\"off\" value.bind=\"product.supplierProduct.price | money\" money placeholder=\"000,00\"></td><td class=\"align-middle\"><input type=\"text\" disabled.bind=\"! (product.supplierProduct && product.unit.mustInformQuantity) \" class=\"money form-control mx-auto col-md-6 text-right ${ (product.supplierProduct && product.unit.mustInformQuantity) ? '' : 'disabled' } \" autocomplete=\"off\" value.bind=\"product.supplierProduct.weight | money\" money placeholder=\"000,00\"></td><td class=\"align-middle\"><div class=\"fa-2x text-center mx-auto\" if.bind=\"product.isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div><button if.bind=\"! product.supplierProduct && ! product.isLoading\" type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"includeProduct(product)\">Incluir</button> <button if.bind=\"product.supplierProduct && ! product.isLoading\" type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" click.trigger=\"saveProduct(product)\">Salvar</button> <button if.bind=\"product.supplierProduct && ! product.isLoading\" type=\"button\" class=\"btn btn-secondary btn-sm waves-effect waves-light\" click.trigger=\"product.supplierProduct = null\">Cancelar</button></td></tr></tbody></table><div class=\"row mt-2 mb-4\"><button type=\"button\" class=\"btn btn-primary mx-auto waves-effect waves-light\" if.bind=\"alteredProducts.length > 0 && ! isLoading\" click.trigger=\"saveAll()\">Salvar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"! isLoaded && selectedClass != null\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></template>"; });
-define('text!views/components/partials/historicoDeImportacao.html', ['module'], function(module) { module.exports = "<template><require from=\"../attributes/moneyMask\"></require><require from=\"../valueConverters/moneyValueConverter\"></require><div class=\"col-md-12\"><div id=\"accordion2\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"\" repeat.for=\"file of files\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingFile${file.id}\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse${file.id}\" aria-expanded=\"false\" aria-controls=\"collapse${file.id}\" class=\"\"> ${file.fileName} </a></h5></div><div id=\"collapse${file.id}\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" style=\"\"><div class=\"card-body\"><p class=\"text-right\">Usuário : ${file.uploadedBy.name}</p><p class=\"text-right\">Data: ${dataAtualFormatada(file.uploadedOn)}</p><p class=\"text-left\">Os produtos abaixo foram atualizados com o upload desse arquivo</p><table class=\"table table-hover\"><thead><tr><th>Nº da Linha</th><th>Nome</th><th>Descrição</th><th>Mercado</th><th>Categoria</th><th>UM</th><th>Marca</th><th>Cod. Cliente</th><th class=\"text-center\">Preço Antigo</th><th class=\"text-center\">Novo Preço</th><th>Status</th></tr></thead><tbody><tr repeat.for=\"row of file.rows\"><td>${row.lineNumber}</td><td>${row.supplierProduct.product.name}</td><td>${row.supplierProduct.product.description}</td><td>${row.supplierProduct.product.category.productClass.name}</td><td>${row.supplierProduct.product.category.name}</td><td>${row.supplierProduct.product.unit.name}</td><td>${row.supplierProduct.product.brand.name}</td><td>${row.supplierProduct.clientCode}</td><td class=\"text-center\">${row.oldPrice.toFixed(2)}</td><td class=\"text-center\">${row.newPrice.toFixed(2)}</td><td><span class=\"badge badge-success\" if.bind=\"row.status == 0\">Sucesso</span> <span class=\"badge badge-danger\" if.bind=\"row.status == 1\">Erro</span></td></tr></tbody></table></div></div></div></div></div></template>"; });
+define('text!views/components/partials/historicoDeImportacao.html', ['module'], function(module) { module.exports = "<template><require from=\"../attributes/moneyMask\"></require><require from=\"../valueConverters/moneyValueConverter\"></require><div class=\"col-md-12\"><div id=\"accordion2\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"\" repeat.for=\"file of files\"><div class=\"card-header ml-0\" role=\"tab\" id=\"headingFile${file.id}\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse${file.id}\" aria-expanded=\"false\" aria-controls=\"collapse${file.id}\" class=\"\"> ${file.fileName} </a></h5></div><div id=\"collapse${file.id}\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" style=\"\"><div class=\"card-body\"><p class=\"text-right\">Usuário : ${file.uploadedBy.name}</p><p class=\"text-right\">Data: ${dataAtualFormatada(file.uploadedOn)}</p><p class=\"text-left\">Os produtos abaixo foram atualizados com o upload desse arquivo</p><table class=\"table table-hover\"><thead><tr><th>Nº da Linha</th><th>Cod. Produto</th><th>Nome</th><th>Descrição</th><th>Mercado</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Preço Antigo</th><th class=\"text-center\">Novo Preço</th><th>Status</th></tr></thead><tbody><tr repeat.for=\"row of file.rows\"><td>${row.lineNumber}</td><td>${row.supplierProduct.clientCode}</td><td>${row.supplierProduct.product.name}</td><td>${row.supplierProduct.product.description}</td><td>${row.supplierProduct.product.category.productClass.name}</td><td>${row.supplierProduct.product.category.name}</td><td>${row.supplierProduct.product.unit.name}</td><td>${row.supplierProduct.product.brand.name}</td><td class=\"text-center\">${row.oldPrice.toFixed(2)}</td><td class=\"text-center\">${row.newPrice.toFixed(2)}</td><td><span class=\"badge badge-success\" if.bind=\"row.status == 0\">Sucesso</span> <span class=\"badge badge-danger\" if.bind=\"row.status == 1\">Erro</span></td></tr></tbody></table></div></div></div></div></div></template>"; });
 define('text!views/components/partials/deleteBuyList.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Deleção de lista</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label\">Tem certeza que deseja apagar a lista de compras <strong>${list.name}</strong>?</label></div></div></div></div><div class=\"row\"><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"deleteList()\" if.bind=\"! processing\"><i class=\"fa fa-check mr-2\"></i>Apagar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\" if.bind=\"! processing\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
