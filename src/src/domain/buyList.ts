@@ -12,4 +12,5 @@ export class BuyList{
     foodService     : FoodService;
     products        : BuyListProduct[];
     productClass    : ProductClass;
+    isDefaultList   : boolean;
 }

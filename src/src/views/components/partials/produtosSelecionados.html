@@ -51,8 +51,8 @@
                        <th repeat.for="list of lists" class="ml-2 text-center" if.bind="list.status == 0">
                            ${list.name}
                            <br />
-                           <button type="button" if.bind="! x.isLoading"  class="btn btn-danger btn-sm waves-effect waves-light "  click.trigger="deleteList(list)">
-                              <i class="fa fa-times mr-2"  style="cursor: pointer;" ></i>
+                           <button type="button" if.bind="! x.isLoading"  class="btn btn-danger btn-sm waves-effect waves-light ${ list.isDefaultList ? 'disabled' : '' } "  click.trigger="deleteList(list)">
+                              <i class="fa fa-times mr-2" disabled.bind="list.isDefaultList" style="cursor: pointer;"  ></i>
                               Apagar
                            </button>
                        </th>    

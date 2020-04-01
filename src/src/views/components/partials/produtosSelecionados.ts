@@ -68,16 +68,19 @@ export class ProdutosSelecionados{
 
                             var foodProduct = x.products.filter( x => x.foodServiceProduct.productId == product.productId);
 
-                            if(foodProduct == null){
+                            if(foodProduct == null || foodProduct.length == 0){
+                                
                                 var item = new BuyListProduct();
-                                item.foodServiceProduct = product;
-                                item.isInList = false;
-                                x.products.unshift(item);
+                                item.foodServiceProduct = product; 
+                                item.isInList = x.isDefaultList;
+                                x.products.unshift(item); 
                             }
                             else{
                                 foodProduct[0].foodServiceProduct.isActive = true;
+                                foodProduct[0].isInList = x.isDefaultList;
                             }
                         });
+                        this.defineProductsInList();
                     }
                     else{
                         this.allProducts.unshift(product);
@@ -172,7 +175,12 @@ export class ProdutosSelecionados{
 
     defineCurrentLists(){
 
-        this.lists = this.allLists.filter( (x : BuyList) => x.productClass.id == this.selectedClass.id);
+        var defaultList = this.allLists.filter( (x : BuyList) => x.isDefaultList);
+        this.lists = this.allLists.filter( (x : BuyList) => x.productClass != null && x.productClass.id == this.selectedClass.id);
+
+        if(defaultList != null && defaultList.length > 0){
+            this.lists.unshift(defaultList[0]);
+        }
     }
 
     defineProductsInList(){
@@ -316,15 +324,20 @@ export class ProdutosSelecionados{
 
     deleteList(list : BuyList){
 
-        var params = { List : list};
 
-        this.dialogService
-            .open({ viewModel: DeleteBuyList, model: params, lock: false })
-            .whenClosed(response => {
-                if (response.wasCancelled) {
-                    return;
-                } 
-               list.status = BuyListStatus.Inactive; 
-            });
+        if(! list.isDefaultList){
+
+            var params = { List : list};
+
+            this.dialogService
+                .open({ viewModel: DeleteBuyList, model: params, lock: false })
+                .whenClosed(response => {
+                    if (response.wasCancelled) {
+                        return;
+                    } 
+                list.status = BuyListStatus.Inactive; 
+                });
+
+        }
     }  
 }
