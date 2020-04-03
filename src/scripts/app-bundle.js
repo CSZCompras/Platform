@@ -104,16 +104,6 @@ define('app',["require", "exports", "./services/scriptRunner", "./services/ident
 
 
 
-define('resources/index',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function configure(config) {
-    }
-    exports.configure = configure;
-});
-
-
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1731,376 +1721,6 @@ define('repositories/unitOfMeasurementRepository',["require", "exports", "aureli
 
 
 
-define('validators/foodServiceValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FoodServiceValidator = (function () {
-        function FoodServiceValidator(foodService) {
-            this.foodService = foodService;
-            this.errorMessages = new Array();
-            if (this.foodService != null && this.foodService.address != null) {
-                this.addressValidator = new addressValidator_1.AddressValidator(this.foodService.address);
-            }
-            if (this.foodService != null && this.foodService.contact != null) {
-                this.contactValidator = new contactValidator_1.ContactValidator(this.foodService.contact);
-            }
-            this.validate();
-        }
-        FoodServiceValidator.prototype.validate = function () {
-            var _this = this;
-            this.errorMessages = [];
-            this.addressValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.contactValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.validateName();
-            this.validateInscricaoEstadual();
-            return this.errorMessages;
-        };
-        FoodServiceValidator.prototype.validateName = function () {
-            if (this.foodService.name == null || this.foodService.name.length == 0) {
-                this.errorMessages.push('O nome do fornecedor é obrigatório');
-                this.isNameInvalid = true;
-            }
-            else {
-                this.isNameInvalid = false;
-            }
-        };
-        FoodServiceValidator.prototype.validateInscricaoEstadual = function () {
-            if (this.foodService.inscricaoEstadual == null || this.foodService.inscricaoEstadual == '') {
-                this.errorMessages.push('A inscrição estadual é obrigatória');
-                this.isInscricaoEstadualInvalid = true;
-            }
-            else {
-                this.isInscricaoEstadualInvalid = false;
-            }
-        };
-        return FoodServiceValidator;
-    }());
-    exports.FoodServiceValidator = FoodServiceValidator;
-});
-
-
-
-define('validators/supplierValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var SupplierValidator = (function () {
-        function SupplierValidator(supplier) {
-            this.supplier = supplier;
-            this.errorMessages = new Array();
-            this.addressValidator = new addressValidator_1.AddressValidator(this.supplier.address);
-            this.contactValidator = new contactValidator_1.ContactValidator(this.supplier.contact);
-            this.validate();
-        }
-        SupplierValidator.prototype.validate = function () {
-            var _this = this;
-            this.errorMessages = [];
-            this.addressValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.contactValidator
-                .validate()
-                .forEach(function (x) {
-                _this.errorMessages.push(x);
-            });
-            this.validateName();
-            this.validateInscricaoEstadual();
-            return this.errorMessages;
-        };
-        SupplierValidator.prototype.validateName = function () {
-            if (this.supplier.name == null || this.supplier.name.length == 0) {
-                this.errorMessages.push('O nome do fornecedor é obrigatório');
-                this.isNameInvalid = true;
-            }
-            else {
-                this.isNameInvalid = false;
-            }
-        };
-        SupplierValidator.prototype.validateInscricaoEstadual = function () {
-            if (this.supplier.inscricaoEstadual == null || this.supplier.inscricaoEstadual == '') {
-                this.errorMessages.push('A inscrição estadual é obrigatória');
-                this.isInscricaoEstadualInvalid = true;
-            }
-            else {
-                this.isInscricaoEstadualInvalid = false;
-            }
-        };
-        return SupplierValidator;
-    }());
-    exports.SupplierValidator = SupplierValidator;
-});
-
-
-
-define('validators/contactValidator',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ContactValidator = (function () {
-        function ContactValidator(contact) {
-            this.contact = contact;
-            this.errorMessages = new Array();
-            this.validate();
-        }
-        ContactValidator.prototype.validate = function () {
-            this.errorMessages = [];
-            if (this.contact != null) {
-                this.validateName();
-                this.validatePhone();
-                this.validateEmail();
-            }
-            return this.errorMessages;
-        };
-        ContactValidator.prototype.validateName = function () {
-            if (this.contact.name == null || this.contact.name.length == 0) {
-                this.errorMessages.push('O nome do contato é obrigatório');
-                this.isNameInvalid = true;
-            }
-            else {
-                this.isNameInvalid = false;
-            }
-        };
-        ContactValidator.prototype.validatePhone = function () {
-            if (this.contact.phone == null || ('' + this.contact.phone).length < 10) {
-                this.errorMessages.push('O telefone do contato é obrigatório');
-                this.isPhoneInvalid = true;
-            }
-            else {
-                this.isPhoneInvalid = false;
-            }
-        };
-        ContactValidator.prototype.validateEmail = function () {
-            if (this.contact.email == null || this.contact.email.length <= 10) {
-                this.errorMessages.push('O telefone do contato é obrigatório');
-                this.isEmailInvalid = true;
-            }
-            else if (!this.validateEmailString(this.contact.email)) {
-                this.errorMessages.push('O e-mail digitado é invalido');
-                this.isEmailInvalid = true;
-            }
-            else {
-                this.isEmailInvalid = false;
-            }
-        };
-        ContactValidator.prototype.validateEmailString = function (email) {
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
-        };
-        return ContactValidator;
-    }());
-    exports.ContactValidator = ContactValidator;
-});
-
-
-
-define('validators/addressValidator',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var AddressValidator = (function () {
-        function AddressValidator(address) {
-            this.address = address;
-            this.errorMessages = new Array();
-            this.validate();
-        }
-        AddressValidator.prototype.validate = function () {
-            this.errorMessages = [];
-            if (this.address != null) {
-                this.validateCep();
-                this.validateLogradouro();
-                this.validateNumber();
-                this.validateNeighborhood();
-                this.validateCity();
-                this.validateState();
-            }
-            return this.errorMessages;
-        };
-        AddressValidator.prototype.validateCep = function () {
-            if (this.address.cep == null || this.address.cep.length < 8) {
-                this.errorMessages.push('O cep do endereço é obrigatório');
-                this.isCepInvalid = true;
-            }
-            else {
-                this.isCepInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateLogradouro = function () {
-            if (this.address.logradouro == null || this.address.logradouro.length < 3) {
-                this.errorMessages.push('O logradouro do endereço é obrigatório');
-                this.isLogradouroInvalid = true;
-            }
-            else {
-                this.isLogradouroInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateNumber = function () {
-            if (this.address.number == null || ('' + this.address.number) == '' || this.address.number <= 0) {
-                this.errorMessages.push('O número do endereço é obrigatório');
-                this.isNumberInvalid = true;
-            }
-            else {
-                this.isNumberInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateNeighborhood = function () {
-            if (this.address.neighborhood == null || this.address.neighborhood.length == 0) {
-                this.errorMessages.push('O bairro do endereço é obrigatório');
-                this.isNeighborhoodInvalid = true;
-            }
-            else {
-                this.isNeighborhoodInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateCity = function () {
-            if (this.address.city == null || this.address.city.length == 0) {
-                this.errorMessages.push('A cidade do endereço é obrigatório');
-                this.isCityInvalid = true;
-            }
-            else {
-                this.isCityInvalid = false;
-            }
-        };
-        AddressValidator.prototype.validateState = function () {
-            if (this.address.state == null || this.address.state.length == 0) {
-                this.errorMessages.push('O estado do endereço é obrigatório');
-                this.isStateInvalid = true;
-            }
-            else {
-                this.isStateInvalid = false;
-            }
-        };
-        return AddressValidator;
-    }());
-    exports.AddressValidator = AddressValidator;
-});
-
-
-
-define('validators/marketRuleValidator',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var MarketRuleValidator = (function () {
-        function MarketRuleValidator(rule) {
-            this.rule = rule;
-            this.errorMessages = new Array();
-            this.validate();
-        }
-        MarketRuleValidator.prototype.validate = function () {
-            this.errorMessages = [];
-            this.validateMinimumOrderValue();
-            this.validateNumberOfDaysToAccept();
-            this.validatePeriodToAcceptOrder1();
-            this.validatePeriodToAcceptOrder2();
-            this.validateDeliverySchedule1();
-            this.validateDeliverySchedule2();
-            this.validateReceiverNewClient();
-            this.validateReceiverNewOrder();
-            return this.errorMessages;
-        };
-        MarketRuleValidator.prototype.validateReceiverNewClient = function () {
-            if (this.rule.sendNotificationToNewClient && (this.rule.receiverNewClient == null || this.rule.receiverNewClient == '')) {
-                this.errorMessages.push('O e-mail do destinatário em caso de novo cliente está em branco');
-                this.isReceiverNewClientInvalid = true;
-            }
-        };
-        MarketRuleValidator.prototype.validateReceiverNewOrder = function () {
-            if (this.rule.sendNotificationToNewOrder && (this.rule.receiverNewOrder == null || this.rule.receiverNewOrder == '')) {
-                this.errorMessages.push('O e-mail do destinatário em caso de novo pedido está em branco');
-                this.isReceiverNewClientInvalid = true;
-            }
-        };
-        MarketRuleValidator.prototype.validateMinimumOrderValue = function () {
-            if (this.rule.minimumOrderValue == null || ('' + this.rule.minimumOrderValue) == "") {
-                this.errorMessages.push('O valor mínimo do pedido é obrigatório');
-                this.isMinimumOrderValueInvalid = true;
-            }
-            else if (this.rule.minimumOrderValue <= 0) {
-                this.errorMessages.push('O valor mínimo do pedido deve ser maior que zero');
-                this.isMinimumOrderValueInvalid = true;
-            }
-            else {
-                this.isMinimumOrderValueInvalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validateNumberOfDaysToAccept = function () {
-            if (this.rule.numberOfDaysToAccept == null || ('' + this.rule.numberOfDaysToAccept) == "") {
-                this.errorMessages.push('A quantidade de dias para aceite do pedido é obrigatória');
-                this.isnumberOfDaysToAcceptInvalid = true;
-            }
-            else if (this.rule.numberOfDaysToAccept <= 0) {
-                this.errorMessages.push('A quantidade de dias para aceite do pedido deve ser maior que zero');
-                this.isnumberOfDaysToAcceptInvalid = true;
-            }
-            else {
-                this.isnumberOfDaysToAcceptInvalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validatePeriodToAcceptOrder1 = function () {
-            if (this.rule.periodToAcceptOrder1 == null || ('' + this.rule.periodToAcceptOrder1) == '') {
-                this.errorMessages.push('O período inicial de aceite é obrigatório');
-                this.isPeriodToAcceptOrder1Invalid = true;
-            }
-            else if (this.rule.periodToAcceptOrder1 > 1800) {
-                this.errorMessages.push('O período inicial de aceite é inválido');
-                this.isPeriodToAcceptOrder1Invalid = true;
-            }
-            else {
-                this.isPeriodToAcceptOrder1Invalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validatePeriodToAcceptOrder2 = function () {
-            if (this.rule.periodToAcceptOrder2 == null || ('' + this.rule.periodToAcceptOrder2) == '') {
-                this.errorMessages.push('O período final de aceite é obrigatório');
-                this.isPeriodToAcceptOrder2Invalid = true;
-            }
-            else if (this.rule.periodToAcceptOrder2 > 2400) {
-                this.errorMessages.push('O período final  de aceite é inválido');
-                this.isPeriodToAcceptOrder2Invalid = true;
-            }
-            else {
-                this.isPeriodToAcceptOrder2Invalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validateDeliverySchedule1 = function () {
-            if (this.rule.deliverySchedule1 == null || ('' + this.rule.deliverySchedule1) == '') {
-                this.errorMessages.push('O horário inicial de entrega é obrigatório');
-                this.isDeliverySchedule1Invalid = true;
-            }
-            else if (this.rule.deliverySchedule1 > 1800) {
-                this.errorMessages.push('O horário inicial de entrega é inválido');
-                this.isDeliverySchedule1Invalid = true;
-            }
-            else {
-                this.isDeliverySchedule1Invalid = false;
-            }
-        };
-        MarketRuleValidator.prototype.validateDeliverySchedule2 = function () {
-            if (this.rule.deliverySchedule2 == null || ('' + this.rule.deliverySchedule2) == '') {
-                this.errorMessages.push('O horário final de entrega é obrigatório');
-                this.isDeliverySchedule2Invalid = true;
-            }
-            else if (this.rule.deliverySchedule1 > 2400) {
-                this.errorMessages.push('O horário final de entrega é inválido');
-                this.isDeliverySchedule2Invalid = true;
-            }
-            else {
-                this.isDeliverySchedule2Invalid = false;
-            }
-        };
-        return MarketRuleValidator;
-    }());
-    exports.MarketRuleValidator = MarketRuleValidator;
-});
-
-
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2745,6 +2365,386 @@ define('views/formValidationRenderer',["require", "exports"], function (require,
         return FormValidationRenderer;
     }());
     exports.FormValidationRenderer = FormValidationRenderer;
+});
+
+
+
+define('validators/foodServiceValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FoodServiceValidator = (function () {
+        function FoodServiceValidator(foodService) {
+            this.foodService = foodService;
+            this.errorMessages = new Array();
+            if (this.foodService != null && this.foodService.address != null) {
+                this.addressValidator = new addressValidator_1.AddressValidator(this.foodService.address);
+            }
+            if (this.foodService != null && this.foodService.contact != null) {
+                this.contactValidator = new contactValidator_1.ContactValidator(this.foodService.contact);
+            }
+            this.validate();
+        }
+        FoodServiceValidator.prototype.validate = function () {
+            var _this = this;
+            this.errorMessages = [];
+            this.addressValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.contactValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.validateName();
+            this.validateInscricaoEstadual();
+            return this.errorMessages;
+        };
+        FoodServiceValidator.prototype.validateName = function () {
+            if (this.foodService.name == null || this.foodService.name.length == 0) {
+                this.errorMessages.push('O nome do fornecedor é obrigatório');
+                this.isNameInvalid = true;
+            }
+            else {
+                this.isNameInvalid = false;
+            }
+        };
+        FoodServiceValidator.prototype.validateInscricaoEstadual = function () {
+            if (this.foodService.inscricaoEstadual == null || this.foodService.inscricaoEstadual == '') {
+                this.errorMessages.push('A inscrição estadual é obrigatória');
+                this.isInscricaoEstadualInvalid = true;
+            }
+            else {
+                this.isInscricaoEstadualInvalid = false;
+            }
+        };
+        return FoodServiceValidator;
+    }());
+    exports.FoodServiceValidator = FoodServiceValidator;
+});
+
+
+
+define('validators/supplierValidator',["require", "exports", "./contactValidator", "./addressValidator"], function (require, exports, contactValidator_1, addressValidator_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SupplierValidator = (function () {
+        function SupplierValidator(supplier) {
+            this.supplier = supplier;
+            this.errorMessages = new Array();
+            this.addressValidator = new addressValidator_1.AddressValidator(this.supplier.address);
+            this.contactValidator = new contactValidator_1.ContactValidator(this.supplier.contact);
+            this.validate();
+        }
+        SupplierValidator.prototype.validate = function () {
+            var _this = this;
+            this.errorMessages = [];
+            this.addressValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.contactValidator
+                .validate()
+                .forEach(function (x) {
+                _this.errorMessages.push(x);
+            });
+            this.validateName();
+            this.validateInscricaoEstadual();
+            return this.errorMessages;
+        };
+        SupplierValidator.prototype.validateName = function () {
+            if (this.supplier.name == null || this.supplier.name.length == 0) {
+                this.errorMessages.push('O nome do fornecedor é obrigatório');
+                this.isNameInvalid = true;
+            }
+            else {
+                this.isNameInvalid = false;
+            }
+        };
+        SupplierValidator.prototype.validateInscricaoEstadual = function () {
+            if (this.supplier.inscricaoEstadual == null || this.supplier.inscricaoEstadual == '') {
+                this.errorMessages.push('A inscrição estadual é obrigatória');
+                this.isInscricaoEstadualInvalid = true;
+            }
+            else {
+                this.isInscricaoEstadualInvalid = false;
+            }
+        };
+        return SupplierValidator;
+    }());
+    exports.SupplierValidator = SupplierValidator;
+});
+
+
+
+define('validators/contactValidator',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ContactValidator = (function () {
+        function ContactValidator(contact) {
+            this.contact = contact;
+            this.errorMessages = new Array();
+            this.validate();
+        }
+        ContactValidator.prototype.validate = function () {
+            this.errorMessages = [];
+            if (this.contact != null) {
+                this.validateName();
+                this.validatePhone();
+                this.validateEmail();
+            }
+            return this.errorMessages;
+        };
+        ContactValidator.prototype.validateName = function () {
+            if (this.contact.name == null || this.contact.name.length == 0) {
+                this.errorMessages.push('O nome do contato é obrigatório');
+                this.isNameInvalid = true;
+            }
+            else {
+                this.isNameInvalid = false;
+            }
+        };
+        ContactValidator.prototype.validatePhone = function () {
+            if (this.contact.phone == null || ('' + this.contact.phone).length < 10) {
+                this.errorMessages.push('O telefone do contato é obrigatório');
+                this.isPhoneInvalid = true;
+            }
+            else {
+                this.isPhoneInvalid = false;
+            }
+        };
+        ContactValidator.prototype.validateEmail = function () {
+            if (this.contact.email == null || this.contact.email.length <= 10) {
+                this.errorMessages.push('O telefone do contato é obrigatório');
+                this.isEmailInvalid = true;
+            }
+            else if (!this.validateEmailString(this.contact.email)) {
+                this.errorMessages.push('O e-mail digitado é invalido');
+                this.isEmailInvalid = true;
+            }
+            else {
+                this.isEmailInvalid = false;
+            }
+        };
+        ContactValidator.prototype.validateEmailString = function (email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        };
+        return ContactValidator;
+    }());
+    exports.ContactValidator = ContactValidator;
+});
+
+
+
+define('validators/addressValidator',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var AddressValidator = (function () {
+        function AddressValidator(address) {
+            this.address = address;
+            this.errorMessages = new Array();
+            this.validate();
+        }
+        AddressValidator.prototype.validate = function () {
+            this.errorMessages = [];
+            if (this.address != null) {
+                this.validateCep();
+                this.validateLogradouro();
+                this.validateNumber();
+                this.validateNeighborhood();
+                this.validateCity();
+                this.validateState();
+            }
+            return this.errorMessages;
+        };
+        AddressValidator.prototype.validateCep = function () {
+            if (this.address.cep == null || this.address.cep.length < 8) {
+                this.errorMessages.push('O cep do endereço é obrigatório');
+                this.isCepInvalid = true;
+            }
+            else {
+                this.isCepInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateLogradouro = function () {
+            if (this.address.logradouro == null || this.address.logradouro.length < 3) {
+                this.errorMessages.push('O logradouro do endereço é obrigatório');
+                this.isLogradouroInvalid = true;
+            }
+            else {
+                this.isLogradouroInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateNumber = function () {
+            if (this.address.number == null || ('' + this.address.number) == '' || this.address.number <= 0) {
+                this.errorMessages.push('O número do endereço é obrigatório');
+                this.isNumberInvalid = true;
+            }
+            else {
+                this.isNumberInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateNeighborhood = function () {
+            if (this.address.neighborhood == null || this.address.neighborhood.length == 0) {
+                this.errorMessages.push('O bairro do endereço é obrigatório');
+                this.isNeighborhoodInvalid = true;
+            }
+            else {
+                this.isNeighborhoodInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateCity = function () {
+            if (this.address.city == null || this.address.city.length == 0) {
+                this.errorMessages.push('A cidade do endereço é obrigatório');
+                this.isCityInvalid = true;
+            }
+            else {
+                this.isCityInvalid = false;
+            }
+        };
+        AddressValidator.prototype.validateState = function () {
+            if (this.address.state == null || this.address.state.length == 0) {
+                this.errorMessages.push('O estado do endereço é obrigatório');
+                this.isStateInvalid = true;
+            }
+            else {
+                this.isStateInvalid = false;
+            }
+        };
+        return AddressValidator;
+    }());
+    exports.AddressValidator = AddressValidator;
+});
+
+
+
+define('validators/marketRuleValidator',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var MarketRuleValidator = (function () {
+        function MarketRuleValidator(rule) {
+            this.rule = rule;
+            this.errorMessages = new Array();
+            this.validate();
+        }
+        MarketRuleValidator.prototype.validate = function () {
+            this.errorMessages = [];
+            this.validateMinimumOrderValue();
+            this.validateNumberOfDaysToAccept();
+            this.validatePeriodToAcceptOrder1();
+            this.validatePeriodToAcceptOrder2();
+            this.validateDeliverySchedule1();
+            this.validateDeliverySchedule2();
+            this.validateReceiverNewClient();
+            this.validateReceiverNewOrder();
+            return this.errorMessages;
+        };
+        MarketRuleValidator.prototype.validateReceiverNewClient = function () {
+            if (this.rule.sendNotificationToNewClient && (this.rule.receiverNewClient == null || this.rule.receiverNewClient == '')) {
+                this.errorMessages.push('O e-mail do destinatário em caso de novo cliente está em branco');
+                this.isReceiverNewClientInvalid = true;
+            }
+        };
+        MarketRuleValidator.prototype.validateReceiverNewOrder = function () {
+            if (this.rule.sendNotificationToNewOrder && (this.rule.receiverNewOrder == null || this.rule.receiverNewOrder == '')) {
+                this.errorMessages.push('O e-mail do destinatário em caso de novo pedido está em branco');
+                this.isReceiverNewClientInvalid = true;
+            }
+        };
+        MarketRuleValidator.prototype.validateMinimumOrderValue = function () {
+            if (this.rule.minimumOrderValue == null || ('' + this.rule.minimumOrderValue) == "") {
+                this.errorMessages.push('O valor mínimo do pedido é obrigatório');
+                this.isMinimumOrderValueInvalid = true;
+            }
+            else if (this.rule.minimumOrderValue <= 0) {
+                this.errorMessages.push('O valor mínimo do pedido deve ser maior que zero');
+                this.isMinimumOrderValueInvalid = true;
+            }
+            else {
+                this.isMinimumOrderValueInvalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validateNumberOfDaysToAccept = function () {
+            if (this.rule.numberOfDaysToAccept == null || ('' + this.rule.numberOfDaysToAccept) == "") {
+                this.errorMessages.push('A quantidade de dias para aceite do pedido é obrigatória');
+                this.isnumberOfDaysToAcceptInvalid = true;
+            }
+            else if (this.rule.numberOfDaysToAccept <= 0) {
+                this.errorMessages.push('A quantidade de dias para aceite do pedido deve ser maior que zero');
+                this.isnumberOfDaysToAcceptInvalid = true;
+            }
+            else {
+                this.isnumberOfDaysToAcceptInvalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validatePeriodToAcceptOrder1 = function () {
+            if (this.rule.periodToAcceptOrder1 == null || ('' + this.rule.periodToAcceptOrder1) == '') {
+                this.errorMessages.push('O período inicial de aceite é obrigatório');
+                this.isPeriodToAcceptOrder1Invalid = true;
+            }
+            else if (this.rule.periodToAcceptOrder1 > 1800) {
+                this.errorMessages.push('O período inicial de aceite é inválido');
+                this.isPeriodToAcceptOrder1Invalid = true;
+            }
+            else {
+                this.isPeriodToAcceptOrder1Invalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validatePeriodToAcceptOrder2 = function () {
+            if (this.rule.periodToAcceptOrder2 == null || ('' + this.rule.periodToAcceptOrder2) == '') {
+                this.errorMessages.push('O período final de aceite é obrigatório');
+                this.isPeriodToAcceptOrder2Invalid = true;
+            }
+            else if (this.rule.periodToAcceptOrder2 > 2400) {
+                this.errorMessages.push('O período final  de aceite é inválido');
+                this.isPeriodToAcceptOrder2Invalid = true;
+            }
+            else {
+                this.isPeriodToAcceptOrder2Invalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validateDeliverySchedule1 = function () {
+            if (this.rule.deliverySchedule1 == null || ('' + this.rule.deliverySchedule1) == '') {
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliverySchedule1Invalid = true;
+            }
+            else if (this.rule.deliverySchedule1 > 1800) {
+                this.errorMessages.push('O horário inicial de entrega é inválido');
+                this.isDeliverySchedule1Invalid = true;
+            }
+            else {
+                this.isDeliverySchedule1Invalid = false;
+            }
+        };
+        MarketRuleValidator.prototype.validateDeliverySchedule2 = function () {
+            if (this.rule.deliverySchedule2 == null || ('' + this.rule.deliverySchedule2) == '') {
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliverySchedule2Invalid = true;
+            }
+            else if (this.rule.deliverySchedule1 > 2400) {
+                this.errorMessages.push('O horário final de entrega é inválido');
+                this.isDeliverySchedule2Invalid = true;
+            }
+            else {
+                this.isDeliverySchedule2Invalid = false;
+            }
+        };
+        return MarketRuleValidator;
+    }());
+    exports.MarketRuleValidator = MarketRuleValidator;
+});
+
+
+
+define('resources/index',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function configure(config) {
+    }
+    exports.configure = configure;
 });
 
 
@@ -4860,6 +4860,492 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+define('views/cotacao/pedidosFornecedor',["require", "exports", "../../services/notificationService", "../../services/identityService", "aurelia-framework", "aurelia-router", "aurelia-api", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "../components/partials/aceitePedido", "../../domain/orderStatus", "../components/partials/rejeicaoPedido"], function (require, exports, notificationService_1, identityService_1, aurelia_framework_1, aurelia_router_1, aurelia_api_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aceitePedido_1, orderStatus_1, rejeicaoPedido_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PedidosFornecedor = (function () {
+        function PedidosFornecedor(router, dialogService, config, ea, service, nService, orderRepo) {
+            this.router = router;
+            this.dialogService = dialogService;
+            this.config = config;
+            this.ea = ea;
+            this.service = service;
+            this.nService = nService;
+            this.orderRepo = orderRepo;
+            this.selectedStatus = 0;
+        }
+        PedidosFornecedor.prototype.attached = function () {
+            var _this = this;
+            this.ea.publish('loadingData');
+            this.ea.subscribe('newOrder', function (data) {
+                if (_this.selectedStatus == 0 || _this.selectedStatus.toString() == "0") {
+                    _this.orders.push(data);
+                }
+            });
+            this.ea.subscribe('orderFinished', function (data) {
+                _this.orders.forEach(function (x) {
+                    if (x.id == data.id) {
+                        x = data;
+                    }
+                });
+                _this.filteredOrders.forEach(function (x) {
+                    if (x.id == data.id) {
+                        x.status = data.status;
+                    }
+                });
+            });
+            this.loadData();
+        };
+        PedidosFornecedor.prototype.loadData = function () {
+            this.load();
+        };
+        PedidosFornecedor.prototype.load = function () {
+            var _this = this;
+            if (this.selectedStatus == orderStatus_1.OrderStatus.Created || this.selectedStatus == null) {
+                this.orderRepo
+                    .getMyNewOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+            else if (this.selectedStatus == orderStatus_1.OrderStatus.Accepted) {
+                this.orderRepo
+                    .getMyAcceptedOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+            else if (this.selectedStatus == orderStatus_1.OrderStatus.Rejected) {
+                this.orderRepo
+                    .getMyRejectedOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+            else if (this.selectedStatus == orderStatus_1.OrderStatus.Delivered) {
+                this.orderRepo
+                    .getMyDeliveredOrders()
+                    .then(function (x) {
+                    _this.orders = x;
+                    _this.filteredOrders = _this.orders;
+                    _this.filter = '';
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) {
+                    _this.nService.presentError(e);
+                });
+            }
+        };
+        PedidosFornecedor.prototype.selectOrder = function (order) {
+            this.selectedOrder = order;
+            this.foodService = order.foodService;
+            this.showdDetails = true;
+        };
+        PedidosFornecedor.prototype.showOrders = function () {
+            this.showdDetails = false;
+        };
+        PedidosFornecedor.prototype.acceptOrder = function (order) {
+            var params = { Order: order };
+            this.dialogService
+                .open({ viewModel: aceitePedido_1.AceitePedido, model: params, lock: false })
+                .whenClosed(function (response) {
+                if (response.wasCancelled) {
+                    return;
+                }
+                order.status = orderStatus_1.OrderStatus.Accepted;
+            });
+        };
+        PedidosFornecedor.prototype.rejectOrder = function (order) {
+            var params = { Order: order };
+            this.dialogService
+                .open({ viewModel: rejeicaoPedido_1.RejeicaoPedido, model: params, lock: false })
+                .whenClosed(function (response) {
+                if (response.wasCancelled) {
+                    return;
+                }
+                order.status = orderStatus_1.OrderStatus.Rejected;
+            });
+        };
+        PedidosFornecedor.prototype.search = function () {
+            var _this = this;
+            this.isFiltered = true;
+            this.filteredOrders = this.orders.filter(function (x) {
+                var isFound = true;
+                if ((_this.filter != null && _this.filter != '')) {
+                    if ((x.code.toString().toUpperCase().includes(_this.filter.toUpperCase()))
+                        || (x.foodService.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
+                        || (x.createdBy.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
+                        || (x.total.toString().toUpperCase().includes(_this.filter.toUpperCase()))) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+                if (isFound) {
+                    return x;
+                }
+            });
+        };
+        PedidosFornecedor.prototype.exportOrder = function (order) {
+            var api = this.config.getEndpoint('csz');
+            window.open(api.client.baseUrl + 'ExportOrderToExcel?orderId=' + order.id, '_parent');
+        };
+        PedidosFornecedor = __decorate([
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_router_1.Router,
+                aurelia_dialog_1.DialogService,
+                aurelia_api_1.Config,
+                aurelia_event_aggregator_1.EventAggregator,
+                identityService_1.IdentityService,
+                notificationService_1.NotificationService,
+                orderRepository_1.OrderRepository])
+        ], PedidosFornecedor);
+        return PedidosFornecedor;
+    }());
+    exports.PedidosFornecedor = PedidosFornecedor;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('views/cotacao/cotacao',["require", "exports", "../../services/notificationService", "aurelia-framework", "aurelia-router", "../../repositories/foodServiceRepository", "../../repositories/simulationRepository", "../../domain/simulationInput", "../../domain/simulationInputItem", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "aurelia-validation", "../formValidationRenderer", "../../repositories/deliveryRuleRepository", "../../domain/deliveryRule", "../../domain/checkDeliveryViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, notificationService_1, aurelia_framework_1, aurelia_router_1, foodServiceRepository_1, simulationRepository_1, simulationInput_1, simulationInputItem_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aurelia_validation_1, formValidationRenderer_1, deliveryRuleRepository_1, deliveryRule_1, checkDeliveryViewModel_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Pedido = (function () {
+        function Pedido(router, repository, ea, dialogService, simulationRepository, orderRepository, nService, deliveryRepository, validationControllerFactory) {
+            this.router = router;
+            this.repository = repository;
+            this.ea = ea;
+            this.dialogService = dialogService;
+            this.simulationRepository = simulationRepository;
+            this.orderRepository = orderRepository;
+            this.nService = nService;
+            this.deliveryRepository = deliveryRepository;
+            this.validationControllerFactory = validationControllerFactory;
+            this.currentStep = 1;
+            this.totalSteps = 3;
+            this.isProcessing = false;
+            this.orderWasGenerated = false;
+            this.input = new simulationInput_1.SimulationInput();
+            this.supplierBlackList = [];
+            this.validationController = this.validationControllerFactory.createForCurrentScope();
+            this.validationController.addRenderer(new formValidationRenderer_1.FormValidationRenderer());
+            this.validationController.validateTrigger = aurelia_validation_1.validateTrigger.blur;
+            this.deliveryWasChecked = false;
+            this.viewModel = new checkDeliveryViewModel_1.CheckDeliveryViewModel();
+            this.isOrderValid = true;
+        }
+        Pedido.prototype.runScript = function () {
+            var thisForm = '#rootwizard-1';
+            var outher = this;
+            if ($(thisForm).length) {
+                $('.pager li a, .pager li span').on('click', function (e) {
+                    e.preventDefault();
+                });
+                var wizardStagesTotal = $(thisForm + ' .tab-pane').length;
+                $(thisForm).bootstrapWizard({ onNext: function (tab, navigation, index) {
+                        if (index <= wizardStagesTotal) {
+                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
+                            $(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
+                        }
+                    }, onPrevious: function (tab, navigation, index) {
+                        if (index !== -1) {
+                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
+                            $(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
+                        }
+                    }, onTabShow: function (tab, navigation, index) {
+                        var total = navigation.find('li').length;
+                        var current = index + 1;
+                        var completionPercentage = (current / total) * 100;
+                        var progressBar = $(thisForm).closest('.card').find(".card-header .progress-bar");
+                        progressBar.css({ "width": completionPercentage + "%" }).attr("aria-valuenow", completionPercentage);
+                    }, onTabClick: function (tab, navigation, index) {
+                        return false;
+                    } });
+            }
+        };
+        Pedido.prototype.activate = function (params) {
+            if (params.orderId != null && params.orderId != '') {
+                this.orderId = params.orderId;
+            }
+        };
+        Pedido.prototype.advance = function () {
+            this.currentStep++;
+            if (this.currentStep == 2) {
+                this.simulate();
+            }
+            if (this.currentStep == 3) {
+                window.scrollTo(0, 0);
+            }
+        };
+        Pedido.prototype.simulate = function () {
+            var _this = this;
+            this.ea.publish('loadingData');
+            this.isProcessing = true;
+            this.input.buyListId = this.selectedQuote.id;
+            this.input.items = [];
+            this.selectedQuote.products.forEach(function (x) {
+                if (x.quantity != null && x.quantity != 0) {
+                    var item = new simulationInputItem_1.SimulationInputItem();
+                    item.productId = x.id;
+                    item.quantity = x.quantity;
+                    _this.input.items.push(item);
+                }
+            });
+            this.input.supplierBlackList = this.supplierBlackList;
+            this.selectedResult = null;
+            this.simulationRepository
+                .simulate(this.input)
+                .then(function (x) {
+                _this.simulation = x;
+                _this.isProcessing = false;
+                _this.runScript();
+                _this.ea.publish('dataLoaded');
+            })
+                .catch(function (e) {
+                _this.simulation = null;
+                _this.nService.presentError(e);
+                _this.isProcessing = false;
+                _this.ea.publish('dataLoaded');
+            });
+        };
+        Pedido.prototype.back = function () {
+            this.currentStep--;
+        };
+        Pedido.prototype.attached = function () {
+            this.ea.publish('loadingData');
+            this.runScript();
+            this.loadData();
+        };
+        Pedido.prototype.addRemoveSupplier = function (supplier) {
+            if (supplier.wasRemoved && !supplier.isInvalid) {
+                this.selectedQuote.suppliers.forEach(function (x) {
+                    if (x.id == supplier.id) {
+                        x.isInvalid = false;
+                        x.wasRemoved = false;
+                    }
+                });
+                this.selectedQuote.products.forEach(function (x) {
+                    x.suppliers.forEach(function (y) {
+                        if (y.id == supplier.id) {
+                            y.isInvalid = false;
+                            y.wasRemoved = false;
+                        }
+                    });
+                });
+                this.supplierBlackList = this.supplierBlackList.filter(function (x) { return x.id != supplier.id; });
+            }
+            else if (!supplier.isInvalid) {
+                this.selectedQuote.suppliers.forEach(function (x) {
+                    if (x.id == supplier.id) {
+                        x.isInvalid = false;
+                        x.wasRemoved = true;
+                    }
+                });
+                this.selectedQuote.products.forEach(function (x) {
+                    x.suppliers.forEach(function (y) {
+                        if (y.id == supplier.id) {
+                            y.isInvalid = false;
+                            y.wasRemoved = true;
+                        }
+                    });
+                });
+                this.supplierBlackList.push(supplier);
+            }
+            this.checkIfOrderIsvalid();
+        };
+        Pedido.prototype.loadData = function () {
+            var _this = this;
+            if (this.orderId != null && this.orderId != '') {
+                this.simulationRepository
+                    .getCotacaoFromOrder(this.orderId)
+                    .then(function (x) {
+                    _this.selectedQuote = x;
+                    if (x.blackListSupplier != null) {
+                        _this.addRemoveSupplier(x.blackListSupplier);
+                    }
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) { return _this.nService.presentError(e); });
+                this.loadDeliveryRule();
+            }
+            else {
+                this.repository
+                    .getBuyListsParaCotacao()
+                    .then(function (x) {
+                    _this.quotes = x;
+                })
+                    .then(function () { return _this.ea.publish('dataLoaded'); })
+                    .catch(function (e) { return _this.nService.presentError(e); });
+            }
+        };
+        Pedido.prototype.loadDeliveryRule = function () {
+            var _this = this;
+            this.deliveryRepository
+                .getRule(this.selectedQuote.productClass.id)
+                .then(function (x) {
+                if (x != null) {
+                    _this.deliveryRule = x;
+                    _this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
+                    _this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
+                    _this.viewModel.deliveryDate = deliveryRule_1.DeliveryRule.getNextDeliveryDate(_this.deliveryRule);
+                    _this.checkDeliveryDate();
+                }
+            })
+                .catch(function (e) { return _this.nService.presentError(e); });
+        };
+        Pedido.prototype.checkDeliveryDate = function () {
+            var _this = this;
+            this.deliveryWasChecked = false;
+            this.viewModel.suppliers = [];
+            this.selectedQuote.suppliers.forEach(function (x) {
+                _this.viewModel.suppliers.push(x.id);
+            });
+            if (this.viewModel.deliveryDate < new Date()) {
+                this.nService.presentError('A data de entrega deve ser maior ou igual a hoje');
+                this.isOrderValid = false;
+            }
+            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
+                this.nService.presentError('O horário inicial deve ser maior que o horário final');
+                this.isOrderValid = false;
+            }
+            this.deliveryRepository
+                .checkDeliveryRule(this.viewModel)
+                .then(function (x) {
+                _this.checkDeliveryResult = x;
+                x.items.forEach(function (item) {
+                    _this.selectedQuote.suppliers.forEach(function (y) {
+                        if (y.id == item.supplierId) {
+                            if (!item.isValid) {
+                                y.isInvalid = true;
+                                _this.supplierBlackList.push(y);
+                            }
+                            else {
+                                y.isInvalid = false;
+                                _this.supplierBlackList = _this.supplierBlackList.filter(function (x) { return x.id != y.id; });
+                            }
+                        }
+                    });
+                    _this.selectedQuote.products.forEach(function (x) {
+                        x.suppliers.forEach(function (y) {
+                            if (y.id == item.supplierId) {
+                                if (!item.isValid) {
+                                    y.isInvalid = true;
+                                }
+                                else {
+                                    y.isInvalid = false;
+                                }
+                            }
+                        });
+                    });
+                });
+                _this.deliveryWasChecked = true;
+                _this.checkIfOrderIsvalid();
+            })
+                .catch(function (e) { return _this.nService.presentError(e); });
+        };
+        Pedido.prototype.checkIfOrderIsvalid = function () {
+            var isValid = true;
+            if (this.viewModel.deliveryDate < new Date()) {
+                isValid = false;
+            }
+            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
+                isValid = false;
+            }
+            if (this.supplierBlackList.length == this.selectedQuote.suppliers.length) {
+                isValid = false;
+            }
+            if (isValid) {
+                this.isOrderValid = true;
+            }
+            else {
+                this.isOrderValid = false;
+            }
+        };
+        Pedido.prototype.generateOrder = function () {
+            var _this = this;
+            var params = { Quote: this.selectedQuote };
+            this.isProcessing = true;
+            this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
+            this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
+            this.selectedResult.deliveryDate = this.viewModel.deliveryDate;
+            this.orderRepository
+                .createOrder(this.selectedResult)
+                .then(function (result) {
+                _this.nService.success('Pedido realizado!');
+                _this.router.navigateToRoute('pedidosFoodService');
+                _this.isProcessing = false;
+                _this.orderWasGenerated = true;
+            }).catch(function (e) {
+                _this.isProcessing = false;
+                _this.nService.error(e);
+            });
+        };
+        Pedido.prototype.changeSelectedCotacao = function (result) {
+            this.simulation.betterResults.forEach(function (x) { return x != result ? x.isSelected = false : x.isSelected = true; });
+            this.selectedResult = result;
+        };
+        Pedido.prototype.validateLengthObs = function (summary) {
+            if (summary.observation != null && summary.observation.length >= 250) {
+                summary.observation = summary.observation.substr(0, 249);
+            }
+            return true;
+        };
+        Pedido = __decorate([
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_router_1.Router,
+                foodServiceRepository_1.FoodServiceRepository,
+                aurelia_event_aggregator_1.EventAggregator,
+                aurelia_dialog_1.DialogService,
+                simulationRepository_1.SimulationRepository,
+                orderRepository_1.OrderRepository,
+                notificationService_1.NotificationService,
+                deliveryRuleRepository_1.DeliveryRuleRepository,
+                aurelia_validation_1.ValidationControllerFactory])
+        ], Pedido);
+        return Pedido;
+    }());
+    exports.Pedido = Pedido;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 define('views/foodService/meusProdutos',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -6512,492 +6998,6 @@ define('views/fornecedor/regrasDeMercado',["require", "exports", "../../validato
 
 
 
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/cotacao/pedidosFornecedor',["require", "exports", "../../services/notificationService", "../../services/identityService", "aurelia-framework", "aurelia-router", "aurelia-api", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "../components/partials/aceitePedido", "../../domain/orderStatus", "../components/partials/rejeicaoPedido"], function (require, exports, notificationService_1, identityService_1, aurelia_framework_1, aurelia_router_1, aurelia_api_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aceitePedido_1, orderStatus_1, rejeicaoPedido_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PedidosFornecedor = (function () {
-        function PedidosFornecedor(router, dialogService, config, ea, service, nService, orderRepo) {
-            this.router = router;
-            this.dialogService = dialogService;
-            this.config = config;
-            this.ea = ea;
-            this.service = service;
-            this.nService = nService;
-            this.orderRepo = orderRepo;
-            this.selectedStatus = 0;
-        }
-        PedidosFornecedor.prototype.attached = function () {
-            var _this = this;
-            this.ea.publish('loadingData');
-            this.ea.subscribe('newOrder', function (data) {
-                if (_this.selectedStatus == 0 || _this.selectedStatus.toString() == "0") {
-                    _this.orders.push(data);
-                }
-            });
-            this.ea.subscribe('orderFinished', function (data) {
-                _this.orders.forEach(function (x) {
-                    if (x.id == data.id) {
-                        x = data;
-                    }
-                });
-                _this.filteredOrders.forEach(function (x) {
-                    if (x.id == data.id) {
-                        x.status = data.status;
-                    }
-                });
-            });
-            this.loadData();
-        };
-        PedidosFornecedor.prototype.loadData = function () {
-            this.load();
-        };
-        PedidosFornecedor.prototype.load = function () {
-            var _this = this;
-            if (this.selectedStatus == orderStatus_1.OrderStatus.Created || this.selectedStatus == null) {
-                this.orderRepo
-                    .getMyNewOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-            else if (this.selectedStatus == orderStatus_1.OrderStatus.Accepted) {
-                this.orderRepo
-                    .getMyAcceptedOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-            else if (this.selectedStatus == orderStatus_1.OrderStatus.Rejected) {
-                this.orderRepo
-                    .getMyRejectedOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-            else if (this.selectedStatus == orderStatus_1.OrderStatus.Delivered) {
-                this.orderRepo
-                    .getMyDeliveredOrders()
-                    .then(function (x) {
-                    _this.orders = x;
-                    _this.filteredOrders = _this.orders;
-                    _this.filter = '';
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) {
-                    _this.nService.presentError(e);
-                });
-            }
-        };
-        PedidosFornecedor.prototype.selectOrder = function (order) {
-            this.selectedOrder = order;
-            this.foodService = order.foodService;
-            this.showdDetails = true;
-        };
-        PedidosFornecedor.prototype.showOrders = function () {
-            this.showdDetails = false;
-        };
-        PedidosFornecedor.prototype.acceptOrder = function (order) {
-            var params = { Order: order };
-            this.dialogService
-                .open({ viewModel: aceitePedido_1.AceitePedido, model: params, lock: false })
-                .whenClosed(function (response) {
-                if (response.wasCancelled) {
-                    return;
-                }
-                order.status = orderStatus_1.OrderStatus.Accepted;
-            });
-        };
-        PedidosFornecedor.prototype.rejectOrder = function (order) {
-            var params = { Order: order };
-            this.dialogService
-                .open({ viewModel: rejeicaoPedido_1.RejeicaoPedido, model: params, lock: false })
-                .whenClosed(function (response) {
-                if (response.wasCancelled) {
-                    return;
-                }
-                order.status = orderStatus_1.OrderStatus.Rejected;
-            });
-        };
-        PedidosFornecedor.prototype.search = function () {
-            var _this = this;
-            this.isFiltered = true;
-            this.filteredOrders = this.orders.filter(function (x) {
-                var isFound = true;
-                if ((_this.filter != null && _this.filter != '')) {
-                    if ((x.code.toString().toUpperCase().includes(_this.filter.toUpperCase()))
-                        || (x.foodService.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
-                        || (x.createdBy.name.toString().toUpperCase().includes(_this.filter.toUpperCase()))
-                        || (x.total.toString().toUpperCase().includes(_this.filter.toUpperCase()))) {
-                        isFound = true;
-                    }
-                    else {
-                        isFound = false;
-                    }
-                }
-                if (isFound) {
-                    return x;
-                }
-            });
-        };
-        PedidosFornecedor.prototype.exportOrder = function (order) {
-            var api = this.config.getEndpoint('csz');
-            window.open(api.client.baseUrl + 'ExportOrderToExcel?orderId=' + order.id, '_parent');
-        };
-        PedidosFornecedor = __decorate([
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [aurelia_router_1.Router,
-                aurelia_dialog_1.DialogService,
-                aurelia_api_1.Config,
-                aurelia_event_aggregator_1.EventAggregator,
-                identityService_1.IdentityService,
-                notificationService_1.NotificationService,
-                orderRepository_1.OrderRepository])
-        ], PedidosFornecedor);
-        return PedidosFornecedor;
-    }());
-    exports.PedidosFornecedor = PedidosFornecedor;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('views/cotacao/cotacao',["require", "exports", "../../services/notificationService", "aurelia-framework", "aurelia-router", "../../repositories/foodServiceRepository", "../../repositories/simulationRepository", "../../domain/simulationInput", "../../domain/simulationInputItem", "../../repositories/orderRepository", "aurelia-event-aggregator", "aurelia-dialog", "aurelia-validation", "../formValidationRenderer", "../../repositories/deliveryRuleRepository", "../../domain/deliveryRule", "../../domain/checkDeliveryViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, notificationService_1, aurelia_framework_1, aurelia_router_1, foodServiceRepository_1, simulationRepository_1, simulationInput_1, simulationInputItem_1, orderRepository_1, aurelia_event_aggregator_1, aurelia_dialog_1, aurelia_validation_1, formValidationRenderer_1, deliveryRuleRepository_1, deliveryRule_1, checkDeliveryViewModel_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Pedido = (function () {
-        function Pedido(router, repository, ea, dialogService, simulationRepository, orderRepository, nService, deliveryRepository, validationControllerFactory) {
-            this.router = router;
-            this.repository = repository;
-            this.ea = ea;
-            this.dialogService = dialogService;
-            this.simulationRepository = simulationRepository;
-            this.orderRepository = orderRepository;
-            this.nService = nService;
-            this.deliveryRepository = deliveryRepository;
-            this.validationControllerFactory = validationControllerFactory;
-            this.currentStep = 1;
-            this.totalSteps = 3;
-            this.isProcessing = false;
-            this.orderWasGenerated = false;
-            this.input = new simulationInput_1.SimulationInput();
-            this.supplierBlackList = [];
-            this.validationController = this.validationControllerFactory.createForCurrentScope();
-            this.validationController.addRenderer(new formValidationRenderer_1.FormValidationRenderer());
-            this.validationController.validateTrigger = aurelia_validation_1.validateTrigger.blur;
-            this.deliveryWasChecked = false;
-            this.viewModel = new checkDeliveryViewModel_1.CheckDeliveryViewModel();
-            this.isOrderValid = true;
-        }
-        Pedido.prototype.runScript = function () {
-            var thisForm = '#rootwizard-1';
-            var outher = this;
-            if ($(thisForm).length) {
-                $('.pager li a, .pager li span').on('click', function (e) {
-                    e.preventDefault();
-                });
-                var wizardStagesTotal = $(thisForm + ' .tab-pane').length;
-                $(thisForm).bootstrapWizard({ onNext: function (tab, navigation, index) {
-                        if (index <= wizardStagesTotal) {
-                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
-                            $(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
-                        }
-                    }, onPrevious: function (tab, navigation, index) {
-                        if (index !== -1) {
-                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
-                            $(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
-                        }
-                    }, onTabShow: function (tab, navigation, index) {
-                        var total = navigation.find('li').length;
-                        var current = index + 1;
-                        var completionPercentage = (current / total) * 100;
-                        var progressBar = $(thisForm).closest('.card').find(".card-header .progress-bar");
-                        progressBar.css({ "width": completionPercentage + "%" }).attr("aria-valuenow", completionPercentage);
-                    }, onTabClick: function (tab, navigation, index) {
-                        return false;
-                    } });
-            }
-        };
-        Pedido.prototype.activate = function (params) {
-            if (params.orderId != null && params.orderId != '') {
-                this.orderId = params.orderId;
-            }
-        };
-        Pedido.prototype.advance = function () {
-            this.currentStep++;
-            if (this.currentStep == 2) {
-                this.simulate();
-            }
-            if (this.currentStep == 3) {
-                window.scrollTo(0, 0);
-            }
-        };
-        Pedido.prototype.simulate = function () {
-            var _this = this;
-            this.ea.publish('loadingData');
-            this.isProcessing = true;
-            this.input.buyListId = this.selectedQuote.id;
-            this.input.items = [];
-            this.selectedQuote.products.forEach(function (x) {
-                if (x.quantity != null && x.quantity != 0) {
-                    var item = new simulationInputItem_1.SimulationInputItem();
-                    item.productId = x.id;
-                    item.quantity = x.quantity;
-                    _this.input.items.push(item);
-                }
-            });
-            this.input.supplierBlackList = this.supplierBlackList;
-            this.selectedResult = null;
-            this.simulationRepository
-                .simulate(this.input)
-                .then(function (x) {
-                _this.simulation = x;
-                _this.isProcessing = false;
-                _this.runScript();
-                _this.ea.publish('dataLoaded');
-            })
-                .catch(function (e) {
-                _this.simulation = null;
-                _this.nService.presentError(e);
-                _this.isProcessing = false;
-                _this.ea.publish('dataLoaded');
-            });
-        };
-        Pedido.prototype.back = function () {
-            this.currentStep--;
-        };
-        Pedido.prototype.attached = function () {
-            this.ea.publish('loadingData');
-            this.runScript();
-            this.loadData();
-        };
-        Pedido.prototype.addRemoveSupplier = function (supplier) {
-            if (supplier.wasRemoved && !supplier.isInvalid) {
-                this.selectedQuote.suppliers.forEach(function (x) {
-                    if (x.id == supplier.id) {
-                        x.isInvalid = false;
-                        x.wasRemoved = false;
-                    }
-                });
-                this.selectedQuote.products.forEach(function (x) {
-                    x.suppliers.forEach(function (y) {
-                        if (y.id == supplier.id) {
-                            y.isInvalid = false;
-                            y.wasRemoved = false;
-                        }
-                    });
-                });
-                this.supplierBlackList = this.supplierBlackList.filter(function (x) { return x.id != supplier.id; });
-            }
-            else if (!supplier.isInvalid) {
-                this.selectedQuote.suppliers.forEach(function (x) {
-                    if (x.id == supplier.id) {
-                        x.isInvalid = false;
-                        x.wasRemoved = true;
-                    }
-                });
-                this.selectedQuote.products.forEach(function (x) {
-                    x.suppliers.forEach(function (y) {
-                        if (y.id == supplier.id) {
-                            y.isInvalid = false;
-                            y.wasRemoved = true;
-                        }
-                    });
-                });
-                this.supplierBlackList.push(supplier);
-            }
-            this.checkIfOrderIsvalid();
-        };
-        Pedido.prototype.loadData = function () {
-            var _this = this;
-            if (this.orderId != null && this.orderId != '') {
-                this.simulationRepository
-                    .getCotacaoFromOrder(this.orderId)
-                    .then(function (x) {
-                    _this.selectedQuote = x;
-                    if (x.blackListSupplier != null) {
-                        _this.addRemoveSupplier(x.blackListSupplier);
-                    }
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) { return _this.nService.presentError(e); });
-                this.loadDeliveryRule();
-            }
-            else {
-                this.repository
-                    .getBuyListsParaCotacao()
-                    .then(function (x) {
-                    _this.quotes = x;
-                })
-                    .then(function () { return _this.ea.publish('dataLoaded'); })
-                    .catch(function (e) { return _this.nService.presentError(e); });
-            }
-        };
-        Pedido.prototype.loadDeliveryRule = function () {
-            var _this = this;
-            this.deliveryRepository
-                .getRule(this.selectedQuote.productClass.id)
-                .then(function (x) {
-                if (x != null) {
-                    _this.deliveryRule = x;
-                    _this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
-                    _this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
-                    _this.viewModel.deliveryDate = deliveryRule_1.DeliveryRule.getNextDeliveryDate(_this.deliveryRule);
-                    _this.checkDeliveryDate();
-                }
-            })
-                .catch(function (e) { return _this.nService.presentError(e); });
-        };
-        Pedido.prototype.checkDeliveryDate = function () {
-            var _this = this;
-            this.deliveryWasChecked = false;
-            this.viewModel.suppliers = [];
-            this.selectedQuote.suppliers.forEach(function (x) {
-                _this.viewModel.suppliers.push(x.id);
-            });
-            if (this.viewModel.deliveryDate < new Date()) {
-                this.nService.presentError('A data de entrega deve ser maior ou igual a hoje');
-                this.isOrderValid = false;
-            }
-            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
-                this.nService.presentError('O horário inicial deve ser maior que o horário final');
-                this.isOrderValid = false;
-            }
-            this.deliveryRepository
-                .checkDeliveryRule(this.viewModel)
-                .then(function (x) {
-                _this.checkDeliveryResult = x;
-                x.items.forEach(function (item) {
-                    _this.selectedQuote.suppliers.forEach(function (y) {
-                        if (y.id == item.supplierId) {
-                            if (!item.isValid) {
-                                y.isInvalid = true;
-                                _this.supplierBlackList.push(y);
-                            }
-                            else {
-                                y.isInvalid = false;
-                                _this.supplierBlackList = _this.supplierBlackList.filter(function (x) { return x.id != y.id; });
-                            }
-                        }
-                    });
-                    _this.selectedQuote.products.forEach(function (x) {
-                        x.suppliers.forEach(function (y) {
-                            if (y.id == item.supplierId) {
-                                if (!item.isValid) {
-                                    y.isInvalid = true;
-                                }
-                                else {
-                                    y.isInvalid = false;
-                                }
-                            }
-                        });
-                    });
-                });
-                _this.deliveryWasChecked = true;
-                _this.checkIfOrderIsvalid();
-            })
-                .catch(function (e) { return _this.nService.presentError(e); });
-        };
-        Pedido.prototype.checkIfOrderIsvalid = function () {
-            var isValid = true;
-            if (this.viewModel.deliveryDate < new Date()) {
-                isValid = false;
-            }
-            if (this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd) {
-                isValid = false;
-            }
-            if (this.supplierBlackList.length == this.selectedQuote.suppliers.length) {
-                isValid = false;
-            }
-            if (isValid) {
-                this.isOrderValid = true;
-            }
-            else {
-                this.isOrderValid = false;
-            }
-        };
-        Pedido.prototype.generateOrder = function () {
-            var _this = this;
-            var params = { Quote: this.selectedQuote };
-            this.isProcessing = true;
-            this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
-            this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
-            this.selectedResult.deliveryDate = this.viewModel.deliveryDate;
-            this.orderRepository
-                .createOrder(this.selectedResult)
-                .then(function (result) {
-                _this.nService.success('Pedido realizado!');
-                _this.router.navigateToRoute('pedidosFoodService');
-                _this.isProcessing = false;
-                _this.orderWasGenerated = true;
-            }).catch(function (e) {
-                _this.isProcessing = false;
-                _this.nService.error(e);
-            });
-        };
-        Pedido.prototype.changeSelectedCotacao = function (result) {
-            this.simulation.betterResults.forEach(function (x) { return x != result ? x.isSelected = false : x.isSelected = true; });
-            this.selectedResult = result;
-        };
-        Pedido.prototype.validateLengthObs = function (summary) {
-            if (summary.observation != null && summary.observation.length >= 250) {
-                summary.observation = summary.observation.substr(0, 249);
-            }
-            return true;
-        };
-        Pedido = __decorate([
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [aurelia_router_1.Router,
-                foodServiceRepository_1.FoodServiceRepository,
-                aurelia_event_aggregator_1.EventAggregator,
-                aurelia_dialog_1.DialogService,
-                simulationRepository_1.SimulationRepository,
-                orderRepository_1.OrderRepository,
-                notificationService_1.NotificationService,
-                deliveryRuleRepository_1.DeliveryRuleRepository,
-                aurelia_validation_1.ValidationControllerFactory])
-        ], Pedido);
-        return Pedido;
-    }());
-    exports.Pedido = Pedido;
-});
-
-
-
 define('domain/analytics/genericAnalytics',["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -7646,6 +7646,175 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+define('views/admin/finance/listInvoice',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../../../services/notificationService", "../../../repositories/financeRepository", "../../../domain/invoiceStatus", "../../../domain/editInvoiceViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, notificationService_1, financeRepository_1, invoiceStatus_1, editInvoiceViewModel_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ListInvoice = (function () {
+        function ListInvoice(router, ea, nService, repository) {
+            this.router = router;
+            this.ea = ea;
+            this.nService = nService;
+            this.repository = repository;
+            this.controls = [];
+        }
+        ListInvoice.prototype.attached = function () {
+            this.ea.publish('loadingData');
+            this.loadData();
+        };
+        ListInvoice.prototype.changeControl = function () {
+            this.filteredInvoices = this.selectedControl.invoices;
+            this.search();
+            this.calculateTotalValue();
+        };
+        ListInvoice.prototype.calculateTotalValue = function () {
+            if (this.selectedControl.invoices != null) {
+                this.totalValue = this.selectedControl.invoices.reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
+                this.totalValuePaid = this.selectedControl.invoices.filter(function (x) { return x.status == invoiceStatus_1.InvoiceStatus.Paid; }).reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
+            }
+        };
+        ListInvoice.prototype.loadData = function () {
+            var _this = this;
+            this.repository
+                .getControls()
+                .then(function (x) {
+                _this.controls = x;
+                if (x.length > 0) {
+                    _this.selectedControl = x[0];
+                    _this.filteredInvoices = x[0].invoices;
+                    _this.calculateTotalValue();
+                }
+                _this.ea.publish('dataLoaded');
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+            });
+        };
+        ListInvoice.prototype.generateInvoices = function () {
+            var _this = this;
+            this.isLoading = true;
+            this.repository
+                .generateInvoices(this.selectedControl)
+                .then(function (x) {
+                _this.selectedControl.invoices = x;
+                _this.filteredInvoices = x;
+                if (_this.filteredInvoices.length == 0) {
+                    _this.nService.presentError('Não há pedidos para gerar o faturamento');
+                }
+                _this.calculateTotalValue();
+                _this.selectedControl.canGenerateInvoices = false;
+                _this.isLoading = false;
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+                _this.isLoading = false;
+            });
+        };
+        ListInvoice.prototype.edit = function (invoice) {
+            this.isEditing = true;
+            this.selectedInvoice = invoice;
+            this.setInvoiceValues();
+        };
+        ListInvoice.prototype.cancelEdit = function () {
+            this.isEditing = false;
+        };
+        ListInvoice.prototype.setInvoiceValues = function () {
+            if (this.selectedInvoice.originalPrice == null) {
+                this.selectedInvoice.originalPrice = this.selectedInvoice.totalValue;
+            }
+            if (this.selectedInvoice.originalFee == null) {
+                this.selectedInvoice.originalFee = this.selectedInvoice.fee;
+            }
+        };
+        ListInvoice.prototype.editStatus = function (invoice, status) {
+            invoice.status = status;
+            this.selectedInvoice = invoice;
+            this.saveInvoice();
+        };
+        ListInvoice.prototype.saveInvoice = function () {
+            var _this = this;
+            this.isLoading = true;
+            this.selectedInvoice.isEditing = true;
+            var edit = new editInvoiceViewModel_1.EditInvoiceViewModel();
+            edit.id = this.selectedInvoice.id;
+            edit.fee = this.selectedInvoice.fee;
+            edit.maturity = this.selectedInvoice.maturity;
+            edit.status = this.selectedInvoice.status;
+            edit.totalValue = this.selectedInvoice.totalValue;
+            edit.valueToPay = this.selectedInvoice.valueToPay;
+            this.repository
+                .saveInvoice(edit)
+                .then(function (x) {
+                _this.nService.presentSuccess('Fatura atualizada com sucesso!');
+                _this.isLoading = false;
+                _this.selectedInvoice.isEditing = false;
+                _this.calculateTotalValue();
+            })
+                .catch(function (e) {
+                _this.nService.presentError(e);
+                _this.isLoading = false;
+                _this.selectedInvoice.isEditing = false;
+            });
+        };
+        ListInvoice.prototype.calculateInvoicePrice = function () {
+            this.selectedInvoice.valueToPay = this.selectedInvoice.totalValue * (this.selectedInvoice.fee / 100);
+        };
+        ListInvoice.prototype.cancelEditInvoicePrice = function () {
+            if (this.selectedInvoice.originalPrice != null) {
+                this.selectedInvoice.totalValue = this.selectedInvoice.originalPrice;
+            }
+            if (this.selectedInvoice.originalFee != null) {
+                this.selectedInvoice.fee = this.selectedInvoice.originalFee;
+            }
+            this.calculateInvoicePrice();
+        };
+        ListInvoice.prototype.search = function () {
+            var _this = this;
+            this.filteredInvoices = this.selectedControl.invoices.filter(function (x) {
+                var isFound = true;
+                if ((_this.selectedStatus != null && _this.selectedStatus != '')) {
+                    if (x.status.toString() == _this.selectedStatus) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+                if ((_this.filter != null && _this.filter != '')) {
+                    if (x.supplier.name.toUpperCase().includes(_this.filter.toUpperCase())) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+                if (isFound) {
+                    return x;
+                }
+            });
+        };
+        ListInvoice = __decorate([
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_router_1.Router,
+                aurelia_event_aggregator_1.EventAggregator,
+                notificationService_1.NotificationService,
+                financeRepository_1.FinanceRepository])
+        ], ListInvoice);
+        return ListInvoice;
+    }());
+    exports.ListInvoice = ListInvoice;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 define('views/admin/supplier/editSupplier',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-api", "aurelia-event-aggregator", "../../../services/notificationService", "../../../domain/supplier", "../../../repositories/supplierRepository", "../../../repositories/stateRegistrationRepository", "../../../domain/user", "../../../repositories/userRepository", "../../../domain/userType", "../../../validators/supplierValidator", "../../../services/consultaCEPService", "../../../domain/address", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_api_1, aurelia_event_aggregator_1, notificationService_1, supplier_1, supplierRepository_1, stateRegistrationRepository_1, user_1, userRepository_1, userType_1, supplierValidator_1, consultaCEPService_1, address_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -8048,175 +8217,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('views/admin/finance/listInvoice',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../../../services/notificationService", "../../../repositories/financeRepository", "../../../domain/invoiceStatus", "../../../domain/editInvoiceViewModel", "twitter-bootstrap-wizard", "jquery-mask-plugin", "aurelia-validation"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, notificationService_1, financeRepository_1, invoiceStatus_1, editInvoiceViewModel_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var ListInvoice = (function () {
-        function ListInvoice(router, ea, nService, repository) {
-            this.router = router;
-            this.ea = ea;
-            this.nService = nService;
-            this.repository = repository;
-            this.controls = [];
-        }
-        ListInvoice.prototype.attached = function () {
-            this.ea.publish('loadingData');
-            this.loadData();
-        };
-        ListInvoice.prototype.changeControl = function () {
-            this.filteredInvoices = this.selectedControl.invoices;
-            this.search();
-            this.calculateTotalValue();
-        };
-        ListInvoice.prototype.calculateTotalValue = function () {
-            if (this.selectedControl.invoices != null) {
-                this.totalValue = this.selectedControl.invoices.reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
-                this.totalValuePaid = this.selectedControl.invoices.filter(function (x) { return x.status == invoiceStatus_1.InvoiceStatus.Paid; }).reduce(function (sum, current) { return sum + current.valueToPay; }, 0);
-            }
-        };
-        ListInvoice.prototype.loadData = function () {
-            var _this = this;
-            this.repository
-                .getControls()
-                .then(function (x) {
-                _this.controls = x;
-                if (x.length > 0) {
-                    _this.selectedControl = x[0];
-                    _this.filteredInvoices = x[0].invoices;
-                    _this.calculateTotalValue();
-                }
-                _this.ea.publish('dataLoaded');
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-            });
-        };
-        ListInvoice.prototype.generateInvoices = function () {
-            var _this = this;
-            this.isLoading = true;
-            this.repository
-                .generateInvoices(this.selectedControl)
-                .then(function (x) {
-                _this.selectedControl.invoices = x;
-                _this.filteredInvoices = x;
-                if (_this.filteredInvoices.length == 0) {
-                    _this.nService.presentError('Não há pedidos para gerar o faturamento');
-                }
-                _this.calculateTotalValue();
-                _this.selectedControl.canGenerateInvoices = false;
-                _this.isLoading = false;
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-                _this.isLoading = false;
-            });
-        };
-        ListInvoice.prototype.edit = function (invoice) {
-            this.isEditing = true;
-            this.selectedInvoice = invoice;
-            this.setInvoiceValues();
-        };
-        ListInvoice.prototype.cancelEdit = function () {
-            this.isEditing = false;
-        };
-        ListInvoice.prototype.setInvoiceValues = function () {
-            if (this.selectedInvoice.originalPrice == null) {
-                this.selectedInvoice.originalPrice = this.selectedInvoice.totalValue;
-            }
-            if (this.selectedInvoice.originalFee == null) {
-                this.selectedInvoice.originalFee = this.selectedInvoice.fee;
-            }
-        };
-        ListInvoice.prototype.editStatus = function (invoice, status) {
-            invoice.status = status;
-            this.selectedInvoice = invoice;
-            this.saveInvoice();
-        };
-        ListInvoice.prototype.saveInvoice = function () {
-            var _this = this;
-            this.isLoading = true;
-            this.selectedInvoice.isEditing = true;
-            var edit = new editInvoiceViewModel_1.EditInvoiceViewModel();
-            edit.id = this.selectedInvoice.id;
-            edit.fee = this.selectedInvoice.fee;
-            edit.maturity = this.selectedInvoice.maturity;
-            edit.status = this.selectedInvoice.status;
-            edit.totalValue = this.selectedInvoice.totalValue;
-            edit.valueToPay = this.selectedInvoice.valueToPay;
-            this.repository
-                .saveInvoice(edit)
-                .then(function (x) {
-                _this.nService.presentSuccess('Fatura atualizada com sucesso!');
-                _this.isLoading = false;
-                _this.selectedInvoice.isEditing = false;
-                _this.calculateTotalValue();
-            })
-                .catch(function (e) {
-                _this.nService.presentError(e);
-                _this.isLoading = false;
-                _this.selectedInvoice.isEditing = false;
-            });
-        };
-        ListInvoice.prototype.calculateInvoicePrice = function () {
-            this.selectedInvoice.valueToPay = this.selectedInvoice.totalValue * (this.selectedInvoice.fee / 100);
-        };
-        ListInvoice.prototype.cancelEditInvoicePrice = function () {
-            if (this.selectedInvoice.originalPrice != null) {
-                this.selectedInvoice.totalValue = this.selectedInvoice.originalPrice;
-            }
-            if (this.selectedInvoice.originalFee != null) {
-                this.selectedInvoice.fee = this.selectedInvoice.originalFee;
-            }
-            this.calculateInvoicePrice();
-        };
-        ListInvoice.prototype.search = function () {
-            var _this = this;
-            this.filteredInvoices = this.selectedControl.invoices.filter(function (x) {
-                var isFound = true;
-                if ((_this.selectedStatus != null && _this.selectedStatus != '')) {
-                    if (x.status.toString() == _this.selectedStatus) {
-                        isFound = true;
-                    }
-                    else {
-                        isFound = false;
-                    }
-                }
-                if ((_this.filter != null && _this.filter != '')) {
-                    if (x.supplier.name.toUpperCase().includes(_this.filter.toUpperCase())) {
-                        isFound = true;
-                    }
-                    else {
-                        isFound = false;
-                    }
-                }
-                if (isFound) {
-                    return x;
-                }
-            });
-        };
-        ListInvoice = __decorate([
-            aurelia_framework_1.autoinject,
-            __metadata("design:paramtypes", [aurelia_router_1.Router,
-                aurelia_event_aggregator_1.EventAggregator,
-                notificationService_1.NotificationService,
-                financeRepository_1.FinanceRepository])
-        ], ListInvoice);
-        return ListInvoice;
-    }());
-    exports.ListInvoice = ListInvoice;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 define('views/components/attributes/inscricaoEstadualMask',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -8498,330 +8498,6 @@ define('views/components/attributes/phoneWithDDDMask',["require", "exports", "au
         return PhoneWithDDDMask;
     }());
     exports.PhoneWithDDDMask = PhoneWithDDDMask;
-});
-
-
-
-define('views/components/valueConverters/numberValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var NumberValueConverter = (function () {
-        function NumberValueConverter() {
-        }
-        NumberValueConverter.prototype.toView = function (value) {
-            return value;
-        };
-        NumberValueConverter.prototype.fromView = function (value) {
-            return value;
-        };
-        return NumberValueConverter;
-    }());
-    exports.NumberValueConverter = NumberValueConverter;
-});
-
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-define('views/components/valueConverters/timeValueConverter',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var TimeValueConverter = (function () {
-        function TimeValueConverter() {
-        }
-        TimeValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                if (isNaN(value)) {
-                    return '';
-                }
-                value = value + '';
-                if (value.length == 1) {
-                    if (Number.parseInt(value) < 10 && Number.parseInt(value) > 2) {
-                        return '0' + value + ':00';
-                    }
-                    if (Number.parseInt(value) <= 2) {
-                        return value;
-                    }
-                    return value + ':00';
-                }
-                if (value.length == 2) {
-                    if (Number.parseInt(value) > 24) {
-                        return '0' + value + '0';
-                    }
-                    else {
-                        return value + ':00';
-                    }
-                }
-                if (value.length == 3) {
-                    var a = ('' + value).substr(0, 2);
-                    var b = ('' + value).substr(2, 1);
-                    if (value == '') {
-                        return null;
-                    }
-                    if (Number.parseInt(a) > 24) {
-                        var b = ('' + value).substr(1, 2);
-                        if (Number.parseInt(b) > 59) {
-                            b = '00';
-                        }
-                        return '0' + (value).substr(0, 1) + ':' + b;
-                    }
-                    if (Number.parseInt(b) > 5) {
-                        b = '00';
-                    }
-                    return a + ':' + b;
-                }
-                else {
-                    var a = ('' + value).substr(0, 2);
-                    var b = ('' + value).substr(2, 2);
-                    if (value == '') {
-                        return null;
-                    }
-                    if (Number.parseInt(a) >= 24) {
-                        return '';
-                    }
-                    if (b.substr(0, 1) == "0")
-                        b = ((Number.parseInt(b) * 10) / 10).toString();
-                    if (Number.parseInt(b) > 59) {
-                        b = '00';
-                    }
-                    if (b.length < 2) {
-                        b += '0';
-                    }
-                    return a + ':' + b;
-                }
-            }
-        };
-        TimeValueConverter.prototype.fromView = function (value) {
-            return ('' + value).replace(":", "");
-        };
-        TimeValueConverter = __decorate([
-            aurelia_framework_1.autoinject
-        ], TimeValueConverter);
-        return TimeValueConverter;
-    }());
-    exports.TimeValueConverter = TimeValueConverter;
-});
-
-
-
-define('views/components/valueConverters/dateAndTimeFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var DateAndTimeFormatValueConverter = (function () {
-        function DateAndTimeFormatValueConverter() {
-        }
-        DateAndTimeFormatValueConverter.prototype.toView = function (value) {
-            moment.locale('pt-BR');
-            if (value == null || value == '')
-                return '';
-            return moment(value).format("DD/MM/YYYY HH:mm:ss");
-        };
-        DateAndTimeFormatValueConverter.prototype.fromView = function (value) {
-            moment.locale('pt-BR');
-            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
-        };
-        return DateAndTimeFormatValueConverter;
-    }());
-    exports.DateAndTimeFormatValueConverter = DateAndTimeFormatValueConverter;
-});
-
-
-
-define('views/components/valueConverters/moneyValueConverter',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var MoneyValueConverter = (function () {
-        function MoneyValueConverter() {
-        }
-        MoneyValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                var numero = value.toFixed(2).split('.');
-                numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
-                return numero.join(',');
-            }
-            return value;
-        };
-        MoneyValueConverter.prototype.fromView = function (value) {
-            if (value != null) {
-                return (value.split(".").join("").replace(",", "")) / 100;
-            }
-            return null;
-        };
-        return MoneyValueConverter;
-    }());
-    exports.MoneyValueConverter = MoneyValueConverter;
-});
-
-
-
-define('views/components/valueConverters/inscricaoEstadualValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var InscricaoEstadualValueConverter = (function () {
-        function InscricaoEstadualValueConverter() {
-        }
-        InscricaoEstadualValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var a = value.substr(0, 3);
-                var b = value.substr(3, 3);
-                var c = value.substr(6, 3);
-                var d = value.substr(9, 3);
-                return a + '.' + b + '.' + c + '.' + d;
-            }
-            return value;
-        };
-        InscricaoEstadualValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('.', '').replace('.', '').replace('.', '');
-            return null;
-        };
-        return InscricaoEstadualValueConverter;
-    }());
-    exports.InscricaoEstadualValueConverter = InscricaoEstadualValueConverter;
-});
-
-
-
-define('views/components/valueConverters/dateFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var DateFormatValueConverter = (function () {
-        function DateFormatValueConverter() {
-        }
-        DateFormatValueConverter.prototype.toView = function (value) {
-            moment.locale('pt-BR');
-            if (value == null || value == '')
-                return null;
-            return moment(value).format("DD/MM/YYYY");
-        };
-        DateFormatValueConverter.prototype.fromView = function (value) {
-            moment.locale('pt-BR');
-            if (value == null || value == '')
-                return null;
-            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
-        };
-        return DateFormatValueConverter;
-    }());
-    exports.DateFormatValueConverter = DateFormatValueConverter;
-});
-
-
-
-define('views/components/valueConverters/phoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var PhoneWithDDDValueConverter = (function () {
-        function PhoneWithDDDValueConverter() {
-        }
-        PhoneWithDDDValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var ddd = value.substr(0, 2);
-                var firstPart = value.substr(2, 4);
-                var lastPart = value.substr(6, 4);
-                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
-            }
-            return value;
-        };
-        PhoneWithDDDValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
-            return null;
-        };
-        return PhoneWithDDDValueConverter;
-    }());
-    exports.PhoneWithDDDValueConverter = PhoneWithDDDValueConverter;
-});
-
-
-
-define('views/components/valueConverters/cepValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CepValueConverter = (function () {
-        function CepValueConverter() {
-        }
-        CepValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var a = value.substr(0, 5);
-                var b = value.substr(5, 3);
-                return a + '-' + b;
-            }
-            return value;
-        };
-        CepValueConverter.prototype.fromView = function (value) {
-            if (value != null) {
-                return value.replace('-', '');
-            }
-            return null;
-        };
-        return CepValueConverter;
-    }());
-    exports.CepValueConverter = CepValueConverter;
-});
-
-
-
-define('views/components/valueConverters/cellPhoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CellPhoneWithDDDValueConverter = (function () {
-        function CellPhoneWithDDDValueConverter() {
-        }
-        CellPhoneWithDDDValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var ddd = value.substr(0, 2);
-                var firstPart = value.substr(2, 5);
-                var lastPart = value.substr(7, 4);
-                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
-            }
-            return value;
-        };
-        CellPhoneWithDDDValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
-            return null;
-        };
-        return CellPhoneWithDDDValueConverter;
-    }());
-    exports.CellPhoneWithDDDValueConverter = CellPhoneWithDDDValueConverter;
-});
-
-
-
-define('views/components/valueConverters/cnpjValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var CnpjValueConverter = (function () {
-        function CnpjValueConverter() {
-        }
-        CnpjValueConverter.prototype.toView = function (value) {
-            if (value != null) {
-                value = '' + value;
-                var a = value.substr(0, 2);
-                var b = value.substr(2, 3);
-                var c = value.substr(5, 3);
-                var d = value.substr(8, 4);
-                var e = value.substr(12, 2);
-                return a + '.' + b + '.' + c + '/' + d + '-' + e;
-            }
-            return value;
-        };
-        CnpjValueConverter.prototype.fromView = function (value) {
-            if (value != null)
-                return value.replace('.', '').replace('.', '').replace('/', '').replace('-', '');
-            return null;
-        };
-        return CnpjValueConverter;
-    }());
-    exports.CnpjValueConverter = CnpjValueConverter;
 });
 
 
@@ -9955,27 +9631,42 @@ define('views/components/partials/produtosSelecionados',["require", "exports", "
                         _this.isFiltered = true;
                         _this.filteredProducts.unshift(product);
                         _this.allProducts.unshift(product);
-                        _this.lists.forEach(function (x) {
-                            var foodProduct = x.products.filter(function (x) { return x.foodServiceProduct.productId == product.productId; });
-                            if (foodProduct == null) {
-                                var item = new buyListProduct_1.BuyListProduct();
-                                item.foodServiceProduct = product;
-                                item.isInList = false;
-                                x.products.unshift(item);
-                            }
-                            else {
-                                foodProduct[0].foodServiceProduct.isActive = true;
-                            }
-                        });
+                        _this.lists.forEach(function (x) { return _this.addProductToList(x, product); });
                     }
                     else {
+                        _this.addProductToDefaultList(product);
                         _this.allProducts.unshift(product);
                     }
                 }
                 else {
+                    _this.addProductToDefaultList(product);
                     _this.allProducts.unshift(product);
                 }
+                _this.defineProductsInList();
             });
+        };
+        ProdutosSelecionados.prototype.getDefaultList = function () {
+            var defaultList = this.allLists.filter(function (x) { return x.isDefaultList; });
+            if (defaultList != null && defaultList.length > 0) {
+                return defaultList[0];
+            }
+            return null;
+        };
+        ProdutosSelecionados.prototype.addProductToDefaultList = function (product) {
+            this.addProductToList(this.getDefaultList(), product);
+        };
+        ProdutosSelecionados.prototype.addProductToList = function (x, product) {
+            var foodProduct = x.products.filter(function (x) { return x.foodServiceProduct.productId == product.productId; });
+            if (foodProduct == null || foodProduct.length == 0) {
+                var item = new buyListProduct_1.BuyListProduct();
+                item.foodServiceProduct = product;
+                item.isInList = x.isDefaultList;
+                x.products.unshift(item);
+            }
+            else {
+                foodProduct[0].foodServiceProduct.isActive = true;
+                foodProduct[0].isInList = x.isDefaultList;
+            }
         };
         ProdutosSelecionados.prototype.updateCategories = function () {
             this.selectedCategory = this.selectedClass.categories[0];
@@ -10040,7 +9731,11 @@ define('views/components/partials/produtosSelecionados',["require", "exports", "
         };
         ProdutosSelecionados.prototype.defineCurrentLists = function () {
             var _this = this;
-            this.lists = this.allLists.filter(function (x) { return x.productClass.id == _this.selectedClass.id; });
+            var defaultList = this.getDefaultList();
+            this.lists = this.allLists.filter(function (x) { return x.productClass != null && x.productClass.id == _this.selectedClass.id; });
+            if (defaultList != null) {
+                this.lists.unshift(defaultList);
+            }
         };
         ProdutosSelecionados.prototype.defineProductsInList = function () {
             this.lists.forEach(function (y) {
@@ -10151,15 +9846,17 @@ define('views/components/partials/produtosSelecionados',["require", "exports", "
             });
         };
         ProdutosSelecionados.prototype.deleteList = function (list) {
-            var params = { List: list };
-            this.dialogService
-                .open({ viewModel: deleteBuyList_1.DeleteBuyList, model: params, lock: false })
-                .whenClosed(function (response) {
-                if (response.wasCancelled) {
-                    return;
-                }
-                list.status = buyListStatus_1.BuyListStatus.Inactive;
-            });
+            if (!list.isDefaultList) {
+                var params = { List: list };
+                this.dialogService
+                    .open({ viewModel: deleteBuyList_1.DeleteBuyList, model: params, lock: false })
+                    .whenClosed(function (response) {
+                    if (response.wasCancelled) {
+                        return;
+                    }
+                    list.status = buyListStatus_1.BuyListStatus.Inactive;
+                });
+            }
         };
         ProdutosSelecionados = __decorate([
             aurelia_framework_1.autoinject,
@@ -10176,6 +9873,330 @@ define('views/components/partials/produtosSelecionados',["require", "exports", "
 
 
 
+define('views/components/valueConverters/numberValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var NumberValueConverter = (function () {
+        function NumberValueConverter() {
+        }
+        NumberValueConverter.prototype.toView = function (value) {
+            return value;
+        };
+        NumberValueConverter.prototype.fromView = function (value) {
+            return value;
+        };
+        return NumberValueConverter;
+    }());
+    exports.NumberValueConverter = NumberValueConverter;
+});
+
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+define('views/components/valueConverters/timeValueConverter',["require", "exports", "aurelia-framework", "jquery-mask-plugin"], function (require, exports, aurelia_framework_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var TimeValueConverter = (function () {
+        function TimeValueConverter() {
+        }
+        TimeValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                if (isNaN(value)) {
+                    return '';
+                }
+                value = value + '';
+                if (value.length == 1) {
+                    if (Number.parseInt(value) < 10 && Number.parseInt(value) > 2) {
+                        return '0' + value + ':00';
+                    }
+                    if (Number.parseInt(value) <= 2) {
+                        return value;
+                    }
+                    return value + ':00';
+                }
+                if (value.length == 2) {
+                    if (Number.parseInt(value) > 24) {
+                        return '0' + value + '0';
+                    }
+                    else {
+                        return value + ':00';
+                    }
+                }
+                if (value.length == 3) {
+                    var a = ('' + value).substr(0, 2);
+                    var b = ('' + value).substr(2, 1);
+                    if (value == '') {
+                        return null;
+                    }
+                    if (Number.parseInt(a) > 24) {
+                        var b = ('' + value).substr(1, 2);
+                        if (Number.parseInt(b) > 59) {
+                            b = '00';
+                        }
+                        return '0' + (value).substr(0, 1) + ':' + b;
+                    }
+                    if (Number.parseInt(b) > 5) {
+                        b = '00';
+                    }
+                    return a + ':' + b;
+                }
+                else {
+                    var a = ('' + value).substr(0, 2);
+                    var b = ('' + value).substr(2, 2);
+                    if (value == '') {
+                        return null;
+                    }
+                    if (Number.parseInt(a) >= 24) {
+                        return '';
+                    }
+                    if (b.substr(0, 1) == "0")
+                        b = ((Number.parseInt(b) * 10) / 10).toString();
+                    if (Number.parseInt(b) > 59) {
+                        b = '00';
+                    }
+                    if (b.length < 2) {
+                        b += '0';
+                    }
+                    return a + ':' + b;
+                }
+            }
+        };
+        TimeValueConverter.prototype.fromView = function (value) {
+            return ('' + value).replace(":", "");
+        };
+        TimeValueConverter = __decorate([
+            aurelia_framework_1.autoinject
+        ], TimeValueConverter);
+        return TimeValueConverter;
+    }());
+    exports.TimeValueConverter = TimeValueConverter;
+});
+
+
+
+define('views/components/valueConverters/dateAndTimeFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DateAndTimeFormatValueConverter = (function () {
+        function DateAndTimeFormatValueConverter() {
+        }
+        DateAndTimeFormatValueConverter.prototype.toView = function (value) {
+            moment.locale('pt-BR');
+            if (value == null || value == '')
+                return '';
+            return moment(value).format("DD/MM/YYYY HH:mm:ss");
+        };
+        DateAndTimeFormatValueConverter.prototype.fromView = function (value) {
+            moment.locale('pt-BR');
+            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
+        };
+        return DateAndTimeFormatValueConverter;
+    }());
+    exports.DateAndTimeFormatValueConverter = DateAndTimeFormatValueConverter;
+});
+
+
+
+define('views/components/valueConverters/moneyValueConverter',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var MoneyValueConverter = (function () {
+        function MoneyValueConverter() {
+        }
+        MoneyValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                var numero = value.toFixed(2).split('.');
+                numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+                return numero.join(',');
+            }
+            return value;
+        };
+        MoneyValueConverter.prototype.fromView = function (value) {
+            if (value != null) {
+                return (value.split(".").join("").replace(",", "")) / 100;
+            }
+            return null;
+        };
+        return MoneyValueConverter;
+    }());
+    exports.MoneyValueConverter = MoneyValueConverter;
+});
+
+
+
+define('views/components/valueConverters/inscricaoEstadualValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var InscricaoEstadualValueConverter = (function () {
+        function InscricaoEstadualValueConverter() {
+        }
+        InscricaoEstadualValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var a = value.substr(0, 3);
+                var b = value.substr(3, 3);
+                var c = value.substr(6, 3);
+                var d = value.substr(9, 3);
+                return a + '.' + b + '.' + c + '.' + d;
+            }
+            return value;
+        };
+        InscricaoEstadualValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('.', '').replace('.', '').replace('.', '');
+            return null;
+        };
+        return InscricaoEstadualValueConverter;
+    }());
+    exports.InscricaoEstadualValueConverter = InscricaoEstadualValueConverter;
+});
+
+
+
+define('views/components/valueConverters/dateFormatValueConverter',["require", "exports", "moment"], function (require, exports, moment) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var DateFormatValueConverter = (function () {
+        function DateFormatValueConverter() {
+        }
+        DateFormatValueConverter.prototype.toView = function (value) {
+            moment.locale('pt-BR');
+            if (value == null || value == '')
+                return null;
+            return moment(value).format("DD/MM/YYYY");
+        };
+        DateFormatValueConverter.prototype.fromView = function (value) {
+            moment.locale('pt-BR');
+            if (value == null || value == '')
+                return null;
+            return moment(value, 'DD/MM/YYYY').utc().format("YYYY-MM-DD HH:mm:ssZ");
+        };
+        return DateFormatValueConverter;
+    }());
+    exports.DateFormatValueConverter = DateFormatValueConverter;
+});
+
+
+
+define('views/components/valueConverters/phoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var PhoneWithDDDValueConverter = (function () {
+        function PhoneWithDDDValueConverter() {
+        }
+        PhoneWithDDDValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var ddd = value.substr(0, 2);
+                var firstPart = value.substr(2, 4);
+                var lastPart = value.substr(6, 4);
+                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
+            }
+            return value;
+        };
+        PhoneWithDDDValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
+            return null;
+        };
+        return PhoneWithDDDValueConverter;
+    }());
+    exports.PhoneWithDDDValueConverter = PhoneWithDDDValueConverter;
+});
+
+
+
+define('views/components/valueConverters/cepValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CepValueConverter = (function () {
+        function CepValueConverter() {
+        }
+        CepValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var a = value.substr(0, 5);
+                var b = value.substr(5, 3);
+                return a + '-' + b;
+            }
+            return value;
+        };
+        CepValueConverter.prototype.fromView = function (value) {
+            if (value != null) {
+                return value.replace('-', '');
+            }
+            return null;
+        };
+        return CepValueConverter;
+    }());
+    exports.CepValueConverter = CepValueConverter;
+});
+
+
+
+define('views/components/valueConverters/cellPhoneWithDDDValueConverter',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CellPhoneWithDDDValueConverter = (function () {
+        function CellPhoneWithDDDValueConverter() {
+        }
+        CellPhoneWithDDDValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var ddd = value.substr(0, 2);
+                var firstPart = value.substr(2, 5);
+                var lastPart = value.substr(7, 4);
+                return '(' + ddd + ')' + ' ' + firstPart + '-' + lastPart;
+            }
+            return value;
+        };
+        CellPhoneWithDDDValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
+            return null;
+        };
+        return CellPhoneWithDDDValueConverter;
+    }());
+    exports.CellPhoneWithDDDValueConverter = CellPhoneWithDDDValueConverter;
+});
+
+
+
+define('views/components/valueConverters/cnpjValueConverter',["require", "exports", "jquery-mask-plugin"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var CnpjValueConverter = (function () {
+        function CnpjValueConverter() {
+        }
+        CnpjValueConverter.prototype.toView = function (value) {
+            if (value != null) {
+                value = '' + value;
+                var a = value.substr(0, 2);
+                var b = value.substr(2, 3);
+                var c = value.substr(5, 3);
+                var d = value.substr(8, 4);
+                var e = value.substr(12, 2);
+                return a + '.' + b + '.' + c + '/' + d + '-' + e;
+            }
+            return value;
+        };
+        CnpjValueConverter.prototype.fromView = function (value) {
+            if (value != null)
+                return value.replace('.', '').replace('.', '').replace('/', '').replace('-', '');
+            return null;
+        };
+        return CnpjValueConverter;
+    }());
+    exports.CnpjValueConverter = CnpjValueConverter;
+});
+
+
+
 define('text!app.html', ['module'], function(module) { module.exports = "<template><div class=\"container-fluid\"><router-view containerless></router-view></div></template>"; });
 define('text!views/master.html', ['module'], function(module) { module.exports = "<template><div><div class=\"row\"><nav id=\"sidebar\" class=\"px-0 bg-dark bg-gradient sidebar\"><ul class=\"nav nav-pills flex-column\" if.bind=\"identity.type == 0\"><li class=\"logo-nav-item\"><a class=\"navbar-brand\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\" class=\"mCS_img_loaded\" style=\"width:150px;height:85px;margin-left:5px\"></a></li><li class=\"mt-3\"><h6 class=\"nav-header\">Geral</h6></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/dashboard\"><i class=\"batch-icon batch-icon-browser-alt\"></i> Dashboard <span class=\"sr-only\">(current)</span></a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/cadastro\"><i class=\"batch-icon batch-icon-list-alt\"></i>Cadastro</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/regrasDeMercado\"><i class=\"batch-icon batch-icon-star\"></i> Regras de Mercado</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/produtos\"><i class=\"batch-icon batch-icon-layout-content-left\"></i> Produtos</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/clientes\"><i class=\"batch-icon batch-icon-users\"></i>Clientes <span class=\"badge badge-danger float-right ml-2 mr-2\" if.bind=\"novoFoodServices.length > 0 && ! isloadingFoodServices\">${novoFoodServices.length}</span><span class=\"badge badge-warning float-right ml-2 mr-2\" if.bind=\"waitingFoodServices.length > 0 && ! isloadingFoodServices\">${waitingFoodServices.length}</span><span class=\"float-right\" if.bind=\"isloadingFoodServices\"><i class=\"fa fa-refresh fa-spin\"></i></span></a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/pedidosFornecedor\"><i class=\"batch-icon batch-icon-layout-center-column\"></i>Pedidos <span class=\"badge badge-warning float-right ml-2 mr-2\" if.bind=\"acceptedOrdersCount > 0 && ! isLoadingOrders\">${acceptedOrdersCount}</span><span class=\"badge badge-danger float-right ml-2 mr-2\" if.bind=\"newOrdersCount > 0 && ! isLoadingOrders\">${newOrdersCount}</span><span class=\"float-right\" if.bind=\"isLoadingOrders\"><i class=\"fa fa-refresh fa-spin\"></i></span></a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/avaliacoesFornecedor\"><i class=\"batch-icon batch-icon-star\"></i> Avaliações</a></li></ul><ul class=\"nav nav-pills flex-column\" if.bind=\"identity.type == 1\"><li class=\"logo-nav-item\"><a class=\"navbar-brand\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\" class=\"mCS_img_loaded\" style=\"width:150px;height:85px;margin-left:5px\"></a></li><li class=\"mt-3\"><h6 class=\"nav-header\">Geral</h6></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/dashboardFoodService\"><i class=\"batch-icon batch-icon-browser-alt\"></i> Dashboard <span class=\"sr-only\">(current)</span></a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/cadastroFoodService\"><i class=\"batch-icon batch-icon-list-alt\"></i>Cadastro</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/Fornecedores\"><i class=\"batch-icon batch-icon-users\"></i>Fornecedores</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/regraDeEntrega\"><i class=\"batch-icon batch-icon-star\"></i> Regras de entrega</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/meusProdutos\"><i class=\"batch-icon batch-icon-layout-center-column\"></i>Produtos</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/cotacao\"><i class=\"batch-icon batch-icon-layout-center-column\"></i>Cotação</a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/pedidosFoodService\"><i class=\"batch-icon batch-icon-layout-center-column\"></i>Pedidos <span class=\"badge badge-warning float-right ml-2 mr-2\" if.bind=\"acceptedOrdersCount > 0 && ! isLoadingOrders\">${acceptedOrdersCount}</span><span class=\"badge badge-success float-right ml-2 mr-2\" if.bind=\"newOrdersCount > 0  && ! isLoadingOrders\">${newOrdersCount}</span><span class=\"float-right\" if.bind=\"isLoadingOrders\"><i class=\"fa fa-refresh fa-spin\"></i></span></a></li><li class=\"nav-item\"><a class=\"nav-link\" if.bind=\"identity.registerStatus == 0\" href=\"/#/csz/avaliacoesFoodService\"><i class=\"batch-icon batch-icon-star\"></i> Avaliações</a></li></ul><ul class=\"nav nav-pills flex-column\" if.bind=\"identity.type == 2\"><li class=\"logo-nav-item\"><a class=\"navbar-brand\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\" class=\"mCS_img_loaded\" style=\"width:150px;height:85px;margin-left:5px\"></a></li><li><h6 class=\"nav-header\">Geral</h6></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/dashboard\"><i class=\"batch-icon batch-icon-browser-alt\"></i> Dashboard <span class=\"sr-only\">(current)</span></a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/mercadosAdmin\"><i class=\"batch-icon batch-icon-list-alt\"></i>Mercados</a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/produtosAdmin\"><i class=\"batch-icon batch-icon-list-alt\"></i>Produtos</a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/suppliersAdmin\"><i class=\"batch-icon batch-icon-star\"></i> Fornecedores</a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/foodServicesAdmin\"><i class=\"batch-icon batch-icon-layout-content-left\"></i> Foodservices</a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/avaliacoes\"><i class=\"batch-icon batch-icon-star\"></i> Avaliações</a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"/#/csz/financeiro\"><i class=\"batch-icon batch-icon-layout-center-column\"></i>Financeiro</a></li></ul></nav><div class=\"right-column\"><nav class=\"navbar navbar-expand-lg navbar-light bg-white\"><button class=\"hamburger hamburger--slider\" type=\"button\" data-target=\".sidebar\" aria-controls=\"sidebar\" aria-expanded=\"false\" aria-label=\"Toggle Sidebar\"><span class=\"hamburger-box\"><span class=\"hamburger-inner\"></span></span></button><div class=\"navbar-collapse\" id=\"navbar-header-content\"><ul class=\"navbar-nav navbar-language-translation mr-auto\"></ul><ul class=\"navbar-nav navbar-notifications float-right\"><li class=\"nav-item dropdown\"><ul class=\"dropdown-menu dropdown-menu-fullscreen\" aria-labelledby=\"navbar-notification-search\"><li><form class=\"form-inline my-2 my-lg-0 no-waves-effect\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Search for...\"> <span class=\"input-group-btn\"><button class=\"btn btn-primary btn-gradient waves-effect waves-light\" type=\"button\">Search</button></span></div></form></li></ul></li><li class=\"nav-item dropdown\"><a class=\"nav-link dropdown-toggle no-waves-effect\" id=\"navbar-notification-misc\" click.trigger=\"updateNotifications()\" data-toggle=\"dropdown\" data-flip=\"false\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"batch-icon batch-icon-bell\"></i> <span class=\"notification-number\" if.bind=\"unSeenCount > 0\">${unSeenCount}</span></a><ul class=\"dropdown-menu dropdown-menu-right dropdown-menu-md\" aria-labelledby=\"navbar-notification-misc\"><li class=\"media\" repeat.for=\"notification of notifications\"><a><i class=\"batch-icon batch-icon-bell batch-icon-xl d-flex mr-3\"></i><div class=\"media-body\"><h6 class=\"mt-0 mb-1 notification-heading\">${notification.title}</h6><div class=\"notification-text\"> ${notification.message} </div></div></a></li></ul></li></ul><ul class=\"navbar-nav ml-5 navbar-profile\"><li class=\"nav-item dropdown\"><a class=\"nav-link dropdown-toggle\" id=\"navbar-dropdown-navbar-profile\" data-toggle=\"dropdown\" data-flip=\"false\" aria-haspopup=\"true\" aria-expanded=\"false\"><div class=\"profile-name\"> ${identity.name} </div><div class=\"profile-picture bg-gradient bg-primary has-message float-right\"><img src=\"assets/img/profile-pic.jpg\" width=\"44\" height=\"44\"></div></a><ul class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"navbar-dropdown-navbar-profile\"><li><a class=\"dropdown-item\" href=\"#\" click.trigger=\"logout()\">Logout</a></li></ul></li></ul></div></nav><div class=\"${ isLoading ? 'invisible' : '' }\"><main class=\"main-content p-5\" role=\"main\"><router-view containerless></router-view></main></div><div class=\"fa-5x ${  isLoading  ? '' : 'invisible'}\" style=\"position:fixed;top:40%;left:50%\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></template>"; });
 define('text!views/login.html', ['module'], function(module) { module.exports = "<template><div class=\"row\"><div class=\"right-column sisu\"><div class=\"row mx-0\"><div class=\"col-md-7 order-md-2 signin-right-column px-5 bg-dark\"><a class=\"signin-logo d-sm-block d-md-none\" href=\"#\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\"></a><h1 class=\"display-4\">CSZ Compras Inteligentes</h1><p class=\"lead mb-5\">Olá, seja bem-vindo</p></div><div class=\"col-md-5 order-md-1 signin-left-column bg-white px-5\"><a class=\"signin-logo d-sm-none d-md-block\" style=\"margin-left:10%\"><img class=\"ml-5\" src=\"assets/img/logo2T.png\" style=\"cursor:default\" width=\"150\" height=\"92\" alt=\"CSZ\"></a><form><div class=\"form-group\"><label for=\"exampleInputEmail1\">Email</label> <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail1\" value.bind=\"credential.email\" aria-describedby=\"emailHelp\" placeholder=\"Enter email\"></div><div class=\"form-group\"><label for=\"exampleInputPassword1\">Senha</label> <input type=\"password\" class=\"form-control\" id=\"exampleInputPassword1\" value.bind=\"credential.password\" placeholder=\"Password\"></div><button type=\"submit\" if.bind=\"! processing\" class=\"btn btn-primary btn-gradient btn-block waves-effect waves-light\" click.delegate=\"doLogin()\"><i class=\"batch-icon batch-icon-key mr-2\"></i> Login</button><div class=\"fa-2x text-center\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div><hr><p class=\"text-center\">Ainda não possui um usuário?<a href=\"/#/welcome\"> Registre-se aqui</a></p><p class=\"text-center\">Esqueceu sua senha?<a href=\"/#/forgotMyPassword\"> Clique aqui</a></p></form></div></div></div></div></template>"; });
@@ -10183,7 +10204,7 @@ define('text!views/welcome.html', ['module'], function(module) { module.exports 
 define('text!views/forgotMyPassword.html', ['module'], function(module) { module.exports = "<template><div class=\"row\"><div class=\"right-column sisu\"><div class=\"row mx-0\"><div class=\"col-md-7 order-md-2 signin-right-column px-5 bg-dark\"><a class=\"signin-logo d-sm-block d-md-none\" href=\"#\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\"></a><h1 class=\"display-4\">CSZ Compras Inteligentes</h1><p class=\"lead mb-5\">Olá, seja bem-vindo</p></div><div class=\"col-md-5 order-md-1 signin-left-column bg-white px-5\"><a class=\"signin-logo d-sm-none d-md-block\" style=\"margin-left:10%\"><img class=\"ml-5\" src=\"assets/img/logo2T.png\" style=\"cursor:default\" width=\"150\" height=\"92\" alt=\"CSZ\"></a><div if.bind=\"wasReseted\"><h2>Obrigado!</h2><p class=\"mt-4\">Em breve você receberá um e-mail para redefinir a sua senha</p></div><form if.bind=\"! wasReseted\"><div class=\"form-group\"><label>E-mail</label> <input type=\"text\" class=\"form-control\" value.bind=\"email\" placeholder=\"E-mail\"></div><button type=\"submit\" if.bind=\"! isLoading\" class=\"btn btn-primary btn-gradient btn-block waves-effect waves-light\" click.delegate=\"resetPassword()\"><i class=\"batch-icon batch-icon-key mr-2\"></i> Confirmar</button><div class=\"fa-2x text-center\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></form></div></div></div></div></template>"; });
 define('text!views/confirmInvite.html', ['module'], function(module) { module.exports = "<template><div class=\"row\" if.bind=\"! isLoading\"><div class=\"right-column sisu\"><div class=\"row mx-0\"><div class=\"col-md-7 order-md-2 signin-right-column px-5 bg-dark\"><a class=\"signin-logo d-sm-block d-md-none\" href=\"#\"><img src=\"assets/img/logo-white.png\" width=\"145\" height=\"32.3\" alt=\"QuillPro\"></a><h1 class=\"display-4\">CSZ Compras Inteligentes</h1><p class=\"lead mb-5\">Olá, seja bem-vindo ${user.name} </p></div><div class=\"col-md-5 order-md-1 signin-left-column bg-white px-5\"><a class=\"signin-logo d-sm-none d-md-block\" style=\"margin-left:10%\"><img class=\"ml-5\" src=\"assets/img/logo2T.png\" style=\"cursor:default\" width=\"150\" height=\"92\" alt=\"CSZ\"></a><div><h2>Falta pouco!</h2><p class=\"mt-4\">Defina sua senha abaixo para finalizarmos o seu cadastro</p></div><form class=\"mt-2\"><div class=\"form-group\"><label for=\"exampleInputPassword1\">Senha</label> <input type=\"password\" class=\"form-control\" id=\"exampleInputPassword1\" value.bind=\"invite.password\" placeholder=\"Password\"></div><div class=\"form-group\"><label for=\"exampleInputPassword1\">Confirme sua senha</label> <input type=\"password\" class=\"form-control\" id=\"exampleInputPassword1\" value.bind=\"invite.confirmPassword\" placeholder=\"Password\"></div><button type=\"submit\" if.bind=\"! processing\" class=\"btn btn-primary btn-gradient btn-block waves-effect waves-light\" click.delegate=\"save()\"><i class=\"batch-icon batch-icon-key mr-2\"></i> Definir senha</button> <span if.bind=\"processing\" class=\"badge badge-warning\">Efetuando autenticação</span></form></div></div></div></div><div class=\"fa-5x ${  isLoading  ? '' : 'invisible'}\" style=\"position:fixed;top:40%;left:50%\"><i class=\"fa fa-refresh fa-spin\"></i></div></template>"; });
 define('text!views/cotacao/pedidosFornecedor.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/moneyMask\"></require><require from=\"../components/valueConverters/moneyValueConverter\"></require><require from=\"../components/attributes/timeMask\"></require><require from=\"../components/valueConverters/timeValueConverter\"></require><require from=\"../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/cepMask\"></require><require from=\"../components/attributes/phoneWithDDDMask\"></require><require from=\"../components/attributes/inscricaoEstadualMask\"></require><require from=\"../components/attributes/cellPhoneWithDDDMask\"></require><require from=\"../components/valueConverters/cnpjValueConverter\"></require><require from=\"../components/valueConverters/cepValueConverter\"></require><require from=\"../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/inscricaoEstadualValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\"><span if.bind=\"! showdDetails\">Meus Pedidos </span><span if.bind=\"showdDetails\">Pedido nº ${selectedOrder.code}</span></div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\" if.bind=\"showdDetails\"><div class=\"mt-1\"><h5 class=\"mb-0\"> ${selectedOrder.foodService.name} <span class=\"badge badge-danger float-right\" if.bind=\"selectedOrder.status == 0\">Aguardando aprovação</span> <span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.status == 1\">Aprovado</span> <span class=\"badge badge-primary float-right\" if.bind=\"selectedOrder.status == 2\">Entregue</span><br><span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.deliveryDate != null\">Data da Entrega: ${selectedOrder.deliveryDate | dateFormat}</span><br><span class=\"badge badge-warning float-right\" if.bind=\"selectedOrder.deliveryScheduleStart != null\">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time} as ${selectedOrder.deliveryScheduleEnd | time} </span><br><span class=\"badge badge-danger float-left\" if.bind=\"selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' \">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span></h5><div><div class=\"card-body\"><h6 class=\"mt-2 mb-5\"><i class=\"fa fa-tag mr-2\"></i>Cadastro</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Razão Social</label> <label class=\"control-label col-md-6\">${foodService.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">CNPJ</label> <label class=\"control-label col-md-6\">${foodService.cnpj | cnpj}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome Fantasia</label> <label class=\"control-label col-md-6\">${foodService.fantasyName}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Inscrição Estadual</label> <label class=\"control-label col-md-6\">${foodService.inscricaoEstadual | inscricaoEstadual}</label></div></div></div><h6 class=\"mt-5 mb-5\"><i class=\"fa fa-envelope-o mr-2\"></i> Endereço</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">CEP</label> <label class=\"control-label col-md-6\">${foodService.address.cep | cep}</label></div></div></div><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Logradouro</label> <label class=\"control-label col-md-6\">${foodService.address.logradouro}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Bairro</label> <label class=\"control-label col-md-6\">${foodService.address.neighborhood}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Estado</label> <label class=\"control-label col-md-6\">${foodService.address.state}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Número</label> <label class=\"control-label col-md-6\">${foodService.address.number}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Cidade</label> <label class=\"control-label col-md-6\">${foodService.address.city}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Complemento</label> <label class=\"control-label col-md-6\">${foodService.address.complement}</label></div></div></div><h6 class=\"mt-5 mb-5\"><i class=\"batch-icon batch-icon-users mr-2\"></i>Contato</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome</label> <label class=\"control-label col-md-6\">${foodService.contact.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Comercial</label> <label class=\"control-label col-md-6\">${foodService.contact.commercialPhone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">E-mail</label> <label class=\"control-label col-md-6\">${foodService.contact.email}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone</label> <label class=\"control-label col-md-6\">${foodService.contact.phone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Celular</label> <label class=\"control-label col-md-6\">${foodService.contact.personalPhone | phoneWithDDD}</label></div></div></div></div></div><div class=\"card-header ml-0\" role=\"tab\" id=\"headingTwo\"><h4>Dados do pedido</h4></div><div><table class=\"table table-hover table-responsive\"><thead><tr><th class=\"text-center\">Cod. Produto</th><th class=\"text-left\">Nome do Produto</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Quantidade</th><th class=\"text-center\">Preço unitário</th><th class=\"text-center\">Total</th></tr></thead><tbody><tr repeat.for=\"item of selectedOrder.items\"><td class=\"text-center\">${item.clientCode}</td><td>${item.product.name}</td><td>${item.product.description}</td><td>${item.product.category.name}</td><td>${item.product.unit.name}</td><td>${item.product.brand.name}</td><td class=\"text-center\">${item.quantity | money}</td><td class=\"text-center\">${item.price | money}</td><td class=\"text-center\">${item.total | money}</td></tr></tbody></table></div><div class=\"mt-5\" if.bind=\"selectedOrder.observation != null && selectedOrder.observation.length > 0\"><h4>Observações</h4><div class=\"form-group mx-auto\"><textarea class=\"form-control disabled\" disabled=\"disabled\" value.bind=\"selectedOrder.observation\" disable rows=\"2\"></textarea></div></div></div><div class=\"text-center mt-3\"><button type=\"button\" class=\"btn btn-secondary waves-effect waves-light\" click.trigger=\"showdDetails = false\"><i class=\"fa fa-undo mr-2\" aria-hidden=\"true\"></i>Voltar</button> <button type=\"button\" class=\"btn btn-success waves-effect waves-light\" click.trigger=\"exportOrder(selectedOrder)\"><i class=\"fa fa-file-excel-o mr-2\"></i> Exportar</button> <button type=\"button\" class=\"btn btn-success waves-effect waves-light\" click.trigger=\"acceptOrder(selectedOrder)\" if.bind=\"selectedOrder.status == 0\">Aceitar <i class=\"fa fa-arrow-right ml-2\" aria-hidden=\"true\"></i></button></div></div><div class=\"col-md-12\" if.bind=\"! showdDetails\"><div class=\"form-row align-items-center\"><div class=\"col-lg-4 ml-1\"><label for=\"input-task-title\" class=\"active\">Status</label> <select class=\"form-control\" value.bind=\"selectedStatus\" change.delegate=\"load()\"><option value=\"0\" selected=\"selected\">Novo pedido</option><option value=\"1\">Aceito</option><option value=\"2\">Entregue</option><option value=\"3\">Rejeitado</option></select></div><div class=\"col-lg-4\"><label for=\"input-task-title\" class=\"active\">Dados do pedido</label> <input type=\"text\" class=\"form-control input-task-title\" placeholder=\"Codigo / Cliente / Contato / Valor\" change.trigger=\"search()\" value.bind=\"filter\"></div><div class=\"col-lg-3 ml-4 mt-3\"><button type=\"button\" click.trigger=\"search()\" class=\"btn btn-primary btn-gradient assign-task waves-effect waves-light\"><span class=\"gradient\">Pesquisar</span></button></div></div><div><table class=\"table table-hover table-responsive\"><thead><tr><th class=\"text-center\">Código</th><th class=\"text-center\">Status</th><th>Data do Pedido</th><th class=\"text-center\">Data de entrega</th><th class=\"text-center\">Horário de entrega</th><th class=\"text-center\">Cliente</th><th class=\"text-center\">Contato</th><th class=\"text-center\">Quantidade de Produtos</th><th class=\"text-center\">Total</th><th></th></tr></thead><tbody><tr repeat.for=\"order of filteredOrders\"><td class=\"text-center\">${order.code}</td><td class=\"text-center\"><span class=\"badge badge-danger\" if.bind=\"order.status == 0\">Novo pedido</span> <span class=\"badge badge-warning\" if.bind=\"order.status == 1\">Aceito</span> <span class=\"badge badge-primary\" if.bind=\"order.status == 2\">Entregue</span> <span class=\"badge badge-default\" if.bind=\"order.status == 3\">Rejeitado</span></td><td>${order.createdOn | dateFormat}</td><td class=\"text-center\">${order.deliveryDate | dateFormat}</td><td class=\"text-center\"><span if.bind=\"order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null\">das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time} </span></td><td class=\"text-center\">${order.foodService.name}</td><td class=\"text-center\">${order.createdBy.name}</td><td class=\"text-center\">${order.items.length}</td><td class=\"text-right\">${order.total | money}</td><td class=\"text-right\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"selectOrder(order)\">Ver detalhes</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" click.trigger=\"exportOrder(order)\"><i class=\"fa fa-file-excel-o mr-2\"></i> Exportar</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" click.trigger=\"acceptOrder(order)\" if.bind=\"order.status == 0\"><i class=\"fa fa-check mr-2\"></i>Aprovar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" click.trigger=\"rejectOrder(order)\" if.bind=\"order.status == 0\"><i class=\"fa fa-times mr-2\" aria-hidden=\"true\"></i> Rejeitar</button></td></tr></tbody></table></div></div></div></div></div></div></div></template>"; });
-define('text!views/cotacao/cotacao.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../components/attributes/datepicker\"></require><require from=\"../components/attributes/moneyMask\"></require><require from=\"../components/valueConverters/moneyValueConverter\"></require><require from=\"../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../components/attributes/timeMask\"></require><require from=\"../components/valueConverters/timeValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Cotação<div class=\"progress\"><div class=\"progress-bar progress-bar-sm bg-gradient\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0%\"></div></div></div><div class=\"card-form-wizard\"><div class=\"row\"><div class=\"col-lg-12\"><div id=\"rootwizard-1\"><ul class=\"nav nav-pills\"><li><a href=\"#tab1\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">1. Lista de Compras</span></span></a></li><li><a href=\"#tab2\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">2. Cotações</span></span></a></li><li><a href=\"#tab3\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">3. Pedido</span></span></a></li></ul><div class=\"tab-content clearfix\"><div class=\"tab-pane\" id=\"tab1\"><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Selecione a lista de compras</label> <select class=\"form-control\" value.bind=\"selectedQuote\" change.trigger=\"loadDeliveryRule()\"><option value=\"\"></option><option repeat.for=\"quote of quotes\" model.bind=\"quote\">${quote.buyListName}</option></select></div></div></div><div class=\"row mt-2\" if.bind=\"selectedQuote.products.length > 0\"><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Informe a data de entrega</label> <input type=\"text\" class=\"form-control\" autocomplete=\"off\" placeholder=\"00/00/0000\" value.bind=\"viewModel.deliveryDate | dateFormat \" datepicker change.trigger=\"checkDeliveryDate()\"></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Horário inicial</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"viewModel.deliveryScheduleStart | time \" change.trigger=\"checkDeliveryDate()\"></div></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Horário final</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"viewModel.deliveryScheduleEnd | time \" change.trigger=\"checkDeliveryDate()\"></div></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-5\"><span class=\"badge badge-warning\" if.bind=\"selectedQuote.products.length == 0\">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos</span><div if.bind=\"selectedQuote.products.length > 0 \"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><p>Você pode remover fornecedores da sua cotação</p><span style=\"padding:10px;cursor:pointer\" click.trigger=\"addRemoveSupplier(supplier)\" repeat.for=\"supplier of selectedQuote.suppliers\" class=\"badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' } ml-3 mt-2\"><i class=\"fa fa-times mr-3\" if.bind=\"supplier.isInvalid\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-times mr-3\" if.bind=\"! supplier.wasRemoved && ! supplier.isInvalid\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-plus mr-3\" if.bind=\"supplier.wasRemoved && ! supplier.isInvalid\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"addSupplier(supplier)\"></i> ${supplier.name} </span><div class=\"row mt-3\"><div class=\"col-md-12\" repeat.for=\"x of checkDeliveryResult.items\"><span class=\"badge badge-danger\">${x.message}</span></div></div></div><table class=\"table table-hover table-responsive mt-2\"><thead><tr><th>Nome do produto</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Fornecedores</th><th class=\"text-center\">Quantidade</th></tr></thead><tbody><tr repeat.for=\"product of selectedQuote.products\"><td><span class=\"badge badge-warning\" if.bind=\"product.suppliers == null || product.suppliers.length == 0\"><i class=\"fa fa-warning\"></i> ${product.name} </span><span if.bind=\"product.suppliers != null && product.suppliers.length > 0\">${product.name}</span></td><td>${product.description}</td><td>${product.category}</td><td>${product.unitOfMeasure}</td><td>${product.brand}</td><td class=\"text-right\"><span style=\"padding:10px;cursor:pointer\" click.trigger=\"addRemoveSupplier(supplier)\" repeat.for=\"supplier of product.suppliers\" class=\"badge ${  supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' } ml-3 mt-2\"><i class=\"fa fa-times mr-3\" if.bind=\"! supplier.wasRemoved && ! suplier.isInvalid \" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-plus mr-3\" if.bind=\"supplier.wasRemoved && ! suplier.isInvalid  \" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"addSupplier(supplier)\"></i> ${supplier.name} </span><span class=\"font-bold\" if.bind=\"product.suppliers == null || product.suppliers.length == 0\">Não há fornecedores cadastrados que oferecem esse produto</span></td><td class=\"text-center\"><div class=\"col-md-12 mx-auto\"><input type=\"text\" class=\"money text-right form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }\" autocomplete=\"off\" value.bind=\"product.quantity | money\" money placeholder=\"000\" disabled.bind=\"product.suppliers == null || product.suppliers.length == 0\"></div></td></tr></tbody></table></div></div></div></div></div></div><div class=\"tab-pane\" id=\"tab2\"><div class=\"row\" if.bind=\"isProcessing\"><div class=\"col-md-6\"><div class=\"form-group\"><span if.bind=\"processing\" class=\"badge badge-warning\">Efetuando cotação</span></div></div></div><div class=\"col-md-12\"><div id=\"accordion2\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"col-md-12 mt-3\" if.bind=\"buyList\"><div class=\"form-group\"><span class=\"badge badge-warning\">Selecione uma das cotações abaixo</span></div></div><div class=\"mt-4\" if.bind=\"! isProcessing && simulation == null\"><p class=\"mt-3\">Mínimo de compras não atingido, aumente suas compras. Mínimo de compras de cada fornecedor:</p><p class=\"mt-3\" repeat.for=\"supplier of selectedQuote.suppliers\"><span class=\"badge badge-success\"><i class=\"fa fa-tag mr-2\"></i> ${supplier.name} : R$ ${supplier.minimumOrderValue | money} </span></p></div><div class=\"mt-4\" if.bind=\"! isProcessing\" repeat.for=\"result of simulation.betterResults\"><div class=\"card-header ml-0\" role=\"tab\" id=\"result${result.id}\"><h5 class=\"mb-0\"><label class=\"custom-control custom-checkbox text-center\"><input type=\"checkbox\" class=\"custom-control-input\" change.trigger=\"changeSelectedCotacao(result)\" checked.bind=\"result.isSelected\"> <span class=\"custom-control-indicator\"></span></label> <a data-toggle=\"collapse\" data-parent=\"#accordion2\" href=\"#collapse${result.id}\" aria-expanded=\"false\" aria-controls=\"collapse${result.id}\" class=\"\">Cotação ${$index + 1} <i class=\"fa fa-check\" if.bind=\"result.isSelected\"></i> <span class=\"text-right float-right\">${result.total  | money}</span></a></h5></div><div id=\"collapse${result.id}\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" style=\"\"><div class=\"card-body\"><h4 class=\"mt-4\">Alertas</h4><p style=\"padding:10px;cursor:pointer\" repeat.for=\"item of result.logMessages.split(';')\" if.bind=\"item != null && item != ''\" class=\"badge badge-warning ml-3 mt-2\"><i class=\"fa fa-warning\"></i> ${item} </p><h4 class=\"mt-5\">Fornecedores</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.summaryItems\"><td> ${item.supplier.fantasyName} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${item.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${item.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.periodToAcceptOrder2 | time} </td><td class=\"text-center\"><span if.bind=\"item.rule.deliveryOnMonday\" class=\"badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"item.rule.deliveryOnTuesday\" class=\"badge ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"item.rule.deliveryOnWednesday\" class=\"badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"item.rule.deliveryOnThursday\" class=\"badge ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"item.rule.deliveryOnFriday\" class=\"badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"item.rule.deliveryOnSaturday\" class=\"badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"item.rule.deliveryOnSunday\" class=\"badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${item.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${item.total | money} </td></tr></tbody></table></div><h4 class=\"mt-5\">Produtos</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Nome do Produto</th><th class=\"text-left\">Descrição</th><th class=\"text-center\">UM</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.items\"><td> ${item.product.name} <div><small class=\"boldness-light\">${item.supplier.fantasyName}</small></div></td><td class=\"text-center align-middle\"> ${item.product.description} </td><td class=\"text-center\"> ${item.product.unit.name} </td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total | money} </td></tr><tr><td colspan=\"4\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${result.total  | money}</strong></td></tr></tbody></table></div></div></div></div></div></div></div><div class=\"tab-pane\" id=\"tab3\"><div class=\"col-md-12 mt-3\" if.bind=\"isProcessing\"><div class=\"form-group\"><span class=\"badge badge-warning\">Confirme os dados antes de gerar o pedido</span></div></div><div class=\"card-table table-responsive\" repeat.for=\"summary of selectedResult.summaryItems\"><h4><i class=\"fa fa-tag mr-2\"></i> Pedido ${$index + 1} - ${summary.supplier.fantasyName}</h4><h5 class=\"mt-5\">Informações do fornecedor</h5><table class=\"table table-hover table-sm align-middle mt-1\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr><td> ${summary.supplier.fantasyName} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${summary.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${summary.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${summary.rule.periodToAcceptOrder2 | time} </td><td class=\"text-center\"><span if.bind=\"summary.rule.deliveryOnMonday\" class=\"badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"summary.rule.deliveryOnTuesday\" class=\"badge ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"summary.rule.deliveryOnWednesday\" class=\"badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"summary.rule.deliveryOnThursday\" class=\"badge ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"summary.rule.deliveryOnFriday\" class=\"badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"summary.rule.deliveryOnSaturday\" class=\"badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"summary.rule.deliveryOnSunday\" class=\"badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${summary.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${summary.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${summary.total | money} </td></tr></tbody></table><h5 class=\"mt-5\">Produtos</h5><table class=\"table table-hover mt-1\"><thead><tr><th class=\"text-left\">Nome do Produto</th><th class=\"text-center\">Descrição</th><th class=\"text-center\">UM</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of summary.items\"><td> ${item.product.name} </td><td class=\"text-center align-middle\"> ${item.product.description} </td><td class=\"text-center\"> ${item.product.unit.name} </td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total | money} </td></tr><tr><td colspan=\"4\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${summary.total  | money}</strong></td></tr></tbody></table><p class=\"mt-5\">Deseja acrescentar alguma observação ao pedido?</p><div class=\"form-group mx-auto\"><textarea class=\"form-control\" value.bind=\"summary.observation \" rows=\"2\" keypress.delegate=\"validateLengthObs(summary)\"></textarea></div><p>${250 - summary.observation.length} caractere(s) restantes</p></div></div><ul class=\"pager wizard mt-5\"><li class=\"previous\" if.bind=\"currentStep != 1\"><a href=\"#\" class=\"waves-effect waves-light\" click.trigger=\"back()\" if.bind=\"currentStep > 0 \">Voltar</a></li><li class=\"next\" if.bind=\"isOrderValid && currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) \"><a href=\"#\" id=\"next\" class=\" ${ ! isOrderValid ? 'disabled' : '' } waves-effect waves-light\" click.trigger=\"advance()\">Avançar</a></li><li class=\"finish float-right\" if.bind=\"currentStep == totalSteps\"><button type=\"button\" class=\"btn btn-success waves-effect waves-light\" if.bind=\"! isProcessing && ! orderWasGenerated\" click.trigger=\"generateOrder()\"><span class=\"gradient\">Gerar pedido</span> <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></button><div class=\"fa-2x text-center\" if.bind=\"isProcessing\"><i class=\"fa fa-refresh fa-spin\"></i></div></li></ul></div></div></div></div></div></div></div></div></template>"; });
+define('text!views/cotacao/cotacao.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../components/attributes/datepicker\"></require><require from=\"../components/attributes/moneyMask\"></require><require from=\"../components/valueConverters/moneyValueConverter\"></require><require from=\"../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../components/attributes/timeMask\"></require><require from=\"../components/valueConverters/timeValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Cotação<div class=\"progress\"><div class=\"progress-bar progress-bar-sm bg-gradient\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0%\"></div></div></div><div class=\"card-form-wizard\"><div class=\"row\"><div class=\"col-lg-12\"><div id=\"rootwizard-1\"><ul class=\"nav nav-pills\"><li><a href=\"#tab1\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">1. Lista de Compras</span></span></a></li><li><a href=\"#tab2\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">2. Cotações</span></span></a></li><li><a href=\"#tab3\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">3. Pedido</span></span></a></li></ul><div class=\"tab-content clearfix\"><div class=\"tab-pane\" id=\"tab1\"><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Selecione a lista de compras</label> <select class=\"form-control\" value.bind=\"selectedQuote\" change.trigger=\"loadDeliveryRule()\"><option value=\"\"></option><option repeat.for=\"quote of quotes\" model.bind=\"quote\">${quote.buyListName}</option></select></div></div></div><div class=\"row mt-2\" if.bind=\"selectedQuote.products.length > 0\"><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Informe a data de entrega</label> <input type=\"text\" class=\"form-control\" autocomplete=\"off\" placeholder=\"00/00/0000\" value.bind=\"deliveryDate | dateFormat \" datepicker></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Horário inicial</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"deliveryScheduleStart | time & updateTrigger:'blur'\"></div></div></div><div class=\"col-md-3\"><div class=\"form-group\"><label class=\"control-label\">Horário final</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"deliveryScheduleEnd | time & updateTrigger:'blur'\"></div></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-5\"><span class=\"badge badge-warning\" if.bind=\"selectedQuote.products.length == 0\">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos</span><div if.bind=\"selectedQuote.products.length > 0\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><p>Você pode remover fornecedores da sua cotação</p><span style=\"padding:10px;cursor:pointer\" click.trigger=\"addRemoveSupplier(supplier)\" repeat.for=\"supplier of selectedQuote.suppliers\" class=\"badge ${ ! supplier.wasRemoved ?  'badge-success' : 'badge-default' } ml-3 mt-2\"><i class=\"fa fa-times mr-3\" if.bind=\"! supplier.wasRemoved\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-plus mr-3\" if.bind=\"supplier.wasRemoved\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"addSupplier(supplier)\"></i> ${supplier.name} </span></div><table class=\"table table-hover table-responsive mt-2\"><thead><tr><th>Nome do produto</th><th>Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th class=\"text-center\">Fornecedores</th><th class=\"text-center\">Quantidade</th></tr></thead><tbody><tr repeat.for=\"product of selectedQuote.products\"><td><span class=\"badge badge-warning\" if.bind=\"product.suppliers == null || product.suppliers.length == 0\"><i class=\"fa fa-warning\"></i> ${product.name} </span><span if.bind=\"product.suppliers != null && product.suppliers.length > 0\">${product.name}</span></td><td>${product.description}</td><td>${product.category}</td><td>${product.unitOfMeasure}</td><td>${product.brand}</td><td class=\"text-right\"><span style=\"padding:10px;cursor:pointer\" click.trigger=\"addRemoveSupplier(supplier)\" repeat.for=\"supplier of product.suppliers\" class=\"badge ${ ! supplier.wasRemoved ?  'badge-success' : 'badge-default' } ml-3 mt-2\"><i class=\"fa fa-times mr-3\" if.bind=\"! supplier.wasRemoved\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"removeSupplier(supplier)\"></i> <i class=\"fa fa-plus mr-3\" if.bind=\"supplier.wasRemoved\" aria-hidden=\"true\" style=\"cursor:pointer\" click.trigger=\"addSupplier(supplier)\"></i> ${supplier.name} </span><span class=\"font-bold\" if.bind=\"product.suppliers == null || product.suppliers.length == 0\">Não há fornecedores cadastrados que oferecem esse produto</span></td><td class=\"text-center\"><div class=\"col-md-8 mx-auto\"><input type=\"text\" class=\"money text-right form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }\" autocomplete=\"off\" value.bind=\"product.quantity | money\" money placeholder=\"000\" disabled.bind=\"product.suppliers == null || product.suppliers.length == 0\"></div></td></tr></tbody></table></div></div></div></div></div></div><div class=\"tab-pane\" id=\"tab2\"><div class=\"row\" if.bind=\"isProcessing\"><div class=\"col-md-6\"><div class=\"form-group\"><span if.bind=\"processing\" class=\"badge badge-warning\">Efetuando cotação</span></div></div></div><div class=\"col-md-12\"><div id=\"accordion2\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"col-md-12 mt-3\" if.bind=\"buyList\"><div class=\"form-group\"><span class=\"badge badge-warning\">Selecione uma das cotações abaixo</span></div></div><div class=\"mt-4\" if.bind=\"! isProcessing\" repeat.for=\"result of simulation.betterResults\"><div class=\"card-header ml-0\" role=\"tab\" id=\"result${result.id}\"><h5 class=\"mb-0\"><label class=\"custom-control custom-checkbox text-center\"><input type=\"checkbox\" class=\"custom-control-input\" change.trigger=\"changeSelectedCotacao(result)\" checked.bind=\"result.isSelected\"> <span class=\"custom-control-indicator\"></span></label> <a data-toggle=\"collapse\" data-parent=\"#accordion2\" href=\"#collapse${result.id}\" aria-expanded=\"false\" aria-controls=\"collapse${result.id}\" class=\"\">Cotação ${$index + 1} <i class=\"fa fa-check\" if.bind=\"result.isSelected\"></i> <span class=\"text-right float-right\">${result.total  | money}</span></a></h5></div><div id=\"collapse${result.id}\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" style=\"\"><div class=\"card-body\"><h4 class=\"mt-4\">Alertas</h4><p style=\"padding:10px;cursor:pointer\" repeat.for=\"item of result.logMessages.split(';')\" if.bind=\"item != null && item != ''\" class=\"badge badge-warning ml-3 mt-2\"><i class=\"fa fa-warning\"></i> ${item} </p><h4 class=\"mt-5\">Fornecedores</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.summaryItems\"><td> ${item.supplier.fantasyName} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${item.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${item.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.periodToAcceptOrder2 | time} </td><td class=\"text-center\"><span if.bind=\"item.rule.deliveryOnMonday\" class=\"badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"item.rule.deliveryOnTuesday\" class=\"badge ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"item.rule.deliveryOnWednesday\" class=\"badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"item.rule.deliveryOnThursday\" class=\"badge ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"item.rule.deliveryOnFriday\" class=\"badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"item.rule.deliveryOnSaturday\" class=\"badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"item.rule.deliveryOnSunday\" class=\"badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${item.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${item.total | money} </td></tr></tbody></table></div><h4 class=\"mt-5\">Produtos</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Nome do Produto</th><th class=\"text-left\">Descrição</th><th class=\"text-center\">UM</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.items\"><td> ${item.product.name} <div><small class=\"boldness-light\">${item.supplier.fantasyName}</small></div></td><td class=\"text-center align-middle\"> ${item.product.description} </td><td class=\"text-center\"> ${item.product.unit.name} </td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total | money} </td></tr><tr><td colspan=\"4\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${result.total  | money}</strong></td></tr></tbody></table></div></div></div></div></div></div></div><div class=\"tab-pane\" id=\"tab3\"><div class=\"col-md-12 mt-3\" if.bind=\"isProcessing\"><div class=\"form-group\"><span class=\"badge badge-warning\">Confirme os dados antes de gerar o pedido</span></div></div><div class=\"card-table table-responsive\" repeat.for=\"summary of selectedResult.summaryItems\"><h4><i class=\"fa fa-tag mr-2\"></i> Pedido ${$index + 1} - ${summary.supplier.fantasyName}</h4><h5 class=\"mt-5\">Informações do fornecedor</h5><table class=\"table table-hover table-sm align-middle mt-1\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr><td> ${summary.supplier.fantasyName} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${summary.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${summary.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${summary.rule.periodToAcceptOrder2 | time} </td><td class=\"text-center\"><span if.bind=\"summary.rule.deliveryOnMonday\" class=\"badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"summary.rule.deliveryOnTuesday\" class=\"badge ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"summary.rule.deliveryOnWednesday\" class=\"badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"summary.rule.deliveryOnThursday\" class=\"badge ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"summary.rule.deliveryOnFriday\" class=\"badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"summary.rule.deliveryOnSaturday\" class=\"badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"summary.rule.deliveryOnSunday\" class=\"badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${summary.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${summary.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${summary.total | money} </td></tr></tbody></table><h5 class=\"mt-5\">Produtos</h5><table class=\"table table-hover mt-1\"><thead><tr><th class=\"text-left\">Nome do Produto</th><th class=\"text-center\">Descrição</th><th class=\"text-center\">UM</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of summary.items\"><td> ${item.product.name} </td><td class=\"text-center align-middle\"> ${item.product.description} </td><td class=\"text-center\"> ${item.product.unit.name} </td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total | money} </td></tr><tr><td colspan=\"4\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${summary.total  | money}</strong></td></tr></tbody></table></div></div><ul class=\"pager wizard mt-5\"><li class=\"previous\" if.bind=\"currentStep != 1\"><a href=\"#\" class=\"waves-effect waves-light\" click.trigger=\"back()\" if.bind=\"currentStep > 0 \">Voltar</a></li><li class=\"next\" if.bind=\"currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) \"><a href=\"#\" id=\"next\" class=\"waves-effect waves-light\" click.trigger=\"advance()\">Avançar</a></li><li class=\"finish float-right\" if.bind=\"currentStep == totalSteps\"><button type=\"button\" class=\"btn btn-success waves-effect waves-light\" if.bind=\"! isProcessing && ! orderWasGenerated\" click.trigger=\"generateOrder()\"><span class=\"gradient\">Gerar pedido</span> <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></button><div class=\"fa-2x text-center\" if.bind=\"isProcessing\"><i class=\"fa fa-refresh fa-spin\"></i></div></li></ul></div></div></div></div></div></div></div></div></template>"; });
 define('text!views/foodService/cadastro.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/cepMask\"></require><require from=\"../components/attributes/phoneWithDDDMask\"></require><require from=\"../components/attributes/cellPhoneWithDDDMask\"></require><require from=\"../components/attributes/inscricaoEstadualMask\"></require><require from=\"../components/valueConverters/cnpjValueConverter\"></require><require from=\"../components/valueConverters/cepValueConverter\"></require><require from=\"../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/inscricaoEstadualValueConverter\"></require><div class=\"row mb-5 au-animate\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Cadastro de Cliente<div class=\"progress\"><div class=\"progress-bar progress-bar-sm bg-gradient\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:0%\"></div></div></div><div class=\"card-form-wizard\"><div class=\"row\"><div class=\"col-lg-12\"><div id=\"rootwizard-1\"><ul class=\"nav nav-pills\"><li><a href=\"#tab1\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">1. Dados Básicos</span></span></a></li><li><a href=\"#tab2\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">2. Endereço</span> <small>No validation required</small></span></a></li><li><a href=\"#tab3\" data-toggle=\"tab\"><span class=\"main-text\"><span class=\"h3\">3. Contatos</span></span></a></li></ul><div class=\"tab-content clearfix\"><div class=\"tab-pane\" id=\"tab1\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Razão Social <span class=\"text-danger\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"foodService.name\"></div><div class=\"form-group\"><label class=\"control-label\">CNPJ <span class=\"text-danger\">*</span></label> <span class=\"ml-2 fa-1x text-center\" if.bind=\"isCNPJLoading\"><i class=\"fa fa-refresh fa-spin\"></i></span> <input type=\"text\" class=\"form-control\" cnpj value.bind=\"foodService.cnpj | cnpj \" change.delegate=\"consultaCNPJ()\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome Fantasia <span class=\"text-danger\">*</span></label> <input type=\"text\" class=\"form-control\" value.bind=\"foodService.fantasyName\"></div><div class=\"form-group\"><label class=\"control-label\">Inscrição Estadual <span class=\"text-danger\">*</span></label> <input type=\"text\" class=\"form-control\" inscricaoestadual value.bind=\"foodService.inscricaoEstadual | inscricaoEstadual\"></div></div></div></div><div class=\"tab-pane\" id=\"tab2\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">CEP</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isCepInvalid  ? 'border-danger' : '' } \" cep value.bind=\"foodService.address.cep | cep\" change.delegate=\"consultaCEP()\"></div></div></div><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Logradouro</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isLogradouroInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.address.logradouro\" change.delegate=\"validator.addressValidator.validateLogradouro()\"></div><div class=\"form-group\"><label class=\"control-label\">Bairro</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isNeighborhoodInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.address.neighborhood\" change.delegate=\"validator.addressValidator.validateNeighborhood()\"></div><div class=\"form-group\"><label class=\"control-label\">Estado</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isStateInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.address.state\" change.delegate=\"validator.addressValidator.validateState()\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Número</label> <input type=\"number\" class=\"form-control ${validator.addressValidator.isNumberInvalid  ? 'border-danger' : '' }\" value.bind=\"foodService.address.number\" change.delegate=\"validator.addressValidator.validateNumber()\"></div><div class=\"form-group\"><label class=\"control-label\">Cidade</label> <input type=\"text\" class=\"form-control ${validator.addressValidator.isCityInvalid  ? 'border-danger' : '' }\" value.bind=\"foodService.address.city\" change.delegate=\"validator.addressValidator.validateCity()\"></div><div class=\"form-group\"><label class=\"control-label\">Complemento</label> <input type=\"text\" class=\"form-control\" value.bind=\"foodService.address.complement\"></div></div></div></div><div class=\"tab-pane\" id=\"tab3\"><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Nome</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }\" value.bind=\"foodService.contact.name\" change.delegate=\"validator.contactValidator.validateName()\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Comercial</label> <input type=\"text\" class=\"form-control\" phone-with-ddd value.bind=\"foodService.contact.commercialPhone | phoneWithDDD\" placeholder=\"(01) 1234-5678\"></div><div class=\"form-group\"><label class=\"control-label\">E-mail</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' } \" value.bind=\"foodService.contact.email\" change.delegate=\"validator.contactValidator.validateEmail()\"></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label\">Telefone</label> <input type=\"text\" class=\"form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } \" phone-with-ddd value.bind=\"foodService.contact.phone | phoneWithDDD\" change.delegate=\"validator.contactValidator.validatePhone()\"></div><div class=\"form-group\"><label class=\"control-label\">Telefone Celular</label> <input type=\"text\" class=\"form-control\" cell-phone-with-ddd value.bind=\"foodService.contact.personalPhone | cellPhoneWithDDD\" placeholder=\"(01) 01234-5678\"></div></div></div></div><ul class=\"pager wizard\"><li class=\"previous\"><a href=\"#\" class=\"waves-effect waves-light\" click.trigger=\"back()\">Voltar</a></li><li class=\"next\" if.bind=\"currentStep < totalSteps\"><a href=\"#\" class=\"waves-effect waves-light\" click.trigger=\"advance()\">Avançar</a></li><li class=\"finish float-right\" if.bind=\"currentStep == totalSteps\"><button type=\"button\" if.bind=\"! isLoading\" class=\"btn btn-primary btn-gradient assign-task waves-effect waves-light\" click.trigger=\"save()\"><span class=\"gradient\">Salvar</span></button><div class=\"fa-2x text-center\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></li></ul></div></div></div></div></div></div></div></div></template>"; });
 define('text!views/foodService/fornecedores.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/phoneWithDDDMask\"></require><require from=\"../admin/supplier/editSupplier\"></require><div class=\"row mb-5 task-manager au-animate\" if.bind=\"! showDetails\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\"> ${title} </div><div class=\"card-body\"><div class=\"form-row align-items-center\"><div class=\"col-lg-3\"><label for=\"input-task-title\" class=\"active\">Filtro</label> <select class=\"form-control\" value.bind=\"tipoFiltro\" change.delegate=\"alterView()\"><option value=\"1\">Sugeridos</option><option value=\"2\">Meus fornecedores</option><option value=\"4\">Bloqueados</option><option value=\"3\">Todos</option></select></div><div class=\"col-lg-3\"><label for=\"input-task-title\" class=\"active\">Nome do fornecedor <span class=\"required-item\">*</span></label> <input type=\"text\" class=\"form-control input-task-title\" id=\"input-task-title\" placeholder=\"nome...\" change.trigger=\"search()\" value.bind=\"filter\"></div><div class=\"col-lg-3 ml-4 mt-3\" if.bind=\"! isLoading\"><button type=\"button\" class=\"btn btn-primary btn-gradient assign-task waves-effect waves-light\"><span class=\"gradient\">Pesquisar</span></button></div><div class=\"col-lg-3 ml-4 mt-3 fa-2x text-center\" if.bind=\"isLoading\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div><div class=\"card-body\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th>Situação Cadastral</th><th>Contato</th><th>E-mail</th><th>Telefone</th><th>Mercados</th><th></th><th></th></tr></thead><tbody><tr repeat.for=\"x of filteredSuppliers\"><td>${x.supplier.fantasyName}</td><td><span class=\"badge badge-primary\" if.bind=\"x.status == 0\">Não cadastrado</span> <span class=\"badge badge-warning\" if.bind=\"x.status == 1\">Cadastro enviado</span> <span class=\"badge badge-success\" if.bind=\"x.status == 2\">Disponível</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 3\">Cadastro Rejeitado</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 4\">Bloqueado</span> <span class=\"badge badge-warning\" if.bind=\"x.status == 5\">Aguardando aprovação</span> <span class=\"badge badge-danger\" if.bind=\"x.status == 6\">Bloqueado</span></td><td>${x.supplier.contact.name}</td><td>${x.supplier.contact.email}</td><td phone-with-ddd>${x.supplier.contact.phone}</td><td><span class=\"badge badge-success ml-2\" repeat.for=\"m of x.markets\"> ${m} </span></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" if.bind=\"x.status == 0 && ! x.isLoading\" click.trigger=\"connect(x)\">Conectar</button> <button type=\"button\" class=\"btn btn-danger btn-sm waves-effect waves-light\" if.bind=\"x.status == 2 && ! x.isLoading\" click.trigger=\"block(x)\">Bloquear</button> <button type=\"button\" class=\"btn btn-success btn-sm waves-effect waves-light\" if.bind=\"x.status == 6 && ! x.isLoading\" click.trigger=\"unblock(x)\">Desbloquear</button></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light\" click.trigger=\"showSupplierDetails(x)\">Detalhes</button><div class=\"fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'} mx-auto\"><i class=\"fa fa-refresh fa-spin\"></i></div></td></tr></tbody></table></div></div></div></div><div class=\" ${ showDetails ? '' : 'invisible' }\" class=\"au-animate\"><edit-supplier></edit-supplier></div></template>"; });
 define('text!views/foodService/evaluations.html', ['module'], function(module) { module.exports = "<template><require from=\"../components/attributes/moneyMask\"></require><require from=\"../components/valueConverters/moneyValueConverter\"></require><require from=\"../components/valueConverters/phoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/cellPhoneWithDDDValueConverter\"></require><require from=\"../components/valueConverters/cnpjValueConverter\"></require><require from=\"../components/valueConverters/cepValueConverter\"></require><require from=\"../components/valueConverters/dateFormatValueConverter\"></require><require from=\"../components/attributes/cnpjMask\"></require><require from=\"../components/attributes/cepMask\"></require><div class=\"row mb-5 task-manager au-animate\"><div class=\"col-lg-12\"><div class=\"card\"><div class=\"card-header\">Avaliações</div><div class=\"card-body\"><div if.bind=\"! evaluation\"><table class=\"table table-hover mt-2\"><thead><tr><th class=\"text-center\">Nº pedido</th><th class=\"text-right\">Valor do pedido</th><th class=\"text-center\">Food Service</th><th class=\"text-center\">Fornecedor</th><th class=\"text-center\">Data da avaliação</th><th class=\"text-center\" style=\"min-width:250px\">Avaliação</th><th></th></tr></thead><tbody><tr repeat.for=\"x of filteredEvaluations\"><td class=\"text-center\">${x.order.code}</td><td class=\"text-right\">${x.order.total | money}</td><td class=\"text-center\">${x.foodService.name}</td><td class=\"text-center\">${x.supplier.name}</td><td class=\"text-center\">${x.createdOn | dateFormat}</td><td class=\"text-center\"><i class=\"batch-icon ${ x.rating >= 1 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\"></i> <i class=\"batch-icon ${ x.rating >= 2 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\"></i> <i class=\"batch-icon ${ x.rating >= 3 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\"></i> <i class=\"batch-icon ${ x.rating >= 4 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\"></i> <i class=\"batch-icon ${ x.rating >= 5 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\"></i></td><td><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light mx-auto ml-2\" click.trigger=\"showDetails(x)\" if.bind=\"! x.processing\">Detalhes</button></td></tr></tbody></table></div><div if.bind=\"evaluation\"><div class=\"row mt-3\"><div class=\"col-md-12\"><h6 class=\"mt-5 mb-5\"><i class=\"batch-icon batch-icon-users mr-2\"></i>Dados do Food Service</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome</label> <label class=\"control-label col-md-6\">${evaluation.foodService.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Comercial</label> <label class=\"control-label col-md-6\">${evaluation.foodService.contact.commercialPhone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">E-mail</label> <label class=\"control-label col-md-6\">${evaluation.foodService.contact.email}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone</label> <label class=\"control-label col-md-6\">${evaluation.foodService.contact.phone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Celular</label> <label class=\"control-label col-md-6\">${evaluation.foodService.contact.personalPhone | phoneWithDDD}</label></div></div></div></div><div class=\"col-md-12\"><h6 class=\"mt-5 mb-5\"><i class=\"batch-icon batch-icon-users mr-2\"></i>Dados do Fornecedor</h6><div class=\"row\"><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Nome</label> <label class=\"control-label col-md-6\">${evaluation.supplier.name}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Comercial</label> <label class=\"control-label col-md-6\">${evaluation.supplier.contact.commercialPhone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">E-mail</label> <label class=\"control-label col-md-6\">${evaluation.supplier.contact.email}</label></div></div><div class=\"col-md-6\"><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone</label> <label class=\"control-label col-md-6\">${evaluation.supplier.contact.phone | phoneWithDDD}</label></div><div class=\"form-group\"><label class=\"control-label col-md-6\">Telefone Celular</label> <label class=\"control-label col-md-6\">${evaluation.supplier.contact.personalPhone | phoneWithDDD}</label></div></div></div></div><div class=\"col-md-12 mt-5\"><div class=\"form-group mx-auto text-center\"><h5 class=\"text-center\">Nota da avaliação</h5><i class=\"batch-icon ${ evaluation.rating  >= 1 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-xxl mt-2\"></i> <i class=\"batch-icon ${ evaluation.rating >= 2 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-xxl\"></i> <i class=\"batch-icon ${ evaluation.rating >= 3 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-xxl\"></i> <i class=\"batch-icon ${ evaluation.rating >= 4 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-xxl\"></i> <i class=\"batch-icon ${ evaluation.rating >= 5 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-xxl mb-2\"></i></div></div><div class=\"col-md-12 mt-3\"><div class=\"form-group mx-auto\"><label class=\"control-label\">Comentários</label> <textarea class=\"form-control disabled\" disabled=\"disabled\" value.bind=\"evaluation.comment\" rows=\"2\"></textarea></div></div></div><div class=\"text-center\"><button type=\"button\" class=\"btn btn-secondary waves-effect waves-light ml-2\" click.trigger=\"evaluation = null\" if.bind=\"! evaluation.processing\"><i class=\"fa fa-undo mr-2\"></i>Voltar</button></div></div></div></div></div></div></template>"; });
@@ -10210,7 +10231,7 @@ define('text!views/components/partials/listaDePrecos.html', ['module'], function
 define('text!views/components/partials/baixaPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Baixa de Pedido</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group text-center\"><label class=\"control-label\">Tem certeza que deseja efetuar a baixa o pedido <strong>nº ${order.code}</strong>?</label></div></div></div><div class=\"row mt-3\"><div class=\"col-md-12 mt-3\"><div class=\"form-group mx-auto text-center\"><p class=\"text-center\">Avalie a qualidade do fornecedor</p><i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 1 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg mt-2\" click.trigger=\"setAvaliacao(1)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 2 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\" click.trigger=\"setAvaliacao(2)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 3 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\" click.trigger=\"setAvaliacao(3)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 4 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg\" click.trigger=\"setAvaliacao(4)\"></i> <i style=\"cursor:pointer\" class=\"batch-icon ${ notaAvaliacao >= 5 ? 'text-warning' : '' } batch-icon-star-alt batch-icon-lg mb-2\" click.trigger=\"setAvaliacao(5)\"></i></div></div><div class=\"col-md-12 mt-3\"><div class=\"form-group mx-auto\"><label class=\"control-label\">Comentários</label> <textarea class=\"form-control\" value.bind=\"evaluation.comment\" rows=\"2\"></textarea></div></div></div><div class=\"row mt-3\"><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"acceptOrder()\" if.bind=\"! processing\"><i class=\"fa fa-check mr-2\"></i>Confirmar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\" if.bind=\"! processing\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></div></template>"; });
 define('text!views/components/partials/cotacaoPedido.html', ['module'], function(module) { module.exports = "<template><div class=\"card-body\"><h4 class=\"mt-5\">Dados do pedido</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-center\">Nome do Produto</th><th class=\"text-right\">Preço unitário</th><th class=\"text-right\">Quantidade</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr><td> ${item.product.name} <div><small class=\"boldness-light\">${item.supplier.name}</small></div></td><td class=\"text-right\"> ${item.price | money} </td><td class=\"text-right\"> ${item.quantity} </td><td class=\"text-right\"> ${item.total  | money} </td></tr><tr><td colspan=\"3\" class=\"text-right\"><strong>Total:</strong></td><td class=\"text-right\"><strong>${result.total  | money}</strong></td></tr></tbody></table></div><h4>Sumário</h4><div class=\"col-md-12 card-table table-responsive\"><table class=\"table table-hover table-sm align-middle\"><thead><tr><th class=\"text-left\">Fornecedor</th><th class=\"text-center\">Avaliação</th><th class=\"text-center\">Qtde de dias para aceite</th><th class=\"text-center\">Período de Aceite</th><th class=\"text-center\">Dias de entrega</th><th class=\"text-center\">Período de Entrega</th><th class=\"text-right\">Total</th></tr></thead><tbody><tr repeat.for=\"item of result.summaryItems\"><td> ${item.supplier.name} </td><td class=\"text-center\"><i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i> <i aria-hidden=\"true\" class=\"fa fa-star\" style=\"color:#ff0;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:orange\"></i></td><td class=\"text-center\"> ${item.rule.numberOfDaysToAccept} dias</td><td class=\"text-center\"> ${item.rule.periodToAcceptOrder1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.periodToAcceptOrder2 | time} </td><td><span if.bind=\"item.rule.deliveryOnMonday\" class=\"badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }\">Segunda-feira</span> <span if.bind=\"item.rule.deliveryOnTuesday\" class=\"badge ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }\">Terça-feira</span> <span if.bind=\"item.rule.deliveryOnWednesday\" class=\"badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }\">Quarta-feira</span> <span if.bind=\"item.rule.deliveryOnThursday\" class=\"badge ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }\">Quinta-feira</span> <span if.bind=\"item.rule.deliveryOnFriday\" class=\"badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }\">Sexta-feira</span><br><br><span if.bind=\"item.rule.deliveryOnSaturday\" class=\"badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }\">Sábado</span> <span if.bind=\"item.rule.deliveryOnSunday\" class=\"badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }\">Domingo</span></td><td class=\"text-center\"> ${item.rule.deliverySchedule1 | time} <label class=\"mr-sm-2 ml-2\" for=\"inlineFormCustomSelect\">as</label> ${item.rule.deliverySchedule2 | time} </td><td class=\"text-right\"> ${item.total  | money} </td></tr></tbody></table></div></div></template>"; });
 define('text!views/components/partials/observacoesPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/timeMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><require from=\"../valueConverters/timeValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Observação pedido</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label\">Deseja acrescentar alguma observação ao pedido?</label></div></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group mx-auto\"><textarea class=\"form-control disabled\" disabled=\"disabled\" value.bind=\"selectedQuote.observation\" rows=\"2\"></textarea></div></div></div></div><div class=\"row mb-4\"><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"confirmOrder()\"><i class=\"fa fa-check mr-2\"></i>Confirmar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button></div></div></div></div></template>"; });
-define('text!views/components/partials/produtosSelecionados.html', ['module'], function(module) { module.exports = "<template><div class=\"row mt-4\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Mercado</label> <select class=\"form-control\" value.bind=\"selectedClass\" change.delegate=\"updateCategories()\"><option repeat.for=\"class of classes\" model.bind=\"class\">${class.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Categoria</label> <select class=\"form-control\" value.bind=\"selectedCategory\" change.delegate=\"search()\"><option repeat.for=\"category of selectedClass.categories\" model.bind=\"category\">${category.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Produto / Descrição\" change.trigger=\"search()\"></div></div></div><div class=\"row\" if.bind=\"selectedClass != null\"><div class=\"col-lg-4\"><div class=\"form-group\"><button type=\"button\" if.bind=\"! isCreatingList\" class=\"btn btn-primary btn-sm waves-effect waves-light au-target au-target\" click.trigger=\"isCreatingList = true\">Criar Lista</button> <input type=\"text\" if.bind=\"  isCreatingList\" class=\"form-control\" value.bind=\"newListName\" placeholder=\"Digite o nome da lista\"></div></div><div class=\"col-lg-4\" if.bind=\"isCreatingList\"><div class=\"form-group\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light au-target au-target\" click.trigger=\"createList()\">Salvar</button> <button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light au-target au-target\" click.trigger=\"isCreatingList = false\">Cancelar</button></div></div></div><div class=\"row\" if.bind=\"isFiltered\"><div class=\"col-md-12 pb-5\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th class=\"text-center\">Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th repeat.for=\"list of lists\" class=\"ml-2 text-center\" if.bind=\"list.status == 0\"> ${list.name} <br><button type=\"button\" if.bind=\"! x.isLoading\" class=\"btn btn-danger btn-sm waves-effect waves-light\" click.trigger=\"deleteList(list)\"><i class=\"fa fa-times mr-2\" style=\"cursor:pointer\"></i> Apagar</button></th><th></th></tr></thead><tbody><tr repeat.for=\"x of filteredProducts\"><td> ${x.product.name} <span if.bind=\"x.isNew\" class=\"badge badge-warning\">Novo!</span></td><td class=\"text-center\">${x.product.description}</td><td>${x.product.category.name}</td><td>${x.product.unit.name}</td><td></td><td repeat.for=\"list of lists\" if.bind=\"list.status == 0\" class=\"text-center\"><label class=\"custom-control custom-checkbox\"><input type=\"checkbox\" class=\"custom-control-input\" checked.bind=\"list[x.product.name + '_'+ x.product.unit.name + '_' + x.product.description]\" change.trigger=\"changeList(list, x)\"> <span class=\"custom-control-indicator\"></span></label></td><td><button type=\"button\" if.bind=\"! x.isLoading\" class=\"btn btn-danger btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }\" disabled.bind=\"isProcessing\" click.trigger=\"removeProduct(x)\">Remover</button><div class=\"fa-2x\" if.bind=\"x.isLoading  == true\"><i class=\"fa fa-refresh fa-spin\"></i></div></td></tr></tbody></table></div></div></template>"; });
+define('text!views/components/partials/produtosSelecionados.html', ['module'], function(module) { module.exports = "<template><div class=\"row mt-4\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Mercado</label> <select class=\"form-control\" value.bind=\"selectedClass\" change.delegate=\"updateCategories()\"><option repeat.for=\"class of classes\" model.bind=\"class\">${class.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Categoria</label> <select class=\"form-control\" value.bind=\"selectedCategory\" change.delegate=\"search()\"><option repeat.for=\"category of selectedClass.categories\" model.bind=\"category\">${category.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Produto / Descrição\" change.trigger=\"search()\"></div></div></div><div class=\"row\" if.bind=\"selectedClass != null\"><div class=\"col-lg-4\"><div class=\"form-group\"><button type=\"button\" if.bind=\"! isCreatingList\" class=\"btn btn-primary btn-sm waves-effect waves-light au-target au-target\" click.trigger=\"isCreatingList = true\">Criar Lista</button> <input type=\"text\" if.bind=\"  isCreatingList\" class=\"form-control\" value.bind=\"newListName\" placeholder=\"Digite o nome da lista\"></div></div><div class=\"col-lg-4\" if.bind=\"isCreatingList\"><div class=\"form-group\"><button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light au-target au-target\" click.trigger=\"createList()\">Salvar</button> <button type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light au-target au-target\" click.trigger=\"isCreatingList = false\">Cancelar</button></div></div></div><div class=\"row\" if.bind=\"isFiltered\"><div class=\"col-md-12 pb-5\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th class=\"text-center\">Descrição</th><th>Categoria</th><th>UM</th><th>Marca</th><th repeat.for=\"list of lists\" class=\"ml-2 text-center\" if.bind=\"list.status == 0\"> ${list.name} <br><button type=\"button\" if.bind=\"! x.isLoading\" class=\"btn btn-danger btn-sm waves-effect waves-light ${ list.isDefaultList ? 'disabled' : '' } \" click.trigger=\"deleteList(list)\"><i class=\"fa fa-times mr-2\" disabled.bind=\"list.isDefaultList\" style=\"cursor:pointer\"></i> Apagar</button></th><th></th></tr></thead><tbody><tr repeat.for=\"x of filteredProducts\"><td> ${x.product.name} <span if.bind=\"x.isNew\" class=\"badge badge-warning\">Novo!</span></td><td class=\"text-center\">${x.product.description}</td><td>${x.product.category.name}</td><td>${x.product.unit.name}</td><td></td><td repeat.for=\"list of lists\" if.bind=\"list.status == 0\" class=\"text-center\"><label class=\"custom-control custom-checkbox\"><input type=\"checkbox\" class=\"custom-control-input\" checked.bind=\"list[x.product.name + '_'+ x.product.unit.name + '_' + x.product.description]\" change.trigger=\"changeList(list, x)\"> <span class=\"custom-control-indicator\"></span></label></td><td><button type=\"button\" if.bind=\"! x.isLoading\" class=\"btn btn-danger btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }\" disabled.bind=\"isProcessing\" click.trigger=\"removeProduct(x)\">Remover</button><div class=\"fa-2x\" if.bind=\"x.isLoading  == true\"><i class=\"fa fa-refresh fa-spin\"></i></div></td></tr></tbody></table></div></div></template>"; });
 define('text!views/components/partials/selecaoDeProdutosFoodService.html', ['module'], function(module) { module.exports = "<template><div class=\"row\"><div class=\"col-lg-4\"><div class=\"form-group\"><label class=\"control-label\">Mercado</label> <select class=\"form-control\" value.bind=\"selectedClass\" change.delegate=\"updateCategory()\"><option repeat.for=\"class of classes\" model.bind=\"class\">${class.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Categoria</label> <select class=\"form-control\" value.bind=\"selectedCategory\" change.delegate=\"search()\"><option repeat.for=\"category of selectedClass.categories\" model.bind=\"category\">${category.name}</option></select></div></div><div class=\"col-lg-4\" if.bind=\"selectedClass != null\"><div class=\"form-group\"><label class=\"control-label\">Filtro</label> <input type=\"text\" class=\"form-control\" value.bind=\"filter\" placeholder=\"Pesquise por Produto / Descrição\" change.trigger=\"search()\"></div></div></div><div class=\"row\" if.bind=\"isFiltered\"><div class=\"col-md-12 pb-5\"><table class=\"table table-hover\"><thead><tr><th>Nome</th><th class=\"text-center align-middle\">Descrição</th><th>Categoria</th><th>UM</th><th></th></tr></thead><tbody><tr repeat.for=\"product of filteredProducts\"><td>${product.name}</td><td class=\"text-center align-middle\">${product.description}</td><td>${product.category.name}</td><td>${product.unit.name}</td><td><button if.bind=\"! product.isLoading\" type=\"button\" class=\"btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }\" disabled.bind=\"isProcessing\" click.trigger=\"addProduct(product)\">Incluir</button><div class=\"fa-2x\" if.bind=\"product.isLoading  == true\"><i class=\"fa fa-refresh fa-spin\"></i></div></td></tr></tbody></table></div></div></template>"; });
 define('text!views/components/partials/rejeicaoPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Rejeição de Pedido</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><h5 class=\"control-label\">Tem certeza que deseja rejeitar o pedido <strong>nº ${order.code}</strong>?</h5></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Informe o motivo da rejeição</label> <textarea class=\"form-control\" value.bind=\"vm.reason & validate\" rows=\"3\"></textarea><h6 class=\"text-center mt-2 font-bold\"><strong>Ao rejeitar pedidos sua avaliação pode ser penalizada</strong></h6></div></div></div></div><div class=\"row mb-4\"><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div><button type=\"button\" class=\"btn btn-danger waves-effect waves-light mx-auto ml-5\" if.bind=\"! processing\" click.trigger=\"rejectOrder()\"><i class=\"fa fa-times mr-2\"></i>Rejeitar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" if.bind=\"! processing\" click.trigger=\"cancel()\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></template>"; });
 define('text!views/components/partials/horarioDeEntregaPedido.html', ['module'], function(module) { module.exports = "<template><require from=\"jquery-datetimepicker/jquery.datetimepicker.min.css\"></require><require from=\"../attributes/moneyMask\"></require><require from=\"../attributes/timeMask\"></require><require from=\"../attributes/datepicker\"></require><require from=\"../valueConverters/dateFormatValueConverter\"></require><require from=\"../valueConverters/timeValueConverter\"></require><div class=\"row mb-5\"><div class=\"col-md-12\"><div class=\"card\"><div class=\"card-header\">Horário de Entrega</div><div class=\"card-body\"><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><label class=\"control-label\">As informações abaixo são definidas com base nas regras de entrega cadastradas</label></div></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><h5 class=\"control-label\">Confirme a data de entrega desejada do pedido</h5></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><input type=\"text\" class=\"form-control text-right\" autocomplete=\"off\" placeholder=\"00/00/0000\" value.bind=\"vm.deliveryDate | dateFormat & updateTrigger:'blur' & validate\" datepicker></div></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"form-group\"><h5 class=\"control-label\">Confirme o horário de entrega do pedido</h5></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Horário inicial</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"vm.deliveryScheduleStart | time & updateTrigger:'blur' & validate\"></div></div></div></div><div class=\"row\"><div class=\"col-md-12 mt-3\"><div class=\"form-group\"><label class=\"control-label\">Horário final</label><div class=\"input-group\"><span class=\"input-group-addon input-group-icon\"><i class=\"batch-icon batch-icon-clock\"></i> </span><input type=\"time\" class=\"time form-control\" autocomplete=\"off\" placeholder=\"HH:mm\" time value.bind=\"vm.deliveryScheduleEnd | time & updateTrigger:'blur' & validate \"></div></div></div></div></div><div class=\"row mb-4\"><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div><button type=\"button\" class=\"btn btn-success waves-effect waves-light mx-auto ml-5\" click.trigger=\"confirmSchedule()\"><i class=\"fa fa-check mr-2\"></i>Confirmar</button> <button type=\"button\" class=\"btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5\" click.trigger=\"cancel()\"><i class=\"fa fa-undo mr-2\"></i>Cancelar</button><div class=\"fa-2x text-center mx-auto\" if.bind=\"processing\"><i class=\"fa fa-refresh fa-spin\"></i></div></div></div></div></div></template>"; });

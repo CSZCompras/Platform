@@ -64,34 +64,52 @@ export class ProdutosSelecionados{
                         this.filteredProducts.unshift(product);
                         this.allProducts.unshift(product);
 
-                        this.lists.forEach( ( x : BuyList) => {
-
-                            var foodProduct = x.products.filter( x => x.foodServiceProduct.productId == product.productId);
-
-                            if(foodProduct == null || foodProduct.length == 0){
-                                
-                                var item = new BuyListProduct();
-                                item.foodServiceProduct = product; 
-                                item.isInList = x.isDefaultList;
-                                x.products.unshift(item); 
-                            }
-                            else{
-                                foodProduct[0].foodServiceProduct.isActive = true;
-                                foodProduct[0].isInList = x.isDefaultList;
-                            }
-                        });
-                        this.defineProductsInList();
+                        this.lists.forEach( ( x : BuyList) => this.addProductToList(x, product) );
                     }
                     else{
+                        this.addProductToDefaultList(product);
                         this.allProducts.unshift(product);
                     }  
             } 
             else{
+                this.addProductToDefaultList(product);
                 this.allProducts.unshift(product);
             }  
+            this.defineProductsInList();
         });
         
     } 
+
+    getDefaultList() : BuyList{
+        var defaultList = this.allLists.filter( (x : BuyList) => x.isDefaultList);
+
+        if(defaultList != null && defaultList.length > 0){
+            return defaultList[0];
+        }
+        return null;
+    }
+
+    addProductToDefaultList(product : FoodServiceProduct){
+        this.addProductToList(this.getDefaultList(), product);
+    }
+
+    addProductToList(x : BuyList, product : FoodServiceProduct){
+
+        var foodProduct = x.products.filter( x => x.foodServiceProduct.productId == product.productId);
+
+        if(foodProduct == null || foodProduct.length == 0){
+            
+            var item = new BuyListProduct();
+            item.foodServiceProduct = product; 
+            item.isInList = x.isDefaultList;
+            x.products.unshift(item); 
+        }
+        else{
+            foodProduct[0].foodServiceProduct.isActive = true;
+            foodProduct[0].isInList = x.isDefaultList;
+        }
+
+    }
 
     updateCategories(){
         this.selectedCategory = this.selectedClass.categories[0];
@@ -175,11 +193,11 @@ export class ProdutosSelecionados{
 
     defineCurrentLists(){
 
-        var defaultList = this.allLists.filter( (x : BuyList) => x.isDefaultList);
+        var defaultList = this.getDefaultList();
         this.lists = this.allLists.filter( (x : BuyList) => x.productClass != null && x.productClass.id == this.selectedClass.id);
 
-        if(defaultList != null && defaultList.length > 0){
-            this.lists.unshift(defaultList[0]);
+        if(defaultList != null){
+            this.lists.unshift(defaultList);
         }
     }
 
@@ -217,6 +235,7 @@ export class ProdutosSelecionados{
                     else{ 
 
                         if( (this.selectedCategory != null && this.selectedCategory.id != '' && this.selectedCategory.id  != '-2')){ 
+                            
                             if(x.product.category.id == this.selectedCategory.id){
                                 isFound = true;
                             }
