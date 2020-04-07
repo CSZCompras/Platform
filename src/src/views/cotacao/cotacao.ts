@@ -169,7 +169,13 @@ export class Pedido{
             .simulate(this.input)
             .then(  x => { 
                 
-                this.simulation = x;
+				this.simulation = x;
+				
+				if(this.simulation.betterResults != null && this.simulation.betterResults.length > 0){
+					this.simulation.betterResults[0].isSelected = true;
+					this.selectedResult = this.simulation.betterResults[0];
+				}
+
 				this.isProcessing = false;
 				this.runScript();
 				this.ea.publish('dataLoaded');
@@ -280,19 +286,27 @@ export class Pedido{
 
 	loadDeliveryRule(){
 
-		this.deliveryRepository
-			.getRule(this.selectedQuote.productClass.id)
-			.then( (x : DeliveryRule) => { 
-				if(x != null){
-					this.deliveryRule = <DeliveryRule> x;
-					
-					this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
-					this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
-					this.viewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(this.deliveryRule);
-					this.checkDeliveryDate();
-				}
-			}) 
-			.catch( e => this.nService.presentError(e)); 
+		if(this.selectedQuote.productClass != null){
+
+			this.deliveryRepository
+				.getRule(this.selectedQuote.productClass.id)
+				.then( (x : DeliveryRule) => { 
+					if(x != null){
+						this.deliveryRule = <DeliveryRule> x;
+						
+						this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
+						this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
+						this.viewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(this.deliveryRule);
+						this.checkDeliveryDate();
+					}
+				}) 
+				.catch( e => this.nService.presentError(e)); 
+		}
+		else{
+			this.deliveryRule = null;
+			this.checkDeliveryDate();
+
+		}
 	}
 
 	checkDeliveryDate(){
