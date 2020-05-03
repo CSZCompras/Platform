@@ -19,11 +19,12 @@ import { DeliveryRule } from '../../domain/deliveryRule';
 import { CheckDeliveryViewModel } from '../../domain/checkDeliveryViewModel';
 import { CheckDeliveryResult } from '../../domain/checkDeliveryResult';
 import { CheckDeliveryResultItem } from '../../domain/CheckDeliveryResultItem';
-import { ObservacoesPedido } from '../components/partials/observacoesPedido';
+import { SimulationSummaryItem } from '../../domain/simulationSummaryItem';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
-import { SimulationSummaryItem } from '../../domain/simulationSummaryItem';
+import { MarketViewModel } from '../../domain/marketViewModel';
+import { MarketInputViewModel } from '../../domain/marketInputViewModel';
 
 @autoinject
 export class Pedido{
@@ -35,17 +36,13 @@ export class Pedido{
     quotes          				: CotacaoViewModel[];
     selectedQuote   				: CotacaoViewModel ;
     isProcessing    				: boolean;
-	simulation      				: Simulation;
-	input 							: SimulationInput;
-	selectedResult 					: SimulationResult;	
-	supplierBlackList				: SupplierViewModel[];	
+	simulations      				: Simulation[];
+	input 							: SimulationInput; 
 	orderWasGenerated				: boolean;
 	validationController            : ValidationController;
-	viewModel 						: CheckDeliveryViewModel;
-	checkDeliveryResult				: CheckDeliveryResult;
-	deliveryRule					: DeliveryRule;
 	deliveryWasChecked				: boolean;
-	isOrderValid					: boolean;
+	isOrderValid					: boolean; 
+	results 						: SimulationResult[]; 
 
 	
     constructor(		
@@ -63,16 +60,15 @@ export class Pedido{
         this.totalSteps = 3;		
 		this.isProcessing = false;
 		this.orderWasGenerated = false;
-		this.input = new SimulationInput();
-		this.supplierBlackList = [];
+		this.input = new SimulationInput(); 
 
 		// Validation.
 		this.validationController = this.validationControllerFactory.createForCurrentScope();
 		this.validationController.addRenderer(new FormValidationRenderer());
 		this.validationController.validateTrigger = validateTrigger.blur;
 		this.deliveryWasChecked  = false;   
-		this.viewModel = new CheckDeliveryViewModel();
 		this.isOrderValid = true;
+		this.results = []; 
     } 
  
 
@@ -143,45 +139,52 @@ export class Pedido{
     
     simulate(){
 
-		this.ea.publish('loadingData'); 
-
+		this.ea.publish('loadingData');  
 		this.isProcessing = true; 
 		
 		this.input.buyListId = this.selectedQuote.id;
 
-		this.input.items = [];
+		this.input.markets = [];
 
-		this.selectedQuote.products.forEach( (x) =>{
+		this.selectedQuote.markets.forEach( market =>{
+
+			var vm = new MarketInputViewModel();
+			vm.market = market;
+
+			market.products.forEach( (x) =>{
 			
-			if(x.quantity != null && x.quantity != 0){
+				if(x.quantity != null && x.quantity != 0){
+	
+					var item = new SimulationInputItem();
+					item.productId = x.id;
+					item.quantity = x.quantity;
+					vm.items.push(item);
+				}
+			});
 
-				var item = new SimulationInputItem();
-				item.productId = x.id;
-				item.quantity = x.quantity;
-				this.input.items.push(item);
-			}
+			vm.supplierBlackList = market.blackListSupplier; 
+			this.input.markets.push(vm);
 		});		
 
-		this.input.supplierBlackList = this.supplierBlackList;
+		this.simulations = [];
 
-		this.selectedResult = null;
         this.simulationRepository
             .simulate(this.input)
             .then(  x => { 
                 
-				this.simulation = x;
+				this.simulations = x;
 				
-				if(this.simulation.betterResults != null && this.simulation.betterResults.length > 0){
-					this.simulation.betterResults[0].isSelected = true;
-					this.selectedResult = this.simulation.betterResults[0];
-				}
-
+				this.simulations.forEach( y => { 
+					if(y.bestResult != null && (y.bestResult.validationMessages == null || y.bestResult.validationMessages.length == 0)){
+						this.results.push(y.bestResult);
+					}
+				});
 				this.isProcessing = false;
 				this.runScript();
 				this.ea.publish('dataLoaded');
             })
             .catch( e => {
-				this.simulation = null;
+				this.simulations = [];
                 this.nService.presentError(e);
 				this.isProcessing = false;
 				this.ea.publish('dataLoaded');
@@ -199,11 +202,11 @@ export class Pedido{
 		this.loadData(); 
 	}  
 
-	addRemoveSupplier (supplier : SupplierViewModel){ 
+	addRemoveSupplier (market : MarketViewModel,supplier : SupplierViewModel){ 
 
 		if(( <any> supplier).wasRemoved && ! (<any> supplier).isInvalid){
 
-			this.selectedQuote.suppliers.forEach(x => {
+			market.suppliers.forEach(x => {
 				
 				if( x.id  == supplier.id){
 					( <any> x).isInvalid = false;
@@ -211,7 +214,7 @@ export class Pedido{
 				}
 			});
 
-			this.selectedQuote.products.forEach(x => {
+			market.products.forEach(x => {
 
 				x.suppliers.forEach(y =>{
 
@@ -222,11 +225,11 @@ export class Pedido{
 				});
 			});
 
-			this.supplierBlackList = this.supplierBlackList.filter(x => x.id != supplier.id);
+			market.blackListSupplier = market.blackListSupplier.filter(x => x.id != supplier.id);
 		}
 		else if( ! (<any> supplier).isInvalid){ 
 
-			this.selectedQuote.suppliers.forEach(x => {
+			market.suppliers.forEach(x => {
 				
 				if( x.id  == supplier.id){
 
@@ -236,7 +239,7 @@ export class Pedido{
 			});
 
 
-			this.selectedQuote.products.forEach(x => {
+			market.products.forEach(x => {
 
 				x.suppliers.forEach(y =>{
 
@@ -247,9 +250,9 @@ export class Pedido{
 				});
 			});
 
-			this.supplierBlackList.push(supplier);
+			market.blackListSupplier.push(supplier);
 		}
-		this.checkIfOrderIsvalid();
+		this.checkIfOrderIsvalid(market);
 	}
 
     loadData(){
@@ -285,72 +288,79 @@ export class Pedido{
 	}
 
 	loadDeliveryRule(){
+	
+		this.selectedQuote.markets.forEach(market  =>{
 
-		if(this.selectedQuote.productClass != null){
+			if(market.id != null){
 
-			this.deliveryRepository
-				.getRule(this.selectedQuote.productClass.id)
-				.then( (x : DeliveryRule) => { 
-					if(x != null){
-						this.deliveryRule = <DeliveryRule> x;
-						
-						this.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
-						this.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
-						this.viewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(this.deliveryRule);
-						this.checkDeliveryDate();
-					}
-				}) 
-				.catch( e => this.nService.presentError(e)); 
-		}
-		else{
-			this.deliveryRule = null;
-			this.checkDeliveryDate();
+				this.deliveryRepository
+					.getRule(market.id)
+					.then( (x : DeliveryRule) => { 
+						if(x != null){
+							market.deliveryRule = <DeliveryRule> x;
 
-		}
+							if(market.viewModel == null){
+								market.viewModel = new CheckDeliveryViewModel();
+							}
+							market.viewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
+							market.viewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
+							market.viewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(market.deliveryRule);
+							this.checkDeliveryDate(market);
+						}
+					}) 
+					.catch( e => this.nService.presentError(e)); 
+			}
+			else{
+				market.deliveryRule = null;
+				this.checkDeliveryDate(market);
+	
+			} 
+		}); 
 	}
 
-	checkDeliveryDate(){
+	checkDeliveryDate(market : MarketViewModel){
 
 		this.deliveryWasChecked = false;
-		this.viewModel.suppliers = [];
-		this.selectedQuote.suppliers.forEach(x => {
-			this.viewModel.suppliers.push(x.id);
+		market.viewModel.suppliers = [];
+
+		market.suppliers.forEach(x => {
+			market.viewModel.suppliers.push(x.id);
 		});
 
-		if(this.viewModel.deliveryDate < new Date()){
+		if(market.viewModel.deliveryDate < new Date()){
 			
 			this.nService.presentError('A data de entrega deve ser maior ou igual a hoje');		
-			this.isOrderValid = false;
+			market.isValid = false;
 		}
 
-		if(this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd){
+		if(market.viewModel.deliveryScheduleStart >= market.viewModel.deliveryScheduleEnd){
 			this.nService.presentError('O horário inicial deve ser maior que o horário final');		
-			this.isOrderValid = false;
+			market.isValid = false;
 		}
 
 		this.deliveryRepository
-			.checkDeliveryRule(this.viewModel)
+			.checkDeliveryRule(market.viewModel)
 			.then( (x : CheckDeliveryResult) => {
 				
-				this.checkDeliveryResult = x;
+				market.checkDeliveryResult = x;
 
 				x.items.forEach( (item : CheckDeliveryResultItem) =>{
 					
-						this.selectedQuote.suppliers.forEach(y =>{
+						market.suppliers.forEach(y =>{
 							if(y.id == item.supplierId){
 
 								if(! item.isValid){
 									( <any> y).isInvalid = true; 
-									this.supplierBlackList.push(y);
+									market.blackListSupplier.push(y);
 								}
 								else{
 									( <any> y).isInvalid = false;
-									this.supplierBlackList = this.supplierBlackList.filter(x => x.id != y.id);
+									market.blackListSupplier = market.blackListSupplier.filter(x => x.id != y.id);
 								} 
 							}
 						});
 
-						this.selectedQuote.products.forEach(x => {
+						market.products.forEach(x => {
 
 							x.suppliers.forEach(y =>{
 			
@@ -368,57 +378,42 @@ export class Pedido{
 				});
 
 				this.deliveryWasChecked = true;
-				this.checkIfOrderIsvalid();
+				this.checkIfOrderIsvalid(market);
 			})
 			.catch( e => this.nService.presentError(e));  
 	}
 
-	checkIfOrderIsvalid(){
+
+	checkIfOrderIsvalid(market : MarketViewModel){
 		
-		var isValid = true;
+		market.isValid = true;
 
-		if(this.viewModel.deliveryDate < new Date()){
-			isValid = false;
+		if(market.viewModel.deliveryDate < new Date()){
+			market.isValid = false;
 		}
 
-		if(this.viewModel.deliveryScheduleStart >= this.viewModel.deliveryScheduleEnd){
-			isValid = false;
+		if(market.viewModel.deliveryScheduleStart >= market.viewModel.deliveryScheduleEnd){
+			market.isValid = false;
 		}
 
-		if(this.supplierBlackList.length == this.selectedQuote.suppliers.length){
-			isValid = false;
-		}
-
-		if(isValid){
-			this.isOrderValid = true;
-		}
-		else{
-			this.isOrderValid = false;
+		if(market.blackListSupplier.length == market.suppliers.length){
+			market.isValid = false;
 		}
 	}
 	
 	generateOrder(){
+ 
+		this.isProcessing = true;
 
-		var params = {Quote : this.selectedQuote};
-
-	/*	this.dialogService
-            .open({ viewModel: ObservacoesPedido,  lock: false, model : params })
-            .whenClosed(response => {
-*/ 
-				this.isProcessing = true;
-
-			/*	if (response.wasCancelled) {
-					this.isProcessing = false;
-                    return;
-				} */ 
-	
-				this.selectedResult.deliveryScheduleStart = this.viewModel.deliveryScheduleStart;
-				this.selectedResult.deliveryScheduleEnd = this.viewModel.deliveryScheduleEnd;
-				this.selectedResult.deliveryDate =  this.viewModel.deliveryDate;
-			//	this.selectedResult.observation =  this.selectedQuote.observation;
+		this.results.forEach(x => {  			
+			var market = this.selectedQuote.markets.filter(y => y.id == x.market.id)[0];  
+			x.deliveryScheduleStart = market.viewModel.deliveryScheduleStart;
+			x.deliveryScheduleEnd = market.viewModel.deliveryScheduleEnd;
+			x.deliveryDate =  market.viewModel.deliveryDate;
+		});
 						
-				this.orderRepository
-					.createOrder(this.selectedResult)
+		this.orderRepository
+					.createOrder(this.results)
 					.then( (result : any) =>{   
 						this.nService.success('Pedido realizado!');
 						this.router.navigateToRoute('pedidosFoodService');
@@ -428,15 +423,12 @@ export class Pedido{
 								
 						this.isProcessing = false;
 						this.nService.error(e);
-					});  
-	// 	}); 
+			});   
 
 	}
 
 	changeSelectedCotacao(result : SimulationResult){
-		
-		this.simulation.betterResults.forEach(x => x != result ? x.isSelected = false : x.isSelected = true );
-		this.selectedResult = result;
+		this.simulations = [];
 
 	}
 

@@ -19,10 +19,10 @@ export class OrderRepository{
         this.api = this.config.getEndpoint('csz');
     }
 
-    createOrder(result : SimulationResult) : Promise<any>{
+    createOrder(results : SimulationResult[]) : Promise<any>{
 
         return this.api
-                    .post('Order', result)
+                    .post('Order', results)
                     .then( (result : any) => {                 
                         return result;
                     })

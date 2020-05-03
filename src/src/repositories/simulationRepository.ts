@@ -32,7 +32,7 @@ export class SimulationRepository{
         })
       }
 
-    simulate(input : SimulationInput) :  Promise<Simulation> {
+    simulate(input : SimulationInput) :  Promise<Simulation[]> {
 
       
 

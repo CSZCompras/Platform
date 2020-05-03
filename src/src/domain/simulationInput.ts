@@ -1,16 +1,14 @@
 import { SimulationInputItem } from "./simulationInputItem";
 import { SupplierViewModel } from "./supplierViewModel";
+import { MarketViewModel } from "./marketViewModel";
+import { MarketInputViewModel } from "./marketInputViewModel";
 
-export class SimulationInput{
-    
-	
+export class SimulationInput
+{ 
     buyListId           : string;
-    items               : SimulationInputItem[];
-    supplierBlackList   : SupplierViewModel[];
-
+    markets             : MarketInputViewModel[];
     
-    constructor() {
-    
-        this.items = [];        
+    constructor() { 
+        this.markets = [];     
     }
 }

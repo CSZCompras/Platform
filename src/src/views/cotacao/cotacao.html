@@ -47,9 +47,9 @@
                                     <div class="tab-pane" id="tab1">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Selecione a lista de compras</label>
+                                                        <h4 class="control-label">Selecione a lista de compras</h4>
                                                         <select class="form-control " value.bind="selectedQuote" change.trigger="loadDeliveryRule()">
                                                             <option value=""></option>
                                                             <option repeat.for="quote of quotes" model.bind="quote">${quote.buyListName}</option>
@@ -57,100 +57,105 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row mt-2" if.bind="selectedQuote.products.length > 0">
-                                                  <div class="col-md-3">
-                                                      <div class="form-group">
-                                                          <label class="control-label">Informe a data de entrega</label>
-                                                          <input type="text" class="form-control" autocomplete="off" placeholder="00/00/0000" value.bind="viewModel.deliveryDate | dateFormat " datepicker change.trigger="checkDeliveryDate()" >
-                                                      </div>
-                                                  </div>
-                                                  <div class="col-md-3">
-                                                      <div class="form-group">
-                                                          <label class="control-label">Horário inicial</label>
-                                                          <div class="input-group">
-                                                              <span class="input-group-addon input-group-icon">
-                                                                  <i class="batch-icon batch-icon-clock"></i>
-                                                              </span>
-                                                              <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="viewModel.deliveryScheduleStart | time " change.trigger="checkDeliveryDate()" />
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                                  <div class="col-md-3">
-                                                      <div class="form-group">
-                                                          <label class="control-label">Horário final</label>
-                                                          <div class="input-group">
-                                                              <span class="input-group-addon input-group-icon">
-                                                                  <i class="batch-icon batch-icon-clock"></i>
-                                                              </span>
-                                                              <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="viewModel.deliveryScheduleEnd | time " change.trigger="checkDeliveryDate()"  />
-                                                          </div>
-                                                      </div>
-                                                  </div> 
-                                            </div>
-                                          <div class="row">
-                                                <div class="col-md-12  mt-5">
-                                                    <span class="badge badge-warning" if.bind="selectedQuote.products.length == 0">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos </span>
-                                                    <div if.bind="selectedQuote.products.length > 0 ">
-                                                        <div class="col-md-12 mt-3">
-                                                            <div class="form-group">
-                                                              <p>Você pode remover fornecedores da sua cotação</p>
-                                                              <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(supplier)" repeat.for="supplier of selectedQuote.suppliers" class="badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">                                                                    
-                                                                  <i class="fa fa-times mr-3" if.bind="supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(supplier)"></i>
-                                                                  <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(supplier)"></i>
-                                                                  <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(supplier)"></i>
-                                                                  ${supplier.name}
-                                                              </span>
-                                                              <div class="row mt-3">
-                                                                <div class="col-md-12" repeat.for="x of checkDeliveryResult.items">
-                                                                    <span class="badge badge-danger">${x.message}</span>
-                                                                </div>
-                                                              </div>
+                                            <div class="tab-content clearfix" repeat.for="market of selectedQuote.markets">
+                                                <div class="row mt-2">
+                                                    <h3>${market.name}</h3>
+                                                </div>
+                                                <div class="row mt-2" if.bind="market.products.length > 0">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Informe a data de entrega</label>
+                                                            <input type="text" class="form-control" autocomplete="off" placeholder="00/00/0000" value.bind="market.viewModel.deliveryDate | dateFormat " datepicker change.trigger="checkDeliveryDate(market)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Horário inicial</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon input-group-icon">
+                                                                    <i class="batch-icon batch-icon-clock"></i>
+                                                                </span>
+                                                                <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="market.viewModel.deliveryScheduleStart | time " change.trigger="checkDeliveryDate(market)" />
                                                             </div>
-                                                            <table class="table  table-hover table-responsive mt-2">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Nome do produto</th>
-                                                                        <th>Descrição</th>
-                                                                        <th>Categoria</th>
-                                                                        <th>UM</th>
-                                                                        <th>Marca</th>
-                                                                        <th class="text-center">Fornecedores</th>
-                                                                        <th class="text-center">Quantidade</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr repeat.for="product of selectedQuote.products">
-                                                                        <td>
-                                                                            <span class="badge badge-warning" if.bind="product.suppliers == null || product.suppliers.length == 0">
-                                                                     <i class="fa fa-warning"></i> 
-                                                                     ${product.name}
-                                                                     </span>
-                                                                            <span if.bind="product.suppliers != null && product.suppliers.length > 0">${product.name}</span>
-                                                                        </td>
-                                                                        <td>${product.description}</td>
-                                                                        <td>${product.category}</td>
-                                                                        <td>${product.unitOfMeasure}</td>
-                                                                        <td>${product.brand}</td>
-                                                                        <td class="text-right">
-                                                                          <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(supplier)" repeat.for="supplier of product.suppliers" class="badge ${  supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">
-                                                                              
-                                                                              <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! suplier.isInvalid " aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(supplier)"></i>
-                                                                              <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! suplier.isInvalid  " aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(supplier)"></i>
-                                                                              ${supplier.name}
-                                                                          </span>
-                                                                          <span class="font-bold" if.bind="product.suppliers == null || product.suppliers.length == 0">Não há fornecedores cadastrados que oferecem esse produto</span>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <div class="col-md-12 mx-auto">
-                                                                                <input type="text" class="money text-right  form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }" autocomplete="off" value.bind="product.quantity | money" money placeholder="000" disabled.bind="product.suppliers == null || product.suppliers.length == 0" />
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Horário final</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon input-group-icon">
+                                                                    <i class="batch-icon batch-icon-clock"></i>
+                                                                </span>
+                                                                <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="market.viewModel.deliveryScheduleEnd | time " change.trigger="checkDeliveryDate(market)" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-12  mt-5">
+                                                        <span class="badge badge-warning" if.bind="market.products.length == 0">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos </span>
+                                                        <div if.bind="market.products.length > 0 ">
+                                                            <div class="col-md-12 mt-3">
+                                                                <div class="form-group">
+                                                                    <p>Você pode remover fornecedores da sua cotação</p>
+                                                                    <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of market.suppliers" class="badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">                                                                    
+                                                                    <i class="fa fa-times mr-3" if.bind="supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                                    <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                                    <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
+                                                                    ${supplier.name}
+                                                                </span>
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-md-12" repeat.for="x of market.checkDeliveryResult.items">
+                                                                            <span class="badge badge-danger">${x.message}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <table class="table  table-hover table-responsive mt-2">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Nome do produto</th>
+                                                                            <th>Descrição</th>
+                                                                            <th>Categoria</th>
+                                                                            <th>UM</th>
+                                                                            <th>Marca</th>
+                                                                            <th class="text-center">Fornecedores</th>
+                                                                            <th class="text-center">Quantidade</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr repeat.for="product of market.products">
+                                                                            <td>
+                                                                                <span class="badge badge-warning" if.bind="product.suppliers == null || product.suppliers.length == 0">
+                                                                        <i class="fa fa-warning"></i> 
+                                                                        ${product.name}
+                                                                        </span>
+                                                                                <span if.bind="product.suppliers != null && product.suppliers.length > 0">${product.name}</span>
+                                                                            </td>
+                                                                            <td>${product.description}</td>
+                                                                            <td>${product.category}</td>
+                                                                            <td>${product.unitOfMeasure}</td>
+                                                                            <td>${product.brand}</td>
+                                                                            <td class="text-right">
+                                                                                <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of product.suppliers" class="badge ${  supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">
+
+                                                                                <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! suplier.isInvalid " aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                                                <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! suplier.isInvalid  " aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
+                                                                                ${supplier.name}
+                                                                            </span>
+                                                                                <span class="font-bold" if.bind="product.suppliers == null || product.suppliers.length == 0">Não há fornecedores cadastrados que oferecem esse produto</span>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <div class="col-md-12 mx-auto">
+                                                                                    <input type="text" class="money text-right  form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }" autocomplete="off" value.bind="product.quantity | money" money placeholder="000" disabled.bind="product.suppliers == null || product.suppliers.length == 0" />
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
                                             </div>
                                         </div>
                                     </div>
@@ -163,30 +168,29 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <div id="accordion2" role="tablist" aria-multiselectable="true">
-                                                <div class="col-md-12 mt-3" if.bind="buyList">
-                                                    <div class="form-group">
-                                                        <span class="badge badge-warning">Selecione uma das cotações abaixo</span>
-                                                    </div>
+                                            <div id="accordion2" role="tablist" aria-multiselectable="true" repeat.for="simulation of simulations">
+                                                <div class="card-header ml-0" role="tab"> 
+                                                     <h4>
+                                                        <i class="fa fa-tag mr-2"></i>
+                                                        ${simulation.market.name} 
+                                                        <span class="text-right float-right">${result.total  | money}</span> 
+                                                     </h4> 
                                                 </div>
-                                                <div class="mt-4" if.bind="! isProcessing && simulation == null">
-                                                  <p class="mt-3">Mínimo de compras não atingido, aumente suas compras. Mínimo de compras de cada fornecedor:</p>
-                                                  <p class="mt-3" repeat.for="supplier of selectedQuote.suppliers">
-                                                      <span class="badge badge-success">
-                                                          <i class="fa fa-tag mr-2"></i> ${supplier.name} : R$ ${supplier.minimumOrderValue | money}
+                                                <div class="mt-4" if.bind="! isProcessing && simulation.bestResult.validationMessages != null && simulation.bestResult.validationMessages.length > 0">
+                                                    <p class="mt-3">
+                                                        <span class="badge badge-danger">
+                                                          <i class="fa fa-tag mr-2"></i> ${simulation.bestResult.validationMessages}
                                                       </span>
-                                                  </p>
+                                                    </p>
+                                                </div>
+                                                <div class="mt-4" if.bind="! isProcessing && simulation.bestResult== null">
+                                                    <p class="mt-3">
+                                                        <span class="badge badge-danger">
+                                                          <i class="fa fa-tag mr-2"></i> Nenhum resultado foi retornado
+                                                      </span>
+                                                    </p>
                                                 </div>
                                                 <div class="mt-4" if.bind="! isProcessing" repeat.for="result of simulation.betterResults">
-                                                    <div class="card-header ml-0" role="tab">
-                                                        <h5 class="mb-0">
-                                                         <h4>
-                                                            <i class="fa fa-tag mr-2"></i>
-                                                            Cotação 
-                                                            <span class="text-right float-right">${result.total  | money}</span> 
-                                                         </h4>
-                                                      </h5>
-                                                    </div>
                                                     <div>
                                                         <div class="card-body">
                                                             <h4 class="mt-4">Alertas</h4>
@@ -289,7 +293,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td colspan="4" class="text-right">
+                                                                            <td colspan="5" class="text-right">
                                                                                 <strong>Total:</strong>
                                                                             </td>
                                                                             <td class="text-right">
@@ -311,119 +315,122 @@
                                                 <span class="badge badge-warning">Confirme os dados antes de gerar o pedido</span>
                                             </div>
                                         </div>
-                                        <div class="card-table table-responsive" repeat.for="summary of selectedResult.summaryItems">
-                                            <h4> <i class="fa fa-tag mr-2"></i> Pedido  ${$index + 1}  - ${summary.supplier.fantasyName}</h4>
-
-                                            <h5 class="mt-5">Informações do fornecedor</h5>
-                                            <table class="table table-hover table-sm align-middle mt-1   ">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-left">Fornecedor</th>
-                                                        <th class="text-center">Avaliação</th>
-                                                        <th class="text-center">Qtde de dias para aceite</th>
-                                                        <th class="text-center">Período de Aceite</th>
-                                                        <th class="text-center">Dias de entrega</th>
-                                                        <th class="text-center">Período de Entrega</th>
-                                                        <th class="text-right">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            ${summary.supplier.fantasyName}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                            <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                            <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                            <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                            <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            ${summary.rule.numberOfDaysToAccept} dias
-                                                        </td>
-                                                        <td class="text-center">
-                                                            ${summary.rule.periodToAcceptOrder1 | time}
-                                                            <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                            ${summary.rule.periodToAcceptOrder2 | time}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span if.bind="summary.rule.deliveryOnMonday" class="badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
-                                                            <span if.bind="summary.rule.deliveryOnTuesday" class="badge  ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
-                                                            <span if.bind="summary.rule.deliveryOnWednesday" class="badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
-                                                            <span if.bind="summary.rule.deliveryOnThursday" class="badge  ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
-                                                            <span if.bind="summary.rule.deliveryOnFriday" class="badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
-                                                            <br />
-                                                            <br />
-                                                            <span if.bind="summary.rule.deliveryOnSaturday" class="badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
-                                                            <span if.bind="summary.rule.deliveryOnSunday" class="badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            ${summary.rule.deliverySchedule1 | time}
-                                                            <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                            ${summary.rule.deliverySchedule2 | time}
-                                                        </td>
-                                                        <td class="text-right">
-                                                            ${summary.total | money}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <h5 class="mt-5">Produtos</h5>
-                                            <table class="table table-hover mt-1">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-left">Nome do Produto</th>
-                                                        <th class="text-center">Descrição</th>
-                                                        <th class="text-center">UM</th>
-                                                        <th class="text-right">Preço unitário</th>
-                                                        <th class="text-right">Quantidade</th>
-                                                        <th class="text-right">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr repeat.for="item of summary.items">
-                                                        <td>
-                                                            ${item.product.name}
-                                                        </td>
-                                                        <td class="text-center  align-middle">
-                                                            ${item.product.description}
-                                                        </td>
-                                                        <td class="text-center">
-                                                            ${item.product.unit.name}
-                                                        </td>
-                                                        <td class="text-right">
-                                                            ${item.price | money}
-                                                        </td>
-                                                        <td class="text-right">
-                                                            ${item.quantity}
-                                                        </td>
-                                                        <td class="text-right">
-                                                            ${item.total | money}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="4" class="text-right">
-                                                            <strong>Total:</strong>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <strong>${summary.total  | money}</strong>
-                                                        </td> 
-                                                    </tr>
-                                                </tbody>
-                                            </table>   
-                                              <p class="mt-5">Deseja acrescentar alguma observação ao pedido?</p>                                          
-                                              <div class="form-group mx-auto">      
-                                                  <textarea class="form-control" value.bind="summary.observation " rows="2" keypress.delegate="validateLengthObs(summary)"></textarea>
-                                              </div>
-                                              <p>${250 - summary.observation.length} caractere(s) restantes</p>
+                                        <div class="col-md-12" repeat.for="simulation of simulations">
+                                            <div if.bind="! isProcessing && (simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)"> 
+                                                <div class="card-table table-responsive" repeat.for="summary of simulation.bestResult.summaryItems">                                                
+                                                    <h4> <i class="fa fa-tag mr-2"></i> Pedido ${simulation.market.name} - ${summary.supplier.fantasyName}</h4>
+                                                    <h5 class="mt-5">Informações do fornecedor</h5>
+                                                    <table class="table table-hover table-sm align-middle mt-1   ">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-left">Fornecedor</th>
+                                                                <th class="text-center">Avaliação</th>
+                                                                <th class="text-center">Qtde de dias para aceite</th>
+                                                                <th class="text-center">Período de Aceite</th>
+                                                                <th class="text-center">Dias de entrega</th>
+                                                                <th class="text-center">Período de Entrega</th>
+                                                                <th class="text-right">Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    ${summary.supplier.fantasyName}
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    ${summary.rule.numberOfDaysToAccept} dias
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    ${summary.rule.periodToAcceptOrder1 | time}
+                                                                    <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                                                                    ${summary.rule.periodToAcceptOrder2 | time}
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <span if.bind="summary.rule.deliveryOnMonday" class="badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                                                    <span if.bind="summary.rule.deliveryOnTuesday" class="badge  ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                                                    <span if.bind="summary.rule.deliveryOnWednesday" class="badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                                                    <span if.bind="summary.rule.deliveryOnThursday" class="badge  ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                                                    <span if.bind="summary.rule.deliveryOnFriday" class="badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
+                                                                    <br />
+                                                                    <br />
+                                                                    <span if.bind="summary.rule.deliveryOnSaturday" class="badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
+                                                                    <span if.bind="summary.rule.deliveryOnSunday" class="badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    ${summary.rule.deliverySchedule1 | time}
+                                                                    <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                                                                    ${summary.rule.deliverySchedule2 | time}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    ${summary.total | money}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <h5 class="mt-5">Produtos</h5>
+                                                    <table class="table table-hover mt-1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-left">Nome do Produto</th>
+                                                                <th class="text-center">Descrição</th>
+                                                                <th class="text-center">UM</th>
+                                                                <th class="text-right">Preço unitário</th>
+                                                                <th class="text-right">Quantidade</th>
+                                                                <th class="text-right">Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr repeat.for="item of summary.items">
+                                                                <td>
+                                                                    ${item.product.name}
+                                                                </td>
+                                                                <td class="text-center  align-middle">
+                                                                    ${item.product.description}
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    ${item.product.unit.name}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    ${item.price | money}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    ${item.quantity}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    ${item.total | money}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="6" class="text-right">
+                                                                    <strong>Total:</strong>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <strong>${summary.total  | money}</strong>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <p class="mt-5">Deseja acrescentar alguma observação ao pedido?</p>
+                                                    <div class="form-group mx-auto">
+                                                        <textarea class="form-control" value.bind="summary.observation " rows="2" keypress.delegate="validateLengthObs(summary)"></textarea>
+                                                    </div>
+                                                    <p>${250 - simulation.observation.length} caractere(s) restantes</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <ul class="pager wizard mt-5">
                                         <li class="previous " if.bind="currentStep != 1">
                                             <a href="#" class="waves-effect waves-light" click.trigger="back()" if.bind="currentStep > 0 ">Voltar</a>
                                         </li>
-                                        <li class="next"  if.bind="isOrderValid && currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && selectedResult) ) ">
+                                        <li class="next" if.bind="isOrderValid && currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && simulations.length > 0) ) ">
                                             <a href="#" id="next" class=" ${ ! isOrderValid ? 'disabled' : '' } waves-effect waves-light" click.trigger="advance()">Avançar</a>
                                         </li>
                                         <li class="finish float-right" if.bind="currentStep == totalSteps">
