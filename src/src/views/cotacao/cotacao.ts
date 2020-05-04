@@ -259,7 +259,7 @@ export class Pedido{
 
 		if(this.orderId != null && this.orderId != ''){
 
-			this.simulationRepository
+		/*	this.simulationRepository
 				.getCotacaoFromOrder(this.orderId)
 				.then(x =>  {
 
@@ -272,7 +272,7 @@ export class Pedido{
 				}) 
 				.then( () => this.ea.publish('dataLoaded'))
 				.catch( e =>  this.nService.presentError(e));
-				this.loadDeliveryRule();
+				this.loadDeliveryRule(); */
 		}
 		else{
  

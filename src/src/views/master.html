@@ -14,27 +14,27 @@
                                 <h6 class="nav-header">Geral</h6>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="/#/csz/dashboard">
+                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="${prefix}/#/csz/dashboard">
                                     <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="/#/csz/cadastro">
+                                <a class="nav-link"  href="${prefix}/#/csz/cadastro">
                                     <i class="batch-icon batch-icon-list-alt"></i>Cadastro
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" if.bind="identity.registerStatus == 0" href="/#/csz/regrasDeMercado">
+                                <a class="nav-link" if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/regrasDeMercado">
                                     <i class="batch-icon batch-icon-star"></i> Regras de Mercado
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/produtos">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/produtos">
                                     <i class="batch-icon batch-icon-layout-content-left"></i> Produtos
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/clientes">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/clientes">
                                     <i class="batch-icon batch-icon-users"></i>Clientes
                                     <span class="badge badge-danger float-right ml-2 mr-2" if.bind="novoFoodServices.length > 0 && ! isloadingFoodServices">${novoFoodServices.length}</span> 
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="waitingFoodServices.length > 0 && ! isloadingFoodServices">${waitingFoodServices.length}</span> 
@@ -43,7 +43,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/pedidosFornecedor">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/pedidosFornecedor">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0 && ! isLoadingOrders">${acceptedOrdersCount}</span> 
                                     <span class="badge badge-danger float-right ml-2 mr-2" if.bind="newOrdersCount > 0 && ! isLoadingOrders">${newOrdersCount}</span>
@@ -51,7 +51,7 @@
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/avaliacoesFornecedor">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/avaliacoesFornecedor">
                                     <i class="batch-icon batch-icon-star "></i> Avaliações
                                 </a>
                             </li>
@@ -70,37 +70,37 @@
                                 <h6 class="nav-header">Geral</h6>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="/#/csz/dashboardFoodService">
+                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="${prefix}/#/csz/dashboardFoodService">
                                     <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="/#/csz/cadastroFoodService">
+                                <a class="nav-link"  href="${prefix}/#/csz/cadastroFoodService">
                                     <i class="batch-icon batch-icon-list-alt"></i>Cadastro
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/Fornecedores">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/Fornecedores">
                                     <i class="batch-icon batch-icon-users"></i>Fornecedores
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/regraDeEntrega">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/regraDeEntrega">
                                     <i class="batch-icon batch-icon-star "></i> Regras de entrega
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/meusProdutos">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/meusProdutos">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Produtos
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/cotacao">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/cotacao">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Cotação
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/pedidosFoodService">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/pedidosFoodService">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos                                    
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0 && ! isLoadingOrders">${acceptedOrdersCount}</span> 
                                     <span class="badge badge-success float-right ml-2 mr-2" if.bind="newOrdersCount > 0  && ! isLoadingOrders">${newOrdersCount}</span>         
@@ -109,7 +109,7 @@
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="/#/csz/avaliacoesFoodService">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/avaliacoesFoodService">
                                     <i class="batch-icon batch-icon-star "></i> Avaliações
                                 </a>
                             </li>
@@ -128,44 +128,44 @@
                                 <h6 class="nav-header">Geral</h6>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/#/csz/dashboard">
+                                <a class="nav-link" href="${prefix}/#/csz/dashboard">
                                     <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="/#/csz/mercadosAdmin">
+                                <a class="nav-link"  href="${prefix}/#/csz/mercadosAdmin">
                                     <i class="batch-icon batch-icon-list-alt"></i>Mercados
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="/#/csz/produtosAdmin">
+                                <a class="nav-link"  href="${prefix}/#/csz/produtosAdmin">
                                     <i class="batch-icon batch-icon-list-alt"></i>Produtos
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/#/csz/suppliersAdmin">
+                                <a class="nav-link" href="${prefix}/#/csz/suppliersAdmin">
                                     <i class="batch-icon batch-icon-star"></i> Fornecedores
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/#/csz/foodServicesAdmin">
+                                <a class="nav-link" href="${prefix}/#/csz/foodServicesAdmin">
                                     <i class="batch-icon batch-icon-layout-content-left"></i> Foodservices
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/#/csz/avaliacoes">
+                                <a class="nav-link" href="${prefix}/#/csz/avaliacoes">
                                     <i class="batch-icon batch-icon-star "></i> Avaliações
                                 </a>
                             </li>
                           <!--  <li class="nav-item">
-                                <a class="nav-link" href="/#/csz/pedidosFornecedor">
+                                <a class="nav-link" href="${prefix}/#/csz/pedidosFornecedor">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0">${acceptedOrdersCount}</span> 
                                     <span class="badge badge-danger float-right ml-2 mr-2" if.bind="newOrdersCount > 0">${newOrdersCount}</span>     
                                 </a>
                             </li>  -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/#/csz/financeiro">
+                                <a class="nav-link" href="${prefix}/#/csz/financeiro">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Financeiro
                                 </a>
                             </li> 

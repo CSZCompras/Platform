@@ -22,7 +22,7 @@ import { RegisterStatus } from '../domain/registerStatus';
 @autoinject
 export class Master {
 
-	
+	prefix 					: string;
     router                  : Router;
     isLogged                : boolean;
     identity                : Identity;
@@ -47,7 +47,7 @@ export class Master {
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator
     ) {
-
+		this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
 
