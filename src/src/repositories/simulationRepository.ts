@@ -12,6 +12,7 @@ import { BuyList } from '../domain/buyList';
 import { Simulation } from '../domain/simulation';
 import { SimulationInput } from '../domain/simulationInput';
 import { CotacaoViewModel } from '../domain/cotacaoViewModel';
+import { SimulationResult } from '../domain/simulationResult';
 
 @autoinject
 export class SimulationRepository{

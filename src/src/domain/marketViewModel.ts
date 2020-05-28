@@ -14,16 +14,14 @@ export class MarketViewModel
       this.products = [];
     }
     
-    id                              : string;
-    buyListName                     : string;
-    productClass                    : ProductClass;
-    products                        : ProductViewModel[];
-    suppliers                       : SupplierViewModel[];
-    blackListSupplier               : SupplierViewModel[];
-
-    
-	viewModel 						            : CheckDeliveryViewModel;
-	checkDeliveryResult				        : CheckDeliveryResult;
-  deliveryRule					            : DeliveryRule;
-  isValid                           : boolean;
+    id                                : string;
+    buyListName                       : string;
+    productClass                      : ProductClass;
+    products                          : ProductViewModel[];
+    suppliers                         : SupplierViewModel[];
+    blackListSupplier                 : SupplierViewModel[]; 
+    viewModel 						            : CheckDeliveryViewModel;
+    checkDeliveryResult				        : CheckDeliveryResult;
+    deliveryRule					            : DeliveryRule;
+    isValid                           : boolean;
 }

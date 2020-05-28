@@ -150,7 +150,8 @@ export class Pedido{
 
 			var vm = new MarketInputViewModel();
 			vm.market = market;
-
+			vm.viewModel = market.viewModel;
+			
 			market.products.forEach( (x) =>{
 			
 				if(x.quantity != null && x.quantity != 0){
@@ -404,13 +405,6 @@ export class Pedido{
 	generateOrder(){
  
 		this.isProcessing = true;
-
-		this.results.forEach(x => {  			
-			var market = this.selectedQuote.markets.filter(y => y.id == x.market.id)[0];  
-			x.deliveryScheduleStart = market.viewModel.deliveryScheduleStart;
-			x.deliveryScheduleEnd = market.viewModel.deliveryScheduleEnd;
-			x.deliveryDate =  market.viewModel.deliveryDate;
-		});
 						
 		this.orderRepository
 					.createOrder(this.results)
