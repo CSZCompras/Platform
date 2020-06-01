@@ -58,7 +58,7 @@
                                </div>
                                <div class="tab-content clearfix" repeat.for="market of selectedQuote.markets">
                                   <div class="row mt-2">
-                                     <h3>${market.name}</h3>
+                                     <h5><i class="fa fa-tag mr-2"></i> ${market.name}</h5>
                                   </div>
                                   <div class="row mt-2" if.bind="market.products.length > 0">
                                      <div class="col-md-3">
@@ -94,7 +94,7 @@
                                      <div class="col-md-12  mt-5">
                                         <span class="badge badge-warning" if.bind="market.products.length == 0">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos </span>
                                         <div if.bind="market.products.length > 0 ">
-                                           <div class="col-md-12 mt-3">
+                                           <div class="col-md-12 mt-1">
                                               <div class="form-group">
                                                  <p>Você pode remover fornecedores da sua cotação</p>
                                                  <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of market.suppliers" class="badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">                                                                    
@@ -104,6 +104,9 @@
                                                  ${supplier.name}
                                                  </span>
                                                  <div class="row mt-3">
+                                                    <p if.bind="market.checkDeliveryResult.items.length > 0">
+                                                       Alertas
+                                                    </p>
                                                     <div class="col-md-12" repeat.for="x of market.checkDeliveryResult.items">
                                                        <span class="badge badge-danger">${x.message}</span>
                                                     </div>
@@ -167,142 +170,131 @@
                             </div>
                             <div class="col-md-12">
                                <div id="accordion2" role="tablist" aria-multiselectable="true" repeat.for="simulation of simulations">
-                                  <div class="card-header ml-0" role="tab">
-                                     <h4>
-                                        <i class="fa fa-tag mr-2"></i>
-                                        ${simulation.market.name} 
-                                        <span class="text-right float-right">${result.total  | money}</span> 
-                                     </h4>
-                                  </div>
-                                  <div class="mt-4" if.bind="! isProcessing && simulation.bestResult.validationMessages != null && simulation.bestResult.validationMessages.length > 0">
+                                  <div class="mt-4" if.bind="! isProcessing && simulation.bestResult.validationMessages != null && simulation.bestResult.validationMessages.length > 0">                                     
+                                    <h4>
+                                       <i class="fa fa-tag mr-2"></i>
+                                       ${simulation.market.name}  
+                                    </h4>
                                      <p class="mt-3">
                                         <span class="badge badge-danger">
                                         <i class="fa fa-tag mr-2"></i> ${simulation.bestResult.validationMessages}
                                         </span>
                                      </p>
                                   </div>
-                                  <div class="mt-4" if.bind="! isProcessing && simulation.bestResult== null">
+                                  <div class="mt-4" if.bind="! isProcessing && simulation.bestResult == null">
+                                    <div class="card-header ml-0" role="tab">
+                                       <h4>
+                                          <i class="fa fa-tag mr-2"></i>
+                                          ${simulation.market.name}  
+                                       </h4>
+                                    </div>
                                      <p class="mt-3">
                                         <span class="badge badge-danger">
                                         <i class="fa fa-tag mr-2"></i> Nenhum resultado foi retornado
                                         </span>
                                      </p>
                                   </div>
-                                  <div class="mt-4" if.bind="! isProcessing" repeat.for="result of simulation.betterResults">
-                                     <div>
-                                        <div class="card-body">
-                                          <div class="mt-4" if.bind="result.logMessages != null && result.logMessages.length > 0">
-                                             <h4>Alertas</h4>
-                                             <p style="padding : 10px; cursor: pointer;" repeat.for="item of result.logMessages.split(';')" if.bind="item != null && item != ''" class="badge  badge-warning  ml-3 mt-2">
-                                                <i class="fa fa-warning"></i> ${item}
-                                             </p>
-                                          </div> 
-                                           <h4 class="mt-5">Fornecedores</h4>
-                                           <div class="col-md-12 card-table table-responsive">
-                                              <table class="table table-hover table-sm align-middle">
-                                                 <thead>
-                                                    <tr>
-                                                       <th class="text-left">Fornecedor</th>
-                                                       <th class="text-center">Avaliação</th>
-                                                       <th class="text-center">Qtde de dias para aceite</th>
-                                                       <th class="text-center">Período de Aceite</th>
-                                                       <th class="text-center">Dias de entrega</th>
-                                                       <th class="text-center">Período de Entrega</th>
-                                                       <th class="text-right">Total</th>
-                                                    </tr>
-                                                 </thead>
-                                                 <tbody>
-                                                    <tr repeat.for="item of result.summaryItems">
-                                                       <td>
-                                                          ${item.supplier.fantasyName}
-                                                       </td>
-                                                       <td class="text-center">
-                                                          <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                          <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                          <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                          <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                          <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                       </td>
-                                                       <td class="text-center">
-                                                          ${item.rule.numberOfDaysToAccept} dias
-                                                       </td>
-                                                       <td class="text-center">
-                                                          ${item.rule.periodToAcceptOrder1 | time}
-                                                          <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                          ${item.rule.periodToAcceptOrder2 | time}
-                                                       </td>
-                                                       <td class="text-center">
-                                                          <span if.bind="item.rule.deliveryOnMonday" class="badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
-                                                          <span if.bind="item.rule.deliveryOnTuesday" class="badge  ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
-                                                          <span if.bind="item.rule.deliveryOnWednesday" class="badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
-                                                          <span if.bind="item.rule.deliveryOnThursday" class="badge  ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
-                                                          <span if.bind="item.rule.deliveryOnFriday" class="badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
-                                                          <br />
-                                                          <br />
-                                                          <span if.bind="item.rule.deliveryOnSaturday" class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
-                                                          <span if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
-                                                       </td>
-                                                       <td class="text-center">
-                                                          ${item.rule.deliverySchedule1 | time}
-                                                          <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                          ${item.rule.deliverySchedule2 | time}
-                                                       </td>
-                                                       <td class="text-right">
-                                                          ${item.total | money}
-                                                       </td>
-                                                    </tr>
-                                                 </tbody>
-                                              </table>
-                                           </div>
-                                           <h4 class="mt-5">Produtos</h4>
-                                           <div class="col-md-12 card-table table-responsive">
-                                              <table class="table table-hover table-sm align-middle">
-                                                 <thead>
-                                                    <tr>
-                                                       <th class="text-left">Nome do Produto</th>
-                                                       <th class="text-left">Descrição</th>
-                                                       <th class="text-center">UM</th>
-                                                       <th class="text-right">Preço unitário</th>
-                                                       <th class="text-right">Quantidade</th>
-                                                       <th class="text-right">Total</th>
-                                                    </tr>
-                                                 </thead>
-                                                 <tbody>
-                                                    <tr repeat.for="item of result.items">
-                                                       <td>
-                                                          ${item.product.name}
-                                                          <div>
-                                                             <small class="boldness-light">${item.supplier.fantasyName}</small>
-                                                          </div>
-                                                       </td>
-                                                       <td class="text-center  align-middle">
-                                                          ${item.product.description}
-                                                       </td>
-                                                       <td class="text-center">
-                                                          ${item.product.unit.name}
-                                                       </td>
-                                                       <td class="text-right">
-                                                          ${item.price | money}
-                                                       </td>
-                                                       <td class="text-right">
-                                                          ${item.quantity}
-                                                       </td>
-                                                       <td class="text-right">
-                                                          ${item.total | money}
-                                                       </td>
-                                                    </tr>
-                                                    <tr>
-                                                       <td colspan="5" class="text-right">
-                                                          <strong>Total:</strong>
-                                                       </td>
-                                                       <td class="text-right">
-                                                          <strong>${result.total  | money}</strong>
-                                                       </td>
-                                                    </tr>
-                                                 </tbody>
-                                              </table>
-                                           </div>
-                                        </div>
+                                  <div class="mt-4" if.bind="! isProcessing && (simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)">
+                                     <div class="card-table table-responsive" repeat.for="summary of simulation.bestResult.summaryItems">
+                                        <h4> <i class="fa fa-tag mr-2"></i> ${summary.supplier.fantasyName} - ${simulation.deliveryDate | dateFormat}</h4>
+                                        <h5 class="mt-5">Informações do fornecedor</h5>
+                                        <table class="table table-hover table-sm align-middle mt-1   ">
+                                           <thead>
+                                              <tr>
+                                                 <th class="text-left">Fornecedor</th>
+                                                 <th class="text-center">Avaliação</th>
+                                                 <th class="text-center">Qtde de dias para aceite</th>
+                                                 <th class="text-center">Período de Aceite</th>
+                                                 <th class="text-center">Dias de entrega</th>
+                                                 <th class="text-center">Período de Entrega</th>
+                                                 <th class="text-right">Total</th>
+                                              </tr>
+                                           </thead>
+                                           <tbody>
+                                              <tr>
+                                                 <td>
+                                                    ${summary.supplier.fantasyName}
+                                                 </td>
+                                                 <td class="text-center">
+                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                 </td>
+                                                 <td class="text-center">
+                                                    ${summary.rule.numberOfDaysToAccept} dias
+                                                 </td>
+                                                 <td class="text-center">
+                                                    ${summary.rule.periodToAcceptOrder1 | time}
+                                                    <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                                                    ${summary.rule.periodToAcceptOrder2 | time}
+                                                 </td>
+                                                 <td class="text-center">
+                                                    <span if.bind="summary.rule.deliveryOnMonday" class="badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                                    <span if.bind="summary.rule.deliveryOnTuesday" class="badge  ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                                    <span if.bind="summary.rule.deliveryOnWednesday" class="badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                                    <span if.bind="summary.rule.deliveryOnThursday" class="badge  ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                                    <span if.bind="summary.rule.deliveryOnFriday" class="badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
+                                                    <br />
+                                                    <br />
+                                                    <span if.bind="summary.rule.deliveryOnSaturday" class="badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
+                                                    <span if.bind="summary.rule.deliveryOnSunday" class="badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
+                                                 </td>
+                                                 <td class="text-center">
+                                                    ${summary.rule.deliverySchedule1 | time}
+                                                    <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                                                    ${summary.rule.deliverySchedule2 | time}
+                                                 </td>
+                                                 <td class="text-right">
+                                                    ${summary.total | money}
+                                                 </td>
+                                              </tr>
+                                           </tbody>
+                                        </table>
+                                        <h5 class="mt-5">Produtos</h5>
+                                        <table class="table table-hover mt-1">
+                                           <thead>
+                                              <tr>
+                                                 <th class="text-left">Nome do Produto</th>
+                                                 <th class="text-center">Descrição</th>
+                                                 <th class="text-center">UM</th>
+                                                 <th class="text-right">Preço unitário</th>
+                                                 <th class="text-right">Quantidade</th>
+                                                 <th class="text-right">Total</th>
+                                              </tr>
+                                           </thead>
+                                           <tbody>
+                                              <tr repeat.for="item of summary.items">
+                                                 <td>
+                                                    ${item.product.name}
+                                                 </td>
+                                                 <td class="text-center  align-middle">
+                                                    ${item.product.description}
+                                                 </td>
+                                                 <td class="text-center">
+                                                    ${item.product.unit.name}
+                                                 </td>
+                                                 <td class="text-right">
+                                                    ${item.price | money}
+                                                 </td>
+                                                 <td class="text-right">
+                                                    ${item.quantity}
+                                                 </td>
+                                                 <td class="text-right">
+                                                    ${item.total | money}
+                                                 </td>
+                                              </tr>
+                                              <tr>
+                                                 <td colspan="6" class="text-right">
+                                                    <strong>Total:</strong>
+                                                 </td>
+                                                 <td class="text-right">
+                                                    <strong>${summary.total  | money}</strong>
+                                                 </td>
+                                              </tr>
+                                           </tbody>
+                                        </table> 
                                      </div>
                                   </div>
                                </div>
@@ -315,7 +307,7 @@
                                </div>
                             </div>
                             <div class="col-md-12" repeat.for="simulation of simulations">
-                               <div if.bind="! isProcessing && (simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)">
+                               <div if.bind="(simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)">
                                   <div class="card-table table-responsive" repeat.for="summary of simulation.bestResult.summaryItems">
                                      <h4> <i class="fa fa-tag mr-2"></i> Pedido ${simulation.market.name} - ${summary.supplier.fantasyName}</h4>
                                      <h5 class="mt-5">Informações do fornecedor</h5>
@@ -407,7 +399,7 @@
                                               </td>
                                            </tr>
                                            <tr>
-                                              <td colspan="6" class="text-right">
+                                              <td colspan="5" class="text-right">
                                                  <strong>Total:</strong>
                                               </td>
                                               <td class="text-right">
@@ -418,9 +410,9 @@
                                      </table>
                                      <p class="mt-5">Deseja acrescentar alguma observação ao pedido?</p>
                                      <div class="form-group mx-auto">
-                                        <textarea class="form-control" value.bind="summary.observation " rows="2" keypress.delegate="validateLengthObs(summary)"></textarea>
+                                        <textarea class="form-control" value.bind="summary.observation" rows="2" keypress.delegate="validateLengthObs(summary)"></textarea>
                                      </div>
-                                     <p>${250 - simulation.observation.length} caractere(s) restantes</p>
+                                     <p>${250 - summary.observation.length} caractere(s) restantes</p>
                                   </div>
                                </div>
                             </div>
