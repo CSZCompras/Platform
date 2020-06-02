@@ -25,3 +25,4 @@ node_modules
 
 # Compiled files
 ./src/scripts/*.* 
+*/scripts/*.* 
