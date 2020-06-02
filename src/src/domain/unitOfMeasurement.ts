@@ -1,6 +1,6 @@
 export class UnitOfMeasurement{
     
-    id : string;
-    name : string;
-    mustInformQuantity : boolean; 
+    id                  : string;
+    name                : string;
+    mustInformQuantity  : boolean; 
 }

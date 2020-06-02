@@ -3,15 +3,10 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router'; 
 import { FoodServiceRepository } from '../../repositories/foodServiceRepository'; 
 import { SimulationRepository } from '../../repositories/simulationRepository';
-import { Simulation } from '../../domain/simulation';
-import { SimulationInput } from '../../domain/simulationInput'; 
-import { SimulationInputItem } from '../../domain/simulationInputItem';
-import { SimulationResult } from '../../domain/simulationResult';
 import { OrderRepository } from '../../repositories/orderRepository';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { CotacaoViewModel } from '../../domain/cotacaoViewModel';
-import { SupplierViewModel } from '../../domain/supplierViewModel';
-import { DialogService } from 'aurelia-dialog';
+import { SupplierViewModel } from '../../domain/supplierViewModel'; 
 import { ValidationControllerFactory, ValidationController, validateTrigger } from 'aurelia-validation';
 import { FormValidationRenderer } from '../formValidationRenderer';
 import { DeliveryRuleRepository } from '../../repositories/deliveryRuleRepository';
@@ -19,12 +14,16 @@ import { DeliveryRule } from '../../domain/deliveryRule';
 import { CheckDeliveryViewModel } from '../../domain/checkDeliveryViewModel';
 import { CheckDeliveryResult } from '../../domain/checkDeliveryResult';
 import { CheckDeliveryResultItem } from '../../domain/CheckDeliveryResultItem';
-import { SimulationSummaryItem } from '../../domain/simulationSummaryItem';
+import { SimulationInput } from '../../domain/simulation/simulationInput';
+import { MarketInputViewModel } from '../../domain/simulation/marketInputViewModel';
+import { SimulationInputItem } from '../../domain/simulation/simulationInputItem';
+import { SimulationResult } from '../../domain/simulation/simulationResult';
+import { SimulationSummaryItem } from '../../domain/simulation/simulationSummaryItem';
+import { MarketViewModel } from '../../domain/marketViewModel';
+import { Simulation } from '../../domain/simulation/simulation';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
-import { MarketViewModel } from '../../domain/marketViewModel';
-import { MarketInputViewModel } from '../../domain/marketInputViewModel';
 
 @autoinject
 export class Pedido{
@@ -48,8 +47,7 @@ export class Pedido{
     constructor(		
         private router                  	: Router, 	
 		private repository              	: FoodServiceRepository,	
-		private ea 							: EventAggregator,
-		private dialogService				: DialogService,
+		private ea 							: EventAggregator, 
 		private simulationRepository    	: SimulationRepository,
 		private orderRepository    			: OrderRepository, 
 		private nService                	: NotificationService,

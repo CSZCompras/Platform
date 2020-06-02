@@ -1,6 +1,6 @@
-import { Product } from "./product";
-import { Supplier } from "./supplier";
-import { SupplierProduct } from "./supplierProduct";
+import { Product } from "../product";
+import { Supplier } from "../supplier";
+import { SupplierProduct } from "../supplierProduct";
 
 export class SimulationItem{
 

@@ -3,16 +3,16 @@ import { ProductClass } from "./productClass";
 
 export class DeliveryRule {
 
-    id                  : string;
-    foodService         : FoodService;
-    productClass        : ProductClass;
-    deliveryOnMonday    : boolean;
-    deliveryOnTuesday   : boolean;
-    deliveryOnWednesday : boolean;
-    deliveryOnThursday  : boolean;
-    deliveryOnFriday    : boolean;
-    deliveryOnSaturday  : boolean;
-    deliveryOnSunday    : boolean;
+    id                          : string;
+    foodService                 : FoodService;
+    productClass                : ProductClass;
+    deliveryOnMonday            : boolean;
+    deliveryOnTuesday           : boolean;
+    deliveryOnWednesday         : boolean;
+    deliveryOnThursday          : boolean;
+    deliveryOnFriday            : boolean;
+    deliveryOnSaturday          : boolean;
+    deliveryOnSunday            : boolean;
     deliveryScheduleInitial     : number;
     deliveryScheduleFinal       : number;
 

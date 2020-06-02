@@ -1,7 +1,7 @@
 import { SimulationInputItem } from "./simulationInputItem";
-import { SupplierViewModel } from "./supplierViewModel";
-import { MarketViewModel } from "./marketViewModel";
-import { CheckDeliveryViewModel } from "./checkDeliveryViewModel";
+import { SupplierViewModel } from "../supplierViewModel";
+import { MarketViewModel } from "../marketViewModel";
+import { CheckDeliveryViewModel } from "../checkDeliveryViewModel";
 
 export class MarketInputViewModel{
     

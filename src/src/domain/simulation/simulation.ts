@@ -1,7 +1,7 @@
-import { FoodService } from "./foodService";
+import { FoodService } from "../foodService";
 import { SimulationItem } from "./simulationItem";
 import { SimulationResult } from "./simulationResult";
-import { ProductClass } from "./productClass";
+import { ProductClass } from "../productClass";
 
 export class Simulation{
 

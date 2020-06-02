@@ -1,5 +1,4 @@
-import { FoodService } from "./foodService";
-import { FoodServiceProduct } from "./foodServiceProduct";
+import { FoodService } from "./foodService"; 
 import { BuyListProduct } from "./buyListProduct";
 import { BuyListStatus } from "./buyListStatus";
 import { ProductClass } from "./productClass";

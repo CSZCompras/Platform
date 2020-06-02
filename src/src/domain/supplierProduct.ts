@@ -1,7 +1,7 @@
 import { Brand } from './brand';
 import { Product } from './product';
 import { Supplier } from './supplier';
-import { SupplierProductStatus } from './SupplierProductStatus';
+import { SupplierProductStatus } from './supplierProductStatus';
 
 
 export class SupplierProduct{
