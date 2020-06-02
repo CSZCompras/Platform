@@ -1,18 +1,12 @@
-import { inject, NewInstance} from 'aurelia-framework';
 import { NotificationService } from '../../services/notificationService';
-import { Identity } from '../../domain/identity';
-import { IdentityService } from '../../services/identityService';
-import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { SupplierConnectionRepository } from '../../repositories/supplierConnectionRepository';
-import { Supplier } from '../../domain/supplier';
 import { ProductRepository } from '../../repositories/productRepository';
 import { ProductCategory } from '../../domain/productCategory';
 import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
 import { SupplierViewModel } from '../../domain/supplierViewModel';
-import { FoodServiceConnectionViewModel } from '../../domain/foodServiceViewModel';
 import { BlockSupplierConnectionViewModel } from '../../domain/blockSupplierConnectionViewModel';
 
 @autoinject

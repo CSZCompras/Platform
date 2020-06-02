@@ -1,13 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog'; 
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation'; 
-import { NotificationService } from '../../../services/notificationService'; 
-import { FormValidationRenderer } from '../../formValidationRenderer';
-import { ConfirmScheduleOrderViewModel } from '../../../domain/confirmScheduleOrderViewModel';
+import { ValidationControllerFactory, ValidationController } from 'aurelia-validation'; 
 import { CotacaoViewModel } from '../../../domain/cotacaoViewModel';
-import { DeliveryRuleRepository } from '../../../repositories/deliveryRuleRepository';
-import { DeliveryRule } from '../../../domain/deliveryRule';
 
 @autoinject
 export class ObservacoesPedido{
@@ -17,10 +11,7 @@ export class ObservacoesPedido{
     selectedQuote                           : CotacaoViewModel;
 
     constructor(
-        pController                         : DialogController,  
-        private ea                          : EventAggregator,
-        private validationControllerFactory : ValidationControllerFactory,
-        private notification                : NotificationService){ 
+        pController                         : DialogController){ 
  
         this.controller = pController;               
     }    

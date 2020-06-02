@@ -1,13 +1,8 @@
-import { FoodService } from '../domain/foodService';
 import { autoinject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
-import { Rest, Config } from 'aurelia-api';
-import { Identity } from '../domain/identity';
-import { Credential } from "../domain/credential";
-import { SimulationResult } from '../domain/simulationResult'; 
+import { Rest, Config } from 'aurelia-api'; 
 import { Order } from '../domain/order';
+import { SimulationResult } from '../domain/simulation/simulationResult';
 import { RejectOrderViewModel } from '../domain/rejectOrderViewModel';
-import { Evaluation } from '../domain/evaluation';
 
 
 @autoinject

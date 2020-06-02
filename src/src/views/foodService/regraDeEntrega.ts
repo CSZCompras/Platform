@@ -1,7 +1,6 @@
 import { NotificationService } from '../../services/notificationService';
 import { IdentityService } from '../../services/identityService';
-import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
+import { autoinject } from 'aurelia-framework'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { ProductRepository } from '../../repositories/productRepository';
 import { ProductClass } from '../../domain/productClass'; 
@@ -17,8 +16,7 @@ export class RegraDeEntrega{
     productClasses  : ProductClass[];
     selectedClass   : ProductClass;
     
-    constructor(		
-		private router              : Router, 
+    constructor(		 
         private service             : IdentityService,
         private ea                  : EventAggregator,
 		private nService            : NotificationService, 

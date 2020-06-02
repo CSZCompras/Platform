@@ -1,4 +1,4 @@
-import { inject, autoinject } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation'; 

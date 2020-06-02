@@ -7,7 +7,7 @@ import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { SupplierRepository } from '../../../repositories/supplierRepository';
 import { SupplierProduct } from '../../../domain/supplierProduct';
-import { SupplierProductStatus } from '../../../domain/SupplierProductStatus';
+import { SupplierProductStatus } from '../../../domain/supplierProductStatus';
 
 
 @autoinject

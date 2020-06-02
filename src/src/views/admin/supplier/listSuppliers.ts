@@ -1,22 +1,13 @@
-import { inject, NewInstance} from 'aurelia-framework';
-import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
-import 'twitter-bootstrap-wizard';
-import 'jquery-mask-plugin';
-import 'aurelia-validation';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { IdentityService } from '../../../services/identityService';
 import { NotificationService } from '../../../services/notificationService';
-import { ProductRepository } from '../../../repositories/productRepository';
-import { Product } from '../../../domain/product';
-import { ProductCategory } from '../../../domain/productCategory';
-import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasurementRepository';
-import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
 import { Supplier } from '../../../domain/supplier';
 import { SupplierRepository } from '../../../repositories/supplierRepository';
 import { SupplierStatus } from '../../../domain/supplierStatus';
-import { stat } from 'fs';
+import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class ListSuppliers{

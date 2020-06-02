@@ -1,20 +1,10 @@
-import { inject, NewInstance} from 'aurelia-framework';
-import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { IdentityService } from '../../../services/identityService';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { Config } from 'aurelia-api';
+import { EventAggregator } from 'aurelia-event-aggregator'; 
 import { NotificationService } from '../../../services/notificationService';
-import { ProductRepository } from '../../../repositories/productRepository';
-import { Product } from '../../../domain/product';
-import { ProductCategory } from '../../../domain/productCategory';
-import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasurementRepository';
-import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
 import { Supplier } from '../../../domain/supplier';
 import { SupplierRepository } from '../../../repositories/supplierRepository';
-import 'twitter-bootstrap-wizard';
-import 'jquery-mask-plugin';
-import 'aurelia-validation';
 import { StateRegistration } from '../../../domain/stateRegistration';
 import { StateRegistrationRepository } from '../../../repositories/stateRegistrationRepository';
 import { User } from '../../../domain/user';
@@ -26,6 +16,9 @@ import { SupplierValidator } from '../../../validators/supplierValidator';
 import { ConsultaCEPService } from '../../../services/consultaCEPService';
 import { ConsultaCepResult } from '../../../domain/consultaCepResult';
 import { Address } from '../../../domain/address';
+import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class EditSupplier{

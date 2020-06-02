@@ -1,12 +1,17 @@
-import { ScriptRunner } from '../../services/scriptRunner';
 import { autoinject, Aurelia } from 'aurelia-framework';
-import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
-import { PLATFORM } from 'aurelia-pal';
+import { Router } from 'aurelia-router'; 
 import { Rest, Config } from 'aurelia-api';
 import { AnalyticsRepository } from '../../repositories/analytics/analyticsRepository';
 import { IdentityService } from '../../services/identityService';
 import { NotificationService } from '../../services/notificationService';
 import { GenericAnalytics } from '../../domain/analytics/genericAnalytics'; 
+import * as Chart from 'chart.js';
+import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
+import { OrderPeriod } from '../../domain/analytics/orderPeriod'; 
+import { EvaluationRepository } from '../../repositories/evaluationRepository';
+import { Evaluation } from '../../domain/evaluation';
+import { Identity } from '../../domain/identity';
+import { RegisterStatus } from '../../domain/registerStatus';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -16,14 +21,6 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';
-import * as Chart from 'chart.js';
-import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
-import { OrderPeriod } from '../../domain/analytics/orderPeriod';
-import { Order } from '../../domain/order';
-import { EvaluationRepository } from '../../repositories/evaluationRepository';
-import { Evaluation } from '../../domain/evaluation';
-import { Identity } from '../../domain/identity';
-import { RegisterStatus } from '../../domain/registerStatus';
 
 @autoinject
 export class App {

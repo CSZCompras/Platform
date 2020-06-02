@@ -4,7 +4,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { NotificationService } from '../../../services/notificationService';  
 import { BuyList } from '../../../domain/buyList'; 
 import { BuyListStatus } from '../../../domain/buyListStatus';
-import {FoodServiceRepository} from '../../../repositories/foodServiceRepository';
+import { FoodServiceRepository} from '../../../repositories/foodServiceRepository';
 
 @autoinject
 export class DeleteBuyList{

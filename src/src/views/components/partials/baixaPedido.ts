@@ -1,10 +1,8 @@
-import { inject, autoinject } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation'; 
 import { NotificationService } from '../../../services/notificationService'; 
-import { OrderRepository } from '../../../repositories/orderRepository';
-import { FormValidationRenderer } from '../../formValidationRenderer';
+import { OrderRepository } from '../../../repositories/orderRepository'; 
 import { Order } from '../../../domain/order';
 import { OrderStatus } from '../../../domain/orderStatus';
 import { Evaluation } from '../../../domain/evaluation';

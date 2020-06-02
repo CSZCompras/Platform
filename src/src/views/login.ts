@@ -4,11 +4,8 @@ import { IdentityService } from "../services/identityService";
 import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
 import { LoginRepository } from '../repositories/loginRepository';
-import { ReportOptions } from 'gulp-tslint';
 import { autoinject, Aurelia } from 'aurelia-framework';
 import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
-import { PLATFORM } from 'aurelia-pal';
-import { Rest, Config } from 'aurelia-api';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 import 'jquery';

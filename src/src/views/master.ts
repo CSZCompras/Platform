@@ -1,6 +1,6 @@
-import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
+import { Router, RouterConfiguration } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
-import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { autoinject } from 'aurelia-dependency-injection'; 
 import { Identity } from '../domain/identity';
 import { IdentityService } from '../services/identityService';
@@ -13,11 +13,11 @@ import { NotificationService } from '../services/notificationService';
 import { NotificationRepository } from '../repositories/notificationRepository';
 import { OrderRepository } from '../repositories/orderRepository';
 import { MessageService } from '../services/messageService';
+import { RegisterStatus } from '../domain/registerStatus';
 import 'jquery-visible';
 import 'popper.js';
 import 'bootstrap';
 import 'velocity-animate';
-import { RegisterStatus } from '../domain/registerStatus';
 
 @autoinject
 export class Master {

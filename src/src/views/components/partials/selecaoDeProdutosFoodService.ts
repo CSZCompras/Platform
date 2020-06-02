@@ -4,7 +4,6 @@ import { IdentityService } from '../../../services/identityService';
 import { ProductCategory } from '../../../domain/productCategory';
 import { ProductClass } from '../../../domain/productClass';
 import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
 import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { FoodServiceRepository } from '../../../repositories/foodServiceRepository';

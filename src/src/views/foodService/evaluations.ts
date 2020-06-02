@@ -1,13 +1,9 @@
-import { inject, NewInstance} from 'aurelia-framework';
-import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { IdentityService } from '../../services/identityService';
+import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router'; 
+import { EventAggregator } from 'aurelia-event-aggregator'; 
 import { NotificationService } from '../../services/notificationService'; 
 import { Evaluation } from '../../domain/evaluation';
-import { EvaluationRepository } from '../../repositories/evaluationRepository';
-import { EvaluationStatus } from '../../domain/evaluationStatus';
+import { EvaluationRepository } from '../../repositories/evaluationRepository'; 
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';

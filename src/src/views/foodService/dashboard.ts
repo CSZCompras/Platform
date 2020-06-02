@@ -1,7 +1,8 @@
 import { autoinject, Aurelia } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api';
-
+import { Rest, Config } from 'aurelia-api'; 
+import { Identity } from '../../domain/identity';
+import { IdentityService } from '../../services/identityService';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -11,9 +12,6 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';
-import { Identity } from '../../domain/identity';
-import { IdentityService } from '../../services/identityService';
-import { RegisterStatus } from '../../domain/registerStatus';
 
 @autoinject
 export class App {

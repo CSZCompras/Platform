@@ -4,19 +4,18 @@ import { ConsultaCEPService } from '../../services/consultaCEPService';
 import { StateRegistrationRepository } from '../../repositories/stateRegistrationRepository';
 import { StateRegistration } from '../../domain/stateRegistration';
 import { NotificationService } from '../../services/notificationService';
-import { FoodServiceRepository } from '../../repositories/foodServiceRepository';
-import { Identity } from '../../domain/identity';
+import { FoodServiceRepository } from '../../repositories/foodServiceRepository'; 
 import { IdentityService } from '../../services/identityService'; 
 import { FoodService } from '../../domain/foodService';
 import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router'; 
-import 'twitter-bootstrap-wizard';
-import 'jquery-mask-plugin';
-import 'aurelia-validation';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Address } from '../../domain/address';	 
 import { ConsultaCNPJResult } from '../../domain/consultaCNPJResult';
 import { ConsultaCNPJService } from '../../services/consultaCNPJService';
+import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class Cadastro{

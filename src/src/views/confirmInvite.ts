@@ -3,14 +3,14 @@ import { ScriptRunner } from '../services/scriptRunner';
 import { IdentityService } from "../services/identityService";
 import { Identity } from '../domain/identity';
 import { Credential } from "../domain/credential";
-import { LoginRepository } from '../repositories/loginRepository';
-import { ReportOptions } from 'gulp-tslint';
+import { LoginRepository } from '../repositories/loginRepository'; 
 import { autoinject, Aurelia } from 'aurelia-framework';
-import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
-import { PLATFORM } from 'aurelia-pal';
-import { Rest, Config } from 'aurelia-api';
-import { EventAggregator } from 'aurelia-event-aggregator';
-
+import { Router } from 'aurelia-router'; 
+import { EventAggregator } from 'aurelia-event-aggregator'; 
+import { UserRepository } from '../repositories/userRepository';
+import { User } from '../domain/user';
+import { UserStatus } from '../domain/userStatus';
+import { ConfirmInviteViewModel } from '../domain/confirmInviteViewModel';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -20,10 +20,6 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';
-import { UserRepository } from '../repositories/userRepository';
-import { User } from '../domain/user';
-import { UserStatus } from '../domain/userStatus';
-import { ConfirmInviteViewModel } from '../domain/confirmInviteViewModel';
 
 
 

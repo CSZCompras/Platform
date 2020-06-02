@@ -1,15 +1,9 @@
-import { SupplierProductFileRow } from '../../../domain/supplierProductFileRow';
-import { SupplierProductFile } from '../../../domain/supplierProductFile';
-import { Rest, Config } from 'aurelia-api'; 
-import { SupplierProduct } from '../../../domain/supplierProduct';
+import { Config } from 'aurelia-api'; 
 import { ProductRepository } from '../../../repositories/productRepository';
 import { NotificationService } from '../../../services/notificationService';
-import { IdentityService } from '../../../services/identityService';
-import { ProductCategory } from '../../../domain/productCategory';
-import { ProductClass } from '../../../domain/productClass';
+import { IdentityService } from '../../../services/identityService'; 
 import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Product } from "../../../domain/product";
+import { Router } from 'aurelia-router'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 @autoinject

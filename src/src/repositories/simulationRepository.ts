@@ -1,18 +1,10 @@
-import { SupplierProductFile } from '../domain/supplierProductFile';
 import { IdentityService } from '../services/identityService';
-import { SupplierProduct } from '../domain/supplierProduct';
 import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Rest, Config } from 'aurelia-api'; 
-import { ProductCategory } from './../domain/productCategory';
-import { ProductClass } from './../domain/productClass';
-import { Product } from "../domain/product";
+import { Rest, Config } from 'aurelia-api';  
 import { HttpClient } from 'aurelia-fetch-client';
-import { BuyList } from '../domain/buyList';
-import { Simulation } from '../domain/simulation';
-import { SimulationInput } from '../domain/simulationInput';
-import { CotacaoViewModel } from '../domain/cotacaoViewModel';
-import { SimulationResult } from '../domain/simulationResult';
+import { Simulation } from '../domain/simulation/simulation';
+import { SimulationInput } from '../domain/simulation/simulationInput';
+import { CotacaoViewModel } from '../domain/cotacaoViewModel'; 
 
 @autoinject
 export class SimulationRepository{

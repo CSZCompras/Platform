@@ -1,4 +1,4 @@
-import {  autoinject } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
 import 'twitter-bootstrap-wizard';
