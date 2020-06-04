@@ -6,6 +6,7 @@ import { MarketInputViewModel } from "./marketInputViewModel";
 export class SimulationInput
 { 
     buyListId           : string;
+    buyListName         : string;
     markets             : MarketInputViewModel[];
     
     constructor() { 

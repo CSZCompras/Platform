@@ -1,14 +1,14 @@
 import { autoinject } from 'aurelia-framework';
 import { DialogController } from 'aurelia-dialog'; 
-import { ValidationControllerFactory, ValidationController } from 'aurelia-validation'; 
-import { CotacaoViewModel } from '../../../domain/cotacaoViewModel';
+import {  ValidationController } from 'aurelia-validation';  
+import { SimulationInput } from '../../../domain/simulation/simulationInput';
 
 @autoinject
 export class ObservacoesPedido{
  
     controller                              : DialogController;  
     validationController                    : ValidationController;  
-    selectedQuote                           : CotacaoViewModel;
+    selectedQuote                           : SimulationInput;
 
     constructor(
         pController                         : DialogController){ 

@@ -1,18 +1,26 @@
 import { SimulationInputItem } from "./simulationInputItem";
-import { SupplierViewModel } from "../supplierViewModel";
-import { MarketViewModel } from "../marketViewModel";
+import { SupplierViewModel } from "../supplierViewModel"; 
 import { CheckDeliveryViewModel } from "../checkDeliveryViewModel";
+import { CheckDeliveryResult } from "../checkDeliveryResult";
+import { DeliveryRule } from "../deliveryRule";
 
 export class MarketInputViewModel{
     
     
     constructor() {  
+
         this.items = [];  
+        this.suppliers = [];
         this.supplierBlackList = [];
     }
-    
-    market                      : MarketViewModel;
+
+    id                          : string;
+    name                        : string;
+    suppliers                   : SupplierViewModel[];
     items                       : SimulationInputItem[];
     supplierBlackList           : SupplierViewModel[];
-    viewModel 					: CheckDeliveryViewModel;
+    deliveryRule                : DeliveryRule;
+    checkDeliveryViewModel 		: CheckDeliveryViewModel;
+    checkDeliveryResult			: CheckDeliveryResult;
+    isValid                     : boolean;
 }

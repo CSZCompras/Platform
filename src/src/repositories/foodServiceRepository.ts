@@ -1,15 +1,13 @@
 import { FoodService } from '../domain/foodService';
 import { autoinject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-import { Rest, Config } from 'aurelia-api';
-import { Identity } from '../domain/identity';
-import { Credential } from "../domain/credential";
+import { Rest, Config } from 'aurelia-api'; 
 import { FoodServiceProduct } from '../domain/foodServiceProduct';
 import { BuyList } from '../domain/buyList';
 import { AlterBuyListProductViewModel } from '../domain/alterBuyListProductViewModel';
 import { FoodServiceStatus } from '../domain/foodServiceStatus';
-import { EditFoodServiceStatus } from '../domain/editFoodServiceStatus';
-import { CotacaoViewModel } from '../domain/cotacaoViewModel';
+import { EditFoodServiceStatus } from '../domain/editFoodServiceStatus'; 
+import { SimulationInput } from '../domain/simulation/simulationInput';
 
 @autoinject
 export class FoodServiceRepository {
@@ -116,11 +114,11 @@ export class FoodServiceRepository {
             });
     }
 
-    getBuyListsParaCotacao(): Promise<CotacaoViewModel[]> {
+    getBuyListsParaCotacao(): Promise<SimulationInput[]> {
 
         return this.api
             .find('cotacao')
-            .then( (result : Promise<CotacaoViewModel[]>) => { 
+            .then( (result : Promise<SimulationInput[]>) => { 
                 return result;
             })
             .catch( (e) => {

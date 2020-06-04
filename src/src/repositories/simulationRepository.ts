@@ -4,7 +4,6 @@ import { Rest, Config } from 'aurelia-api';
 import { HttpClient } from 'aurelia-fetch-client';
 import { Simulation } from '../domain/simulation/simulation';
 import { SimulationInput } from '../domain/simulation/simulationInput';
-import { CotacaoViewModel } from '../domain/cotacaoViewModel'; 
 
 @autoinject
 export class SimulationRepository{
@@ -47,11 +46,11 @@ export class SimulationRepository{
         
     }
 
-    getCotacaoFromOrder(orderId: string): Promise<CotacaoViewModel> { 
+    getCotacaoFromOrder(orderId: string): Promise<SimulationInput> { 
 
         return this.api
             .find('cotacaoParcial?orderId=' + orderId)
-            .then( (result : Promise<CotacaoViewModel>) => { 
+            .then( (result : Promise<SimulationInput>) => { 
                 return result;
             })
             .catch( (e) => {
