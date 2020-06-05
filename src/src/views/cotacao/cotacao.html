@@ -56,15 +56,15 @@
                                      </div>
                                   </div>
                                </div>
-                               <div class="tab-content clearfix" repeat.for="market of selectedQuote.markets">
+                               <div class="tab-content clearfix ml-5" repeat.for="market of selectedQuote.markets">
                                   <div class="row mt-2">
-                                     <h5><i class="fa fa-tag mr-2"></i> ${market.name}</h5>
+                                     <h4><i class="fa fa-tag mr-2"></i> ${market.name}</h4>
                                   </div>
-                                  <div class="row mt-2" if.bind="market.products.length > 0">
-                                     <div class="col-md-3">
+                                  <div class="row mt-2" if.bind="market.items.length > 0">
+                                     <div class="col-md-3 mt-2">
                                         <div class="form-group">
                                            <label class="control-label">Informe a data de entrega</label>
-                                           <input type="text" class="form-control" autocomplete="off" placeholder="00/00/0000" value.bind="market.viewModel.deliveryDate | dateFormat " datepicker change.trigger="checkDeliveryDate(market)">
+                                           <input type="text" class="form-control" autocomplete="off" placeholder="00/00/0000" value.bind="market.checkDeliveryViewModel.deliveryDate | dateFormat " datepicker change.trigger="checkDeliveryDate(market)">
                                         </div>
                                      </div>
                                      <div class="col-md-3">
@@ -74,7 +74,7 @@
                                               <span class="input-group-addon input-group-icon">
                                               <i class="batch-icon batch-icon-clock"></i>
                                               </span>
-                                              <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="market.viewModel.deliveryScheduleStart | time " change.trigger="checkDeliveryDate(market)" />
+                                              <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="market.checkDeliveryViewModel.deliveryScheduleStart | time " change.trigger="checkDeliveryDate(market)" />
                                            </div>
                                         </div>
                                      </div>
@@ -85,34 +85,38 @@
                                               <span class="input-group-addon input-group-icon">
                                               <i class="batch-icon batch-icon-clock"></i>
                                               </span>
-                                              <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="market.viewModel.deliveryScheduleEnd | time " change.trigger="checkDeliveryDate(market)" />
+                                              <input type="time" class="time form-control" autocomplete="off" placeholder="HH:mm" time value.bind="market.checkDeliveryViewModel.deliveryScheduleEnd | time " change.trigger="checkDeliveryDate(market)" />
                                            </div>
                                         </div>
                                      </div>
                                   </div>
                                   <div class="row">
                                      <div class="col-md-12  mt-5">
-                                        <span class="badge badge-warning" if.bind="market.products.length == 0">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos </span>
-                                        <div if.bind="market.products.length > 0 ">
+                                        <span class="badge badge-warning" if.bind="market.items.length == 0">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos </span>
+                                        <div if.bind="market.items.length > 0 ">
                                            <div class="col-md-12 mt-1">
                                               <div class="form-group">
-                                                 <p>Você pode remover fornecedores da sua cotação</p>
-                                                 <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of market.suppliers" class="badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">                                                                    
-                                                 <i class="fa fa-times mr-3" if.bind="supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
-                                                 <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
-                                                 <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
-                                                 ${supplier.name}
-                                                 </span>
-                                                 <div class="row mt-3">
-                                                    <p if.bind="market.checkDeliveryResult.items.length > 0">
-                                                       Alertas
-                                                    </p>
-                                                    <div class="col-md-12" repeat.for="x of market.checkDeliveryResult.items">
-                                                       <span class="badge badge-danger">${x.message}</span>
-                                                    </div>
+                                                <div class="row mt-3">
+                                                   <p>
+                                                      Alertas
+                                                   </p>
+                                                   <div class="col-md-12" repeat.for="x of market.checkDeliveryResult.items">
+                                                      <span class="badge badge-danger">${x.message}</span>
+                                                   </div>
+                                                </div>
+                                                <div class="row mt-5">
+                                                   <p>Você pode remover fornecedores da sua cotação</p>
+                                                 </div>
+                                                 <div class="row mt-1">
+                                                    <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of market.suppliers" class="badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">                                                                    
+                                                    <i class="fa fa-times mr-3" if.bind="supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                    <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                    <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
+                                                    ${supplier.name}
+                                                    </span>
                                                  </div>
                                               </div>
-                                              <table class="table  table-hover table-responsive mt-2">
+                                              <table class="table table-hover table-responsive mt-5">
                                                  <thead>
                                                     <tr>
                                                        <th>Nome do produto</th>
@@ -125,7 +129,7 @@
                                                     </tr>
                                                  </thead>
                                                  <tbody>
-                                                    <tr repeat.for="product of market.products">
+                                                    <tr repeat.for="product of market.items">
                                                        <td>
                                                           <span class="badge badge-warning" if.bind="product.suppliers == null || product.suppliers.length == 0">
                                                           <i class="fa fa-warning"></i> 
@@ -161,144 +165,140 @@
                             </div>
                          </div>
                          <div class="tab-pane" id="tab2">
-                            <div class="row" if.bind="isProcessing">
-                               <div class="col-md-6">
-                                  <div class="form-group">
-                                     <span if.bind="processing" class="badge badge-warning">Efetuando cotação</span>
-                                  </div>
-                               </div>
-                            </div>
-                            <div class="col-md-12">
-                               <div id="accordion2" role="tablist" aria-multiselectable="true" repeat.for="simulation of simulations">
-                                  <div class="mt-4" if.bind="! isProcessing && simulation.bestResult.validationMessages != null && simulation.bestResult.validationMessages.length > 0">                                     
-                                    <h4>
-                                       <i class="fa fa-tag mr-2"></i>
-                                       ${simulation.market.name}  
-                                    </h4>
-                                     <p class="mt-3">
-                                        <span class="badge badge-danger">
-                                        <i class="fa fa-tag mr-2"></i> ${simulation.bestResult.validationMessages}
-                                        </span>
-                                     </p>
-                                  </div>
-                                  <div class="mt-4" if.bind="! isProcessing && simulation.bestResult == null">
-                                    <div class="card-header ml-0" role="tab">
-                                       <h4>
-                                          <i class="fa fa-tag mr-2"></i>
-                                          ${simulation.market.name}  
-                                       </h4>
+                           <div class="card-body">
+                              <div class="row" if.bind="isProcessing">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <span if.bind="processing" class="badge badge-warning">Efetuando cotação</span>
                                     </div>
-                                     <p class="mt-3">
-                                        <span class="badge badge-danger">
-                                        <i class="fa fa-tag mr-2"></i> Nenhum resultado foi retornado
-                                        </span>
-                                     </p>
-                                  </div>
-                                  <div class="mt-4" if.bind="! isProcessing && (simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)">
-                                     <div class="card-table table-responsive" repeat.for="summary of simulation.bestResult.summaryItems">
-                                        <h4> <i class="fa fa-tag mr-2"></i> ${summary.supplier.fantasyName} - ${simulation.deliveryDate | dateFormat}</h4>
-                                        <h5 class="mt-5">Informações do fornecedor</h5>
-                                        <table class="table table-hover table-sm align-middle mt-1   ">
-                                           <thead>
-                                              <tr>
-                                                 <th class="text-left">Fornecedor</th>
-                                                 <th class="text-center">Avaliação</th>
-                                                 <th class="text-center">Qtde de dias para aceite</th>
-                                                 <th class="text-center">Período de Aceite</th>
-                                                 <th class="text-center">Dias de entrega</th>
-                                                 <th class="text-center">Período de Entrega</th>
-                                                 <th class="text-right">Total</th>
-                                              </tr>
-                                           </thead>
-                                           <tbody>
-                                              <tr>
-                                                 <td>
-                                                    ${summary.supplier.fantasyName}
-                                                 </td>
-                                                 <td class="text-center">
-                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                    <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
-                                                 </td>
-                                                 <td class="text-center">
-                                                    ${summary.rule.numberOfDaysToAccept} dias
-                                                 </td>
-                                                 <td class="text-center">
-                                                    ${summary.rule.periodToAcceptOrder1 | time}
-                                                    <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                    ${summary.rule.periodToAcceptOrder2 | time}
-                                                 </td>
-                                                 <td class="text-center">
-                                                    <span if.bind="summary.rule.deliveryOnMonday" class="badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
-                                                    <span if.bind="summary.rule.deliveryOnTuesday" class="badge  ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
-                                                    <span if.bind="summary.rule.deliveryOnWednesday" class="badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
-                                                    <span if.bind="summary.rule.deliveryOnThursday" class="badge  ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
-                                                    <span if.bind="summary.rule.deliveryOnFriday" class="badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
-                                                    <br />
-                                                    <br />
-                                                    <span if.bind="summary.rule.deliveryOnSaturday" class="badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
-                                                    <span if.bind="summary.rule.deliveryOnSunday" class="badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
-                                                 </td>
-                                                 <td class="text-center">
-                                                    ${summary.rule.deliverySchedule1 | time}
-                                                    <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                    ${summary.rule.deliverySchedule2 | time}
-                                                 </td>
-                                                 <td class="text-right">
-                                                    ${summary.total | money}
-                                                 </td>
-                                              </tr>
-                                           </tbody>
-                                        </table>
-                                        <h5 class="mt-5">Produtos</h5>
-                                        <table class="table table-hover mt-1">
-                                           <thead>
-                                              <tr>
-                                                 <th class="text-left">Nome do Produto</th>
-                                                 <th class="text-center">Descrição</th>
-                                                 <th class="text-center">UM</th>
-                                                 <th class="text-right">Preço unitário</th>
-                                                 <th class="text-right">Quantidade</th>
-                                                 <th class="text-right">Total</th>
-                                              </tr>
-                                           </thead>
-                                           <tbody>
-                                              <tr repeat.for="item of summary.items">
-                                                 <td>
-                                                    ${item.product.name}
-                                                 </td>
-                                                 <td class="text-center  align-middle">
-                                                    ${item.product.description}
-                                                 </td>
-                                                 <td class="text-center">
-                                                    ${item.product.unit.name}
-                                                 </td>
-                                                 <td class="text-right">
-                                                    ${item.price | money}
-                                                 </td>
-                                                 <td class="text-right">
-                                                    ${item.quantity}
-                                                 </td>
-                                                 <td class="text-right">
-                                                    ${item.total | money}
-                                                 </td>
-                                              </tr>
-                                              <tr>
-                                                 <td colspan="6" class="text-right">
-                                                    <strong>Total:</strong>
-                                                 </td>
-                                                 <td class="text-right">
-                                                    <strong>${summary.total  | money}</strong>
-                                                 </td>
-                                              </tr>
-                                           </tbody>
-                                        </table> 
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-12">
+                                 <div repeat.for="simulation of simulations">
+                                    <div class="mt-4">
+                                       <h3>
+                                          <i class="fa batch-icon-layout-center-column mr-2"></i>
+                                          ${simulation.market.name} - ${simulation.deliveryDate | dateFormat}  
+                                       </h53>
+                                       <p class="mt-3" if.bind="! isProcessing && simulation.bestResult.validationMessages != null && simulation.bestResult.validationMessages.length > 0">
+                                          <span class="badge badge-danger">
+                                          <i class="fa fa-tag mr-2"></i> ${simulation.bestResult.validationMessages}
+                                          </span>
+                                       </p>
+                                    </div>
+                                    <div class="mt-4" if.bind="! isProcessing && simulation.bestResult == null">
+                                       <p class="mt-3">
+                                          <span class="badge badge-danger">
+                                          <i class="fa fa-tag mr-2"></i> Nenhum resultado foi retornado
+                                          </span>
+                                       </p>
+                                    </div>
+                                    <div class="mt-5 ml-5" if.bind="! isProcessing && (simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)">
+                                       <div class="card-table table-responsive" repeat.for="summary of simulation.bestResult.summaryItems">
+                                          <h4> <i class="fa fa-tag mr-2"></i> ${summary.supplier.fantasyName}</h4>
+                                          <h5 class="mt-5">Informações do fornecedor</h5>
+                                          <table class="table table-hover table-sm align-middle mt-1   ">
+                                             <thead>
+                                                <tr>
+                                                   <th class="text-left">Fornecedor</th>
+                                                   <th class="text-center">Avaliação</th>
+                                                   <th class="text-center">Qtde de dias para aceite</th>
+                                                   <th class="text-center">Período de Aceite</th>
+                                                   <th class="text-center">Dias de entrega</th>
+                                                   <th class="text-center">Período de Entrega</th>
+                                                   <th class="text-right">Total</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      ${summary.supplier.fantasyName}
+                                                   </td>
+                                                   <td class="text-center">
+                                                      <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                      <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                      <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                      <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                      <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
+                                                   </td>
+                                                   <td class="text-center">
+                                                      ${summary.rule.numberOfDaysToAccept} dias
+                                                   </td>
+                                                   <td class="text-center">
+                                                      ${summary.rule.periodToAcceptOrder1 | time}
+                                                      <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                                                      ${summary.rule.periodToAcceptOrder2 | time}
+                                                   </td>
+                                                   <td class="text-center">
+                                                      <span if.bind="summary.rule.deliveryOnMonday" class="badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                                      <span if.bind="summary.rule.deliveryOnTuesday" class="badge  ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                                      <span if.bind="summary.rule.deliveryOnWednesday" class="badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                                      <span if.bind="summary.rule.deliveryOnThursday" class="badge  ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                                      <span if.bind="summary.rule.deliveryOnFriday" class="badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
+                                                      <br />
+                                                      <br />
+                                                      <span if.bind="summary.rule.deliveryOnSaturday" class="badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
+                                                      <span if.bind="summary.rule.deliveryOnSunday" class="badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
+                                                   </td>
+                                                   <td class="text-center">
+                                                      ${summary.rule.deliverySchedule1 | time}
+                                                      <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
+                                                      ${summary.rule.deliverySchedule2 | time}
+                                                   </td>
+                                                   <td class="text-right">
+                                                      ${summary.total | money}
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                          <h5 class="mt-5">Produtos</h5>
+                                          <table class="table table-hover mt-1">
+                                             <thead>
+                                                <tr>
+                                                   <th class="text-left">Nome do Produto</th>
+                                                   <th class="text-center">Descrição</th>
+                                                   <th class="text-center">UM</th>
+                                                   <th class="text-right">Preço unitário</th>
+                                                   <th class="text-right">Quantidade</th>
+                                                   <th class="text-right">Total</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr repeat.for="item of summary.items">
+                                                   <td>
+                                                      ${item.product.name}
+                                                   </td>
+                                                   <td class="text-center  align-middle">
+                                                      ${item.product.description}
+                                                   </td>
+                                                   <td class="text-center">
+                                                      ${item.product.unit.name}
+                                                   </td>
+                                                   <td class="text-right">
+                                                      ${item.price | money}
+                                                   </td>
+                                                   <td class="text-right">
+                                                      ${item.quantity}
+                                                   </td>
+                                                   <td class="text-right">
+                                                      ${item.total | money}
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td colspan="5" class="text-right">
+                                                      <strong>Total:</strong>
+                                                   </td>
+                                                   <td class="text-right">
+                                                      <strong>${summary.total  | money}</strong>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table> 
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              </div>
                          </div>
                          <div class="tab-pane" id="tab3">
                             <div class="col-md-12 mt-3" if.bind="isProcessing">
@@ -309,7 +309,7 @@
                             <div class="col-md-12" repeat.for="simulation of simulations">
                                <div if.bind="(simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)">
                                   <div class="card-table table-responsive" repeat.for="summary of simulation.bestResult.summaryItems">
-                                     <h4> <i class="fa fa-tag mr-2"></i> Pedido ${simulation.market.name} - ${summary.supplier.fantasyName}</h4>
+                                     <h4> <i class="fa fa-tag mr-2"></i> Pedido ${simulation.market.name} - ${summary.supplier.fantasyName} - ${simulation.deliveryDate | dateFormat}</h4>
                                      <h5 class="mt-5">Informações do fornecedor</h5>
                                      <table class="table table-hover table-sm align-middle mt-1   ">
                                         <thead>
