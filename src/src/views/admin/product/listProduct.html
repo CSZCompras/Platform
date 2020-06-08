@@ -41,8 +41,6 @@
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Marca</th>
                                 <th>Categoria</th>
                                 <th>UM</th>
                                 <th>Status</th>
@@ -51,9 +49,7 @@
                         </thead>
                         <tbody>
                             <tr repeat.for="x of filteredProducts">
-                                <td>${x.name}</td>
-                                <td>${x.description}</td>
-                                <td>${x.brand.name}</td>
+                                <td>${x.name}</td> 
                                 <td>${x.category.name}</td>
                                 <td>${x.unit.name}</td>
                                 <td>  
@@ -72,7 +68,7 @@
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label class="control-label">Nome<span class="text-danger  ml-1 bold">*</span></label>
-                                 <input type="text" class="form-control "    value.bind="product.name & validate"  />
+                                 <input type="text" class="form-control "    value.bind="product.base.name & validate"  />
                               </div> 
                            </div>
                     </div>

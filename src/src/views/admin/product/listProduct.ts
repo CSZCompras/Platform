@@ -1,7 +1,4 @@
-import { Aurelia, autoinject } from 'aurelia-framework';
-import 'twitter-bootstrap-wizard';
-import 'jquery-mask-plugin';
-import 'aurelia-validation';
+import { autoinject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { NotificationService } from '../../../services/notificationService';
 import { ProductRepository } from '../../../repositories/productRepository';
@@ -12,6 +9,9 @@ import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
 import { ProductClass } from '../../../domain/productClass';
 import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 import { FormValidationRenderer } from '../../formValidationRenderer';
+import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class ListProduct{
@@ -57,10 +57,10 @@ export class ListProduct{
     activate(){ 
 
 
-        ValidationRules 
-            .ensure((p : Product) => p.name).displayName('Nome do produto').required() 
-            .ensure((p : Product) => p.category).displayName('Categoria do produto').required() 
-            .on(this.product);  
+     /*   ValidationRules 
+            .ensure((p : Product) => p.base.name).displayName('Nome do produto').required() 
+            .ensure((p : Product) => p.base.category).displayName('Categoria do produto').required() 
+            .on(this.product);  */ 
     }
 
     loadData(){
@@ -128,7 +128,7 @@ export class ListProduct{
             var isFound = true; 
 
                 if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.category.id == this.selectedCategory.id){
+                    if(x.base.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -141,8 +141,8 @@ export class ListProduct{
 
                     if( (this.filter != null && this.filter != '')){ 
                         if( 
-                                x.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                                x.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
                             ||  x.brand != null && x.brand.name.toUpperCase().includes(this.filter.toUpperCase()) ){
                             isFound = true;
                         }
@@ -163,9 +163,9 @@ export class ListProduct{
         this.isEditing = true;
         this.product = product;
 
-        this.selectedClassProduct = this.classes.filter(x => x.id == product.category.productClass.id)[0];
+        this.selectedClassProduct = this.classes.filter(x => x.id == product.base.category.productClass.id)[0];
         this.categories = this.selectedClassProduct.categories;
-        this.product.category = this.categories.filter( x => x.id == this.product.category.id)[0];
+        this.product.base.category = this.categories.filter( x => x.id == this.product.base.category.id)[0];
         this.product.unit = this.units.filter( x => x.id == this.product.unit.id)[0];
     }
 

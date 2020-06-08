@@ -2,13 +2,14 @@ import { UnitOfMeasurement } from './unitOfMeasurement';
 import { ProductCategory } from './productCategory';
 import { FoodServiceProduct } from './foodServiceProduct';
 import { Brand } from './brand';
+import { ProductBase } from './productBase';
 
 export class Product{
-    id          : string;
-    name        : string;
+
+    id          : string; 
     description : string;
-    brand       : Brand;
-    category    : ProductCategory;
+    base        : ProductBase;
+    brand       : Brand; 
     unit        : UnitOfMeasurement;
     isActive    : boolean;  
 }
