@@ -34,6 +34,7 @@ export class ListProduct{
     isLoading                   : boolean;
 	validationController        : ValidationController;
 
+    
     constructor(		 
 		private ea                          : EventAggregator, 
         private nService                    : NotificationService,
