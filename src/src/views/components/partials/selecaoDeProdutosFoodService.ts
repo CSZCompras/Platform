@@ -89,7 +89,7 @@ export class SelecaoDeProdutosFoodService{
                 var isFound = true;
 
                 if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.category.id == this.selectedCategory.id){
+                    if(x.base.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -100,7 +100,7 @@ export class SelecaoDeProdutosFoodService{
                 if(isFound){
 
                     if( (this.filter != null && this.filter != '')){ 
-                        if( x.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                        if( x.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
                             isFound = true;
                         }
                         else {

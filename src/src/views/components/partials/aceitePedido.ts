@@ -52,8 +52,8 @@ export class AceitePedido{
     acceptOrder(){
 
         this.validationController
-        .validate()
-        .then((result: ControllerValidateResult) => {
+            .validate()
+            .then((result: ControllerValidateResult) => {
             
                 if (result.valid) {
 

@@ -8,6 +8,8 @@ import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasure
 import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
 import { ProductClass } from '../../../domain/productClass';
 import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
+import { ProductBaseRepository } from '../../../repositories/productBaseRepository';
+import { ProductBase } from '../../../domain/productBase';
 import { FormValidationRenderer } from '../../formValidationRenderer';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
@@ -16,8 +18,8 @@ import 'aurelia-validation';
 @autoinject
 export class ListProduct{
 
-    products                    : Product[];
-    filteredProducts            : Product[];
+    products                    : ProductBase[];
+    filteredProducts            : ProductBase[];
     classes                     : ProductClass[];
     categories                  : ProductCategory[];
     units                       : UnitOfMeasurement[];
@@ -27,7 +29,7 @@ export class ListProduct{
     selectedCategoryProduct     : ProductCategory;
     filter                      : string;
     isEditing                   : boolean;
-    product                     : Product;
+    product                     : ProductBase;
     selectedUnit                : UnitOfMeasurement;
     isLoading                   : boolean;
 	validationController        : ValidationController;
@@ -35,18 +37,20 @@ export class ListProduct{
     constructor(		 
 		private ea                          : EventAggregator, 
         private nService                    : NotificationService,
-        private repository                  : ProductRepository ,
+        private repository                  : ProductBaseRepository ,
         private unitRepository              : UnitOfMeasurementRepository,
         private productRepository           : ProductRepository, 
         private validationControllerFactory : ValidationControllerFactory){
             
             
-            this.product = new Product();
+            this.product = new ProductBase();
 
-            this.units = [];// Validation.
+            this.units = [];
+            // Validation.
             this.validationController = this.validationControllerFactory.createForCurrentScope();
             this.validationController.addRenderer(new FormValidationRenderer());
             this.validationController.validateTrigger = validateTrigger.blur;
+            this.validationController.addObject(this.product);     
     } 
 
     attached(){
@@ -54,13 +58,19 @@ export class ListProduct{
         this.loadData();
     }
 
-    activate(){ 
+    activate(params){ 
+        this.product = new ProductBase();
+        this.applyRules(this.product);
+    }
+
+    applyRules(p : ProductBase){
 
 
-     /*   ValidationRules 
-            .ensure((p : Product) => p.base.name).displayName('Nome do produto').required() 
-            .ensure((p : Product) => p.base.category).displayName('Categoria do produto').required() 
-            .on(this.product);  */ 
+        ValidationRules 
+            .ensure((p : ProductBase) => p.name).displayName('Nome').required() 
+            .ensure((p : ProductBase) => p.category).displayName('Categoria do produto').required() 
+            .on(this.product);   
+
     }
 
     loadData(){
@@ -87,7 +97,16 @@ export class ListProduct{
             });
     }
 
+    changeProductBaseStatus(){
+        this.product.isActive = ! this.product.isActive;
+    }
+
+    changeProductStatus(p : Product){
+        p.isActive = ! p.isActive;
+    }
+
     updateCategories(){
+
         this.categories = this.selectedClass.categories;
         this.selectedCategory = this.categories[0];
         this.searchProducts();
@@ -123,12 +142,12 @@ export class ListProduct{
 
     search(){
 
-        this.filteredProducts = this.products.filter( (x :Product) =>{
+        this.filteredProducts = this.products.filter( (x :ProductBase) =>{
 
             var isFound = true; 
 
                 if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.base.category.id == this.selectedCategory.id){
+                    if(x.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -141,9 +160,8 @@ export class ListProduct{
 
                     if( (this.filter != null && this.filter != '')){ 
                         if( 
-                                x.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.brand != null && x.brand.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                x.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.category.name.toUpperCase().includes(this.filter.toUpperCase())){
                             isFound = true;
                         }
                         else {
@@ -158,28 +176,30 @@ export class ListProduct{
         });
     }
  
-    edit(product : Product){
+    edit(product : ProductBase){
 
-        this.isEditing = true;
+        this.isEditing = true;    
         this.product = product;
+        this.applyRules(this.product);
 
-        this.selectedClassProduct = this.classes.filter(x => x.id == product.base.category.productClass.id)[0];
+        this.selectedClassProduct = this.classes.filter(x => x.id == product.category.productClass.id)[0];
         this.categories = this.selectedClassProduct.categories;
-        this.product.base.category = this.categories.filter( x => x.id == this.product.base.category.id)[0];
-        this.product.unit = this.units.filter( x => x.id == this.product.unit.id)[0];
+        this.product.category = this.categories.filter( x => x.id == this.product.category.id)[0];
     }
 
     create(){
 
-        this.product = new Product();
+        this.product = new ProductBase();
         this.isEditing = true;
-        this.product.isActive = true;
+        this.product.isActive = true;        
+        this.applyRules(this.product);
     }
 
     cancel(){
 
         this.isEditing = false;
         this.product = null;
+        this.searchProducts();
     }
 
     addOrUpdate(){
@@ -213,4 +233,10 @@ export class ListProduct{
                 });     
     }
 
+    addProduct(){
+        var p = new Product();
+        p.isActive = true;
+        ( <any> p).isNew = true;
+        this.product.products.unshift(p);
+    }
 }

@@ -1,4 +1,3 @@
-import { ValidationRules } from 'aurelia-validation';
 import { Address } from './address';
 import { StateRegistration } from './stateRegistration';
 import { Contact } from "./contact";

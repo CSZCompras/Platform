@@ -39,7 +39,7 @@ export class SelecaoDeProdutos{
         this.loadData();
         
         this.ea.subscribe('supplierProductRemoved', (product : SupplierProduct) => {            
-            if(this.selectedCategory.id == product.product.category.id){
+            if(this.selectedCategory.id == product.product.base.category.id){
                 this.loadProducts();
             }
         });
@@ -112,7 +112,7 @@ export class SelecaoDeProdutos{
                 var isFound = true;
 
                 if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.category.id == this.selectedCategory.id){
+                    if(x.base.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -123,7 +123,7 @@ export class SelecaoDeProdutos{
                 if(isFound){    
 
                     if( (this.filter != null && this.filter != '')){ 
-                        if( x.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                        if( x.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
                             isFound = true;
                         }
                         else {

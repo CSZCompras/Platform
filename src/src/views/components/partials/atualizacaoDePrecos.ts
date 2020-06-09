@@ -49,7 +49,7 @@ export class AtualizacaoDePrecos{
             (<any>product).isNew = true;
             this.supplierProducts.push(product);   
             this.isLoading = true;                    
-            this.supplierProducts = this.supplierProducts.sort( (a : SupplierProduct, b : SupplierProduct) => 0 - (a.product.name > b.product.name ? -1 : 1));
+            this.supplierProducts = this.supplierProducts.sort( (a : SupplierProduct, b : SupplierProduct) => 0 - (a.product.base.name > b.product.base.name ? -1 : 1));
             this.loadData(false).then( () => this.search());
         }) 
     }
@@ -127,7 +127,7 @@ export class AtualizacaoDePrecos{
             var isFound = true; 
 
                 if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.product.category.id == this.selectedCategory.id){
+                    if(x.product.base.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -140,8 +140,8 @@ export class AtualizacaoDePrecos{
 
                     if( (this.filter != null && this.filter != '')){ 
                         if( 
-                                x.product.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.product.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                                x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.product.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
                             ||  x.product.brand != null && x.product.brand.name.toUpperCase().includes(this.filter.toUpperCase()) 
                         ){
                             isFound = true;

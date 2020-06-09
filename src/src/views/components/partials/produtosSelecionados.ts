@@ -52,8 +52,8 @@ export class ProdutosSelecionados{
            (<any>product).isNew  = true;
            
             if( 
-                    (this.selectedClass.id == product.product.category.productClass.id && (this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2')) 
-                ||  this.selectedCategory.id == product.product.category.id){
+                    (this.selectedClass.id == product.product.base.category.productClass.id && (this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2')) 
+                ||  this.selectedCategory.id == product.product.base.category.id){
 
                     
 
@@ -208,7 +208,7 @@ export class ProdutosSelecionados{
             y.products.forEach( (z : BuyListProduct) => {
                 
                 if(z.foodServiceProduct != null){
-                    y[z.foodServiceProduct.product.name + '_' + z.foodServiceProduct.product.unit.name + '_' + z.foodServiceProduct.product.description] =  z.isInList;
+                    y[z.foodServiceProduct.product.base.name + '_' + z.foodServiceProduct.product.unit.name + '_' + z.foodServiceProduct.product.description] =  z.isInList;
                 }
                 
             });
@@ -219,7 +219,7 @@ export class ProdutosSelecionados{
             
             this.isFiltered = true;
 
-            var products = this.allProducts.filter( (x : FoodServiceProduct) => x.product.category.productClass.id == this.selectedClass.id);
+            var products = this.allProducts.filter( (x : FoodServiceProduct) => x.product.base.category.productClass.id == this.selectedClass.id);
             
             if(this.selectedCategory != null && this.selectedCategory.id == '-2'){
                 this.filteredProducts = products;
@@ -236,7 +236,7 @@ export class ProdutosSelecionados{
 
                         if( (this.selectedCategory != null && this.selectedCategory.id != '' && this.selectedCategory.id  != '-2')){ 
                             
-                            if(x.product.category.id == this.selectedCategory.id){
+                            if(x.product.base.category.id == this.selectedCategory.id){
                                 isFound = true;
                             }
                             else {
@@ -247,7 +247,7 @@ export class ProdutosSelecionados{
                         if(isFound){
 
                             if( (this.filter != null && this.filter != '')){ 
-                                if( x.product.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                if( x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
                                     isFound = true;
                                 }
                                 else {
@@ -301,7 +301,7 @@ export class ProdutosSelecionados{
     changeList(list : BuyList, product : FoodServiceProduct){
 
         var viewModel = new AlterBuyListProductViewModel();
-        viewModel.isInList = list[product.product.name + '_' + product.product.unit.name + '_' + product.product.description];
+        viewModel.isInList = list[product.product.base.name + '_' + product.product.unit.name + '_' + product.product.description];
         viewModel.foodServiceProductId = product.productId;
         viewModel.buyListId = list.id;
  

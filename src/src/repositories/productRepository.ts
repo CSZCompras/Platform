@@ -82,22 +82,6 @@ export class ProductRepository{
                 });
     } 
 
-    
-
-    getAllProductsByCategory(category : string ) : Promise<Product[]> {
-
-        return this.api
-                .find('productSearch?categoryId=' + category)
-                .then( (result : Promise<Product[]>) => {                 
-                    return result;
-                })
-                .catch( (e) => {
-                    console.log(e);
-                    return Promise.resolve(e.json().then( error => { 
-                        throw error;
-                    })); 
-                });
-    }
 
     getAllProducts() : Promise<Product[]> {
 
