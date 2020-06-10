@@ -8,13 +8,27 @@ import { HttpClient } from 'aurelia-fetch-client';
 
 @autoinject
 export class ProductBaseRepository{
-    
 
     api: Rest;
 
     constructor(private config: Config, private client : HttpClient, private service : IdentityService) {
         this.api = this.config.getEndpoint('csz');
+    } 
+    
+    addOrUpdate(product: ProductBase) {
+        return this.api
+                    .post('productBase', product)
+                    .then( (result : Promise<any>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => { 
+                            throw error;
+                        })); 
+                    }); 
     }
+    
 
 
     getAllProductsByCategory(category : string ) : Promise<ProductBase[]> {

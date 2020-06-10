@@ -34,7 +34,7 @@ export class ListProduct{
     isLoading                   : boolean;
 	validationController        : ValidationController;
 
-    
+
     constructor(		 
 		private ea                          : EventAggregator, 
         private nService                    : NotificationService,
@@ -238,6 +238,6 @@ export class ListProduct{
         var p = new Product();
         p.isActive = true;
         ( <any> p).isNew = true;
-        this.product.products.unshift(p);
+        this.product.products.push(p);
     }
 }
