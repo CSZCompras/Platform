@@ -52,40 +52,42 @@ export class AtualizacaoDePrecos{
     loadData(loadProducts : boolean) : Promise<any>{  
         debugger;  
 
-     return    this.productRepository
-               .getClassesByOfferedProducts()
-               .then( (data : ProductClass[]) => {  
-                   this.classes = data;
+        return this.productRepository
+                    .getClassesByOfferedProducts()
+                    .then( (data : ProductClass[]) => {  
+                        this.classes = data;
 
-                   if(this.selectedCategory == null &&  data.length > 0){
-                        if(data[0].categories.length > 0){
-                            this.selectedCategory = data[0].categories[0];
+                        if(this.selectedCategory == null &&  data.length > 0){
+                                if(data[0].categories.length > 0){
+                                    this.selectedCategory = data[0].categories[0];
+                                }
                         }
-                   }
-                   else {
-                       var selectedCtg= this.selectedCategory;
-                       var classFiltered = data.filter( (x : ProductClass) => x.id == this.selectedClass.id);
+                        else {
+                            var selectedCtg= this.selectedCategory;
+                            var classFiltered = data.filter( (x : ProductClass) => x.id == this.selectedClass.id);
 
-                       if(classFiltered.length > 0){
-                            this.selectedClass = classFiltered[0];
-                        
-                            var filteredCategory = this.selectedClass.categories.filter( (x : ProductCategory) => x.id == selectedCtg.id);
-                        
-                            if(filteredCategory.length > 0){
-                                this.selectedCategory = filteredCategory[0];
-                            }
+                            if(classFiltered.length > 0){
+                                    this.selectedClass = classFiltered[0];
+                                
+                                    var filteredCategory = this.selectedClass.categories.filter( (x : ProductCategory) => x.id == selectedCtg.id);
+                                
+                                    if(filteredCategory.length > 0){
+                                        this.selectedCategory = filteredCategory[0];
+                                    }
+                                }
                         }
-                   }
-                   this.ea.publish('atualizacaoDePrecosLoaded');
-                   if(loadProducts){
-                        this.loadProducts();
-                   }
-                   else{
-                       this.isLoading = false;
-                   }
-               }).catch( e => {
-                   this.nService.presentError(e);
-               });
+
+                        this.ea.publish('atualizacaoDePrecosLoaded');
+
+                        if(loadProducts){
+                                this.loadProducts();
+                        }
+                        else{
+                            this.isLoading = false;
+                        }
+                    }).catch( e => {
+                       // this.nService.presentError(e);
+                    });
     } 
 
     updateCategories(){

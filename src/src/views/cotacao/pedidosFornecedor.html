@@ -153,9 +153,9 @@
                                            <tbody>
                                               <tr repeat.for="item of selectedOrder.items">
                                                  <td class="text-center">${item.clientCode}</td>
-                                                 <td>${item.product.name}</td>
+                                                 <td>${item.product.base.name}</td>
                                                  <td>${item.product.description}</td>
-                                                 <td>${item.product.category.name}</td>
+                                                 <td>${item.product.base.category.name}</td>
                                                  <td>${item.product.unit.name}</td>
                                                  <td>${item.product.brand.name}</td> 
                                                  <td class="text-center">${item.quantity | money}</td>

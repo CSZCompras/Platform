@@ -64,11 +64,11 @@
                                  </div>
                            </td>
                            <td>
-                                 ${supplierProduct.product.name}
+                                 ${supplierProduct.product.base.name}
                                  <span if.bind="supplierProduct.isNew" class="badge badge-warning">Novo!</span>                                
                            </td>
                            <td>${supplierProduct.product.description}</td>                           
-                           <td>${supplierProduct.product.category.name}</td>
+                           <td>${supplierProduct.product.base.category.name}</td>
                            <td>${supplierProduct.product.unit.name}</td>
                            <td></td>
                            <td>

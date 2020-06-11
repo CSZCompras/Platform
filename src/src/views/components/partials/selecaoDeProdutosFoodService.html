@@ -23,7 +23,10 @@
          </div>
       </div>
    </div>
-   <div class="row" if.bind="isFiltered">
+   <div class="fa-2x " if.bind="isLoading">
+         <i class="fa fa-refresh fa-spin"></i>
+   </div> 
+   <div class="row" if.bind="isFiltered && (! isLoading)">
       <div class="col-md-12 pb-5"> 
          <table class="table table-hover">
             <thead>
@@ -35,14 +38,16 @@
                   <th></th>
                </tr>
             </thead>
-            <tbody>
-               <tr repeat.for="product of filteredProducts">
-                  <td>${product.name}</td>
-                  <td class="text-center align-middle">${product.description}</td>
-                  <td>${product.category.name}</td>
-                  <td>${product.unit.name}</td> 
-                  <td>
-                        <button if.bind="! product.isLoading" type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }" disabled.bind="isProcessing" click.trigger="addProduct(product)">Incluir</button>
+            <tbody repeat.for="base of filteredProducts" if.bind="base.products.length > 0">
+               <tr repeat.for="product of base.products">
+                  <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">
+                     <span if.bind="$index == 0">${base.name}</span> 
+                  </td> 
+                  <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
+                  <td class="${ $index > 0 ? 'border-0' : ''}">${product.category.name}</td>
+                  <td class="${ $index > 0 ? 'border-0' : ''}">${product.unit.name}</td> 
+                  <td class="${ $index > 0 ? 'border-0' : ''}">
+                        <button if.bind="! product.isLoading" type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }" disabled.bind="isProcessing" click.trigger="addProduct(product, base)">Incluir</button>
                         <div class="fa-2x " if.bind="product.isLoading  == true">
                             <i class="fa fa-refresh fa-spin"></i>
                         </div> 

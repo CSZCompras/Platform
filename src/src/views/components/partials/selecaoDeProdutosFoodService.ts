@@ -24,14 +24,15 @@ export class SelecaoDeProdutosFoodService{
     selectedClass       : ProductClass;
     filter              : string;
     isProcessing        : boolean;
+    isLoading           : boolean;
 
     constructor(		
-		private service             : IdentityService,
-		private nService            : NotificationService, 
-        private ea                  : EventAggregator ,
-        private productRepository   : ProductRepository,
-        private productBaseRepository : ProductBaseRepository,
-        private repository          : FoodServiceRepository) {
+		private service                 : IdentityService,
+		private nService                : NotificationService, 
+        private ea                      : EventAggregator ,
+        private productRepository       : ProductRepository,
+        private productBaseRepository   : ProductBaseRepository,
+        private repository              : FoodServiceRepository) {
         
         this.isFiltered = false;
         this.isProcessing = false;
@@ -42,13 +43,7 @@ export class SelecaoDeProdutosFoodService{
 		this.loadData(); 
         
         this.ea.subscribe('productRemoved', (fp : FoodServiceProduct) => { 
-
-            var base = this.allProducts.filter( x => x.id == fp.product.base.id);
-
-            if(base != null && base.length > 0){
-                base[0].products.push(fp.product);
-                this.search(); 
-            }
+            this.loadData();
         }); 
     } 
 
@@ -58,6 +53,11 @@ export class SelecaoDeProdutosFoodService{
     }
 
     loadData(){
+
+        this.allProducts = [];
+        this.filteredProducts = [];
+        this.isFiltered = false;
+        this.isLoading = true;
 
         var promisse0 = this.productRepository
                             .getAllClasses()
@@ -79,6 +79,7 @@ export class SelecaoDeProdutosFoodService{
 
             this.search();
             this.ea.publish('dataLoaded');
+            this.isLoading = false;
         });
     }
 
@@ -123,7 +124,7 @@ export class SelecaoDeProdutosFoodService{
         }
     }
 
-    addProduct(product : Product){ 
+    addProduct(product : Product, base : ProductBase){ 
         
         ( <any> product).isLoading = true;
 
@@ -138,13 +139,9 @@ export class SelecaoDeProdutosFoodService{
         this.repository
             .addProduct(foodProduct)
             .then( (data : FoodServiceProduct) => {  
-                            
-                this.filteredProducts = this.filteredProducts.filter( (x : ProductBase) => x.id != product.id ); 
-                 
-                this.allProducts = this.allProducts.filter( (x : ProductBase) => x.id != product.id );
-
+                
+                base.products = base.products.filter( x => x.id != product.id);           
                 this.nService.presentSuccess('Produto incluído com sucesso!');   
-
                 this.ea.publish('productAdded', data );
                 this.isProcessing = false;
                 ( <any> product).isLoading = true;
