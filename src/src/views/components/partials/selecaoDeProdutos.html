@@ -36,24 +36,22 @@
                   <th class="text-center">Descrição</th>
                   <th class="text-center">Marca</th> 
                   <th class="text-center">UM</th> 
-                  <th class="text-center">Preço</th> 
-                  <th class="text-center">Peso (kgs)</th> 
+                  <th class="text-center">Preço</th>  
                   <th></th>
                </tr>
             </thead>
             <tbody repeat.for="base of filteredProducts" if.bind="base.products.length > 0">
                <tr repeat.for="product of base.products">
-                  <td class="align-middle">${base.name}</td> 
-                           <td class="text-center align-middle">${product.description}</td>
-                           <td class="align-middle">${product.brand.name}</td>
-                           <td class="text-center align-middle">${product.unit.name}</td> 
-                           <td class="align-middle text-center">
-                                 <input type="text" disabled.bind="! product.supplierProduct" class="money form-control mx-auto col-md-6  text-right ${ product.supplierProduct ? '' : 'disabled' } " autocomplete="off" value.bind="product.supplierProduct.price | money" money placeholder="000,00" />
-                           </td>
-                           <td class="align-middle">
-                                 <input type="text"  disabled.bind="! (product.supplierProduct && product.unit.mustInformQuantity) " class="money form-control mx-auto col-md-6 text-right  ${ (product.supplierProduct && product.unit.mustInformQuantity) ? '' : 'disabled' } " autocomplete="off" value.bind="product.supplierProduct.weight | money" money placeholder="000,00" />                        
-                           </td>
-                                 <td class="align-middle"><div class="fa-2x text-center mx-auto" if.bind="product.isLoading" >
+                  <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">
+                     <span if.bind="$index == 0">${base.name}</span> 
+                  </td> 
+                           <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
+                           <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">${product.brand.name}</td>
+                           <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.unit.name}</td> 
+                           <td class="align-middle text-center ${ $index > 0 ? 'border-0' : ''}">
+                                 <input type="text" disabled.bind="! product.supplierProduct" class="money form-control mx-auto col-md-6  text-right ${ product.supplierProduct ? '' : 'disabled' } " autocomplete="off" value.bind="product.supplierProduct.price | money" money placeholder="000,00" />                           
+                           </td> 
+                           <td class="align-middle  ${ $index > 0 ? 'border-0' : ''}"><div class="fa-2x text-center mx-auto" if.bind="product.isLoading" >
                                     <i class="fa fa-refresh fa-spin"></i>
                                  </div> 
                                  <button  if.bind="! product.supplierProduct && ! product.isLoading"    type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="includeProduct(product)">Incluir</button>

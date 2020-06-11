@@ -30,10 +30,10 @@
                      <tbody>
                         <tr repeat.for="item of list.items">     
                            <td>${item.clientCode}</td>                                         
-                           <td>${item.product.product.name}</td>                       
+                           <td>${item.product.product.base.name}</td>                       
                            <td>${item.product.product.description}</td>
-                           <td>${item.product.product.category.productClass.name}</td>
-                           <td>${item.product.product.category.name}</td>
+                           <td>${item.product.product.base.category.productClass.name}</td>
+                           <td>${item.product.product.base.category.name}</td>
                            <td>${item.product.product.unit.name}</td>
                            <td>${item.product.product.brand.name}</td>          
                            <td class="text-center">${item.price.toFixed(2)}</td>

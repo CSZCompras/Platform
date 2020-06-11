@@ -45,12 +45,7 @@ export class AtualizacaoDePrecos{
         this.loadData(true); 
 
         this.ea.subscribe('productAdded', (product : SupplierProduct) =>{
-            
-            (<any>product).isNew = true;
-            this.supplierProducts.push(product);   
-            this.isLoading = true;                    
-            this.supplierProducts = this.supplierProducts.sort( (a : SupplierProduct, b : SupplierProduct) => 0 - (a.product.base.name > b.product.base.name ? -1 : 1));
-            this.loadData(false).then( () => this.search());
+            this.loadData(true).then( () => this.search());
         }) 
     }
 

@@ -36,10 +36,10 @@
                         <tr repeat.for="row of file.rows">
                             <td>${row.lineNumber}</td>
                             <td>${row.supplierProduct.clientCode}</td>
-                           <td>${row.supplierProduct.product.name}</td>
+                           <td>${row.supplierProduct.product.base.name}</td>
                            <td>${row.supplierProduct.product.description}</td>
-                           <td>${row.supplierProduct.product.category.productClass.name}</td>
-                           <td>${row.supplierProduct.product.category.name}</td>
+                           <td>${row.supplierProduct.product.base.category.productClass.name}</td>
+                           <td>${row.supplierProduct.product.base.category.name}</td>
                            <td>${row.supplierProduct.product.unit.name}</td>
                            <td>${row.supplierProduct.product.brand.name}</td>
                            <td class="text-center">${row.oldPrice.toFixed(2)}</td>
