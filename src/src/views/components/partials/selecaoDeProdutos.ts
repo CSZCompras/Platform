@@ -41,7 +41,8 @@ export class SelecaoDeProdutos{
 
         this.loadData();
         
-        this.ea.subscribe('supplierProductRemoved', (product : SupplierProduct) => {            
+        this.ea.subscribe('supplierProductRemoved', (product : SupplierProduct) => { 
+
             if(this.selectedCategory.id == product.product.base.category.id){
                 this.loadProducts();
             }
@@ -167,14 +168,9 @@ export class SelecaoDeProdutos{
 
         this.repository
             .addProduct(supplierProduct)
-            .then( (data : SupplierProduct) => { 
-            
-                this.allProducts = this.allProducts.filter( (x : ProductBase) => x.id != product.id);
-
-                this.filteredProducts = this.filteredProducts.filter( (x : ProductBase) => x.id != product.id);
-
+            .then( (data : SupplierProduct) => {  
+                this.loadProducts();
                 this.nService.presentSuccess('Produto incluído com sucesso!'); 
-
                 this.ea.publish('productAdded', data);
                 ( <any> product).isLoading = false;
                 

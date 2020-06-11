@@ -41,7 +41,7 @@
                   <th></th>
                </tr>
             </thead>
-            <tbody repeat.for="base of filteredProducts">
+            <tbody repeat.for="base of filteredProducts" if.bind="base.products.length > 0">
                <tr repeat.for="product of base.products">
                   <td class="align-middle">${base.name}</td> 
                            <td class="text-center align-middle">${product.description}</td>
