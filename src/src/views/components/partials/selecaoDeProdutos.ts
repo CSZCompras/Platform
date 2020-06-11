@@ -8,6 +8,8 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { SupplierRepository } from '../../../repositories/supplierRepository';
 import { SupplierProduct } from '../../../domain/supplierProduct';
 import { SupplierProductStatus } from '../../../domain/supplierProductStatus';
+import { ProductBase } from '../../../domain/productBase';
+import { ProductBaseRepository } from '../../../repositories/productBaseRepository';
 
 
 @autoinject
@@ -17,18 +19,19 @@ export class SelecaoDeProdutos{
     categories          : ProductCategory[];
     selectedClass       : ProductClass; 
     selectedCategory    : ProductCategory;
-    allProducts         : Product[];
-    filteredProducts    : Product[];
+    allProducts         : ProductBase[];
+    filteredProducts    : ProductBase[];
     isFiltered          : boolean;
     filter              : string;
     isEditing           : boolean;
     isLoaded            : boolean;
 
     constructor(		
-		private nService            : NotificationService, 
-        private ea                  : EventAggregator ,
-        private  productRepository  : ProductRepository,
-        private repository          : SupplierRepository) {
+		private nService                : NotificationService, 
+        private ea                      : EventAggregator ,
+        private productRepository       : ProductRepository,
+        private productBaseRepository   : ProductBaseRepository,
+        private repository              : SupplierRepository) {
         
         this.isFiltered = true;
         this.isLoaded = false;
@@ -77,9 +80,9 @@ export class SelecaoDeProdutos{
 
         if(this.selectedCategory != null){
                 
-            return this.productRepository
+            return this.productBaseRepository
                         .getOfferedProducts(this.selectedCategory.id)
-                        .then( (data : Product[]) => {
+                        .then( (data : ProductBase[]) => {
                             this.allProducts = data;
                             this.filteredProducts = data;
                             this.isLoaded = true;
@@ -107,12 +110,12 @@ export class SelecaoDeProdutos{
             this.isFiltered = true;
 
 
-            this.filteredProducts = this.allProducts.filter( (x : Product) =>{
+            this.filteredProducts = this.allProducts.filter( (x : ProductBase) =>{
 
                 var isFound = true;
 
                 if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.base.category.id == this.selectedCategory.id){
+                    if(x.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -123,7 +126,7 @@ export class SelecaoDeProdutos{
                 if(isFound){    
 
                     if( (this.filter != null && this.filter != '')){ 
-                        if( x.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                        if( x.name.toUpperCase().includes(this.filter.toUpperCase()) ){
                             isFound = true;
                         }
                         else {
@@ -166,9 +169,9 @@ export class SelecaoDeProdutos{
             .addProduct(supplierProduct)
             .then( (data : SupplierProduct) => { 
             
-                this.allProducts = this.allProducts.filter( (x : Product) => x.id != product.id);
+                this.allProducts = this.allProducts.filter( (x : ProductBase) => x.id != product.id);
 
-                this.filteredProducts = this.filteredProducts.filter( (x : Product) => x.id != product.id);
+                this.filteredProducts = this.filteredProducts.filter( (x : ProductBase) => x.id != product.id);
 
                 this.nService.presentSuccess('Produto incluído com sucesso!'); 
 

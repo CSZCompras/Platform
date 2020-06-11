@@ -61,10 +61,10 @@ export class ListProduct{
 
     activate(params){ 
         this.product = new ProductBase();
-        this.applyRules(this.product);
+        this.applyRules();
     }
 
-    applyRules(p : ProductBase){
+    applyRules(){
 
 
         ValidationRules 
@@ -72,6 +72,17 @@ export class ListProduct{
             .ensure((p : ProductBase) => p.category).displayName('Categoria do produto').required() 
             .on(this.product);   
 
+        this.product.products.forEach( (x : Product) => {
+            
+            ValidationRules 
+                .ensure((p : Product) => p.description).displayName('Descrição').required() 
+                .on(x);
+
+            ValidationRules 
+                .ensure((x : UnitOfMeasurement) => x.id).displayName('Unidade de medida').required()  
+                .on(x.unit);
+                
+        });   
     }
 
     loadData(){
@@ -181,7 +192,7 @@ export class ListProduct{
 
         this.isEditing = true;    
         this.product = product;
-        this.applyRules(this.product);
+        this.applyRules();
 
         this.selectedClassProduct = this.classes.filter(x => x.id == product.category.productClass.id)[0];
         this.categories = this.selectedClassProduct.categories;
@@ -193,7 +204,7 @@ export class ListProduct{
         this.product = new ProductBase();
         this.isEditing = true;
         this.product.isActive = true;        
-        this.applyRules(this.product);
+        this.applyRules();
     }
 
     cancel(){
@@ -239,5 +250,10 @@ export class ListProduct{
         p.isActive = true;
         ( <any> p).isNew = true;
         this.product.products.push(p);
+        this.applyRules();
+    }
+
+    removeProduct(p : Product){
+        this.product.products = this.product.products.filter(x => x != p);
     }
 }

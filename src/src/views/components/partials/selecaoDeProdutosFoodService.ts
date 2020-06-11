@@ -8,6 +8,8 @@ import { Product } from "../../../domain/product";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { FoodServiceRepository } from '../../../repositories/foodServiceRepository';
 import { FoodServiceProduct } from '../../../domain/foodServiceProduct'; 
+import { ProductBaseRepository } from '../../../repositories/productBaseRepository';
+import { ProductBase } from '../../../domain/productBase';
 
 
 @autoinject
@@ -15,8 +17,8 @@ export class SelecaoDeProdutosFoodService{
     
     classes             : ProductClass[];
     categories          : ProductCategory[];
-    allProducts         : Product[];
-    filteredProducts    : Product[];
+    allProducts         : ProductBase[];
+    filteredProducts    : ProductBase[];
     isFiltered          : boolean;
     selectedCategory    : ProductCategory;
     selectedClass       : ProductClass;
@@ -24,11 +26,12 @@ export class SelecaoDeProdutosFoodService{
     isProcessing        : boolean;
 
     constructor(		
-		private service         : IdentityService,
-		private nService        : NotificationService, 
-        private ea              : EventAggregator ,
-        private productRepository : ProductRepository,
-        private repository      : FoodServiceRepository) {
+		private service             : IdentityService,
+		private nService            : NotificationService, 
+        private ea                  : EventAggregator ,
+        private productRepository   : ProductRepository,
+        private productBaseRepository : ProductBaseRepository,
+        private repository          : FoodServiceRepository) {
         
         this.isFiltered = false;
         this.isProcessing = false;
@@ -38,10 +41,14 @@ export class SelecaoDeProdutosFoodService{
         
 		this.loadData(); 
         
-        this.ea.subscribe('productRemoved', (x : FoodServiceProduct) => { 
+        this.ea.subscribe('productRemoved', (fp : FoodServiceProduct) => { 
 
-            this.allProducts.unshift(x.product);
-            this.search(); 
+            var base = this.allProducts.filter( x => x.id == fp.product.base.id);
+
+            if(base != null && base.length > 0){
+                base[0].products.push(fp.product);
+                this.search(); 
+            }
         }); 
     } 
 
@@ -52,7 +59,7 @@ export class SelecaoDeProdutosFoodService{
 
     loadData(){
 
-        var promisse0 = this. productRepository
+        var promisse0 = this.productRepository
                             .getAllClasses()
                             .then( (data : ProductClass[]) => { 
                                 this.classes = data
@@ -61,9 +68,9 @@ export class SelecaoDeProdutosFoodService{
                             })
                             .catch( e => this.nService.presentError(e));
 
-        var promisse1 = this. productRepository
+        var promisse1 = this.productBaseRepository
                             .getAllProducts()
-                            .then( (data : Product[]) => { 
+                            .then( (data : ProductBase[]) => { 
                                 this.allProducts = data
                             })
                             .catch( e => this.nService.presentError(e));
@@ -84,12 +91,12 @@ export class SelecaoDeProdutosFoodService{
             
             this.isFiltered = true;
 
-            this.filteredProducts = this.allProducts.filter( (x : Product) =>{
+            this.filteredProducts = this.allProducts.filter( (x : ProductBase) =>{
 
                 var isFound = true;
 
                 if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.base.category.id == this.selectedCategory.id){
+                    if(x.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -100,7 +107,7 @@ export class SelecaoDeProdutosFoodService{
                 if(isFound){
 
                     if( (this.filter != null && this.filter != '')){ 
-                        if( x.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                        if( x.name.toUpperCase().includes(this.filter.toUpperCase()) ){
                             isFound = true;
                         }
                         else {
@@ -116,10 +123,8 @@ export class SelecaoDeProdutosFoodService{
         }
     }
 
-    addProduct(product : Product){
-
-        var user = this.service.getIdentity();
-
+    addProduct(product : Product){ 
+        
         ( <any> product).isLoading = true;
 
         this.isProcessing = true;
@@ -134,9 +139,9 @@ export class SelecaoDeProdutosFoodService{
             .addProduct(foodProduct)
             .then( (data : FoodServiceProduct) => {  
                             
-                this.filteredProducts = this.filteredProducts.filter( (x : Product) => x.id != product.id ); 
+                this.filteredProducts = this.filteredProducts.filter( (x : ProductBase) => x.id != product.id ); 
                  
-                this.allProducts = this.allProducts.filter( (x : Product) => x.id != product.id );
+                this.allProducts = this.allProducts.filter( (x : ProductBase) => x.id != product.id );
 
                 this.nService.presentSuccess('Produto incluído com sucesso!');   
 

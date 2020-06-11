@@ -7,7 +7,7 @@ import { HttpClient } from 'aurelia-fetch-client';
 
 
 @autoinject
-export class ProductBaseRepository{
+export class ProductBaseRepository{    
 
     api: Rest;
 
@@ -28,6 +28,21 @@ export class ProductBaseRepository{
                         })); 
                     }); 
     }
+
+    getAllProducts() : Promise<ProductBase[]> {
+
+        return this.api
+                .find('productBase')
+                .then( (result : Promise<ProductBase[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    }
     
 
 
@@ -35,6 +50,21 @@ export class ProductBaseRepository{
 
         return this.api
                 .find('productSearch?categoryId=' + category)
+                .then( (result : Promise<Product[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    }
+
+    getOfferedProducts(categoryId : string): Promise<ProductBase[]> {
+
+        return this.api
+                .find('productByCategory?categoryId=' + categoryId)
                 .then( (result : Promise<Product[]>) => {                 
                     return result;
                 })

@@ -6,6 +6,10 @@ import { ProductBase } from './productBase';
 
 export class Product{
 
+    constructor() {
+        this.unit = new UnitOfMeasurement();
+    }
+
     id          : string; 
     description : string;
     base        : ProductBase;
