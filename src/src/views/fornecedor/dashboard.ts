@@ -59,7 +59,7 @@ export class App {
    	attached(): void { 
 
 		if(this.identity.registerStatus == RegisterStatus.Valid){
-			this.loadData();
+			// this.loadData();
 		} 
 		/* ScriptRunner.runScript();*/  
 

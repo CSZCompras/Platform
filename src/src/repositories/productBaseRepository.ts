@@ -65,7 +65,7 @@ export class ProductBaseRepository{
 
         return this.api
                 .find('productByCategory?categoryId=' + categoryId)
-                .then( (result : Promise<Product[]>) => {                 
+                .then( (result : Promise<ProductBase[]>) => {                 
                     return result;
                 })
                 .catch( (e) => {
