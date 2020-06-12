@@ -47,36 +47,7 @@ export class ProdutosSelecionados{
 
         this.loadData(); 
         
-        this.ea.subscribe('productAdded', (product : FoodServiceProduct) =>{  
-
-           (<any>product).isNew  = true;
-           
-            if( 
-                    (this.selectedClass.id == product.product.base.category.productClass.id && (this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2')) 
-                ||  this.selectedCategory.id == product.product.base.category.id){
-
-                    
-
-                    if(this.selectedCategory.id == '-1' ||this.selectedCategory.id == '-2' ||  this.selectedCategory.id == '' || this.selectedCategory == null){ // novos 
-                    
-                        this.isFiltered = true; 
-
-                        this.filteredProducts.unshift(product);
-                        this.allProducts.unshift(product);
-
-                        this.lists.forEach( ( x : BuyList) => this.addProductToList(x, product) );
-                    }
-                    else{
-                        this.addProductToDefaultList(product);
-                        this.allProducts.unshift(product);
-                    }  
-            } 
-            else{
-                this.addProductToDefaultList(product);
-                this.allProducts.unshift(product);
-            }  
-            this.defineProductsInList();
-        });
+        this.ea.subscribe('productAdded', (product : FoodServiceProduct) => this.loadProducts());
         
     } 
 
@@ -135,12 +106,7 @@ export class ProdutosSelecionados{
                                 var novo = new ProductCategory();
                                 novo.id = '-2';
                                 novo.name = "Todos";
-                                x.categories.unshift(novo);
-
-                                var novo = new ProductCategory();
-                                novo.id = '-1';
-                                novo.name = "Novos Produtos";
-                                x.categories.unshift(novo)
+                                x.categories.unshift(novo); 
                                 
                                 this.selectedCategory = novo; 
                             });
@@ -208,7 +174,7 @@ export class ProdutosSelecionados{
             y.products.forEach( (z : BuyListProduct) => {
                 
                 if(z.foodServiceProduct != null){
-                    y[z.foodServiceProduct.product.base.name + '_' + z.foodServiceProduct.product.unit.name + '_' + z.foodServiceProduct.product.description] =  z.isInList;
+                    y[z.foodServiceProduct.productId] =  z.isInList;
                 }
                 
             });
@@ -227,12 +193,7 @@ export class ProdutosSelecionados{
 
             this.filteredProducts = products.filter( (x : FoodServiceProduct) =>{
 
-                    var isFound = true;
-
-                    if(this.selectedCategory.id == '-1'){
-                        return  (<any>x).isNew != null && (<any>x).isNew == true;
-                    }
-                    else{ 
+                    var isFound = true; 
 
                         if( (this.selectedCategory != null && this.selectedCategory.id != '' && this.selectedCategory.id  != '-2')){ 
                             
@@ -258,8 +219,7 @@ export class ProdutosSelecionados{
 
                         if(isFound){
                             return x;
-                        }
-                    }
+                        } 
                 }); 
     }
 
@@ -301,7 +261,7 @@ export class ProdutosSelecionados{
     changeList(list : BuyList, product : FoodServiceProduct){
 
         var viewModel = new AlterBuyListProductViewModel();
-        viewModel.isInList = list[product.product.base.name + '_' + product.product.unit.name + '_' + product.product.description];
+        viewModel.isInList = list[product.product.id];
         viewModel.foodServiceProductId = product.productId;
         viewModel.buyListId = list.id;
  
