@@ -49,8 +49,7 @@ export class AtualizacaoDePrecos{
         }) 
     }
 
-    loadData(loadProducts : boolean) : Promise<any>{  
-        debugger;  
+    loadData(loadProducts : boolean) : Promise<any>{   
 
         return this.productRepository
                     .getClassesByOfferedProducts()

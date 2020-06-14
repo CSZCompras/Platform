@@ -7,6 +7,7 @@ import { ProductCategory } from './../domain/productCategory';
 import { ProductClass } from './../domain/productClass';
 import { Product } from "../domain/product";
 import { HttpClient } from 'aurelia-fetch-client';
+import { Brand } from '../domain/brand';
 
 
 @autoinject
@@ -66,6 +67,21 @@ export class ProductRepository{
     } 
 
     
+
+    getAllBrands() : Promise<Brand[]> {
+
+        return this.api
+                .find('brand')
+                .then( (result : Promise<ProductClass[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    } 
 
     getClassesByOfferedProducts() : Promise<ProductClass[]> {
 

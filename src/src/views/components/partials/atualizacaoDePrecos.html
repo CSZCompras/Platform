@@ -70,7 +70,7 @@
                            <td>${supplierProduct.product.description}</td>                           
                            <td>${supplierProduct.product.base.category.name}</td>
                            <td>${supplierProduct.product.unit.name}</td>
-                           <td></td>
+                           <td>${supplierProduct.product.brand.name}</td>
                            <td>
                               <div class="col-md-12 mx-auto">
                                  <input type="text" class="money text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.price | money" money placeholder="000,00" />

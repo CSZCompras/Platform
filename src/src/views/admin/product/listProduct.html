@@ -2,19 +2,17 @@
     <div class="row mb-5 task-manager au-animate"  >
        <div class="col-lg-12">
           <div class="card">
-             <div class="card-header">          
-                Produtos
-             </div> 
+             <div class="card-header">Produtos</div> 
              <div class="card-body"> 
                  <div if.bind="! isEditing">
                     <div class="row mt-2"> 
                         <div class="col-lg-4">
-                                       <div class="form-group" change.delegate="updateCategories()">
-                                          <label class="control-label">Mercado</label>            
-                                          <select class="form-control"  value.bind="selectedClass">
-                                             <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
-                                          </select>
-                                       </div>
+                            <div class="form-group" change.delegate="updateCategories()">
+                               <label class="control-label">Mercado</label>            
+                               <select class="form-control"  value.bind="selectedClass">
+                                  <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
+                               </select>
+                            </div>
                         </div>  
                         <div class="col-lg-4">
                             <div class="form-group">
@@ -112,8 +110,9 @@
                             <div class="col-md-3">
                                <div class="form-group">
                                      <label class="control-label">Marca</label>            
-                                     <select class="form-control "    value.bind="selectedCategory">
+                                     <select class="form-control "    value.bind="p.brand.id & validate">
                                          <option  value=""></option> 
+                                         <option  repeat.for="brand of brands" model.bind="brand.id">${brand.name}</option>
                                      </select>
                                </div> 
                             </div>
@@ -124,9 +123,6 @@
                                         <option  value=""></option>
                                         <option  repeat.for="unit of units" model.bind="unit.id">${unit.name}</option>
                                     </select>
-                                    ${p.unit}
-                                    ${p.unit.id}
-                                    ${p.unit.name}
                               </div> 
                            </div>
                            <div class="col-md-2">

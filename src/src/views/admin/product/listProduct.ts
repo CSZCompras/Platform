@@ -14,6 +14,7 @@ import { FormValidationRenderer } from '../../formValidationRenderer';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
+import { Brand } from '../../../domain/brand';
 
 @autoinject
 export class ListProduct{
@@ -22,6 +23,7 @@ export class ListProduct{
     filteredProducts            : ProductBase[];
     classes                     : ProductClass[];
     categories                  : ProductCategory[];
+    brands                      : Brand[];
     units                       : UnitOfMeasurement[];
     selectedCategory            : ProductCategory;
     selectedClass               : ProductClass;
@@ -47,6 +49,7 @@ export class ListProduct{
             this.product = new ProductBase();
 
             this.units = [];
+            this.brands = [];
             // Validation.
             this.validationController = this.validationControllerFactory.createForCurrentScope();
             this.validationController.addRenderer(new FormValidationRenderer());
@@ -81,12 +84,15 @@ export class ListProduct{
             ValidationRules 
                 .ensure((x : UnitOfMeasurement) => x.id).displayName('Unidade de medida').required()  
                 .on(x.unit);
+
+            ValidationRules 
+                    .ensure((x : Brand) => x.id).displayName('Marca').required()  
+                    .on(x.brand);
                 
         });   
     }
 
-    loadData(){
-         
+    loadData(){ 
 
         this.productRepository
                .getAllClasses()
@@ -100,13 +106,16 @@ export class ListProduct{
                    this.nService.presentError(e);
                });
 
+
+            this.productRepository
+               .getAllBrands()
+               .then( (data : Brand[]) =>  this.brands = data)
+               .catch( e => this.nService.presentError(e));               
+
         this.unitRepository
             .getAll()
-            .then( (data : UnitOfMeasurement[]) => { 
-                this.units = data;
-            }).catch( e => {
-                this.nService.presentError(e);
-            });
+            .then( (data : UnitOfMeasurement[]) => this.units = data)
+            .catch( e => this.nService.presentError(e));
     }
 
     changeProductBaseStatus(){

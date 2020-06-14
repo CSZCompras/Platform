@@ -32,8 +32,9 @@
             <thead>
                <tr>
                   <th>Nome</th>
-                  <th class="text-center align-middle">Descrição</th>
+                  <th>Descrição</th>
                   <th>Categoria</th>
+                  <th>Marca</th> 
                   <th>UM</th> 
                   <th></th>
                </tr>
@@ -43,8 +44,9 @@
                   <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">
                      <span if.bind="$index == 0">${base.name}</span> 
                   </td> 
-                  <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
-                  <td class="${ $index > 0 ? 'border-0' : ''}">${product.category.name}</td>
+                  <td class="${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
+                  <td class="${ $index > 0 ? 'border-0' : ''}">${base.category.name}</td>
+                  <td class="${ $index > 0 ? 'border-0' : ''}">${product.brand.name}</td> 
                   <td class="${ $index > 0 ? 'border-0' : ''}">${product.unit.name}</td> 
                   <td class="${ $index > 0 ? 'border-0' : ''}">
                         <button if.bind="! product.isLoading" type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ isProcessing ? 'disable' : ''  && ! product.isLoading }" disabled.bind="isProcessing" click.trigger="addProduct(product, base)">Incluir</button>

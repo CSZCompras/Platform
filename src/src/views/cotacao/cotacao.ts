@@ -128,7 +128,16 @@ export class Pedido{
 		if(this.currentStep == 3){
 			window.scrollTo(0, 0);
 		}
-    }
+	}
+	
+	showHideMarket(market : MarketInputViewModel){
+		if(  ( <any> market).show ){
+			( <any> market).show = ! ( <any> market).show;
+		}
+		else{
+			window.setTimeout(() => ( <any> market).show = ! ( <any> market).show, 500); // problemas na renderizacao
+		}
+	}
     
     simulate(){
 
