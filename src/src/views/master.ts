@@ -55,14 +55,9 @@ export class Master {
             this.isLoading = true;
         });
 
-        this.ea.subscribe('dataLoaded', () => {
-
-            window.setTimeout(() => this.isLoading = false, 500);
-        });
-    }
-
-    
-
+        this.ea.subscribe('dataLoaded', () => window.setTimeout(() => this.isLoading = false, 500));
+	}
+	
     attached() { 
         ScriptRunner.runScript();
         this.isLogged = this.service.isLogged();
