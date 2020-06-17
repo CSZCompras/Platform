@@ -4,6 +4,7 @@ import { Rest, Config } from 'aurelia-api';
 import { GenericAnalytics } from '../../domain/analytics/genericAnalytics';
 import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
 import { OrderPeriod } from '../../domain/analytics/orderPeriod';
+import { Order } from '../../domain/order';
 
 @autoinject
 export class AnalyticsRepository{
@@ -12,6 +13,37 @@ export class AnalyticsRepository{
 
     constructor(private config: Config) {
         this.api = this.config.getEndpoint('csz');
+    }
+
+    
+
+    getOrders(start : Date, end : Date) : Promise<Order[]>{
+        
+        return this.api 
+                    .find('analytics/admin/orders?dateStart=' + start + '&dateEnd=' + end)                    
+                    .then( (result : Order[]) =>  { return result; })
+                    .catch( (e) => {
+                        debugger;
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
+    getOrdersAnalytics(start : Date, end : Date) : Promise<AnalyticsSerie>{
+
+        return this.api
+                    .find('analytics/admin/numberOfOrders?dateStart=' + start + '&dateEnd=' + end) 
+                        .then( (result : Promise<AnalyticsSerie>) => {                 
+                            return result;
+                        })
+                        .catch( (e) => {
+                            console.log(e);
+                            return Promise.resolve(e.json().then( error => {
+                                throw error;
+                            }));
+                        });
     }
 
     getNumberOfCustomers()  : Promise<GenericAnalytics>  {
