@@ -39,7 +39,9 @@ export class App {
     }
 
 	
-   	attached(): void {   
+   	attached(): void {  
+		   this.startDate = new Date(2019, 1, 1);
+		   this.endDate = new Date((new Date()).getDate());
 	} 
 	
     exportOrders(){ 
@@ -100,7 +102,7 @@ export class App {
 			type: 'bar',
 			data: {
 				datasets: [{
-					backgroundColor : colors.red,
+					backgroundColor : "rgb(255, 99, 132)",
 					data: values,
 					label: 'Pedidos'
 				}],
