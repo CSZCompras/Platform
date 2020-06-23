@@ -6,7 +6,7 @@
     
         <div class="row mb-5 au-animate">
             <div class="col-md-12">
-                <div class="row">   
+                <div class="row" if.bind="orders.length > 0">   
                    <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
                       <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
                          <div class="card-body p-4">
@@ -24,7 +24,7 @@
                       </div>
                    </div>
                 </div>
-                <div class="row mb-5">
+                <div class="row mb-5" >
                     <div class="col-md-6">
                         <div class="card ">
                             <div class="card-header">
@@ -50,21 +50,40 @@
                         </div>      
                     </div>     
                 </div>
-                <div class="col-md-12">
-                   <div class="card card-md" style="height: 800px;">
-                      <div class="card-header">
-                         Pedidos - Evolução Mensal
-                      </div>
-                      <div class="card-body text-center">
-                         <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
-                            <i class="fa fa-refresh fa-spin"></i>
-                         </span>
-                         <div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59">
-                            <canvas id="pedidosChart"></canvas>
-                         </div>
-                      </div>
-                   </div>
-                </div>
+                <div class="row mb-5 ${ordersAnalytics.items.length > 0 ? '' :  'invisible' } ">
+                  <div class="col-md-12">
+                     <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                           Qtde de Pedidos - Evolução Mensal
+                        </div>
+                        <div class="card-body text-center">
+                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
+                              <i class="fa fa-refresh fa-spin"></i>
+                           </span>
+                           <div class="card-chart">
+                              <canvas id="qtdePedidosChart"></canvas>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row mb-5 ${ordersAnalytics.items.length > 0 ? '' :  'invisible' }">
+                  <div class="col-md-12">
+                     <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                           Volume de Pedidos - Evolução Mensal
+                        </div>
+                        <div class="card-body text-center">
+                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
+                              <i class="fa fa-refresh fa-spin"></i>
+                           </span>
+                           <div class="card-chart">
+                              <canvas id="financeiroPedidosChart"></canvas>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
         </div>
 </template>        

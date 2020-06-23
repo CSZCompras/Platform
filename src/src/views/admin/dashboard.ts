@@ -3,6 +3,9 @@ import { Router } from 'aurelia-router';
 import { Rest, Config } from 'aurelia-api'; 
 import { Order } from '../../domain/order'; 
 import { NotificationService } from '../../services/notificationService';
+import * as Chart from 'chart.js';
+import { AnalyticsRepository } from '../../repositories/analytics/analyticsRepository';
+import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -12,9 +15,6 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';
-import * as Chart from 'chart.js';
-import { AnalyticsRepository } from '../../repositories/analytics/analyticsRepository';
-import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
 
 @autoinject
 export class App {
@@ -27,7 +27,8 @@ export class App {
 	orders					: Order[];
 	ordersAnalytics 		: AnalyticsSerie;
 	isLoading				: boolean;
-	pedidosChart			: Chart;
+	qtdePedidosChart		: Chart;
+	financeiroPedidosChart	: Chart;
 
 
 	constructor(
@@ -40,8 +41,6 @@ export class App {
 
 	
    	attached(): void {  
-		   this.startDate = new Date(2019, 1, 1);
-		   this.endDate = new Date((new Date()).getDate());
 	} 
 	
     exportOrders(){ 
@@ -49,54 +48,55 @@ export class App {
         window.open(api.client.baseUrl + 'ExportOrders?startDate=' + this.startDate + '&endDate=' + this.endDate, '_parent');
     }
 
-	updateDashboards(){			
+	updateDashboards(){		
+		
+		if(this.startDate != null && this.startDate != new Date() && this.endDate != null && this.endDate != new Date()){
 
-		this.isLoading = true;		
+			this.isLoading = true;				
+			
+			if(this.qtdePedidosChart != null){
+				this.qtdePedidosChart.destroy();
+			}		
 
-		this.repository
-			.getOrders(this.startDate, this.endDate)
-			.then( x => { 
-				this.orders = x;
-				this.isLoading = false;
-			})
-			.catch( e => { 				
-				this.isLoading = false;
-				this.nService.error(e);
-			});
+			
+			if(this.financeiroPedidosChart != null){
+				this.financeiroPedidosChart.destroy();
+			}	
 
-		this.repository
-			.getOrdersAnalytics(this.startDate, this.endDate)
-			.then( x => { 
-				this.ordersAnalytics = x;
-				this.drawOrdersChart(x);
-				this.isLoading = false;
-			})
-			.catch( e => { 				
-				this.isLoading = false;
-				this.nService.error(e);
-			});
+			this.repository
+				.getOrders(this.startDate, this.endDate)
+				.then( x => { 
+					this.orders = x;
+					this.isLoading = false;
+				})
+				.catch( e => { 				
+					this.isLoading = false;
+					this.nService.error(e);
+				});
+
+			this.repository
+				.getOrdersAnalytics(this.startDate, this.endDate)
+				.then( x => { 
+					this.ordersAnalytics = x;
+					this.drawOrdersChart(x);
+					this.drawFinanceiroOrdersChart(x);
+					this.isLoading = false;
+				})
+				.catch( e => { 				
+					this.isLoading = false;
+					this.nService.error(e);
+				});
+
+		}
+		else{
+			this.nService.presentError('A data inicial e final são obrigatóras');
+		}
 	}
 
 	drawOrdersChart(data : AnalyticsSerie){ 
 
-		
-		if(this.pedidosChart != null){
-			this.pedidosChart.destroy();
-		}
-
 		var values = [];		
-		data.items.forEach(x => values.push(x.count));
-		
-		var colors = {
-			blue :  "rgb(54, 162, 235)",
-			green : "rgb(75, 192, 192)",
-			grey : "rgb(201, 203, 207)",
-			orange : "rgb(255, 159, 64)",
-			purple : "rgb(153, 102, 255)", 
-			red : "rgb(255, 99, 132)",
-			yellow : "rgb(255, 205, 86)"
-		};
-		
+		data.items.forEach(x => values.push(x.count)); 
 
 		var config = {
 			type: 'bar',
@@ -116,8 +116,36 @@ export class App {
 			}
 		}; 
 
-		var ctx = ( <any> document.getElementById('pedidosChart')).getContext('2d'); 
-		this.pedidosChart = new Chart(ctx, config);
+		var ctx = ( <any> document.getElementById('qtdePedidosChart')).getContext('2d'); 
+		this.qtdePedidosChart = new Chart(ctx, config);
+
+	}
+
+	drawFinanceiroOrdersChart(data : AnalyticsSerie){ 
+
+		var values = [];		
+		data.items.forEach(x => values.push(x.total.toFixed(2))); 
+
+		var config = {
+			type: 'bar',
+			data: {
+				datasets: [{
+					backgroundColor : "rgb(255, 99, 132)",
+					data: values,
+					label: 'Pedidos'
+				}],
+				labels: data.labels
+			},
+			options: {
+				responsive: true,
+				legend: {
+					display: false
+				 }
+			}
+		}; 
+
+		var ctx = ( <any> document.getElementById('financeiroPedidosChart')).getContext('2d'); 
+		this.financeiroPedidosChart = new Chart(ctx, config);
 
 	}
 }
