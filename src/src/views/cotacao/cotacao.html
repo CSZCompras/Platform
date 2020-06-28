@@ -208,12 +208,9 @@
                                        </p>
                                     </div>
                                     <div class="mt-5 ml-5" if.bind="! isProcessing && (simulation.bestResult.validationMessages == null || simulation.bestResult.validationMessages.length == 0)">
-                                       <div class="card-table table-responsive" repeat.for="summary of simulation.bestResult.summaryItems">
-                                          <h4 class="text-center"> 
-                                             <i class="fa fa-tag mr-2"></i> ${summary.supplier.fantasyName}
-                                          </h4>
-                                          <h5 class="mt-5">Informações do fornecedor</h5>
-                                          <table class="table table-hover table-sm align-middle mt-1   ">
+                                      <div  repeat.for="result of simulation.betterResults">
+                                       <div class="col-md-12 card-table table-responsive">
+                                          <table class="table table-hover table-sm align-middle">
                                              <thead>
                                                 <tr>
                                                    <th class="text-left">Fornecedor</th>
@@ -226,9 +223,9 @@
                                                 </tr>
                                              </thead>
                                              <tbody>
-                                                <tr>
+                                                <tr repeat.for="item of result.summaryItems">
                                                    <td>
-                                                      ${summary.supplier.fantasyName}
+                                                      ${item.supplier.fantasyName}
                                                    </td>
                                                    <td class="text-center">
                                                       <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
@@ -238,41 +235,44 @@
                                                       <i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
                                                    </td>
                                                    <td class="text-center">
-                                                      ${summary.rule.numberOfDaysToAccept} dias
+                                                      ${item.rule.numberOfDaysToAccept} dias
                                                    </td>
                                                    <td class="text-center">
-                                                      ${summary.rule.periodToAcceptOrder1 | time}
+                                                      ${item.rule.periodToAcceptOrder1 | time}
                                                       <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                      ${summary.rule.periodToAcceptOrder2 | time}
+                                                      ${item.rule.periodToAcceptOrder2 | time}
                                                    </td>
                                                    <td class="text-center">
-                                                      <span if.bind="summary.rule.deliveryOnMonday" class="badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
-                                                      <span if.bind="summary.rule.deliveryOnTuesday" class="badge  ${ summary.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
-                                                      <span if.bind="summary.rule.deliveryOnWednesday" class="badge ${ summary.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
-                                                      <span if.bind="summary.rule.deliveryOnThursday" class="badge  ${ summary.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
-                                                      <span if.bind="summary.rule.deliveryOnFriday" class="badge ${ summary.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
+                                                      <span if.bind="item.rule.deliveryOnMonday" class="badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
+                                                      <span if.bind="item.rule.deliveryOnTuesday" class="badge  ${ item.rule.deliveryOnTuesday ? 'badge-success' : 'badge-warning' }">Terça-feira</span>
+                                                      <span if.bind="item.rule.deliveryOnWednesday" class="badge ${ item.rule.deliveryOnWednesday ? 'badge-success' : 'badge-warning' }">Quarta-feira</span>
+                                                      <span if.bind="item.rule.deliveryOnThursday" class="badge  ${ item.rule.deliveryOnThursday ? 'badge-success' : 'badge-warning' }">Quinta-feira</span>
+                                                      <span if.bind="item.rule.deliveryOnFriday" class="badge ${ item.rule.deliveryOnFriday ? 'badge-success' : 'badge-warning' }">Sexta-feira</span>
                                                       <br />
                                                       <br />
-                                                      <span if.bind="summary.rule.deliveryOnSaturday" class="badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
-                                                      <span if.bind="summary.rule.deliveryOnSunday" class="badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
+                                                      <span if.bind="item.rule.deliveryOnSaturday" class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
+                                                      <span if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
                                                    </td>
                                                    <td class="text-center">
-                                                      ${summary.rule.deliverySchedule1 | time}
+                                                      ${item.rule.deliverySchedule1 | time}
                                                       <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                      ${summary.rule.deliverySchedule2 | time}
+                                                      ${item.rule.deliverySchedule2 | time}
                                                    </td>
                                                    <td class="text-right">
-                                                      ${summary.total | money}
+                                                      ${item.total | money}
                                                    </td>
                                                 </tr>
                                              </tbody>
                                           </table>
-                                          <h5 class="mt-5">Produtos</h5>
-                                          <table class="table table-hover mt-1">
+                                       </div>
+                                       <h4 class="mt-5">Produtos</h4>
+                                       <div class="col-md-12 card-table table-responsive">
+                                          <table class="table table-hover table-sm align-middle">
                                              <thead>
                                                 <tr>
                                                    <th class="text-left">Nome do Produto</th>
-                                                   <th class="text-center">Descrição</th>
+                                                   <th class="text-left">Descrição</th>
+                                                   <th class="text-center">Marca</th>
                                                    <th class="text-center">UM</th>
                                                    <th class="text-right">Preço unitário</th>
                                                    <th class="text-right">Quantidade</th>
@@ -280,12 +280,18 @@
                                                 </tr>
                                              </thead>
                                              <tbody>
-                                                <tr repeat.for="item of summary.items">
+                                                <tr repeat.for="item of result.items">
                                                    <td>
                                                       ${item.product.base.name}
+                                                      <div>
+                                                         <small class="boldness-light">${item.supplier.fantasyName}</small>
+                                                      </div>
                                                    </td>
-                                                   <td class="text-center  align-middle">
+                                                   <td>
                                                       ${item.product.description}
+                                                   </td>
+                                                   <td class="text-center">
+                                                      ${item.product.brand.name}
                                                    </td>
                                                    <td class="text-center">
                                                       ${item.product.unit.name}
@@ -305,11 +311,12 @@
                                                       <strong>Total:</strong>
                                                    </td>
                                                    <td class="text-right">
-                                                      <strong>${summary.total  | money}</strong>
+                                                      <strong>${result.total  | money}</strong>
                                                    </td>
                                                 </tr>
                                              </tbody>
                                           </table>
+                                       </div>
                                        </div>
                                     </div>
                                  </div>
