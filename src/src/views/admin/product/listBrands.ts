@@ -3,37 +3,32 @@ import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { NotificationService } from '../../../services/notificationService';
-import { ProductRepository } from '../../../repositories/productRepository'; 
-import { ProductCategory } from '../../../domain/productCategory';
-import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasurementRepository'; 
-import { ProductClass } from '../../../domain/productClass';
+import { NotificationService } from '../../../services/notificationService'; 
+import { ProductCategory } from '../../../domain/productCategory';  
 import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 import { FormValidationRenderer } from '../../formValidationRenderer';
+import { Brand } from '../../../domain/brand';
+import { BrandRepository } from '../../../repositories/brandRepository';
 
 @autoinject
 export class ListBrands{
  
-    classes                     : ProductClass[]; 
-    categories                  : ProductCategory[]; 
-    selectedCategory            : ProductCategory;
-    selectedClass               : ProductClass; 
+    brands                      : Brand[];  
+    selectedBrand               : Brand; 
     filter                      : string;
     isEditing                   : boolean;
-    market                      : ProductClass; 
+    brand                       : Brand; 
     isLoading                   : boolean;
 	validationController        : ValidationController;
 
     constructor(		 
 		private ea                          : EventAggregator, 
         private nService                    : NotificationService,
-        private repository                  : ProductRepository ,
-        private unitRepository              : UnitOfMeasurementRepository,
-        private productRepository           : ProductRepository, 
+        private repository                  : BrandRepository,
         private validationControllerFactory : ValidationControllerFactory){
             
             
-            this.market = new ProductClass(); 
+            this.brand = new Brand(); 
 
             this.validationController = this.validationControllerFactory.createForCurrentScope();
             this.validationController.addRenderer(new FormValidationRenderer());
@@ -49,57 +44,44 @@ export class ListBrands{
 
 
         ValidationRules 
-            .ensure((m : ProductClass) => m.name).displayName('Nome do mercado').required()  
-            .on(this.market);  
+            .ensure((b : Brand) => b.name).displayName('Nome da marca').required()  
+            .on(this.brand);  
     }
 
     loadData(){
          
 
-        this.productRepository
-               .getAllClasses()
-               .then( (data : ProductClass[]) => { 
-                   this.classes = data;  
+        this.repository
+               .getAllBrands()
+               .then( (data : Brand[]) => { 
+                   this.brands = data;  
                    this.ea.publish('dataLoaded');
                }).catch( e => {
                    this.nService.presentError(e);
                }); 
     }  
 
-    edit(market : ProductClass){
+    edit(brand : Brand){
 
         this.isEditing = true;
-        this.market = market;
+        this.brand = brand;
     }
 
     create(){
 
-        this.market = new ProductClass();
-        this.market.isActive = true;
+        this.brand = new Brand();
+        this.brand.isActive = true;
         this.isEditing = true;
     }
 
-    cancel(){
-
+    cancel(){ 
         this.isEditing = false; 
+    }   
+
+    editBrandStatus(){
+        this.brand.isActive = ! this.brand.isActive; 
     }
 
-    editMarketStatus(){
-        this.market.isActive = ! this.market.isActive; 
-    }
-
-    editCategoryStatus(x : ProductCategory){
-        x.isActive = ! x.isActive; 
-    }
-
-    createCategory(){
-        var x = new ProductCategory();
-        x.isActive = true;
-        if(this.market.categories == null){
-            this.market.categories = [];
-        }
-        this.market.categories.unshift(x);
-    }
 
     addOrUpdate(){
 
@@ -112,13 +94,13 @@ export class ListBrands{
                     this.isLoading = true;
 
                     this.repository
-                        .addOrUpdateClass(this.market)
+                        .addOrUpdateBrand(this.brand)
                         .then(x => {               
                             this.loadData();
-                            this.market = null; 
+                            this.brand = null; 
                             this.isEditing = false;
                             this.isLoading = false;
-                            this.nService.success('Mercado cadastrado com sucesso!');
+                            this.nService.success('Marca cadastrado com sucesso!');
                         })
                         .catch( e => {
                             this.nService.error(e);

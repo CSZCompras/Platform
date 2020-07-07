@@ -11,8 +11,7 @@ import { Brand } from '../domain/brand';
 
 
 @autoinject
-export class ProductRepository{
-    
+export class ProductRepository{ 
 
     api: Rest;
 
@@ -55,23 +54,6 @@ export class ProductRepository{
 
         return this.api
                 .find('productClass')
-                .then( (result : Promise<ProductClass[]>) => {                 
-                    return result;
-                })
-                .catch( (e) => {
-                    console.log(e);
-                    return Promise.resolve(e.json().then( error => { 
-                        throw error;
-                    })); 
-                });
-    } 
-
-    
-
-    getAllBrands() : Promise<Brand[]> {
-
-        return this.api
-                .find('brand')
                 .then( (result : Promise<ProductClass[]>) => {                 
                     return result;
                 })
