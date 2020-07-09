@@ -15,6 +15,7 @@ import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { Brand } from '../../../domain/brand';
+import { BrandRepository } from '../../../repositories/brandRepository';
 
 @autoinject
 export class ListProduct{
@@ -43,6 +44,7 @@ export class ListProduct{
         private repository                  : ProductBaseRepository ,
         private unitRepository              : UnitOfMeasurementRepository,
         private productRepository           : ProductRepository, 
+        private brandRepository             : BrandRepository,
         private validationControllerFactory : ValidationControllerFactory){
             
             
@@ -107,7 +109,7 @@ export class ListProduct{
                });
 
 
-            this.productRepository
+            this.brandRepository
                .getAllBrands()
                .then( (data : Brand[]) =>  this.brands = data)
                .catch( e => this.nService.presentError(e));               

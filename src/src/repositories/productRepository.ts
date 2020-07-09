@@ -11,7 +11,7 @@ import { Brand } from '../domain/brand';
 
 
 @autoinject
-export class ProductRepository{ 
+export class ProductRepository{
 
     api: Rest;
 
@@ -49,6 +49,22 @@ export class ProductRepository{
                     })); 
                 }); 
     }
+
+    
+    getProductsByBrand(brandId: string) {
+
+        return this.api
+                .find('productByBrand?brandId=' + brandId)
+                .then( (result : Promise<ProductCategory[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                }); 
+    } addOrUpdate
 
     getAllClasses() : Promise<ProductClass[]> {
 

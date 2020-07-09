@@ -1,63 +1,92 @@
 <template>
-    <div class="row mb-5 task-manager au-animate"  >
+    <div class="row mb-5 task-manager au-animate">
        <div class="col-lg-12">
           <div class="card">
              <div class="card-header">
                 Marcas
-             </div> 
-             <div class="card-body"> 
-                 <div if.bind="! isEditing">
-                    <div class="row mt-2 ml-2">
-                        <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="create()">Nova marca</button>
-                    </div> 
-                    <div class="row text-center mt-4 fa-2x" if.bind="isLoading">
-                        <i class="fa fa-refresh fa-spin"></i>
-                    </div>
-                    <table class="table table-hover" if.bind="! isLoading">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr repeat.for="x of brands">
-                                <td>${x.name}</td> 
-                                <td>  
-                                    <span class="badge badge-success" if.bind="x.isActive">Ativo</span>
-                                    <span class="badge badge-danger" if.bind="! x.isActive">Inativo</span>                       
-                                </td> 
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="edit(x)">Editar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>                
+             </div>
+             <div class="card-body">
+                <div if.bind="! isEditing">
+                   <div class="row mt-2 ml-2">
+                      <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="create()">Nova marca</button>
+                   </div>
+                   <div class="row text-center mt-4 fa-2x" if.bind="isLoading">
+                      <i class="fa fa-refresh fa-spin"></i>
+                   </div>
+                   <table class="table table-hover" if.bind="! isLoading">
+                      <thead>
+                         <tr>
+                            <th>Nome</th>
+                            <th>Status</th>
+                            <th></th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr repeat.for="x of brands">
+                            <td>${x.name}</td>
+                            <td>  
+                               <span class="badge badge-success" if.bind="x.isActive">Ativo</span>
+                               <span class="badge badge-danger" if.bind="! x.isActive">Inativo</span>                       
+                            </td>
+                            <td>
+                               <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="edit(x)">Editar</button>
+                            </td>
+                         </tr>
+                      </tbody>
+                   </table>
                 </div>
                 <div if.bind="isEditing">
-                    <div class="row">
-                           <div class="col-md-8">
-                              <div class="form-group">
-                                 <label class="control-label">Nome<span class="text-danger  ml-1 bold">*</span></label>
-                                 <input type="text" class="form-control "    value.bind="brand.name & validate"  />
-                                 <span class="badge badge-success" if.bind="brand.isActive">Ativo</span>
-                                 <span class="badge badge-danger" if.bind="! brand.isActive">Inativo</span>  
-                              </div> 
-                           </div>
-                    </div>   
-                    <div class="text-center mt-4" if.bind="! isLoading">
-                        <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>
-                        <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>    
-                        <button type="button" class="btn btn-danger  waves-effect waves-light"    if.bind="brand.isActive"    click.trigger="editBrandStatus()">Inativar</button>
-                        <button type="button" class="btn btn-success   waves-effect waves-light"   if.bind="! brand.isActive"  click.trigger="editBrandStatus()">Ativar</button>
-                    </div>
-                    <div class="text-center mt-4 fa-2x" if.bind="isLoading">
-                        <i class="fa fa-refresh fa-spin"></i>
-                    </div>
+                   <div class="row">
+                      <div class="col-md-8">
+                         <div class="form-group">
+                            <label class="control-label">Nome<span class="text-danger  ml-1 bold">*</span></label>
+                            <input type="text" class="form-control "    value.bind="brand.name & validate"  />
+                            <span class="badge badge-success" if.bind="brand.isActive">Ativo</span>
+                            <span class="badge badge-danger" if.bind="! brand.isActive">Inativo</span>  
+                         </div>
+                      </div>
+                   </div>
+                   <div class="text-center mt-4" if.bind="! isLoading">
+                      <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>
+                      <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>    
+                      <button type="button" class="btn btn-danger  waves-effect waves-light"    if.bind="brand.isActive"    click.trigger="editBrandStatus()">Inativar</button>
+                      <button type="button" class="btn btn-success   waves-effect waves-light"   if.bind="! brand.isActive"  click.trigger="editBrandStatus()">Ativar</button>
+                   </div>
+                   <div class="text-center mt-4 fa-2x" if.bind="isLoading">
+                      <i class="fa fa-refresh fa-spin"></i>
+                   </div>                
+                <div class="row mt-5" if.bind="products.length > 0">
+                   <h3 class="mx-auto text-center">${products.length} Produto(s) Associado(s)</h3> 
+                   <table class="table table-hover">
+                      <thead>
+                         <tr>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Mercado</th>
+                            <th>Marca</th>
+                            <th>UM</th>
+                            <th>Status</th>
+                            <th></th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr repeat.for="x of products">
+                            <td>${x.base.name}</td>
+                            <td>${x.base.category.name}</td>
+                            <td>${x.base.category.productClass.name}</td>
+                            <td>${brand.name}</td>
+                            <td>${x.unit.name}</td>
+                            <td>  
+                               <span class="badge badge-success" if.bind="x.isActive">Ativo</span>
+                               <span class="badge badge-danger" if.bind="! x.isActive">Inativo</span>                       
+                            </td>
+                         </tr>
+                      </tbody>
+                   </table>
+                </div>
                 </div>
              </div>
-          </div>
+          </div> 
        </div>
     </div>
  </template>

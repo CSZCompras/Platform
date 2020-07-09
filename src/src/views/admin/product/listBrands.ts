@@ -9,12 +9,14 @@ import { ValidationControllerFactory, ValidationController, validateTrigger, Val
 import { FormValidationRenderer } from '../../formValidationRenderer';
 import { Brand } from '../../../domain/brand';
 import { BrandRepository } from '../../../repositories/brandRepository';
+import { Product } from '../../../domain/product';
+import { ProductRepository } from '../../../repositories/productRepository';
 
 @autoinject
 export class ListBrands{
  
     brands                      : Brand[];  
-    selectedBrand               : Brand; 
+    products                    : Product[];
     filter                      : string;
     isEditing                   : boolean;
     brand                       : Brand; 
@@ -25,6 +27,7 @@ export class ListBrands{
 		private ea                          : EventAggregator, 
         private nService                    : NotificationService,
         private repository                  : BrandRepository,
+        private productRepository           : ProductRepository,
         private validationControllerFactory : ValidationControllerFactory){
             
             
@@ -65,6 +68,18 @@ export class ListBrands{
 
         this.isEditing = true;
         this.brand = brand;
+        this.loadProducts();        
+    }
+
+    loadProducts(){
+
+        this.productRepository
+               .getProductsByBrand(this.brand.id)
+               .then( (products : Product[]) => { 
+                   this.products = products;  
+               }).catch( e => {
+                   this.nService.presentError(e);
+               }); 
     }
 
     create(){

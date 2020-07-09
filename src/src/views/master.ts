@@ -47,7 +47,7 @@ export class Master {
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator
     ) {
-		this.prefix = '/cszhomologacao';
+	//	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
 
@@ -324,6 +324,7 @@ export class Master {
 			{ route: 'mercadosAdmin', name: 'mercadosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listMarkets') },
 			{ route: 'produtosAdmin', name: 'produtosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listProduct') },
 			{ route: 'suppliersAdmin', name: 'suppliersAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/listSuppliers') },
+			{ route: 'marcasAdmin', name: 'marcasAdmin', moduleId: PLATFORM.moduleName('./admin/product/listBrands') },			
 			{ route: 'foodServicesAdmin', name: 'foodServicesAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/listFoodServices') },
 			{ route: 'editSupplierAdmin', name: 'editSupplierAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/editSupplier') },
 			{ route: 'editFoodServiceAdmin', name: 'editFoodServiceAdmin', moduleId: PLATFORM.moduleName('./admin/foodService/editFoodService') },
