@@ -78,10 +78,6 @@ export class ListProduct{
             .on(this.product);   
 
         this.product.products.forEach( (x : Product) => {
-            
-            ValidationRules 
-                .ensure((p : Product) => p.description).displayName('Descrição').required() 
-                .on(x);
 
             ValidationRules 
                 .ensure((x : UnitOfMeasurement) => x.id).displayName('Unidade de medida').required()  
