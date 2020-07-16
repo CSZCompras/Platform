@@ -79,14 +79,13 @@ export class ListProduct{
 
         this.product.products.forEach( (x : Product) => {
 
+            if(x.unit == null){
+                x.unit = new UnitOfMeasurement();
+            }
+
             ValidationRules 
                 .ensure((x : UnitOfMeasurement) => x.id).displayName('Unidade de medida').required()  
                 .on(x.unit);
-
-            ValidationRules 
-                    .ensure((x : Brand) => x.id).displayName('Marca').required()  
-                    .on(x.brand);
-                
         });   
     }
 
@@ -226,6 +225,14 @@ export class ListProduct{
         this.validationController
             .validate()
             .then((result: ControllerValidateResult) => { 
+
+                this.product.products.forEach(x =>{
+                    
+                    if(x.brand != null && x.brand.id == ''){
+                        x.brand = null;
+                    }
+                    
+                });
             
                 if (result.valid) {   
 
