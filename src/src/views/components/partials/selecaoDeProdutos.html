@@ -14,7 +14,6 @@
             <div class="form-group">
                <label class="control-label">Categoria</label>            
                <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedCategory" change.delegate="loadProducts()">
-                  <option  value=""></option>
                   <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
                </select>
             </div>

@@ -57,6 +57,7 @@ export class SelecaoDeProdutos{
             .then( (data : ProductClass[]) => { 
                 this.classes = data; 
                 if(data.length > 0){
+                    
                     this.selectedClass = data[0];
                     
                     if(data[0].categories.length > 0){
