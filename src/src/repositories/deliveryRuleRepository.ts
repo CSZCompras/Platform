@@ -16,16 +16,16 @@ export class DeliveryRuleRepository{
     getRule(classId : string) : Promise<DeliveryRule> {
         
         return this.api
-            .find('deliveryRule?productClassId=' + classId)
-            .then( (result : Promise<DeliveryRule>) => {                 
-                return result;
-            })
-            .catch( (e) => {
-                console.log(e);
-                return Promise.resolve(e.json().then( error => {
-                    throw error;
-                }));
-            });
+                    .find('deliveryRule?productClassId=' + classId)
+                    .then( (result : Promise<DeliveryRule>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
     }
 
     save(rule : DeliveryRule) : Promise<DeliveryRule>{

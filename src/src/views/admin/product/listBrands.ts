@@ -115,7 +115,7 @@ export class ListBrands{
                             this.brand = null; 
                             this.isEditing = false;
                             this.isLoading = false;
-                            this.nService.success('Marca cadastrado com sucesso!');
+                            this.nService.success('Marca cadastrada com sucesso!');
                         })
                         .catch( e => {
                             this.nService.error(e);

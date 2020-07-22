@@ -16,7 +16,18 @@ export class BrandRepository{
     }
 
     addOrUpdateBrand(brand: Brand) : Promise<Brand>{
-        throw new Error("Method not implemented.");
+
+        return this.api
+                    .post('brand', brand)
+                    .then( (result : Promise<Brand>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
     } 
 
     getAllBrands() : Promise<Brand[]> {
