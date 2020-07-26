@@ -11,6 +11,8 @@ import { AceitePedido } from '../components/partials/aceitePedido';
 import { Order } from '../../domain/order';
 import { OrderStatus } from '../../domain/orderStatus';
 import { RejeicaoPedido } from '../components/partials/rejeicaoPedido';
+import { OrderItem } from '../../domain/orderItem';
+import { FaturarPedido } from '../components/partials/faturarPedido';
 
 @autoinject
 export class PedidosFornecedor{
@@ -22,6 +24,7 @@ export class PedidosFornecedor{
     foodService                 : FoodService;
     filter                      : string;
     selectedStatus              : number;
+    selectedStatusFaturamento   : number;
     isFiltered                  : boolean;
 
     constructor(		
@@ -33,7 +36,8 @@ export class PedidosFornecedor{
 		private nService                : NotificationService,
         private orderRepo               : OrderRepository) { 
 
-            this.selectedStatus = 0;
+            this.selectedStatus = 0; 
+            this.selectedStatusFaturamento = 0;
 
     } 
 
@@ -41,8 +45,7 @@ export class PedidosFornecedor{
 
         this.ea.publish('loadingData'); 
 
-        this.ea.subscribe('newOrder', (data : Order)=>{
-
+        this.ea.subscribe('newOrder', (data : Order)=>{ 
             if(  this.selectedStatus == 0 ||  this.selectedStatus.toString() == "0"){
                 this.orders.push(data);
             }
@@ -50,17 +53,14 @@ export class PedidosFornecedor{
 
         
 
-        this.ea.subscribe('orderFinished', (data : Order)=>{ 
-
-            this.orders.forEach(x => {
-
+        this.ea.subscribe('orderFinished', (data : Order)=>{  
+            this.orders.forEach(x => { 
                 if(x.id == data.id){
                     x = data;
                 }
             }); 
             
             this.filteredOrders.forEach(x => {
-
                 if(x.id == data.id){
                     x.status = data.status; 
                 }
@@ -76,6 +76,8 @@ export class PedidosFornecedor{
      }
 
     load(){
+
+        this.selectedStatusFaturamento = null;
 
         if(this.selectedStatus == OrderStatus.Created || this.selectedStatus == null){
 
@@ -174,35 +176,78 @@ export class PedidosFornecedor{
             });
     }  
 
+    updateItem(item : OrderItem){
+
+        item.total = item.multiplier * item.priceByUnit * item.quantity;
+        var totalOrder = 0;
+        this.selectedOrder.items.forEach(x => totalOrder += x.total);
+        this.selectedOrder.total = totalOrder;
+    }
+
+    editOrderItem(item : OrderItem){
+        if((<any> item).isEditing == null){
+            (<any> item).isEditing = true;
+            (<any> item).oldMultiplier = item.multiplier;
+        }
+        else{
+            (<any> item).isEditing = ! (<any> item).isEditing;
+        }
+    }
+
+    cancelEditOrder(item : OrderItem){
+        item.multiplier = (<any> item).oldMultiplier;
+        this.updateItem(item);
+        this.editOrderItem(item);
+    }
+
+    billOrder(order : Order){ 
+
+        var params = { Order : order};
+
+        this.dialogService
+            .open({ viewModel: FaturarPedido, model: params, lock: false })
+            .whenClosed(response => {
+                if (response.wasCancelled) {
+                    return;
+                }  
+                order.isBilled = true;
+            });
+    }
+
     search(){ 
             
         this.isFiltered = true;
  
 
-            this.filteredOrders = this.orders.filter( (x : Order) =>{
+        this.filteredOrders = this.orders.filter( (x : Order) =>{
 
-                var isFound = true;
+            var isFound = true;
+                                
+            if(this.selectedStatus == OrderStatus.Accepted && this.selectedStatusFaturamento > 0){ 
+                
+                if(this.selectedStatusFaturamento == 1 && x.isBilled != false){ // aguardando faturamento mas ja esta faturada
+                    return null;
+                }
+                else if(this.selectedStatusFaturamento == 2 && x.isBilled == false){
+                    return null;
+                }
+            }  
 
-                if( (this.filter != null && this.filter != '')){ 
-
-                    if( 
-                            (x.code.toString().toUpperCase().includes(this.filter.toUpperCase()))
+            if( (this.filter != null && this.filter != '')){ 
+                if((x.code.toString().toUpperCase().includes(this.filter.toUpperCase()))
                         ||  (x.foodService.name.toString().toUpperCase().includes(this.filter.toUpperCase()))
                         ||  (x.createdBy.name.toString().toUpperCase().includes(this.filter.toUpperCase()))
-                        ||  (x.total.toString().toUpperCase().includes(this.filter.toUpperCase()))
-                    ){
+                        ||  (x.total.toString().toUpperCase().includes(this.filter.toUpperCase()))){
                         isFound = true;
                     }
                     else {
                         isFound= false;
                     }
-                }
-
+                } 
                 if(isFound){
                     return x;
-                } 
-
-            });
+                }  
+            }); 
         } 
 
         exportOrder(order : Order){ 

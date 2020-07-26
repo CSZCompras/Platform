@@ -142,10 +142,10 @@
                                           <thead>
                                              <tr>
                                                 <th>Nome do Produto</th>
+                                                <th>Marca</th>
                                                 <th>Descrição</th>
                                                 <th>Categoria</th>
                                                 <th>UM</th>
-                                                <th>Marca</th>
                                                 <th class="text-center">Quantidade</th>
                                                 <th class="text-center">Preço unitário</th>
                                                 <th class="text-center">Total</th>
@@ -154,10 +154,13 @@
                                           <tbody>
                                              <tr repeat.for="item of selectedOrder.items">
                                                 <td>${item.product.base.name}</td> 
+                                                <td>${item.product.brand.name}</td>
                                                 <td>${item.product.description}</td>
                                                 <td>${item.product.base.category.name}</td>
-                                                <td>${item.product.unit.name}</td>
-                                                <td>${item.product.brand.name}</td>
+                                                <td>
+                                                   ${item.product.unit.name}
+                                                   <span if.bind="item.product.unitInternal != null"> com ${item.product.multiplier} ${item.product.unitInternal.name}(s)</span>
+                                                </td>
                                                 <td class="text-center">${item.quantity | money}</td>
                                                 <td class="text-center">${item.price | money}</td>
                                                 <td class="text-center">${item.total | money}</td>

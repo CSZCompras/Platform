@@ -198,11 +198,38 @@ export class ListProduct{
 
         this.isEditing = true;    
         this.product = product;
-        this.applyRules();
 
         this.selectedClassProduct = this.classes.filter(x => x.id == product.category.productClass.id)[0];
         this.categories = this.selectedClassProduct.categories;
         this.product.category = this.categories.filter( x => x.id == this.product.category.id)[0];
+        
+        this.product.products.forEach(x => {  
+            
+            if(x.unit != null && x.unit.id != null){
+                x.unit = this.units.filter( y => y.id == x.unit.id)[0];
+            }
+            
+            if(x.unitInternal != null && x.unitInternal.id != null){
+                x.unitInternal = this.units.filter( y => y.id == x.unitInternal.id)[0];
+            }
+        });
+        
+        this.applyRules();
+    }
+
+    updateUnit(p : Product){
+        
+        if(p.unit == null || (<any> p.unit)  == '' || p.unit.id  == null || p.unit.id  == ''){
+            p.unitInternal = null;
+            p.multiplier = null;
+        }
+    }
+
+    updateUnitInternal(p : Product){
+        
+        if(p.unitInternal == null || (<any> p.unitInternal)  == '' || p.unitInternal.id  == null || p.unitInternal.id  == ''){
+            p.multiplier = null;
+        }
     }
 
     create(){

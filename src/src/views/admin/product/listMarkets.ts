@@ -47,6 +47,10 @@ export class ListMarkets{
 
     activate(){ 
 
+        this.applyRules();
+    }
+
+    applyRules(){
 
         ValidationRules 
             .ensure((m : ProductClass) => m.name).displayName('Nome do mercado').required()  
@@ -70,6 +74,7 @@ export class ListMarkets{
 
         this.isEditing = true;
         this.market = market;
+        this.applyRules();
     }
 
     create(){
@@ -77,6 +82,7 @@ export class ListMarkets{
         this.market = new ProductClass();
         this.market.isActive = true;
         this.isEditing = true;
+        this.applyRules();
     }
 
     cancel(){

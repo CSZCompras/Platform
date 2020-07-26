@@ -37,11 +37,7 @@
                               </div>
                            </div> 
                         </div> 
-                  </div>
-
-                  <!-- <div class="fa-2x text-center mx-auto" if.bind="! isLoading" >
-                     <i class="fa fa-refresh fa-spin"></i>
-                  </div>  -->
+                  </div> 
                   <table class="table table-hover mt-2" if.bind="! isLoading">
                      <thead>
                         <tr>
@@ -51,6 +47,7 @@
                            <th>Descrição</th> 
                            <th>UM</th>
                            <th class="text-center">Preço</th>
+                           <th></th>
                            <th>Status</th>
                            <th></th> 
                         </tr>
@@ -58,7 +55,7 @@
                      <tbody>
                         <tr repeat.for="supplierProduct of filteredProducts">
                            <td>
-                                 <div class="col-md-6 mx-auto">
+                                 <div class="col-md-8 mx-auto">
                                     <input type="text" class="text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.clientCode" />
                                  </div>
                            </td>
@@ -68,16 +65,19 @@
                            </td>
                            <td>${supplierProduct.product.brand.name}</td>
                            <td>${supplierProduct.product.description}</td>  
-                           <td>${supplierProduct.product.unit.name}</td>
                            <td>
-                              <div class="col-md-12 mx-auto">
-                                 <input type="text" class="money text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.price | money" money placeholder="000,00" />
-                              </div>
+                              ${supplierProduct.product.unit.name}
+                              <span if.bind="supplierProduct.product.unitInternal != null"> com ${supplierProduct.product.multiplier} ${supplierProduct.product.unitInternal.name}(s)</span>
+                           </td>
+                           <td>
+                              <input type="text" class="money text-right form-control float-left ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.price | money" money placeholder="000,00" />
+                           </td>
+                           <td>
+                              <span class="badge badge-warning float-left ml-2 mt-4" if.bind="supplierProduct.product.unitInternal != null"> / ${supplierProduct.product.unitInternal.name}</span>
                            </td>
                            <th>
-                              <span class="badge badge-success ${supplierProduct.status == 0 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }" >Ativo</span>
-                              <span class="badge badge-danger ${supplierProduct.status == 1 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }">Inativo</span>                                                                                                   
-                              <br />
+                              <span class="badge badge-success mt-3 ${supplierProduct.status == 0 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }" >Ativo</span>
+                              <span class="badge badge-danger  mt-3 ${supplierProduct.status == 1 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }">Inativo</span>  
                               <span class="badge badge-warning" if.bind="supplierProduct.wasAltered">Alterado</span>                              
                            </th>
                            <td>
@@ -85,12 +85,12 @@
                                  <i class="fa fa-refresh fa-spin"></i>
                               </div> 
                               <div class="col-md-12 mx-auto">   
-                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ ! supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' }  " if.bind="! supplierProduct.isEditing && ! supplierProduct.isLoading " click.trigger="edit(supplierProduct)">  Editar  </button>
-                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light ${supplierProduct.status == 0 && supplierProduct.isEditing ? ' float-left' : 'invisible' } " if.bind="supplierProduct.status != 1"  click.trigger="alterStatus(supplierProduct, 1)"  >Inativar</button>
-                                    <button type="button" class="btn btn-warning btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } "   if.bind="supplierProduct.status != 2" click.trigger="alterStatus(supplierProduct, 2)">Remover</button>
-                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light ${supplierProduct.status == 1 && supplierProduct.isEditing ? 'float-left' :  'invisible'  } " if.bind="supplierProduct.status != 0" click.trigger="alterStatus(supplierProduct, 0) ">Ativar</button>
-                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading  ? '' : 'invisible' } "  if.bind="supplierProduct.isEditing" click.trigger="save(supplierProduct)">Salvar</button>
-                                    <button type="button" class="btn btn-secondary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading ? '' : 'invisible' } "  if.bind="supplierProduct.isEditing" click.trigger="cancelEdit(supplierProduct)">Cancelar</button>                                    
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ ! supplierProduct.isEditing && ! isLoading  && (! supplierProduct.isEditing && ! supplierProduct.isLoading)? '' : 'invisible' }" click.trigger="edit(supplierProduct)">  Editar  </button>
+                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light ${supplierProduct.status == 1 && supplierProduct.isEditing && (supplierProduct.status != 0) ? 'float-left' :  'invisible'  } " click.trigger="alterStatus(supplierProduct, 0) ">Ativar</button>
+                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light ${supplierProduct.status == 0 && supplierProduct.isEditing && (supplierProduct.status != 1) ? ' float-left' : 'invisible' } " click.trigger="alterStatus(supplierProduct, 1)"  >Inativar</button>
+                                    <button type="button" class="btn btn-warning btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading && (supplierProduct.status != 2) ? '' : 'invisible' } "  click.trigger="alterStatus(supplierProduct, 2)">Remover</button>
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading && supplierProduct.isEditing ? '' : 'invisible' } "  click.trigger="save(supplierProduct)">Salvar</button>
+                                    <button type="button" class="btn btn-secondary btn-sm waves-effect waves-light ${ supplierProduct.isEditing && ! isLoading && supplierProduct.isEditing? '' : 'invisible' } "  click.trigger="cancelEdit(supplierProduct)">Cancelar</button>                                    
                               </div>                                    
                            </td> 
                         </tr>

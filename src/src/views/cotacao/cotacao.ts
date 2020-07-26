@@ -256,9 +256,7 @@ export class Pedido{
  
 			this.repository
 				.getBuyListsParaCotacao()
-				.then(x =>  {
-					this.quotes = x;
-				}) 
+				.then(x =>  this.quotes = x) 
 				.then( () => this.ea.publish('dataLoaded'))
 				.catch( e =>  this.nService.presentError(e));
 

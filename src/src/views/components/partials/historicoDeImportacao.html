@@ -28,7 +28,8 @@
                            <th>UM</th>
                            <th>Marca</th>
                            <th class="text-center">Preço Antigo</th>
-                           <th class="text-center">Novo Preço</th>                           
+                           <th class="text-center">Novo Preço</th>  
+                           <th></th>                         
                            <th>Status</th>
                         </tr>
                      </thead>
@@ -40,10 +41,16 @@
                            <td>${row.supplierProduct.product.description}</td>
                            <td>${row.supplierProduct.product.base.category.productClass.name}</td>
                            <td>${row.supplierProduct.product.base.category.name}</td>
-                           <td>${row.supplierProduct.product.unit.name}</td>
+                           <td>
+                              ${row.supplierProduct.product.unit.name}
+                              <span if.bind="row.supplierProduct.product.unitInternal != null"> com ${row.supplierProduct.product.multiplier} ${row.supplierProduct.product.unitInternal.name}(s)</span>
+                           </td>
                            <td>${row.supplierProduct.product.brand.name}</td>
                            <td class="text-center">${row.oldPrice.toFixed(2)}</td>
                            <td class="text-center">${row.newPrice.toFixed(2)}</td>
+                           <td>
+                              <span class="float-left ml-2 mt-1" if.bind="row.supplierProduct.product.unitInternal != null"> / ${row.supplierProduct.product.unitInternal.name}</span>
+                           </td>
                            <td>       
                               <span class="badge badge-success" if.bind="row.status == 0">Sucesso</span>
                               <span class="badge badge-danger" if.bind="row.status == 1">Erro</span>                        

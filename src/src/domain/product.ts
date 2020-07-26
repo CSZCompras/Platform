@@ -10,10 +10,12 @@ export class Product{
         this.unit = new UnitOfMeasurement();
     }
 
-    id          : string; 
-    description : string;
-    base        : ProductBase;
-    brand       : Brand; 
-    unit        : UnitOfMeasurement;
-    isActive    : boolean;  
+    id              : string; 
+    description     : string;
+    base            : ProductBase;
+    brand           : Brand; 
+    unit            : UnitOfMeasurement;
+    unitInternal    : UnitOfMeasurement;
+    multiplier      : Number;
+    isActive        : boolean;  
 }

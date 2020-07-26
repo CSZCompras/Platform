@@ -36,6 +36,7 @@ export class ListBrands{
             this.validationController = this.validationControllerFactory.createForCurrentScope();
             this.validationController.addRenderer(new FormValidationRenderer());
             this.validationController.validateTrigger = validateTrigger.blur;
+            this.validationController.addObject(this.brand);     
     } 
 
     attached(){
@@ -43,12 +44,16 @@ export class ListBrands{
         this.loadData();
     }
 
-    activate(){ 
+    activate(){   
+        this.applyRules();
+    }
 
+    applyRules(){
 
         ValidationRules 
             .ensure((b : Brand) => b.name).displayName('Nome da marca').required()  
-            .on(this.brand);  
+            .on(this.brand);
+
     }
 
     loadData(){
@@ -68,6 +73,7 @@ export class ListBrands{
 
         this.isEditing = true;
         this.brand = brand;
+        this.applyRules();
         this.loadProducts();        
     }
 
@@ -87,10 +93,12 @@ export class ListBrands{
         this.brand = new Brand();
         this.brand.isActive = true;
         this.isEditing = true;
+        this.applyRules();
     }
 
     cancel(){ 
         this.isEditing = false; 
+        this.loadData();
     }   
 
     editBrandStatus(){
