@@ -145,6 +145,7 @@ export class Pedido{
 		this.isProcessing = true;  
 
 		this.simulations = [];
+		this.results = [];
 
         this.simulationRepository
             .simulate(this.selectedQuote)
