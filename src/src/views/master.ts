@@ -45,8 +45,7 @@ export class Master {
         private orderRepo 				: OrderRepository,
         private messageService 			: MessageService, 
         private connRepository 			: FoodServiceConnectionRepository,
-        private ea                      : EventAggregator
-    ) {
+        private ea                      : EventAggregator) {
 	//	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
@@ -319,7 +318,7 @@ export class Master {
 			{ route: 'meusProdutos', name: 'meusProdutos', moduleId: PLATFORM.moduleName('./foodService/meusProdutos') },  
 			{ route: 'clientes', name: 'clientes', moduleId: PLATFORM.moduleName('./fornecedor/clientes') } ,  
 			{ route: 'cotacao', name: 'cotacao', moduleId: PLATFORM.moduleName('./cotacao/cotacao') }  ,  
-			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./cotacao/pedidosFornecedor') } ,  
+			{ route: 'pedidosFornecedor', name: 'pedidosFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/pedidosFornecedor') } ,  
 			{ route: 'pedidosFoodService', name: 'pedidosFoodService', moduleId: PLATFORM.moduleName('./foodService/pedidosFoodService') },
 			{ route: 'mercadosAdmin', name: 'mercadosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listMarkets') },
 			{ route: 'produtosAdmin', name: 'produtosAdmin', moduleId: PLATFORM.moduleName('./admin/product/listProduct') },
@@ -339,6 +338,11 @@ export class Master {
 
 	logout() : void {
 		this.identityService.resetIdentity();
-		window.location.assign('/'); 
+		if(this.prefix != ''){
+			window.location.assign( window.location.origin + this.prefix + '/'); 
+		}
+		else{
+			window.location.assign('/'); 
+		}
    }
 }

@@ -141,26 +141,51 @@
                                               <tr>
                                                 <th class="text-center">Cod. Produto</th>
                                                  <th class="text-left">Nome do Produto</th>
-                                                 <th>Descrição</th>
-                                                 <th>Categoria</th>
-                                                 <th>UM</th>
                                                  <th>Marca</th>
+                                                 <th>Descrição</th> 
+                                                 <th>UM</th>
                                                  <th class="text-center">Quantidade</th>
-                                                 <th class="text-center">Preço unitário</th>
+                                                 <th class="text-center pr-5">Unidade ou Peso</th>
+                                                 <th class="text-center">Preço</th>
                                                  <th class="text-center">Total</th>
+                                                 <th class=""></th>
                                               </tr>
                                            </thead>
                                            <tbody>
                                               <tr repeat.for="item of selectedOrder.items">
                                                  <td class="text-center">${item.clientCode}</td>
                                                  <td>${item.product.base.name}</td>
-                                                 <td>${item.product.description}</td>
-                                                 <td>${item.product.base.category.name}</td>
-                                                 <td>${item.product.unit.name}</td>
                                                  <td>${item.product.brand.name}</td> 
+                                                 <td>${item.product.description}</td> 
+                                                 <td>
+                                                    ${item.product.unit.name}
+                                                   <span if.bind="item.product.unitInternal != null"> com ${item.multiplier.multiplier} ${item.product.unitInternal.name}(s)</span>
+                                                </td>
                                                  <td class="text-center">${item.quantity | money}</td>
-                                                 <td class="text-center">${item.price | money}</td>
+                                                 <td class="text-center">
+                                                   <span if.bind="item.product.unitInternal != null && item.multiplier != null" class="float-right ml-1 mt-3 ${item.product.unitInternal != null && order.status == OrderStatus.Accepted && ! order.isBilled && item.isEditing ? '' : 'invisible' }">${item.product.unitInternal.name}(s)</span>
+                                                   <input if.bind="item.product.unitInternal != null && item.multiplier != null" type="text"  class="form-control input-task-title float-right col-md-4 ${item.product.unitInternal != null && order.status == OrderStatus.Accepted && ! order.isBilled && item.isEditing ? '' : 'invisible' }" money change.trigger="updateItem(item)"   value.bind="item.multiplier | money"  />
+                                                   <span if.bind="item.product.unitInternal != null && item.multiplier != null" class="float-right ${ item.product.unitInternal != null && ! ( order.status == OrderStatus.Accepted && order.isBilled) && ! item.isEditing ? '' : 'invisible' }">${item.multiplier} ${item.product.unitInternal.name}(s)</span>
+                                                 </td>
+                                                 <td class="text-center">
+                                                    ${item.price | money}
+                                                    <br />
+                                                    <span if.bind="item.priceByUnit != null && item.product.unitInternal != null">(${item.priceByUnit | money} / ${item.product.unitInternal.name})</span>
+                                                  </td>
                                                  <td class="text-center">${item.total | money}</td>
+                                                 <td>
+                                                   <button type="button"  if.bind="item.product.unitInternal != null && item.multiplier != null && selectedOrder.isBilled == false && selectedOrder.status == 1"  class="btn btn-secondary btn-sm waves-effect waves-light  float-left  ml-0 mr-0  ${item.product.unitInternal != null && ! ( order.status == OrderStatus.Accepted && order.isBilled) && item.isEditing ? '' : 'invisible' }"  click.trigger="cancelEditOrder(item)">Cancelar</button>
+                                                    <button type="button"  if.bind="item.product.unitInternal != null && item.multiplier != null && selectedOrder.isBilled == false && selectedOrder.status == 1"  class="btn btn-success btn-sm waves-effect waves-light float-left ml-0 mr-0  ${item.product.unitInternal != null && ! ( order.status == OrderStatus.Accepted && order.isBilled) && item.isEditing ? '' : 'invisible'}"  click.trigger="editOrderItem(item)">Salvar</button>
+                                                    <button type="button"  if.bind="item.product.unitInternal != null && item.multiplier != null && selectedOrder.isBilled == false && selectedOrder.status == 1"  class="btn btn-primary btn-sm waves-effect waves-light float-left ml-0 mr-0 ${item.product.unitInternal != null && ! ( order.status == OrderStatus.Accepted && order.isBilled) && ! item.isEditing ? '' : 'invisible'}"  click.trigger="editOrderItem(item)">Editar</button>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                 <td colspan="9" class="text-right">
+                                                    <strong>Total:</strong>
+                                                 </td>
+                                                 <td class="text-center">
+                                                    <strong>${selectedOrder.total  | money}</strong>
+                                                 </td>
                                               </tr>
                                            </tbody>
                                         </table>
@@ -180,6 +205,10 @@
                                           <i class="fa fa-file-excel-o  mr-2"></i> 
                                            Exportar
                                      </button>
+                                     <button type="button" class="btn btn-success  waves-effect waves-light" if.bind="selectedOrder.isBilled == false && selectedOrder.status == 1" click.trigger="billOrder(selectedOrder)">
+                                          <i class="fa fa-reply  mr-2"></i> 
+                                           Faturar
+                                     </button>
                                      <button type="button"  class="btn btn-success waves-effect waves-light" click.trigger="acceptOrder(selectedOrder)" if.bind="selectedOrder.status == 0">
                                        Aceitar
                                        <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
@@ -197,13 +226,18 @@
                                           <option  value="3">Rejeitado</option>
                                        </select>
                                     </div> 
-                                     <div class="col-lg-4">
+                                    <div class="col-lg-4" if.bind="selectedStatus == 1">
+                                       <label for="input-task-title" class="active">Faturamento</label>
+                                       <select class="form-control"  value.bind="selectedStatusFaturamento" change.delegate="search()">
+                                          <option  value="0" selected></option>
+                                          <option  value="1">Aguardando faturamento</option>
+                                          <option  value="2">Faturada</option>
+                                       </select>
+                                    </div> 
+                                     <div class="col-lg-3">
                                         <label for="input-task-title" class="active">Dados do pedido</label>
                                         <input type="text" class="form-control input-task-title" placeholder="Codigo / Cliente / Contato / Valor"  change.trigger="search()"   value.bind="filter"  />
-                                     </div>
-                                     <div class="col-lg-3 ml-4 mt-3">
-                                        <button type="button" click.trigger="search()" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
-                                     </div>
+                                     </div> 
                                   </div>
                                   <div>
                                      <table class="table  table-hover table-responsive">
@@ -229,6 +263,7 @@
                                                  <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>  
                                                  <span class="badge badge-primary" if.bind="order.status == 2">Entregue</span>
                                                  <span class="badge badge-default" if.bind="order.status == 3">Rejeitado</span>
+                                                 <span class="badge badge-danger" if.bind="order.status == 1 && order.isBilled == false">Aguardando faturamento</span>
                                               </td>
                                               <td>${order.createdOn | dateFormat}</td>
                                               <td class="text-center">${order.deliveryDate | dateFormat}</td>

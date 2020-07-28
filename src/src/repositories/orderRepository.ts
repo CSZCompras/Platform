@@ -6,7 +6,7 @@ import { RejectOrderViewModel } from '../domain/rejectOrderViewModel';
 
 
 @autoinject
-export class OrderRepository{ 
+export class OrderRepository{
 
     api: Rest;
 
@@ -88,6 +88,21 @@ export class OrderRepository{
                         }));
                     });
     }
+
+    billOrder(order: Order) : Promise<Order> {
+
+        return this.api
+                    .post('billOrder', order)
+                    .then( (result : Order) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    } 
 
     acceptOrder(order : Order): Promise<any>{
 

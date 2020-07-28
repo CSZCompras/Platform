@@ -68,11 +68,11 @@
                     </div>                         
                   </div> 
                  <div class="row">
-                    <button type="button" class="btn  btn-success   waves-effect waves-light mx-auto ml-5"  click.trigger="acceptOrder()"  if.bind="! processing" >
-                        <i class="fa fa-check mr-2"></i>Aceitar
-                    </button>
                     <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="cancel()" if.bind="! processing" >
                         <i class="fa fa-undo mr-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn  btn-success   waves-effect waves-light mx-auto ml-5"  click.trigger="acceptOrder()"  if.bind="! processing" >
+                        <i class="fa fa-check mr-2"></i>Aceitar
                     </button>
                     <div class="fa-2x text-center  mx-auto  " if.bind="processing" >
                             <i class="fa fa-refresh fa-spin"></i>

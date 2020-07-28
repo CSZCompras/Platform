@@ -128,10 +128,10 @@
                                                       <thead>
                                                          <tr>
                                                             <th>Nome do produto</th>
+                                                            <th class="text-left">Marca</th>
                                                             <th>Descrição</th>
                                                             <th>Categoria</th>
                                                             <th>UM</th>
-                                                            <th>Marca</th>
                                                             <th class="text-center">Fornecedores</th>
                                                             <th class="text-center">Quantidade</th>
                                                          </tr>
@@ -145,10 +145,12 @@
                                                                </span>
                                                                <span if.bind="product.suppliers != null && product.suppliers.length > 0">${product.name}</span>
                                                             </td>
+                                                            <td class="text-left">${product.brand}</td>
                                                             <td>${product.description}</td>
                                                             <td>${product.category}</td>
-                                                            <td>${product.unitOfMeasure}</td>
-                                                            <td>${product.brand}</td>
+                                                            <td>
+                                                               ${product.unitOfMeasure}
+                                                            </td>
                                                             <td class="text-right">
                                                                <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of product.suppliers" class="badge ${  supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">
                                                                <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! suplier.isInvalid " aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
@@ -271,8 +273,8 @@
                                              <thead>
                                                 <tr>
                                                    <th class="text-left">Nome do Produto</th>
+                                                   <th class="text-left">Marca</th>
                                                    <th class="text-left">Descrição</th>
-                                                   <th class="text-center">Marca</th>
                                                    <th class="text-center">UM</th>
                                                    <th class="text-right">Preço unitário</th>
                                                    <th class="text-right">Quantidade</th>
@@ -287,17 +289,20 @@
                                                          <small class="boldness-light">${item.supplier.fantasyName}</small>
                                                       </div>
                                                    </td>
+                                                   <td class="text-center">
+                                                      ${item.product.brand.name}
+                                                   </td>
                                                    <td>
                                                       ${item.product.description}
                                                    </td>
                                                    <td class="text-center">
-                                                      ${item.product.brand.name}
-                                                   </td>
-                                                   <td class="text-center">
                                                       ${item.product.unit.name}
+                                                      <span if.bind="item.product.unitInternal != null"> com ${item.product.multiplier} ${item.product.unitInternal.name}(s)</span>
                                                    </td>
                                                    <td class="text-right">
                                                       ${item.price | money}
+                                                      <br />
+                                                      <span if.bind="item.priceByUnit != null && item.product.unitInternal != null">(${item.priceByUnit | money} / ${item.product.unitInternal.name})</span>
                                                    </td>
                                                    <td class="text-right">
                                                       ${item.quantity}
@@ -307,7 +312,7 @@
                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                   <td colspan="5" class="text-right">
+                                                   <td colspan="6" class="text-right">
                                                       <strong>Total:</strong>
                                                    </td>
                                                    <td class="text-right">
@@ -393,6 +398,7 @@
                                        <thead>
                                           <tr>
                                              <th class="text-left">Nome do Produto</th>
+                                             <th class="text-left">Marca</th>
                                              <th class="text-center">Descrição</th>
                                              <th class="text-center">UM</th>
                                              <th class="text-right">Preço unitário</th>
@@ -404,6 +410,9 @@
                                           <tr repeat.for="item of summary.items">
                                              <td>
                                                 ${item.product.base.name}
+                                             </td>
+                                             <td class="text-left">
+                                                ${item.product.brand.name}
                                              </td>
                                              <td class="text-center  align-middle">
                                                 ${item.product.description}
@@ -422,7 +431,7 @@
                                              </td>
                                           </tr>
                                           <tr>
-                                             <td colspan="5" class="text-right">
+                                             <td colspan="6" class="text-right">
                                                 <strong>Total:</strong>
                                              </td>
                                              <td class="text-right">

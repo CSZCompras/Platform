@@ -19,6 +19,7 @@ export class FoodService{
     status                  : FoodServiceStatus;
     registerStatus          : RegisterStatus;
     foodServiceSuppliers    : FoodServiceSupplier[];
+    isTrainingAccount       : boolean;
 
     constructor() {
          

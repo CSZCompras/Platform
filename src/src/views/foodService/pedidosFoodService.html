@@ -142,10 +142,10 @@
                                           <thead>
                                              <tr>
                                                 <th>Nome do Produto</th>
+                                                <th>Marca</th>
                                                 <th>Descrição</th>
                                                 <th>Categoria</th>
                                                 <th>UM</th>
-                                                <th>Marca</th>
                                                 <th class="text-center">Quantidade</th>
                                                 <th class="text-center">Preço unitário</th>
                                                 <th class="text-center">Total</th>
@@ -154,12 +154,19 @@
                                           <tbody>
                                              <tr repeat.for="item of selectedOrder.items">
                                                 <td>${item.product.base.name}</td> 
+                                                <td>${item.product.brand.name}</td>
                                                 <td>${item.product.description}</td>
                                                 <td>${item.product.base.category.name}</td>
-                                                <td>${item.product.unit.name}</td>
-                                                <td>${item.product.brand.name}</td>
+                                                <td>
+                                                   ${item.product.unit.name}
+                                                   <span if.bind="item.product.unitInternal != null"> com ${item.product.multiplier} ${item.product.unitInternal.name}(s)</span>
+                                                </td>
                                                 <td class="text-center">${item.quantity | money}</td>
-                                                <td class="text-center">${item.price | money}</td>
+                                                <td class="text-center">
+                                                   ${item.price | money}
+                                                   <br />
+                                                   <span if.bind="item.priceByUnit != null && item.product.unitInternal != null">(${item.priceByUnit | money} / ${item.product.unitInternal.name})</span>
+                                                </td>
                                                 <td class="text-center">${item.total | money}</td>
                                              </tr>
                                           </tbody>
@@ -209,7 +216,7 @@
                                        <th class="text-center">Código</th>
                                        <th class="text-center">Status</th>
                                        <th>Data do Pedido</th>
-                                       <th class="text-center">Criado por</th>
+                                       <th class="text-center">Observação</th>
                                        <th class="text-center">Data de entrega</th>
                                        <th class="text-center">Horário de entrega</th>
                                        <th class="text-center">Data de pgto</th>
@@ -228,7 +235,9 @@
                                           <span class="badge badge-default" if.bind="order.status == 3">Rejeitado</span>  
                                        </td>
                                        <td>${order.createdOn | dateFormat}</td>
-                                       <td class="text-center">${order.createdBy.name} <span class="ml-2">(${order.createdBy.email})</span></td>
+                                       <td class="text-center">
+                                          <span class="badge badge-danger" if.bind="order.status == 1 && order.isBilled == false">Aguardando faturamento</span>
+                                       </td>
                                        <td class="text-center">${order.deliveryDate | dateFormat}</td>
                                        <td class="text-center">
                                           <span if.bind="order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null">

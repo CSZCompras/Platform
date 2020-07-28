@@ -25,6 +25,7 @@
                            <th>UM</th>
                            <th>Marca</th>
                            <th class="text-center">Preço</th>
+                           <th></th>
                         </tr>
                      </thead>
                      <tbody>
@@ -34,9 +35,15 @@
                            <td>${item.product.product.description}</td>
                            <td>${item.product.product.base.category.productClass.name}</td>
                            <td>${item.product.product.base.category.name}</td>
-                           <td>${item.product.product.unit.name}</td>
+                           <td>
+                              ${item.product.product.unit.name}
+                              <span if.bind="item.product.product.unitInternal != null"> com ${item.product.product.multiplier} ${item.product.product.unitInternal.name}(s)</span>
+                           </td>
                            <td>${item.product.product.brand.name}</td>          
                            <td class="text-center">${item.price.toFixed(2)}</td>
+                           <td>
+                              <span class="float-left ml-2 mt-1" if.bind="item.product.product.unitInternal != null"> / ${item.product.product.unitInternal.name}</span>
+                           </td>
                         </tr>
                      </tbody>
                   </table>

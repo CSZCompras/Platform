@@ -1,4 +1,6 @@
 <template>
+    <require from="../../components/attributes/moneyMask"></require>
+    <require from="../../components/valueConverters/moneyValueConverter"></require>
     <div class="row mb-5 task-manager au-animate"  >
        <div class="col-lg-12">
           <div class="card">
@@ -100,14 +102,14 @@
                     <div class="mt-3">
                         <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addProduct()">Adicionar linha de produto</button>
                     </div>
-                    <div class="row mt-4" repeat.for="p of product.products">
-                        <div class="col-md-4">
-                           <div class="form-group">
+                    <div class="row mt-5" repeat.for="p of product.products">
+                        <div class="col-md-3">
+                           <div class="form-group"> 
                                  <label class="control-label">Descrição</label>
                               <input type="text" class="form-control "   value.bind="p.description & validate" />
                            </div> 
                         </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                <div class="form-group">
                                      <label class="control-label">Marca</label>            
                                      <select class="form-control "    value.bind="p.brand.id & validate">
@@ -116,15 +118,32 @@
                                      </select>
                                </div> 
                             </div>
-                           <div class="col-md-3">
+                           <div class="col-md-1">
                               <div class="form-group">
                                     <label class="control-label">UM<span class="text-danger  ml-1 bold">*</span></label>            
-                                    <select class="form-control "    value.bind="p.unit.id & validate">
+                                    <select class="form-control "    value.bind="p.unit & validate" change.trigger="updateUnit(p)">
                                         <option  value=""></option>
-                                        <option  repeat.for="unit of units" model.bind="unit.id">${unit.name}</option>
+                                        <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
                                     </select>
                               </div> 
                            </div>
+                           <div class="col-md-2 ${p.unit.mustInformQuantity ? '' : 'invisible' }">
+                              <div class="form-group">
+                                    <label class="control-label" if.bind="p.unit.name == 'CX'">O preço da caixa é por</label>    
+                                    <label class="control-label" if.bind="p.unit.name == 'PCT'">O preço do pacote é por</label>  
+                                    <select class="form-control "    value.bind="p.unitInternal" change.trigger="updateUnitInternal(p)">
+                                        <option  value=""></option>
+                                        <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
+                                    </select>
+                              </div> 
+                            </div> 
+                              <div class="col-md-2 ${p.unit.mustInformQuantity && p.unitInternal.id ? '' : 'invisible' }">
+                                 <div class="form-group"> 
+                                       <label class="control-label" if.bind="p.unit.name == 'CX'">Quantos ${p.unitInternal.name}s tem a caixa?</label> 
+                                       <label class="control-label" if.bind="p.unit.name == 'PCT'">Quantos ${p.unitInternal.name}s tem o pacote?</label>  
+                                    <input type="text" class="form-control money"   value.bind="p.multiplier | money" money placeholder="00" />
+                                 </div> 
+                              </div> 
                            <div class="col-md-2">
                                 <div class="form-group mt-4">
                                     <button type="button" if.bind="! p.isActive" class="btn btn-success   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Ativar</button>
@@ -138,7 +157,7 @@
                         <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>
                         <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>                            
                     </div>
-                    <div class="text-center mt-4 fa-2x" if.bind="isLoading">
+                    <div class="text-center mt-4 fa-2x" if.bind="isLoading && isEditing">
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
                 </div>

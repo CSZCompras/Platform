@@ -8,6 +8,7 @@ export class SimulationResultItem{
     supplier            : Supplier;   
     quantity            : number;    
     price               : number;    
+    priceByUnit         : number;    
     total               : number;  
     clientCode          : string;
 }

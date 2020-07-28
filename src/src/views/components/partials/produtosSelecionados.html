@@ -44,10 +44,10 @@
                  <thead>
                     <tr>
                        <th>Nome</th>
+                       <th>Marca</th>
                        <th class="text-center">Descrição</th>
                        <th>Categoria</th>
                        <th>UM</th> 
-                       <th>Marca</th>
                        <th repeat.for="list of lists" class="ml-2 text-center" if.bind="list.status == 0">
                            ${list.name}
                            <br />
@@ -66,13 +66,16 @@
                               ${x.product.base.name}
                            </span> 
                         </td> 
+                       <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">${x.product.brand.name}</td>
                        <td class="text-center ${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">
                           ${x.product.description}
                           <span if.bind="x.isNew" class="badge badge-warning ml-2">Novo!</span>
                         </td>
                        <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">${x.product.base.category.name}</td>
-                       <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">${x.product.unit.name}</td> 
-                       <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">${x.product.brand.name}</td>
+                       <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">
+                          ${x.product.unit.name}
+                          <span if.bind="x.product.unitInternal != null"> com ${x.product.multiplier} ${x.product.unitInternal.name}(s)</span>
+                        </td> 
                        <td  repeat.for="list of lists" if.bind="list.status == 0" class="text-center ${ (filteredProducts[$parent.$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">
                               <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" checked.bind="list[x.product.id]"  change.trigger="changeList(list, x)">
