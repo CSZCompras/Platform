@@ -15,23 +15,28 @@ import 'velocity-animate';
 import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
-import 'ie10-viewport';
-import { OrderPeriod } from '../../domain/analytics/orderPeriod';
+import 'ie10-viewport'; 
+import { FoodServiceCreated } from '../../domain/analytics/foodServiceCreated';
+import { SupplierCreated } from '../../domain/analytics/supplierCreated';
 
 @autoinject
 export class App {
   		
-  	$ 						: any;
-	api 					: Rest; 
-	router 					: Router;
-	startDate 				: string;
-	endDate 				: string;
-	orders					: Order[];
-	ordersAnalytics 		: AnalyticsSerie;
-	isLoading				: boolean;
-	qtdePedidosChart		: Chart;
-	financeiroPedidosChart	: Chart;
-	period					: AnalyticsPeriod;
+  	$ 								: any;
+	api 							: Rest; 
+	router 							: Router;
+	startDate 						: string;
+	endDate							: string;
+	orders							: Order[];
+	fsCreated						: FoodServiceCreated[];
+	suppliersCreated				: SupplierCreated[];
+	ordersAnalytics 				: AnalyticsSerie;
+	isLoading						: boolean;
+	isLoadingNewFoodServices		: boolean;
+	isLoadingNewSuppliers			: boolean;
+	qtdePedidosChart				: Chart;
+	financeiroPedidosChart			: Chart;
+	period							: AnalyticsPeriod;
 
 
 	constructor(
@@ -44,8 +49,8 @@ export class App {
 
 	
    	attached(): void {  
-		   this.setCurrentDate();
-
+		this.setCurrentDate();
+		this.period = AnalyticsPeriod.DAILY;
 	} 
 
 	updatePeriod(periodString : any){
@@ -70,7 +75,9 @@ export class App {
 		
 		if(this.startDate != null && this.startDate != '' && this.endDate != null && this.endDate != ''){
 
-			this.isLoading = true;				
+			this.isLoading = true;	
+			this.loadFoodServicesCreated();		
+			this.loadSuppliersCreated();	
 			
 			if(this.qtdePedidosChart != null){
 				this.qtdePedidosChart.destroy();
@@ -81,33 +88,68 @@ export class App {
 				this.financeiroPedidosChart.destroy();
 			}	
 
-			this.repository
-				.getOrders(this.startDate, this.endDate)
-				.then( x => { 
-					this.orders = x;
-					this.isLoading = false;
-				})
-				.catch( e => { 				
-					this.isLoading = false;
-					this.nService.error(e);
-				});
+			var p1 = this.repository
+							.getOrders(this.startDate, this.endDate)
+							.then( x =>  this.orders = x)
+							.catch( e => this.nService.error(e));
 
-			this.repository
-				.getOrdersAnalytics(this.startDate, this.endDate, this.period)
-				.then( x => { 
-					this.ordersAnalytics = x;
-					this.drawOrdersChart(x);
-					this.drawFinanceiroOrdersChart(x);
-					this.isLoading = false;
-				})
-				.catch( e => { 				
-					this.isLoading = false;
-					this.nService.error(e);
-				});
+			var p2 = this.repository
+						.getOrdersAnalytics(this.startDate, this.endDate, this.period)
+						.then( x => { 
+							this.ordersAnalytics = x;
+							this.drawOrdersChart(x);
+							this.drawFinanceiroOrdersChart(x); 
+						}).catch( e => this.nService.error(e));
+
+			Promise.all([p1, p2]).then(x => this.isLoading = false);
 
 		}
 		else{
 			this.nService.presentError('A data inicial e final são obrigatóras');
+		}
+	}
+
+	loadSuppliersCreated(){ 
+
+		if(this.period == AnalyticsPeriod.DAILY){
+
+			this.isLoadingNewSuppliers = true;
+
+			this.repository
+				.getNewSuppliers(this.startDate, this.endDate)
+				.then( x => { 
+					this.suppliersCreated = x;
+					this.isLoadingNewSuppliers = false;
+				})
+				.catch( e => {
+					this.nService.error(e);
+					this.isLoadingNewFoodServices = false;
+				});
+		}
+		else{
+			this.suppliersCreated = [];
+		}
+	}
+
+	loadFoodServicesCreated(){ 
+
+		if(this.period == AnalyticsPeriod.DAILY){
+
+			this.isLoadingNewFoodServices = true;
+
+			this.repository
+				.getNewFoodServices(this.startDate, this.endDate)
+				.then( x => { 
+					this.fsCreated = x;
+					this.isLoadingNewFoodServices = false;
+				})
+				.catch( e => {
+					this.nService.error(e);
+					this.isLoadingNewFoodServices = false;
+				});
+		}
+		else{
+			this.fsCreated = [];
 		}
 	}
 

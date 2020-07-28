@@ -6,6 +6,8 @@ import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
 import { OrderPeriod } from '../../domain/analytics/orderPeriod';
 import { Order } from '../../domain/order';
 import { AnalyticsPeriod } from '../../domain/analytics/analyticsPeriod';
+import { FoodServiceCreated } from '../../domain/analytics/foodServiceCreated';
+import { SupplierCreated } from '../../domain/analytics/supplierCreated';
 
 @autoinject
 export class AnalyticsRepository{
@@ -14,9 +16,7 @@ export class AnalyticsRepository{
 
     constructor(private config: Config) {
         this.api = this.config.getEndpoint('csz');
-    }
-
-    
+    } 
 
     getOrders(start : string, end : string) : Promise<Order[]>{
         
@@ -30,7 +30,35 @@ export class AnalyticsRepository{
                             throw error;
                         }));
                     });
-    }
+    } 
+
+    getNewSuppliers(start : string, end : string) : Promise<SupplierCreated[]>{
+        
+        return this.api 
+                    .find('analytics/admin/supplierCreated?dateStart=' + start + '&dateEnd=' + end)                    
+                    .then( (result : SupplierCreated[]) =>  { return result; })
+                    .catch( (e) => {
+                        debugger;
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    } 
+
+    getNewFoodServices(start : string, end : string) : Promise<FoodServiceCreated[]>{
+        
+        return this.api 
+                    .find('analytics/admin/foodServiceCreated?dateStart=' + start + '&dateEnd=' + end)                    
+                    .then( (result : FoodServiceCreated[]) =>  { return result; })
+                    .catch( (e) => {
+                        debugger;
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    } 
 
     getOrdersAnalytics(start : string, end : string, period : AnalyticsPeriod) : Promise<AnalyticsSerie>{
 
