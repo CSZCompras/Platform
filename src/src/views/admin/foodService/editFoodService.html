@@ -142,6 +142,21 @@
                           </div>
                        </div>
                     </div>   
+                    <h4 class="mt-4"  if.bind="edit" >Treinamento</h4>   
+                    <div class="tab-pane">
+                       <div class="row">
+                          <div class="col-md-6">
+                             <div class="form-group">
+                              <label class="custom-control custom-checkbox ml-5">
+                                 <span class="ml-2 mt-1">Essa conta é usada para treinamento?</span>
+                                 <input type="checkbox" class="custom-control-input" checked.bind="foodService.isTrainingAccount"  change.trigger="changeList(list, x)">
+                                 <span class="custom-control-indicator"></span> 
+                              </label>
+                             </div> 
+                          </div> 
+                       </div>
+                    </div>      
+
                     <h4 class="mt-4"  if.bind="edit" >Usuários</h4>       
                     <span class="badge badge-warning mt-2 mb-2" if.bind="foodService.status != 0 && edit ">Para poder criar usuários faça a ativação do cadastro</span>                      
                     <div class="tab-pane" if.bind="foodService.status != 2 && edit ">

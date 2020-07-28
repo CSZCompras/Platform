@@ -177,8 +177,8 @@ export class PedidosFornecedor{
     }  
 
     updateItem(item : OrderItem){
-
-        item.total = item.multiplier * item.priceByUnit * item.quantity;
+        debugger;
+        item.total = item.multiplier * item.priceByUnit;
         var totalOrder = 0;
         this.selectedOrder.items.forEach(x => totalOrder += x.total);
         this.selectedOrder.total = totalOrder;

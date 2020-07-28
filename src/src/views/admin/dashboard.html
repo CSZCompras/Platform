@@ -34,11 +34,19 @@
                                 <div class="row pb-12">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="control-label active">Informe a data inicial</label>                             
+                                            <label class="control-label active">Informe a data inicial ${startDate}</label>                             
                                             <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="startDate | dateFormat" datepicker >
                                         
                                             <label class="control-label active">Informe a data final</label>                             
                                             <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="endDate | dateFormat " datepicker >
+
+                                            
+                                            <label class="control-label active">Informe o tipo de visão</label>                             
+                                            <select class="form-control "    value.bind="period">                                             
+                                                <option  value="0">Diário</option>
+                                                <option  value="1">Mensal</option>
+                                                <option  value="2">Anual</option>
+                                             </select>
                                         </div>  
                                     </div>
                                 </div> 
@@ -54,7 +62,7 @@
                   <div class="col-md-12">
                      <div class="card card-md" style="height: 100%;">
                         <div class="card-header">
-                           Qtde de Pedidos - Evolução Mensal
+                           Qtde de Pedidos - Evolução
                         </div>
                         <div class="card-body text-center">
                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
@@ -71,7 +79,7 @@
                   <div class="col-md-12">
                      <div class="card card-md" style="height: 100%;">
                         <div class="card-header">
-                           Volume de Pedidos - Evolução Mensal
+                           Volume de Pedidos - Evolução
                         </div>
                         <div class="card-body text-center">
                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">

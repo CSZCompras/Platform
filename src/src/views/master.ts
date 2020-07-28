@@ -45,9 +45,8 @@ export class Master {
         private orderRepo 				: OrderRepository,
         private messageService 			: MessageService, 
         private connRepository 			: FoodServiceConnectionRepository,
-        private ea                      : EventAggregator
-    ) {
-		this.prefix = '/cszhomologacao';
+        private ea                      : EventAggregator) {
+	//	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
 
@@ -339,6 +338,11 @@ export class Master {
 
 	logout() : void {
 		this.identityService.resetIdentity();
-		window.location.assign('/'); 
+		if(this.prefix != ''){
+			window.location.assign( window.location.origin + this.prefix + '/'); 
+		}
+		else{
+			window.location.assign('/'); 
+		}
    }
 }

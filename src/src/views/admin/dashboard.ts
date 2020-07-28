@@ -6,6 +6,7 @@ import { NotificationService } from '../../services/notificationService';
 import * as Chart from 'chart.js';
 import { AnalyticsRepository } from '../../repositories/analytics/analyticsRepository';
 import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
+import { AnalyticsPeriod } from '../../domain/analytics/analyticsPeriod';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -15,6 +16,7 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport';
+import { OrderPeriod } from '../../domain/analytics/orderPeriod';
 
 @autoinject
 export class App {
@@ -22,13 +24,14 @@ export class App {
   	$ 						: any;
 	api 					: Rest; 
 	router 					: Router;
-	startDate 				: Date;
-	endDate 				: Date;
+	startDate 				: string;
+	endDate 				: string;
 	orders					: Order[];
 	ordersAnalytics 		: AnalyticsSerie;
 	isLoading				: boolean;
 	qtdePedidosChart		: Chart;
 	financeiroPedidosChart	: Chart;
+	period					: AnalyticsPeriod;
 
 
 	constructor(
@@ -41,7 +44,22 @@ export class App {
 
 	
    	attached(): void {  
+		   this.setCurrentDate();
+
 	} 
+
+	updatePeriod(periodString : any){
+		this.period =  <AnalyticsPeriod> Number.parseInt(periodString);
+	}
+
+	setCurrentDate(){
+		var today = new Date();
+		var dd = ( <any> String(today.getDate())).padStart(2, '0');  
+		var mm = ( <any> String(today.getMonth() + 1)).padStart(2, '0'); //January is 0!
+		var yyyy = today.getFullYear();
+		this.startDate =  yyyy + '-' + mm + '-01';
+		this.endDate =  yyyy + '-' + mm + '-' + dd;
+	}
 	
     exportOrders(){ 
         var api = this.config.getEndpoint('csz');
@@ -50,7 +68,7 @@ export class App {
 
 	updateDashboards(){		
 		
-		if(this.startDate != null && this.startDate != new Date() && this.endDate != null && this.endDate != new Date()){
+		if(this.startDate != null && this.startDate != '' && this.endDate != null && this.endDate != ''){
 
 			this.isLoading = true;				
 			
@@ -75,7 +93,7 @@ export class App {
 				});
 
 			this.repository
-				.getOrdersAnalytics(this.startDate, this.endDate)
+				.getOrdersAnalytics(this.startDate, this.endDate, this.period)
 				.then( x => { 
 					this.ordersAnalytics = x;
 					this.drawOrdersChart(x);

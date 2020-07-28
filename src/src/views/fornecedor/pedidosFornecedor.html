@@ -141,11 +141,11 @@
                                               <tr>
                                                 <th class="text-center">Cod. Produto</th>
                                                  <th class="text-left">Nome do Produto</th>
+                                                 <th>Marca</th>
                                                  <th>Descrição</th> 
                                                  <th>UM</th>
-                                                 <th>Marca</th>
                                                  <th class="text-center">Quantidade</th>
-                                                 <th class="text-center pr-5">Peso</th>
+                                                 <th class="text-center pr-5">Unidade ou Peso</th>
                                                  <th class="text-center">Preço</th>
                                                  <th class="text-center">Total</th>
                                                  <th class=""></th>
@@ -155,20 +155,22 @@
                                               <tr repeat.for="item of selectedOrder.items">
                                                  <td class="text-center">${item.clientCode}</td>
                                                  <td>${item.product.base.name}</td>
+                                                 <td>${item.product.brand.name}</td> 
                                                  <td>${item.product.description}</td> 
                                                  <td>
                                                     ${item.product.unit.name}
                                                    <span if.bind="item.product.unitInternal != null"> com ${item.multiplier.multiplier} ${item.product.unitInternal.name}(s)</span>
                                                 </td>
-                                                 <td>${item.product.brand.name}</td> 
                                                  <td class="text-center">${item.quantity | money}</td>
                                                  <td class="text-center">
                                                    <span if.bind="item.product.unitInternal != null && item.multiplier != null" class="float-right ml-1 mt-3 ${item.product.unitInternal != null && order.status == OrderStatus.Accepted && ! order.isBilled && item.isEditing ? '' : 'invisible' }">${item.product.unitInternal.name}(s)</span>
-                                                   <input if.bind="item.product.unitInternal != null && item.multiplier != null" type="text"  class="form-control input-task-title float-right col-md-2 ${item.product.unitInternal != null && order.status == OrderStatus.Accepted && ! order.isBilled && item.isEditing ? '' : 'invisible' }" money change.trigger="updateItem(item)"   value.bind="item.multiplier | money"  />
+                                                   <input if.bind="item.product.unitInternal != null && item.multiplier != null" type="text"  class="form-control input-task-title float-right col-md-4 ${item.product.unitInternal != null && order.status == OrderStatus.Accepted && ! order.isBilled && item.isEditing ? '' : 'invisible' }" money change.trigger="updateItem(item)"   value.bind="item.multiplier | money"  />
                                                    <span if.bind="item.product.unitInternal != null && item.multiplier != null" class="float-right ${ item.product.unitInternal != null && ! ( order.status == OrderStatus.Accepted && order.isBilled) && ! item.isEditing ? '' : 'invisible' }">${item.multiplier} ${item.product.unitInternal.name}(s)</span>
                                                  </td>
                                                  <td class="text-center">
                                                     ${item.price | money}
+                                                    <br />
+                                                    <span if.bind="item.priceByUnit != null && item.product.unitInternal != null">(${item.priceByUnit | money} / ${item.product.unitInternal.name})</span>
                                                   </td>
                                                  <td class="text-center">${item.total | money}</td>
                                                  <td>

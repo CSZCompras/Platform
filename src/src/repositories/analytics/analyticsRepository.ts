@@ -5,6 +5,7 @@ import { GenericAnalytics } from '../../domain/analytics/genericAnalytics';
 import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
 import { OrderPeriod } from '../../domain/analytics/orderPeriod';
 import { Order } from '../../domain/order';
+import { AnalyticsPeriod } from '../../domain/analytics/analyticsPeriod';
 
 @autoinject
 export class AnalyticsRepository{
@@ -17,7 +18,7 @@ export class AnalyticsRepository{
 
     
 
-    getOrders(start : Date, end : Date) : Promise<Order[]>{
+    getOrders(start : string, end : string) : Promise<Order[]>{
         
         return this.api 
                     .find('analytics/admin/orders?dateStart=' + start + '&dateEnd=' + end)                    
@@ -31,10 +32,10 @@ export class AnalyticsRepository{
                     });
     }
 
-    getOrdersAnalytics(start : Date, end : Date) : Promise<AnalyticsSerie>{
+    getOrdersAnalytics(start : string, end : string, period : AnalyticsPeriod) : Promise<AnalyticsSerie>{
 
         return this.api
-                    .find('analytics/admin/numberOfOrders?dateStart=' + start + '&dateEnd=' + end) 
+                    .find('analytics/admin/numberOfOrders?dateStart=' + start + '&dateEnd=' + end + '&period=' + period) 
                         .then( (result : Promise<AnalyticsSerie>) => {                 
                             return result;
                         })
