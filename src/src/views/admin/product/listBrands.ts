@@ -35,9 +35,8 @@ export class ListBrands{
 
             this.validationController = this.validationControllerFactory.createForCurrentScope();
             this.validationController.addRenderer(new FormValidationRenderer());
-            this.validationController.validateTrigger = validateTrigger.blur;
-            this.validationController.addObject(this.brand);     
-    } 
+            this.validationController.validateTrigger = validateTrigger.blur; 
+    }     
 
     attached(){
         this.ea.publish('loadingData'); 
@@ -73,6 +72,7 @@ export class ListBrands{
 
         this.isEditing = true;
         this.brand = brand;
+        this.products = [];
         this.applyRules();
         this.loadProducts();        
     }
@@ -92,6 +92,7 @@ export class ListBrands{
 
         this.brand = new Brand();
         this.brand.isActive = true;
+        this.products = [];
         this.isEditing = true;
         this.applyRules();
     }

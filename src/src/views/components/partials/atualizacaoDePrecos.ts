@@ -207,7 +207,7 @@ export class AtualizacaoDePrecos{
 
     downloadFile(){ 
         var userId = this.service.getIdentity().id
-        var api = this.config.getEndpoint('csz');
+        var api = this.config.getEndpoint('apiAddress');
         window.open(api.client.baseUrl + 'downloadSupplierProducts?userId=' + userId, '_parent');
     }
 

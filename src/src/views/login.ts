@@ -43,7 +43,7 @@ export class Login {
             .then( (identity : Identity) =>{ 
                 this.service.setIdentity(identity); 
                 this.ea.publish('loginDone'); 
-                this.router.navigateToRoute('csz');
+                this.router.navigateToRoute('econocompras');
                 
             }).catch( e => 
             {
@@ -59,7 +59,7 @@ export class Login {
 
         if (IdentityService.identity) {
             this.ea.publish('loginDone');
-            this.router.navigateToRoute('csz');
+            this.router.navigateToRoute('econocompras');
         }      
 	}
 

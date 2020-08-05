@@ -45,7 +45,7 @@ export class App {
 				private nService 				: NotificationService, 
 				private identityService			: IdentityService) {  
 
-		this.api = this.config.getEndpoint('csz');
+		this.api = this.config.getEndpoint('apiAddress');
 		this.identityService.configureHttpClient(this.api.client);
 	} 
 	
@@ -53,7 +53,7 @@ export class App {
 	configureRouter(config: RouterConfiguration, router: Router): void {
 		
 		config = config;
-		config.title = 'CSZ Compras Inteligentes'; 
+		config.title = 'Econocompras'; 
 		this.router = router;
 		this.addRoutes(config, router); 
 	}	
@@ -73,7 +73,7 @@ export class App {
 			{ route: 'invite', 	name: 'invite', moduleId: PLATFORM.moduleName('./views/confirmInvite') },
 			{ route: 'forgotMyPassword', name: 'forgotMyPassword', moduleId: PLATFORM.moduleName('./views/forgotMyPassword') },
 			{ route: 'welcome', 	name: 'invite', moduleId: PLATFORM.moduleName('./views/welcome') },
-			{ route: 'csz', 	name: 'csz', moduleId: PLATFORM.moduleName('./views/master') },
+			{ route: 'econocompras', 	name: 'econocompras', moduleId: PLATFORM.moduleName('./views/master') },
 			
         ]);
 

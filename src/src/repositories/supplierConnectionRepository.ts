@@ -13,7 +13,7 @@ export class SupplierConnectionRepository {
     api: Rest;
 
     constructor(private config: Config) {
-        this.api = this.config.getEndpoint('csz');
+        this.api = this.config.getEndpoint('apiAddress');
     }
 
     getSuggestedSuppliers() : Promise<SupplierViewModel[]>  {

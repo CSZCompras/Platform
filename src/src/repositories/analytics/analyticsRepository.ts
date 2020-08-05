@@ -6,8 +6,8 @@ import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
 import { OrderPeriod } from '../../domain/analytics/orderPeriod';
 import { Order } from '../../domain/order';
 import { AnalyticsPeriod } from '../../domain/analytics/analyticsPeriod';
-import { FoodServiceCreated } from '../../domain/analytics/foodServiceCreated';
-import { SupplierCreated } from '../../domain/analytics/supplierCreated';
+import { FoodServiceOrdersOverview } from '../../domain/analytics/foodServiceOrdersOverview';
+import {  SupplierOrdersOverview } from '../../domain/analytics/supplierOrdersOverview';
 
 @autoinject
 export class AnalyticsRepository{
@@ -15,7 +15,7 @@ export class AnalyticsRepository{
     api: Rest;
 
     constructor(private config: Config) {
-        this.api = this.config.getEndpoint('csz');
+        this.api = this.config.getEndpoint('apiAddress');
     } 
 
     getOrders(start : string, end : string) : Promise<Order[]>{
@@ -32,11 +32,11 @@ export class AnalyticsRepository{
                     });
     } 
 
-    getNewSuppliers(start : string, end : string) : Promise<SupplierCreated[]>{
+    getNewSuppliers(start : string, end : string) : Promise<SupplierOrdersOverview[]>{
         
         return this.api 
                     .find('analytics/admin/supplierCreated?dateStart=' + start + '&dateEnd=' + end)                    
-                    .then( (result : SupplierCreated[]) =>  { return result; })
+                    .then( (result : SupplierOrdersOverview[]) =>  { return result; })
                     .catch( (e) => {
                         debugger;
                         console.log(e);
@@ -46,11 +46,39 @@ export class AnalyticsRepository{
                     });
     } 
 
-    getNewFoodServices(start : string, end : string) : Promise<FoodServiceCreated[]>{
+    getNewFoodServices(start : string, end : string) : Promise<FoodServiceOrdersOverview[]>{
         
         return this.api 
                     .find('analytics/admin/foodServiceCreated?dateStart=' + start + '&dateEnd=' + end)                    
-                    .then( (result : FoodServiceCreated[]) =>  { return result; })
+                    .then( (result : FoodServiceOrdersOverview[]) =>  { return result; })
+                    .catch( (e) => {
+                        debugger;
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    } 
+
+    getFoodServiceOrders(start : string, end : string) : Promise<FoodServiceOrdersOverview[]>{
+        
+        return this.api 
+                    .find('analytics/admin/foodServiceThatBuy?dateStart=' + start + '&dateEnd=' + end)                    
+                    .then( (result : FoodServiceOrdersOverview[]) =>  { return result; })
+                    .catch( (e) => {
+                        debugger;
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    } 
+
+    getSupplierOrders(start : string, end : string) : Promise<SupplierOrdersOverview[]>{
+        
+        return this.api 
+                    .find('analytics/admin/supplierThatBuy?dateStart=' + start + '&dateEnd=' + end)                    
+                    .then( (result : SupplierOrdersOverview[]) =>  { return result; })
                     .catch( (e) => {
                         debugger;
                         console.log(e);

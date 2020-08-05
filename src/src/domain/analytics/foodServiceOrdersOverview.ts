@@ -1,10 +1,13 @@
 import { FoodServiceStatus } from "../foodServiceStatus";
 
-export class FoodServiceCreated{
+export class FoodServiceOrdersOverview{
 
     name                : string;
     createdOn           : Date;
     numberOfOrders      : number;
     lastOrderDate       : Date;
     status              : FoodServiceStatus;
+    firstOrderDate      : Date;
+    totalOrders         : number;
+    qtdeProdutos        : number;
 }

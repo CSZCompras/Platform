@@ -14,27 +14,27 @@
                                 <h6 class="nav-header">Geral</h6>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="${prefix}/#/csz/dashboard">
+                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="${prefix}/#/econocompras/dashboard">
                                     <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="${prefix}/#/csz/cadastro">
+                                <a class="nav-link"  href="${prefix}/#/econocompras/cadastro">
                                     <i class="batch-icon batch-icon-list-alt"></i>Cadastro
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/regrasDeMercado">
+                                <a class="nav-link" if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/regrasDeMercado">
                                     <i class="batch-icon batch-icon-star"></i> Regras de Mercado
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/produtos">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/produtos">
                                     <i class="batch-icon batch-icon-layout-content-left"></i> Produtos
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/clientes">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/clientes">
                                     <i class="batch-icon batch-icon-users"></i>Clientes
                                     <span class="badge badge-danger float-right ml-2 mr-2" if.bind="novoFoodServices.length > 0 && ! isloadingFoodServices">${novoFoodServices.length}</span> 
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="waitingFoodServices.length > 0 && ! isloadingFoodServices">${waitingFoodServices.length}</span> 
@@ -43,7 +43,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/pedidosFornecedor">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/pedidosFornecedor">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0 && ! isLoadingOrders">${acceptedOrdersCount}</span> 
                                     <span class="badge badge-danger float-right ml-2 mr-2" if.bind="newOrdersCount > 0 && ! isLoadingOrders">${newOrdersCount}</span>
@@ -51,7 +51,7 @@
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/avaliacoesFornecedor">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/avaliacoesFornecedor">
                                     <i class="batch-icon batch-icon-star "></i> Avaliações
                                 </a>
                             </li>
@@ -70,37 +70,37 @@
                                 <h6 class="nav-header">Geral</h6>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="${prefix}/#/csz/dashboardFoodService">
+                                <a class="nav-link" if.bind="identity.registerStatus == 0"  href="${prefix}/#/econocompras/dashboardFoodService">
                                     <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="${prefix}/#/csz/cadastroFoodService">
+                                <a class="nav-link"  href="${prefix}/#/econocompras/cadastroFoodService">
                                     <i class="batch-icon batch-icon-list-alt"></i>Cadastro
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/Fornecedores">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/Fornecedores">
                                     <i class="batch-icon batch-icon-users"></i>Fornecedores
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/regraDeEntrega">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/regraDeEntrega">
                                     <i class="batch-icon batch-icon-star "></i> Regras de entrega
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/meusProdutos">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/meusProdutos">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Produtos
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/cotacao">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/cotacao">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Cotação
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/pedidosFoodService">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/pedidosFoodService">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos                                    
                                     <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0 && ! isLoadingOrders">${acceptedOrdersCount}</span> 
                                     <span class="badge badge-success float-right ml-2 mr-2" if.bind="newOrdersCount > 0  && ! isLoadingOrders">${newOrdersCount}</span>         
@@ -109,7 +109,7 @@
                                 </a>
                             </li> 
                             <li class="nav-item">
-                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/csz/avaliacoesFoodService">
+                                <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/avaliacoesFoodService">
                                     <i class="batch-icon batch-icon-star "></i> Avaliações
                                 </a>
                             </li>
@@ -128,49 +128,42 @@
                                 <h6 class="nav-header">Geral</h6>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${prefix}/#/csz/dashboard">
+                                <a class="nav-link" href="${prefix}/#/econocompras/dashboard">
                                     <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="${prefix}/#/csz/mercadosAdmin">
+                                <a class="nav-link"  href="${prefix}/#/econocompras/mercadosAdmin">
                                     <i class="batch-icon batch-icon-list-alt"></i>Mercados
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="${prefix}/#/csz/marcasAdmin">
+                                <a class="nav-link"  href="${prefix}/#/econocompras/marcasAdmin">
                                     <i class="batch-icon batch-icon-list-alt"></i>Marcas
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"  href="${prefix}/#/csz/produtosAdmin">
+                                <a class="nav-link"  href="${prefix}/#/econocompras/produtosAdmin">
                                     <i class="batch-icon batch-icon-list-alt"></i>Produtos
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${prefix}/#/csz/suppliersAdmin">
+                                <a class="nav-link" href="${prefix}/#/econocompras/suppliersAdmin">
                                     <i class="batch-icon batch-icon-star"></i> Fornecedores
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${prefix}/#/csz/foodServicesAdmin">
+                                <a class="nav-link" href="${prefix}/#/econocompras/foodServicesAdmin">
                                     <i class="batch-icon batch-icon-layout-content-left"></i> Foodservices
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${prefix}/#/csz/avaliacoes">
+                                <a class="nav-link" href="${prefix}/#/econocompras/avaliacoes">
                                     <i class="batch-icon batch-icon-star "></i> Avaliações
                                 </a>
-                            </li>
-                          <!--  <li class="nav-item">
-                                <a class="nav-link" href="${prefix}/#/csz/pedidosFornecedor">
-                                    <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos
-                                    <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0">${acceptedOrdersCount}</span> 
-                                    <span class="badge badge-danger float-right ml-2 mr-2" if.bind="newOrdersCount > 0">${newOrdersCount}</span>     
-                                </a>
-                            </li>  -->
+                            </li> 
                             <li class="nav-item">
-                                <a class="nav-link" href="${prefix}/#/csz/financeiro">
+                                <a class="nav-link" href="${prefix}/#/econocompras/financeiro">
                                     <i class="batch-icon batch-icon-layout-center-column"></i>Financeiro
                                 </a>
                             </li> 

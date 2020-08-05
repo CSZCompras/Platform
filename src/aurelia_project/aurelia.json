@@ -1,5 +1,5 @@
 {
-  "name": "csz",
+  "name": "econocompras",
   "type": "project:application",
   "packageManager": "npm",
   "bundler": {

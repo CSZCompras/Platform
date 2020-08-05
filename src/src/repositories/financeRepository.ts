@@ -14,7 +14,7 @@ export class FinanceRepository{
     api         : Rest;
 
     constructor(private config: Config) {
-        this.api = this.config.getEndpoint('csz');
+        this.api = this.config.getEndpoint('apiAddress');
     }
 
     getControls() : Promise<InvoiceControl[]>  {

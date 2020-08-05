@@ -12,7 +12,7 @@ export class SimulationRepository{
     api: Rest;
 
     constructor(private config: Config, private client : HttpClient, private service : IdentityService) {
-        this.api = this.config.getEndpoint('csz');
+        this.api = this.config.getEndpoint('apiAddress');
     }
 
     timeout(ms, promise) : Promise<any> {

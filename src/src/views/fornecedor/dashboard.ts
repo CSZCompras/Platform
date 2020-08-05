@@ -48,7 +48,7 @@ export class App {
 			private nService 		: NotificationService) {
 
 
-		this.api = this.config.getEndpoint('csz'); 
+		this.api = this.config.getEndpoint('apiAddress'); 
 		this.isLoadingNumberOfCustomers = true;
 		this.isLoadingNumberOfOrders = true;
 		this.identity = this.service.getIdentity();

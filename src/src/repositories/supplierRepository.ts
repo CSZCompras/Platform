@@ -16,7 +16,7 @@ export class SupplierRepository {
     api: Rest;
 
     constructor(private config: Config, private client : HttpClient, private service : IdentityService) {
-        this.api = this.config.getEndpoint('csz');
+        this.api = this.config.getEndpoint('apiAddress');
     }
 
     uploadSocialContract(file : any, supplierId : string) : Promise<any>{ 

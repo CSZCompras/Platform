@@ -9,19 +9,19 @@ export class MessageService{
 	api: Rest;
 
     constructor(private service : IdentityService, 	private ea: EventAggregator, private config: Config){
-		this.api = this.config.getEndpoint('csz');
+		this.api = this.config.getEndpoint('apiAddress');
     }
 	
 	subscribe(){
 
-		if(this.config.getEndpoint('csz').client.baseUrl.indexOf('https') != -1){
+		if(this.config.getEndpoint('apiAddress').client.baseUrl.indexOf('https') != -1){
 		
-			var address = this.config.getEndpoint('csz').client.baseUrl.replace('https://','').replace('/api/','');
+			var address = this.config.getEndpoint('apiAddress').client.baseUrl.replace('https://','').replace('/api/','');
 			var ws = new WebSocket('wss://'+ address +'/hubs/foodServiceSupplierConnection'); 
 		}
 		else{
 
-			var address = this.config.getEndpoint('csz').client.baseUrl.replace('http://','').replace('/api/','');
+			var address = this.config.getEndpoint('apiAddress').client.baseUrl.replace('http://','').replace('/api/','');
 			var ws = new WebSocket('ws://'+ address +'/hubs/foodServiceSupplierConnection'); 
 		}
 

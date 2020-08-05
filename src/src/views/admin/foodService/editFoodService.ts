@@ -225,7 +225,7 @@ export class EditFoodService{
     }
     
     downloadSocialContract(){         
-        var api = this.config.getEndpoint('csz');
+        var api = this.config.getEndpoint('apiAddress');
         window.open(api.client.baseUrl + 'downloadFoodServiceContractSocial?foodServiceId=' + this.foodService.id, '_blank');
     }
 

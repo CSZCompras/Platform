@@ -3,6 +3,7 @@
         <require from="../components/attributes/moneyMask"></require>
         <require from="../components/attributes/datepicker"></require>
         <require from="../components/valueConverters/dateFormatValueConverter"></require>
+        <require from="../components/valueConverters/moneyValueConverter"></require>
     
         <div class="row mb-5 au-animate">
             <div class="col-md-12">
@@ -105,29 +106,27 @@
                                  <tr>
                                     <th>Nome</th>
                                     <th>Data de criação</th>
-                                    <th class="text-right">Quantidade de Pedidos</th>
-                                    <th class="text-center">Data do último pedido</th>
-                                    <th>Status</th>
+                                    <th class="text-right">Qtde de Produtos</th>
+                                    <th class="text-right">Qtde de Pedidos</th>
+                                    <th class="text-center">1º pedido</th>   
+                                    <th class="text-center">Último pedido</th>   
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr repeat.for="x of fsCreated">
                                     <td class="text-left">${x.name}</td>
                                     <td class="text-center">${x.createdOn | dateFormat}</td>
+                                    <td class="text-right">${x.qtdeProdutos}</td>
                                     <td class="text-right">${x.numberOfOrders}</td>
-                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td>
-                                    <td>  
-                                       <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
-                                       <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
-                                       <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>                     
-                                   </td>
+                                    <td class="text-center">${x.firstOrderDate | dateFormat}</td> 
+                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td> 
                                  </tr>
                               </tbody>
                            </table>
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-6" if.bind="suppliersCreated != null">
+                  <div class="col-md-6" if.bind="suppliersCreated != null"> 
                      <div class="card card-md" style="height: 100%;">
                         <div class="card-header">
                            Novos Fornecedores
@@ -141,17 +140,93 @@
                                  <tr>
                                     <th>Nome</th>
                                     <th>Data de criação</th>
-                                    <th class="text-right">Quantidade de Pedidos</th>
-                                    <th class="text-center">Data do último pedido</th>
-                                    <th>Status</th>
+                                    <th class="text-right">Qtde de Produtos</th>
+                                    <th class="text-right">Qtde de Pedidos</th>
+                                    <th class="text-center">1º pedido</th>   
+                                    <th class="text-center">Último pedido</th>   
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr repeat.for="x of suppliersCreated">
                                     <td class="text-left">${x.name}</td>
                                     <td class="text-center">${x.createdOn | dateFormat}</td>
+                                    <td class="text-right">${x.qtdeProdutos}</td>
                                     <td class="text-right">${x.numberOfOrders}</td>
+                                    <td class="text-center">${x.firstOrderDate | dateFormat}</td>
                                     <td class="text-center">${x.lastOrderDate | dateFormat}</td>
+                                    <td class="text-right">${x.totalOrders | money}</td> 
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+                <div class="row mb-5">
+                  <div class="col-md-6" if.bind="fsOrders != null">
+                     <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                           Resumo de Vendas - Food Services
+                        </div>
+                        <div class="card-body text-center ">
+                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingFoodServiceOrders">
+                              <i class="fa fa-refresh fa-spin"></i>
+                           </span>  
+                           <table class="table table-hover" if.bind="! isLoadingFoodServiceOrders">
+                              <thead>
+                                 <tr>
+                                    <th>Nome</th>
+                                    <th>Data de criação</th>
+                                    <th class="text-right">Quantidade de Pedidos</th>
+                                    <th class="text-center">Data do último pedido</th>                                    
+                                    <th>Valor total</th>
+                                    <th>Status</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr repeat.for="x of fsOrders">
+                                    <td class="text-left">${x.name}</td>
+                                    <td class="text-center">${x.createdOn | dateFormat}</td>
+                                    <td class="text-right">${x.numberOfOrders}</td>
+                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td> 
+                                    <td class="text-right">${x.totalOrders | money}</td>
+                                    <td>  
+                                       <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
+                                       <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
+                                       <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>                     
+                                   </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6" if.bind="supplierOrders != null">
+                     <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                           Resumo de Vendas - Fornecedores
+                        </div>
+                        <div class="card-body text-center ">
+                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingSupplierOrders">
+                              <i class="fa fa-refresh fa-spin"></i>
+                           </span>  
+                           <table class="table table-hover" if.bind="! isLoadingFoodServiceOrders">
+                              <thead>
+                                 <tr>
+                                    <th>Nome</th>
+                                    <th>Data de criação</th>
+                                    <th class="text-right">Quantidade de Pedidos</th>
+                                    <th class="text-center">Data do último pedido</th>                                    
+                                    <th>Valor total</th>
+                                    <th>Status</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr repeat.for="x of supplierOrders">
+                                    <td class="text-left">${x.name}</td>
+                                    <td class="text-center">${x.createdOn | dateFormat}</td>
+                                    <td class="text-right">${x.numberOfOrders}</td>
+                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td> 
+                                    <td class="text-right">${x.totalOrders | money}</td>
                                     <td>  
                                        <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
                                        <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>

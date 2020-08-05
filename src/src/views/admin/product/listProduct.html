@@ -131,6 +131,11 @@
                               <div class="form-group">
                                     <label class="control-label" if.bind="p.unit.name == 'CX'">O preço da caixa é por</label>    
                                     <label class="control-label" if.bind="p.unit.name == 'PCT'">O preço do pacote é por</label>  
+
+                                    <label class="control-label" if.bind="p.unit.name == 'BLD'">O preço do balde é por</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'SC'">O preço do saco é por</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'BJ'">O preço da bandeja é por</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">O preço da peça é por</label>  
                                     <select class="form-control "    value.bind="p.unitInternal" change.trigger="updateUnitInternal(p)">
                                         <option  value=""></option>
                                         <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
@@ -140,7 +145,11 @@
                               <div class="col-md-2 ${p.unit.mustInformQuantity && p.unitInternal.id ? '' : 'invisible' }">
                                  <div class="form-group"> 
                                        <label class="control-label" if.bind="p.unit.name == 'CX'">Quantos ${p.unitInternal.name}s tem a caixa?</label> 
-                                       <label class="control-label" if.bind="p.unit.name == 'PCT'">Quantos ${p.unitInternal.name}s tem o pacote?</label>  
+                                       <label class="control-label" if.bind="p.unit.name == 'PCT'">Quantos ${p.unitInternal.name}s tem o pacote?</label>                                           
+                                    <label class="control-label" if.bind="p.unit.name == 'BLD'">Quantos ${p.unitInternal.name}s tem o balde?</label>
+                                    <label class="control-label" if.bind="p.unit.name == 'SC'">Quantos ${p.unitInternal.name}s tem o saco?</label>
+                                    <label class="control-label" if.bind="p.unit.name == 'BJ'">Quantos ${p.unitInternal.name}s tem a bandeja?</label>
+                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">Quantos ${p.unitInternal.name}s tem o peça?</label>
                                     <input type="text" class="form-control money"   value.bind="p.multiplier | money" money placeholder="00" />
                                  </div> 
                               </div> 

@@ -12,7 +12,7 @@ export class BrandRepository{
     api: Rest;
 
     constructor(private config: Config, private service : IdentityService) {
-        this.api = this.config.getEndpoint('csz');
+        this.api = this.config.getEndpoint('apiAddress');
     }
 
     addOrUpdateBrand(brand: Brand) : Promise<Brand>{

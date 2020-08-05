@@ -7,6 +7,8 @@ import * as Chart from 'chart.js';
 import { AnalyticsRepository } from '../../repositories/analytics/analyticsRepository';
 import { AnalyticsSerie } from '../../domain/analytics/analyticsSerie';
 import { AnalyticsPeriod } from '../../domain/analytics/analyticsPeriod';
+import { FoodServiceOrdersOverview } from '../../domain/analytics/foodServiceOrdersOverview';
+import { SupplierOrdersOverview } from '../../domain/analytics/supplierOrdersOverview';
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -16,8 +18,6 @@ import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
 import 'ie10-viewport'; 
-import { FoodServiceCreated } from '../../domain/analytics/foodServiceCreated';
-import { SupplierCreated } from '../../domain/analytics/supplierCreated';
 
 @autoinject
 export class App {
@@ -28,12 +28,16 @@ export class App {
 	startDate 						: string;
 	endDate							: string;
 	orders							: Order[];
-	fsCreated						: FoodServiceCreated[];
-	suppliersCreated				: SupplierCreated[];
+	fsCreated						: FoodServiceOrdersOverview[];
+	suppliersCreated				: SupplierOrdersOverview[];
+	fsOrders						: FoodServiceOrdersOverview[];
+	supplierOrders					: SupplierOrdersOverview[];
 	ordersAnalytics 				: AnalyticsSerie;
 	isLoading						: boolean;
 	isLoadingNewFoodServices		: boolean;
 	isLoadingNewSuppliers			: boolean;
+	isLoadingFoodServiceOrders		: boolean;
+	isLoadingSupplierOrders			: boolean;
 	qtdePedidosChart				: Chart;
 	financeiroPedidosChart			: Chart;
 	period							: AnalyticsPeriod;
@@ -44,7 +48,7 @@ export class App {
 		private repository 	: AnalyticsRepository, 
 		private nService 	: NotificationService) { 
 
-		this.api = this.config.getEndpoint('csz'); 		
+		this.api = this.config.getEndpoint('apiAddress'); 		
     }
 
 	
@@ -67,7 +71,7 @@ export class App {
 	}
 	
     exportOrders(){ 
-        var api = this.config.getEndpoint('csz');
+        var api = this.config.getEndpoint('apiAddress');
         window.open(api.client.baseUrl + 'ExportOrders?startDate=' + this.startDate + '&endDate=' + this.endDate, '_parent');
     }
 
@@ -75,18 +79,19 @@ export class App {
 		
 		if(this.startDate != null && this.startDate != '' && this.endDate != null && this.endDate != ''){
 
-			this.isLoading = true;	
-			this.loadFoodServicesCreated();		
-			this.loadSuppliersCreated();	
+			this.isLoading = true;		
 			
 			if(this.qtdePedidosChart != null){
 				this.qtdePedidosChart.destroy();
-			}		
-
-			
+			}	 
 			if(this.financeiroPedidosChart != null){
 				this.financeiroPedidosChart.destroy();
 			}	
+
+			this.loadFoodServicesCreated();		
+			this.loadSuppliersCreated();
+			this.loadFoodServicesOverview();
+			this.loadSuppliersOverview();
 
 			var p1 = this.repository
 							.getOrders(this.startDate, this.endDate)
@@ -151,6 +156,41 @@ export class App {
 		else{
 			this.fsCreated = [];
 		}
+	}
+
+	loadSuppliersOverview(){ 
+ 
+
+			this.isLoadingSupplierOrders = true;
+			this.supplierOrders = [];
+
+			this.repository
+				.getSupplierOrders(this.startDate, this.endDate)
+				.then( x => { 
+					this.supplierOrders = x;
+					this.isLoadingSupplierOrders = false;
+				})
+				.catch( e => {
+					this.nService.error(e);
+					this.isLoadingSupplierOrders = false;
+				}); 
+	}
+
+	loadFoodServicesOverview(){  
+
+			this.isLoadingFoodServiceOrders = true;
+			this.fsOrders = [];
+
+			this.repository
+				.getFoodServiceOrders(this.startDate, this.endDate)
+				.then( x => { 
+					this.fsOrders = x;
+					this.isLoadingFoodServiceOrders = false;
+				})
+				.catch( e => {
+					this.nService.error(e);
+					this.isLoadingFoodServiceOrders = false;
+				}); 
 	}
 
 	drawOrdersChart(data : AnalyticsSerie){ 

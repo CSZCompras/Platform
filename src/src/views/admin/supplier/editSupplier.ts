@@ -111,7 +111,7 @@ export class EditSupplier{
         }
         
         downloadSocialContract(){         
-            var api = this.config.getEndpoint('csz');
+            var api = this.config.getEndpoint('apiAddress');
             window.open(api.client.baseUrl + 'downloadSupplierContractSocial?supplierId=' + this.supplier.id, '_blank');
         }
 

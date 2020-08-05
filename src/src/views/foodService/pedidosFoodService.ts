@@ -209,7 +209,7 @@ export class PedidosFoodService{
     }
 
     exportOrder(order : Order){ 
-        var api = this.config.getEndpoint('csz');
+        var api = this.config.getEndpoint('apiAddress');
         window.open(api.client.baseUrl + 'ExportOrderToExcel?orderId=' + order.id, '_parent');
     }
 } 
