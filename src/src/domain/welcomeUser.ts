@@ -5,5 +5,6 @@ export class WelcomeUser{
     commercialPhone             : string;
     mobilePhone                 : string; 
     companyName                 : string;
+    cnpj                        : string;
     selectedType                : string;
 }

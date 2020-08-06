@@ -2,8 +2,7 @@
      <require from="./components/attributes/cnpjMask"></require>
      <require from="./components/attributes/cepMask"></require>
      <require from="./components/attributes/phoneWithDDDMask"></require>
-     <require from="./components/attributes/cellPhoneWithDDDMask"></require>
-            
+     <require from="./components/attributes/cellPhoneWithDDDMask"></require>       
      <require from="./components/valueConverters/cnpjValueConverter"></require>
      <require from="./components/valueConverters/cepValueConverter"></require>
      <require from="./components/valueConverters/phoneWithDDDValueConverter"></require>
@@ -37,6 +36,11 @@
                             <label class="control-label active">E-mail<span class="text-danger  ml-1 bold">*</span></label>
                             <input type="email" class="form-control"  value.bind="user.email  & validate" >								
                         </div>
+                        <div class="form-group">
+                            <label class="control-label active">CNPJ<span class="text-danger  ml-1 bold">*</span></label>
+                            <span class="ml-2 fa-1x text-center" if.bind="isCNPJLoading"><i class="fa fa-refresh fa-spin"></i></span>
+                            <input type="text" class="form-control" change.delegate="queryCNPJ()"  value.bind="user.cnpj  | cnpj & validate" cnpj>								
+                        </div>  
                         <div class="form-group">
                             <label class="control-label active">Razão Social<span class="text-danger  ml-1 bold">*</span></label>
                             <input type="text" class="form-control" value.bind="user.companyName  & validate" >								

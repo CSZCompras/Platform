@@ -8,6 +8,7 @@ import { ProductCategory } from '../../domain/productCategory';
 import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
 import { SupplierViewModel } from '../../domain/supplierViewModel';
 import { BlockSupplierConnectionViewModel } from '../../domain/blockSupplierConnectionViewModel';
+import { ProductClass } from '../../domain/productClass';
 
 @autoinject
 export class Fornecedores{
@@ -23,14 +24,17 @@ export class Fornecedores{
         tipoFiltro                      : string;
         isLoading                       : boolean;
         showDetails                     : boolean;
+        classes                         : ProductClass[];
+        selectedMarket                  : ProductClass;
 
-        constructor(private router: Router, 
-                private repository : SupplierConnectionRepository, 
+        constructor(
+                private router          : Router, 
+                private repository      : SupplierConnectionRepository, 
                 private  productRepository : ProductRepository, 
-                private nService : NotificationService,
-                private ea : EventAggregator) { 
+                private nService        : NotificationService,
+                private ea              : EventAggregator) { 
 
-                this.tipoFiltro = '2';
+                this.tipoFiltro = '3';
                 
                 this.ea.subscribe( 'waitingToApprove', (conn) =>{ 
                         
@@ -96,7 +100,9 @@ export class Fornecedores{
         attached(){
 
                 this.ea.publish('loadingData'); 
+                
                 this.loadData();
+
                 this.alterView()
                     .then( () => {
                         this.ea.publish('dataLoaded');
@@ -104,20 +110,19 @@ export class Fornecedores{
                     });;
         }
 
-        loadData() : void {
+        loadData() : void { 
                 
-                this.isLoading = true;
-                
-                
-        //        if(this.type == null || this.type == 0){
-        //                 this.tipoFiltro = '2';
-        //        }
-               
-        //        this.alterView()
-        //            .then( () => {
-        //                this.ea.publish('dataLoaded');
-        //                 this.isLoading = false;
-        //            });
+                this.isLoading = true; 
+                this.productRepository
+                    .getAllClasses()
+                    .then( x => { 
+                        this.classes = x;
+                        var option = new ProductClass();
+                        option.id = '0';
+                        option.name = 'Todos';
+                        this.classes.unshift(option);
+                        this.alterView();
+                    })
         }
 
 
@@ -262,26 +267,30 @@ export class Fornecedores{
 
         search(){ 
 
-                this.filteredSuppliers = 
-                        this.suppliers.filter( (x : SupplierViewModel) =>{
+                this.filteredSuppliers = this.suppliers.filter( (x : SupplierViewModel) =>{
 
-                                var isFound = true;
+                       var isFound = true;
+
+                       if(this.selectedMarket != null && this.selectedMarket.id != "0"){
+                                isFound = x.markets.filter( x=> x.toUpperCase().includes(this.selectedMarket.name.toUpperCase())).length > 0;
+                       }
+
+                       if(isFound){ 
 
                                 if( (this.filter != null && this.filter != '')){ 
                                         
-
                                         if( x.supplier.name.toUpperCase().includes(this.filter.toUpperCase()) ){
                                                 return true;
                                         }
-                                        else {
+                                        else{
                                                 return false;
                                         }
                                 }
                                 else{
-                                         return isFound;
+                                        return isFound;
                                 }
-                                
-                        });
+                       }
+                });
         }
 
         

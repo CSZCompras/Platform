@@ -15,75 +15,74 @@
                                 <label for="input-task-title" class="active">Filtro</label>           
                                 <select class="form-control  "     value.bind="tipoFiltro" change.delegate="alterView()">
                                 <!-- <option value="1">Sugeridos</option> -->
-                                <option value="2">Meus fornecedores</option>
-                                <option value="4">Bloqueados</option>
-                                <option value="3">Todos</option>
+                                    <option value="2">Meus fornecedores</option>
+                                    <option value="4">Bloqueados</option>
+                                    <option value="3">Todos</option>
+                                </select>
+                            </div>                            
+                            <div class="col-lg-3">
+                                <label for="input-task-title" class="active">Mercado</label>           
+                                <select class="form-control" value.bind="selectedMarket"  change.delegate="search()">
+                                    <option  repeat.for="x of classes" model.bind="x">${x.name}</option>
                                 </select>
                             </div>
                           <div class="col-lg-3">
-                             <label for="input-task-title" class="active">Nome do fornecedor <span class="required-item">*</span></label>
+                             <label for="input-task-title" class="active">Nome do fornecedor</label>
                              <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="nome..."   change.trigger="search()"   value.bind="filter" />
                           </div>
-
-                          <div class="col-lg-3 ml-4 mt-3"  if.bind="! isLoading" >
-                             <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
-                          </div>
-
                           <div class="col-lg-3 ml-4 mt-3 fa-2x text-center" if.bind="isLoading" >
                               <i class="fa fa-refresh fa-spin"></i>
                           </div> 
                        </div> 
-                 </div>
-                 <div class="card-body">
-                    <table class="table table-hover">
-                       <thead>
-                          <tr>
-                             <th>Nome</th>
-                             <th>Situação Cadastral</th>
-                             <th>Contato</th>
-                             <th>E-mail</th>
-                             <th>Telefone</th>
-                             <th>Mercados</th>
-                             <th></th>
-                             <th></th>
-                          </tr>
-                       </thead>
-                       <tbody>
-                          <tr repeat.for="x of filteredSuppliers">
-                             <td>${x.supplier.fantasyName}</td>
-                             <td>
-                                <span class="badge badge-primary" if.bind="x.status == 0">Não cadastrado</span>
-                                <span class="badge badge-warning" if.bind="x.status == 1">Cadastro enviado</span>
-                                <span class="badge badge-success" if.bind="x.status == 2">Disponível</span>
-                                <span class="badge badge-danger" if.bind="x.status == 3">Cadastro Rejeitado</span>
-                                <span class="badge badge-danger" if.bind="x.status == 4">Bloqueado</span>
-                                <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
-                                <span class="badge badge-danger" if.bind="x.status == 6">Bloqueado</span>
-                             </td>
-                             <td>${x.supplier.contact.name}</td>
-                             <td>${x.supplier.contact.email}</td>
-                             <td phone-with-ddd>${x.supplier.contact.phone}</td>
-                             <td>
-                                 <span class="badge badge-success ml-2" repeat.for="m of x.markets">
-                                    ${m}
-                                 </span>
+                     <table class="table table-hover">
+                        <thead>
+                           <tr>
+                              <th>Nome</th>
+                              <th>Situação Cadastral</th>
+                              <th>Contato</th>
+                              <th>E-mail</th>
+                              <th>Telefone</th>
+                              <th>Mercados</th>
+                              <th></th>
+                              <th></th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr repeat.for="x of filteredSuppliers">
+                              <td>${x.supplier.fantasyName}</td>
+                              <td>
+                                 <span class="badge badge-primary" if.bind="x.status == 0">Não cadastrado</span>
+                                 <span class="badge badge-warning" if.bind="x.status == 1">Cadastro enviado</span>
+                                 <span class="badge badge-success" if.bind="x.status == 2">Disponível</span>
+                                 <span class="badge badge-danger" if.bind="x.status == 3">Cadastro Rejeitado</span>
+                                 <span class="badge badge-danger" if.bind="x.status == 4">Bloqueado</span>
+                                 <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
+                                 <span class="badge badge-danger" if.bind="x.status == 6">Bloqueado</span>
                               </td>
-                             <td>
-                                <button  type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 0 && ! x.isLoading" click.trigger="connect(x)">Conectar</button>
-                                <button  type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">Bloquear</button>
-                                <button  type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="x.status == 6 && ! x.isLoading" click.trigger="unblock(x)">Desbloquear</button>
-                             </td>
-                             <td>
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="showSupplierDetails(x)">
-                                    Detalhes 
-                                 </button>
-                                <div class="fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'} mx-auto">
-                                    <i class="fa fa-refresh fa-spin"></i>
-                                </div> 
-                             </td>
-                          </tr>
-                       </tbody>
-                    </table>
+                              <td>${x.supplier.contact.name}</td>
+                              <td>${x.supplier.contact.email}</td>
+                              <td phone-with-ddd>${x.supplier.contact.phone}</td>
+                              <td>
+                                    <span class="badge badge-success ml-2" repeat.for="m of x.markets">
+                                       ${m}
+                                    </span>
+                                 </td>
+                              <td>
+                                 <button  type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 0 && ! x.isLoading" click.trigger="connect(x)">Conectar</button>
+                                 <button  type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">Bloquear</button>
+                                 <button  type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="x.status == 6 && ! x.isLoading" click.trigger="unblock(x)">Desbloquear</button>
+                              </td>
+                              <td>
+                                 <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="showSupplierDetails(x)">
+                                       Detalhes 
+                                    </button>
+                                 <div class="fa-2x text-center ${x.isLoading  == true ? '' : 'invisible'} mx-auto">
+                                       <i class="fa fa-refresh fa-spin"></i>
+                                 </div> 
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
                  </div>
               </div>
            </div>

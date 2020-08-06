@@ -81,10 +81,10 @@ export class ProductRepository{
                 });
     } 
 
-    getClassesByOfferedProducts() : Promise<ProductClass[]> {
+    getProductClassesBySelectedProducts() : Promise<ProductClass[]> {
 
         return this.api
-                .find('productClassByOfferedProducts')
+                .find('productClassBySelectedProducts')
                 .then( (result : Promise<ProductClass[]>) => {                 
                     return result;
                 })

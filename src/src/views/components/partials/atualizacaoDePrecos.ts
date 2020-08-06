@@ -52,7 +52,7 @@ export class AtualizacaoDePrecos{
     loadData(loadProducts : boolean) : Promise<any>{   
 
         return this.productRepository
-                    .getClassesByOfferedProducts()
+                    .getProductClassesBySelectedProducts()
                     .then( (data : ProductClass[]) => {  
                         this.classes = data;
 

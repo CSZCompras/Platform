@@ -13,9 +13,11 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { Address } from '../../domain/address';	 
 import { ConsultaCNPJResult } from '../../domain/consultaCNPJResult';
 import { ConsultaCNPJService } from '../../services/consultaCNPJService';
+import { Identity } from '../../domain/identity';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
+import { RegisterStatus } from '../../domain/registerStatus';
 
 @autoinject
 export class Cadastro{
@@ -28,6 +30,7 @@ export class Cadastro{
 	validator 				: FoodServiceValidator;
 	isLoading				: boolean; 
 	isCNPJLoading			: boolean;
+	identity				: Identity;
  
     constructor(		
 		private router				: Router, 
@@ -41,7 +44,8 @@ export class Cadastro{
 
 		this.currentStep = 1;
 		this.totalSteps = 3;		
-		this.isLoading = false;
+		this.isLoading = false; 
+		this.identity = this.service.getIdentity();
     } 
  
 
@@ -94,12 +98,10 @@ export class Cadastro{
 		this.loadData(); 
     } 
 
-	loadData() : void {
-
-		var identity = this.service.getIdentity();
+	loadData() : void { 
 
 		var promisse0 = this.repository
-							.getByUser(identity.id)
+							.getByUser(this.identity.id)
 							.then( (foodService : FoodService) => { 
 
 								this.foodService = foodService;				
@@ -126,7 +128,13 @@ export class Cadastro{
 								this.nService.presentError(e);
 							});
 
-		Promise.all([promisse0, promisse1]).then( () => this.ea.publish('dataLoaded') );
+		Promise.all([promisse0, promisse1]).then( () => {
+			
+			if(this.identity.registerStatus != RegisterStatus.Valid && this.foodService.cnpj != null && this.foodService.cnpj != ''){
+				this.consultaCNPJ();
+			}
+			this.ea.publish('dataLoaded');
+		});
 	}
 
 	consultaCNPJ(){

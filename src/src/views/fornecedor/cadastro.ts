@@ -16,6 +16,8 @@ import { ConsultaCNPJService } from '../../services/consultaCNPJService';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
+import { RegisterStatus } from '../../domain/registerStatus';
+import { Identity } from '../../domain/identity';
 
 @autoinject
 export class Cadastro{
@@ -28,6 +30,7 @@ export class Cadastro{
 	validator 				: SupplierValidator;
 	isLoading				: boolean;
 	isCNPJLoading			: boolean;
+	identity				: Identity;
  
     constructor(		
 		private router				: Router, 
@@ -41,7 +44,8 @@ export class Cadastro{
 
 		this.currentStep = 1;
 		this.totalSteps = 3;		
-		this.isLoading = false; 
+		this.isLoading = false;  
+		this.identity = this.service.getIdentity();
     } 
  
 
@@ -124,7 +128,13 @@ export class Cadastro{
 								this.nService.presentError(e);
 							}); 
 
-		Promise.all([promisse1, promisse2]).then( () => this.ea.publish('dataLoaded'));
+		Promise.all([promisse1, promisse2]).then( () => {
+			
+			if(this.identity.registerStatus != RegisterStatus.Valid && this.supplier.cnpj != null && this.supplier.cnpj != ''){
+				this.consultaCNPJ();
+			}
+			this.ea.publish('dataLoaded');
+		});
 	}
 
 	consultaCNPJ(){

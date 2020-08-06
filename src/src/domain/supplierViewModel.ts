@@ -6,4 +6,5 @@ export class SupplierViewModel{
     name        : string;
     supplier    : Supplier;
     status      : number;
+    markets     : string[]
 }

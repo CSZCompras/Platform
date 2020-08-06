@@ -9,6 +9,7 @@ import { UserRepository } from '../repositories/userRepository';
 import { ValidationControllerFactory, ValidationController, validateTrigger, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 import { WelcomeUser } from '../domain/welcomeUser';
 import { FormValidationRenderer } from './formValidationRenderer';
+import { ConsultaCNPJService } from '../services/consultaCNPJService';
 
 @autoinject
 export class Welcome{
@@ -17,9 +18,11 @@ export class Welcome{
     validationController                    : ValidationController;
     wasCreated                              : boolean;
     isLoading                               : boolean;
+    isCNPJLoading                           : boolean;
     
     constructor( 
         private validationControllerFactory : ValidationControllerFactory, 
+        private CNPJService                 : ConsultaCNPJService,
         private userRepository              : UserRepository,
         private notification                : NotificationService ) { 
 
@@ -45,10 +48,30 @@ export class Welcome{
         ValidationRules
             .ensure((user: WelcomeUser) => user.contactName).displayName('Nome').required() 
             .ensure((user: WelcomeUser) => user.email).displayName('E-mail').required() 
+            .ensure((user: WelcomeUser) => user.cnpj).displayName('CNPJ').required()  
             .ensure((user: WelcomeUser) => user.commercialPhone).displayName('Telefone').required() 
             .ensure((user: WelcomeUser) => user.companyName).displayName('Razão Social').required() 
             .ensure((user: WelcomeUser) => user.selectedType).displayName('Tipo').required() 
             .on(this.user);  
+    }
+
+    queryCNPJ(){
+        
+        if(this.user.cnpj != null && this.user.cnpj != ''){
+
+            this.isCNPJLoading = true;
+
+            this.CNPJService
+                .findCNPJ(this.user.cnpj)
+                .then( x => {
+                    this.user.companyName = x.nome;
+                    this.isCNPJLoading = false;
+                })
+                .catch( e => {
+                    this.isCNPJLoading = false;
+                    this.notification.error(e); 
+                });
+        }
     }
 
 
@@ -65,7 +88,6 @@ export class Welcome{
                         this.userRepository
                             .createNew(this.user)
                             .then( () => {
-
                                 this.notification.success('Cadastro realizado com sucesso!');
                                 this.wasCreated = true;
                             })

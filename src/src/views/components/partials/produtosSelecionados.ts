@@ -47,7 +47,23 @@ export class ProdutosSelecionados{
 
         this.loadData(); 
         
-        this.ea.subscribe('productAdded', (product : FoodServiceProduct) => this.loadProducts());
+        this.ea.subscribe('productAdded', (product : FoodServiceProduct) => { 
+            var productClass = product.product.base.category.productClass;
+
+            if(this.classes.filter(x => x.id == productClass.id).length == 0){
+                
+                if(productClass.categories == null ){
+                    productClass.categories = [];
+                }
+                var novo = new ProductCategory();
+                novo.id = '-2';
+                novo.name = "Todos";
+                productClass.categories.unshift(novo); 
+                this.selectedCategory = novo; 
+                this.classes.unshift(productClass);
+            }
+            this.loadProducts();
+        });
         
     } 
 
@@ -92,7 +108,7 @@ export class ProdutosSelecionados{
     loadData(){
 
                     this.productRepository
-                        .getAllClasses()
+                        .getProductClassesBySelectedProducts()
                         .then( (data : ProductClass[]) => { 
 
                             this.classes = data;
