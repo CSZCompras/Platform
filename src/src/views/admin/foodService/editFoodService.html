@@ -40,7 +40,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Inscrição Estadual<span class="text-danger  ml-1 bold">*</span></label>
-                                <input type="text" class="form-control "   inscricaoEstadual  value.bind="foodService.inscricaoEstadual | inscricaoEstadual" />
+                                <input type="text" class="form-control "   disabled.bind="! edit"  inscricaoEstadual  value.bind="foodService.inscricaoEstadual | inscricaoEstadual" />
                             </div>
                         </div>  
                     </div>                                                                                                                                                          
@@ -112,8 +112,8 @@
                           </div>
                        </div>
                     </div>                                                                                                                                                    
-                    <h4 class="mt-4">Contrato Social</h4>   
-                    <div class="tab-pane" id="tab3">
+                    <h4 class="mt-4" if.bind="false">Contrato Social</h4>   
+                    <div class="tab-pane" id="tab3" if.bind="false">
                        <div class="row">
                           <div class="col-md-6"  if.bind="selectedFiles == null || selectedFiles.length == 0">
                              <div class="form-group">
@@ -143,7 +143,7 @@
                        </div>
                     </div>   
                     <h4 class="mt-4"  if.bind="edit" >Treinamento</h4>   
-                    <div class="tab-pane">
+                    <div class="tab-pane" if.bind="edit">
                        <div class="row">
                           <div class="col-md-6">
                              <div class="form-group">

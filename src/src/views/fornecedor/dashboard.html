@@ -4,11 +4,27 @@
   <require from="../components/valueConverters/dateFormatValueConverter"></require>
   <div class="row mb-5 au-animate">
      <div class="col-md-12" if.bind="identity.registerStatus == 0">
-        <div class="row">
+        
+      <div class="col-md-12" if.bind="identity.registerStatus == 0">
+         <div class="card">
+             <div class="card-body"> 
+                 <div class="col-md-7 order-md-2 signin-right-column px-5 ">
+                     <a class="signin-logo d-sm-none d-md-block">
+                         <img class="ml-5" src="assets/img/logo2T.png" style="cursor:default" width="150" height="92" alt="Econocompras">
+                     </a>
+                     <h1 class="display-6">Econocompras</h1>
+                     <p class="lead mb-5">
+                         Olá, seja bem-vindo
+                     </p>
+                     <p>
+                     </p>
+                 </div>
+             </div>
+         </div> 
+        <!-- <div class="row">
            <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
               <div class="card card-tile card-xs bg-primary bg-gradient text-center">
                  <div class="card-body p-4">
-                    <!-- Accepts .invisible: Makes the items. Use this only when you want to have an animation called on it later -->
                     <div class="tile-left">
                        <i class="batch-icon  batch-icon-users batch-icon-xxl"></i>
                     </div>
@@ -37,20 +53,7 @@
                     </div>
                  </div>
               </div>
-           </div>
-           <!-- <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
-              <div class="card card-tile card-xs bg-primary bg-gradient text-center">
-                  <div class="card-body p-4">
-                      <div class="tile-left">
-                          <i class="batch-icon batch-icon-list batch-icon-xxl"></i>
-                      </div>
-                      <div class="tile-right">
-                          <div class="tile-number">26</div>
-                          <div class="tile-description">Open Tickets</div>
-                      </div>
-                  </div>
-              </div>
-              </div> -->
+           </div> 
            <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
               <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
                  <div class="card-body p-4">
@@ -200,7 +203,7 @@
                 </div>
               </div>
               </div> -->
-        </div>
+        </div> -->
      </div>
      <div class="col-md-12" if.bind="identity.registerStatus != 0">
          <div class="card">

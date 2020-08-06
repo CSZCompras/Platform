@@ -7,6 +7,14 @@
              </div>
              <div class="card-body">
                 <div if.bind="! isEditing">
+                  <div class="row mt-2"> 
+                      <div class="col-lg-4">
+                          <div class="form-group">
+                              <label class="control-label">Filtro</label> 
+                              <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
+                          </div>
+                      </div>
+                  </div> 
                    <div class="row mt-2 ml-2">
                       <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="create()">Nova marca</button>
                    </div>
@@ -22,7 +30,7 @@
                          </tr>
                       </thead>
                       <tbody>
-                         <tr repeat.for="x of brands">
+                         <tr repeat.for="x of filteredBrands">
                             <td>${x.name}</td>
                             <td>  
                                <span class="badge badge-success" if.bind="x.isActive">Ativo</span>

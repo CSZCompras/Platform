@@ -122,7 +122,8 @@ export class Fornecedores{
 
 
         alterView() : Promise<any> {
- 
+                
+                this.isLoading = true;
 
                 this.filteredSuppliers = [];
                 this.suppliers = [];
@@ -154,6 +155,8 @@ export class Fornecedores{
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
                                 this.search();
+                                this.ea.publish('dataLoaded');
+                                this.isLoading = false;
                         });
         }
  
@@ -164,6 +167,8 @@ export class Fornecedores{
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
                                 this.filteredSuppliers = data;
+                                this.ea.publish('dataLoaded');
+                                this.isLoading = false;
                         });
         }
 
@@ -174,6 +179,8 @@ export class Fornecedores{
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
                                 this.filteredSuppliers = data;
+                                this.ea.publish('dataLoaded');
+                                this.isLoading = false;
                         });
         }
 
@@ -184,6 +191,8 @@ export class Fornecedores{
                         .then( (data : SupplierViewModel[]) =>{
                                 this.suppliers = data;
                                 this.filteredSuppliers = data;
+                                this.ea.publish('dataLoaded');
+                                this.isLoading = false;
                         });
         }
  

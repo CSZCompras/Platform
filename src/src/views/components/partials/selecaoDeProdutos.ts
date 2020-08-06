@@ -170,7 +170,9 @@ export class SelecaoDeProdutos{
         this.repository
             .addProduct(supplierProduct)
             .then( (data : SupplierProduct) => {  
-                this.loadProducts();
+                
+                this.filteredProducts.forEach(x => x.products = x.products.filter( y => y.id != product.id));
+
                 this.nService.presentSuccess('Produto incluído com sucesso!'); 
                 this.ea.publish('productAdded', data);
                 ( <any> product).isLoading = false;

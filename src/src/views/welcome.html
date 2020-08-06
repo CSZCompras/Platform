@@ -52,11 +52,11 @@
                         <div class="form-group text-center mt-4"> 
                             <div class="form-check form-check-inline mt-3">
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" value="1" checked.bind="user.selectedType">
-                                    <label class="form-check-label" for="inlineRadio2">Food service</label>
+                                    <label for="inlineRadio2">Food service</label>
                             </div>                          
                             <div class="form-check form-check-inline ml-5  mt-3">
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" value="0" checked.bind="user.selectedType"  >
-                                    <label class="form-check-label" for="inlineRadio1">Fornecedor</label>
+                                    <label for="inlineRadio1">Fornecedor</label>
                             </div>
                         </div>
                         <button type="submit" if.bind="! isLoading"  class="btn btn-primary btn-gradient btn-block waves-effect waves-light mt-4"  click.delegate="save()" if.bind="! isloading">

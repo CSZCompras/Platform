@@ -103,6 +103,21 @@ export class AnalyticsRepository{
                         });
     }
 
+    getMarketOrders(start : string, end : string) : Promise<AnalyticsSerie>{
+
+        return this.api
+                    .find('analytics/admin/marketOrders?dateStart=' + start + '&dateEnd=' + end)
+                        .then( (result : Promise<AnalyticsSerie>) => {                 
+                            return result;
+                        })
+                        .catch( (e) => {
+                            console.log(e);
+                            return Promise.resolve(e.json().then( error => {
+                                throw error;
+                            }));
+                        });
+    }
+
     getNumberOfCustomers()  : Promise<GenericAnalytics>  {
 
         return this.api

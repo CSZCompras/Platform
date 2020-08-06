@@ -15,7 +15,8 @@ import { ProductRepository } from '../../../repositories/productRepository';
 @autoinject
 export class ListBrands{
  
-    brands                      : Brand[];  
+    brands                      : Brand[]; 
+    filteredBrands              : Brand[];
     products                    : Product[];
     filter                      : string;
     isEditing                   : boolean;
@@ -55,6 +56,31 @@ export class ListBrands{
 
     }
 
+    search(){
+
+        if( (this.filter != null && this.filter != '')){ 
+
+            this.filteredBrands = this.brands.filter( (x : Brand) => {
+
+                var isFound = true; 
+                
+                if(x.name.toUpperCase().includes(this.filter.toUpperCase())){
+                   isFound = true;
+                }
+                else {
+                    isFound = false
+                }
+                
+                if(isFound){
+                    return x;
+                }
+            });
+        }
+        else{
+            this.filteredBrands = this.brands;
+        } 
+    }
+
     loadData(){
          
 
@@ -63,6 +89,7 @@ export class ListBrands{
                .then( (data : Brand[]) => { 
                    this.brands = data;  
                    this.ea.publish('dataLoaded');
+                   this.search();
                }).catch( e => {
                    this.nService.presentError(e);
                }); 

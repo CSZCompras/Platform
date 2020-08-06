@@ -219,9 +219,9 @@ export class App {
 
 	loadData(){ 
 
-		this.loadOrdersValues(OrderPeriod.ThisYear);
+		this.loadOrdersValues(OrderPeriod.ThisMonth);
 
-		this.loadMainClients(OrderPeriod.ThisYear);
+		this.loadMainClients(OrderPeriod.ThisMonth);
 
 		this.loadMainProdutcs();
 

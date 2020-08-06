@@ -219,7 +219,7 @@ export class ListProduct{
 
     updateUnit(p : Product){
         
-        if(p.unit == null || (<any> p.unit)  == '' || p.unit.id  == null || p.unit.id  == ''){
+        if(p.unit == null || (<any> p.unit)  == '' || p.unit.id  == null || p.unit.id  == '' || ! p.unit.mustInformQuantity){
             p.unitInternal = null;
             p.multiplier = null;
         }

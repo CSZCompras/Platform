@@ -89,7 +89,22 @@
                                 </div>        
                             </div>
                         </div>      
-                    </div>     
+                    </div>
+                    <div class="col-md-6" if.bind="marketOrders != null || isLoadingMarketsChart">
+                       <div class="card card-md">
+                          <div class="card-header">
+                             Principais Mercados
+                          </div>
+                          <div class="card-body text-center">
+                             <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingMarketsChart">
+                             <i class="fa fa-refresh fa-spin"></i>
+                             </span>
+                             <div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59">
+                                <canvas id="marketsChart"></canvas>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
                 </div>
                 <div class="row mb-5" if.bind="period == 0 ">
                   <div class="col-md-6" if.bind="fsCreated != null">

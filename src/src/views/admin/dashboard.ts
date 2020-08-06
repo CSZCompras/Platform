@@ -38,9 +38,12 @@ export class App {
 	isLoadingNewSuppliers			: boolean;
 	isLoadingFoodServiceOrders		: boolean;
 	isLoadingSupplierOrders			: boolean;
+	isLoadingMarketsChart			: boolean;
 	qtdePedidosChart				: Chart;
 	financeiroPedidosChart			: Chart;
+	marketsChart					: Chart;
 	period							: AnalyticsPeriod;
+	marketOrders					: AnalyticsSerie
 
 
 	constructor(
@@ -83,15 +86,21 @@ export class App {
 			
 			if(this.qtdePedidosChart != null){
 				this.qtdePedidosChart.destroy();
-			}	 
+			}	
+
 			if(this.financeiroPedidosChart != null){
 				this.financeiroPedidosChart.destroy();
 			}	
 
+			if(this.marketsChart != null){
+				this.marketsChart.destroy();
+			}
+
 			this.loadFoodServicesCreated();		
 			this.loadSuppliersCreated();
+			this.loadMarketsChart();
 			this.loadFoodServicesOverview();
-			this.loadSuppliersOverview();
+			this.loadSuppliersOverview();			
 
 			var p1 = this.repository
 							.getOrders(this.startDate, this.endDate)
@@ -112,6 +121,65 @@ export class App {
 		else{
 			this.nService.presentError('A data inicial e final são obrigatóras');
 		}
+	}
+
+	loadMarketsChart(){ 
+		
+		this.isLoadingMarketsChart = true;
+
+		this.repository
+			.getMarketOrders(this.startDate, this.endDate)
+			.then( (data : AnalyticsSerie) => {
+
+				this.marketOrders = data;
+
+				var values = [];		
+				data.items.forEach(x => values.push(x.total));
+				
+				var colors = {
+					blue :  "rgb(54, 162, 235)",
+					green : "rgb(75, 192, 192)",
+					grey : "rgb(201, 203, 207)",
+					orange : "rgb(255, 159, 64)",
+					purple : "rgb(153, 102, 255)", 
+					red : "rgb(255, 99, 132)",
+					yellow : "rgb(255, 205, 86)"
+				};
+				
+		
+				var config = {
+					type: 'pie',
+					data: {
+						datasets: [{
+							data: values,
+							backgroundColor: [
+								colors.red,
+								colors.orange,
+								colors.yellow,
+								colors.green,
+								colors.blue,
+							],
+							label: 'Clientes'
+						}],
+						labels: data.labels
+					},
+					options: {
+						responsive: true,
+						legend: {
+							display: false
+						 }
+					}
+				}; 
+		
+				var ctx = ( <any> document.getElementById('marketsChart')).getContext('2d'); 
+				this.marketsChart = new Chart(ctx, config);
+				this.isLoadingMarketsChart = false;
+			})
+			.catch(e => {
+				this.nService.error(e);
+				this.isLoadingMarketsChart = false;
+			});  
+		
 	}
 
 	loadSuppliersCreated(){ 
