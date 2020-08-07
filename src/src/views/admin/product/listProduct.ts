@@ -94,11 +94,14 @@ export class ListProduct{
         this.productRepository
                .getAllClasses()
                .then( (data : ProductClass[]) => { 
-                   this.classes = data;
-                   this.categories = data[0].categories;
-                   this.selectedCategory = this.categories[0];
-                   this.searchProducts();
-                   this.ea.publish('dataLoaded');
+                   
+                    this.classes = data.filter(x => x.isActive);
+                    this.classes.forEach( x=> x.categories = x.categories.filter(y => y.isActive));
+
+                    this.categories = data[0].categories;
+                    this.selectedCategory = this.categories[0];
+                    this.searchProducts();
+                    this.ea.publish('dataLoaded');
                }).catch( e => {
                    this.nService.presentError(e);
                });

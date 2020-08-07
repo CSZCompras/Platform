@@ -87,6 +87,10 @@ export class SelecaoDeProdutos{
                         .then( (data : ProductBase[]) => {
                             this.allProducts = data;
                             this.filteredProducts = data;
+
+                            if(this.filter != null && this.filter != ''){
+                                this.search();
+                            }
                             this.isLoaded = true;
                         }).catch( e => {
                             this.nService.presentError(e);
