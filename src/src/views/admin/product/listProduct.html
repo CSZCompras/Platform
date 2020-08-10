@@ -100,25 +100,42 @@
                            </div>
                     </div>
                     <div class="mt-3">
-                        <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addProduct()">Adicionar linha de produto</button>
+                        <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addProduct()">
+                            <i class="fa fa-plus"></i>
+                            Adicionar linha de produto</button>
                     </div>
-                    <div class="row mt-5" repeat.for="p of product.products">
-                        <div class="col-md-3">
-                           <div class="form-group"> 
-                                 <label class="control-label">Descrição</label>
-                              <input type="text" class="form-control "   value.bind="p.description & validate" />
-                           </div> 
-                        </div>
-                            <div class="col-md-2">
-                               <div class="form-group">
-                                     <label class="control-label">Marca</label>            
-                                     <select class="form-control "    value.bind="p.brand.id & validate">
-                                         <option  value=""></option> 
-                                         <option  repeat.for="brand of brands" model.bind="brand.id">${brand.name}</option>
-                                     </select>
-                               </div> 
+                    <div class="row mt-5" repeat.for="p of product.products">                        
+                        <div class="row col-md-12">
+                            <div class="col-md-3">
+                                <div class="form-group"> 
+                                    <label class="control-label">Descrição</label>
+                                    <input type="text" class="form-control "   value.bind="p.description & validate" />
+                                </div> 
                             </div>
-                           <div class="col-md-1">
+                            <div class="col-md-3">
+                                <div class="form-group"> 
+                                        <label class="control-label">GTIN</label>
+                                    <input type="text" class="form-control "   value.bind="p.gtin" />
+                                </div> 
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                        <label class="control-label">Marca</label>            
+                                        <select class="form-control "    value.bind="p.brand.id & validate">
+                                            <option  value=""></option> 
+                                            <option  repeat.for="brand of brands" model.bind="brand.id">${brand.name}</option>
+                                        </select>
+                                </div> 
+                            </div>
+                            <div class="col-md-2">
+                                 <div class="form-group mt-4">
+                                     <button type="button" if.bind="! p.isActive" class="btn btn-success   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Ativar</button>
+                                     <button type="button" if.bind="p.isActive" class="btn btn-danger   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Inativar</button> 
+                                 </div>     
+                            </div>    
+                        </div>
+                        <div class="row col-md-12">
+                           <div class="col-md-3">
                               <div class="form-group">
                                     <label class="control-label">UM<span class="text-danger  ml-1 bold">*</span></label>            
                                     <select class="form-control "    value.bind="p.unit & validate" change.trigger="updateUnit(p)">
@@ -127,40 +144,43 @@
                                     </select>
                               </div> 
                            </div>
-                           <div class="col-md-2 ${p.unit.mustInformQuantity ? '' : 'invisible' }">
+                           <div class="col-md-3 ${p.unit.mustInformQuantity ? '' : 'invisible' }">
                               <div class="form-group">
                                     <label class="control-label" if.bind="p.unit.name == 'CX'">O preço da caixa é por</label>    
                                     <label class="control-label" if.bind="p.unit.name == 'PCT'">O preço do pacote é por</label>  
-
+                                    <label class="control-label" if.bind="p.unit.name == 'UN'">O preço da unidade é por</label>
                                     <label class="control-label" if.bind="p.unit.name == 'BLD'">O preço do balde é por</label>  
                                     <label class="control-label" if.bind="p.unit.name == 'SC'">O preço do saco é por</label>  
                                     <label class="control-label" if.bind="p.unit.name == 'BJ'">O preço da bandeja é por</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">O preço da peça é por</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">O preço é por</label>  
                                     <select class="form-control "    value.bind="p.unitInternal" change.trigger="updateUnitInternal(p)">
                                         <option  value=""></option>
                                         <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
                                     </select>
                               </div> 
                             </div> 
-                              <div class="col-md-2 ${p.unit.mustInformQuantity && p.unitInternal.id ? '' : 'invisible' }">
+                            <div class="col-md-3 ${p.unit.mustInformQuantity && p.unitInternal.id ? '' : 'invisible' }">
                                  <div class="form-group"> 
                                        <label class="control-label" if.bind="p.unit.name == 'CX'">Quantos ${p.unitInternal.name}s tem a caixa?</label> 
-                                       <label class="control-label" if.bind="p.unit.name == 'PCT'">Quantos ${p.unitInternal.name}s tem o pacote?</label>                                           
+                                       <label class="control-label" if.bind="p.unit.name == 'PCT'">Quantos ${p.unitInternal.name}s tem o pacote?</label>
+                                       <label class="control-label" if.bind="p.unit.name == 'UN'">Quantos ${p.unitInternal.name}s tem a unidade?</label>
                                     <label class="control-label" if.bind="p.unit.name == 'BLD'">Quantos ${p.unitInternal.name}s tem o balde?</label>
                                     <label class="control-label" if.bind="p.unit.name == 'SC'">Quantos ${p.unitInternal.name}s tem o saco?</label>
                                     <label class="control-label" if.bind="p.unit.name == 'BJ'">Quantos ${p.unitInternal.name}s tem a bandeja?</label>
                                     <label class="control-label" if.bind="p.unit.name == 'PÇ'">Quantos ${p.unitInternal.name}s tem o peça?</label>
                                     <input type="text" class="form-control money"   value.bind="p.multiplier | money" money placeholder="00" />
                                  </div> 
-                              </div> 
+                            </div> 
                            <div class="col-md-2">
                                 <div class="form-group mt-4">
-                                    <button type="button" if.bind="! p.isActive" class="btn btn-success   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Ativar</button>
-                                    <button type="button" if.bind="p.isActive" class="btn btn-danger   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Inativar</button> 
                                     <button type="button" if.bind="p.isNew" class="btn btn-danger   waves-effect waves-light"   click.trigger="removeProduct(p)">Remover</button>                                   
                                     <span if.bind="p.isNew" class="badge badge-warning">Novo!</span>                                
                                 </div>     
-                           </div>
+                           </div>    
+                        </div>
+                        <div class="row">
+                            <hr>
+                        </div>
                     </div>
                     <div class="text-center mt-4" if.bind="! isLoading">                        
                         <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>

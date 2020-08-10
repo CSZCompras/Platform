@@ -10,6 +10,8 @@ import { SupplierProduct } from '../../../domain/supplierProduct';
 import { SupplierProductStatus } from '../../../domain/supplierProductStatus';
 import { ProductBase } from '../../../domain/productBase';
 import { ProductBaseRepository } from '../../../repositories/productBaseRepository';
+import { IdentityService } from '../../../services/identityService';
+import { Config } from 'aurelia-api';
 
 
 @autoinject
@@ -29,7 +31,9 @@ export class SelecaoDeProdutos{
     constructor(		
 		private nService                : NotificationService, 
         private ea                      : EventAggregator ,
+        private identityService         : IdentityService,
         private productRepository       : ProductRepository,
+        private config                  : Config,
         private productBaseRepository   : ProductBaseRepository,
         private repository              : SupplierRepository) {
         
@@ -148,8 +152,7 @@ export class SelecaoDeProdutos{
         } 
     }
 
-    includeProduct(product : Product){
-
+    includeProduct(product : Product){ 
 
         var supplierProduct = new SupplierProduct();
         supplierProduct.product = product;
@@ -185,8 +188,13 @@ export class SelecaoDeProdutos{
             }).catch( e => {
                 this.nService.presentError(e);
                 ( <any> product).isLoading = false;
-            });
-        
+            }); 
+    } 
+
+    downloadProductsFile(){ 
+        var userId = this.identityService.getIdentity().id
+        var api = this.config.getEndpoint('apiAddress');
+        window.open(api.client.baseUrl + 'downloadProductsFile?userId=' + userId, '_parent');
     }
 
 }

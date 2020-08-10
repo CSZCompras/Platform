@@ -18,4 +18,5 @@ export class Product{
     unitInternal    : UnitOfMeasurement;
     multiplier      : Number;
     isActive        : boolean;  
+    gtin            : string;
 }
