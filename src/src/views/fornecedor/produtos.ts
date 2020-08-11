@@ -9,8 +9,7 @@ export class Produtos {
 
     productAddedCount             : number;
     selecaoDeProdutosLoaded       : boolean;
-    historicoDeImportacaoLoaded   : boolean;
-    listaDePrecosLoaded           : boolean;
+    historicoDeImportacaoLoaded   : boolean;c
     atualizacaoDePrecosLoaded     : boolean;
 
     constructor(private router: Router, private ea : EventAggregator) {
@@ -27,28 +26,28 @@ export class Produtos {
 
       this.ea.subscribe('selecaoDeProdutosLoaded', () =>{ 
           this.selecaoDeProdutosLoaded = true;
-          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded  && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');
           }
       });
 
       this.ea.subscribe('historicoDeImportacaoLoaded', () =>{ 
           this.historicoDeImportacaoLoaded = true;
-          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded   && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');
           }
       });
 
       this.ea.subscribe('listaDePrecosLoaded', () =>{ 
-          this.listaDePrecosLoaded = true;
-          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+         /* this.listaDePrecosLoaded = true;
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded  && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');
-          }
+          } */
       });
 
       this.ea.subscribe('atualizacaoDePrecosLoaded', () =>{ 
           this.atualizacaoDePrecosLoaded = true;
-          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded && this.listaDePrecosLoaded && this.atualizacaoDePrecosLoaded){
+          if(this.selecaoDeProdutosLoaded && this.historicoDeImportacaoLoaded   && this.atualizacaoDePrecosLoaded){
             this.ea.publish('dataLoaded');
           }
       });

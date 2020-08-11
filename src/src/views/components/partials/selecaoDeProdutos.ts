@@ -12,6 +12,8 @@ import { ProductBase } from '../../../domain/productBase';
 import { ProductBaseRepository } from '../../../repositories/productBaseRepository';
 import { IdentityService } from '../../../services/identityService';
 import { Config } from 'aurelia-api';
+import { SupplierProductFile } from '../../../domain/supplierProductFile';
+import { SupplierProductFileRow } from '../../../domain/supplierProductFileRow';
 
 
 @autoinject
@@ -27,6 +29,8 @@ export class SelecaoDeProdutos{
     filter              : string;
     isEditing           : boolean;
     isLoaded            : boolean;
+    selectedFiles       : any; 
+    isUploading         : boolean;
 
     constructor(		
 		private nService                : NotificationService, 
@@ -196,5 +200,32 @@ export class SelecaoDeProdutos{
         var api = this.config.getEndpoint('apiAddress');
         window.open(api.client.baseUrl + 'downloadProductsFile?userId=' + userId, '_parent');
     }
+
+
+    uploadFile() { 
+        
+        this.isUploading = true;
+
+        let formData = new FormData();
+
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+            formData.append('file', this.selectedFiles[i]);
+        }
+
+        this.productRepository
+            .uploadProductsFile(formData) 
+            .then( (result : any) =>{   
+                this.selectedFiles = []; 
+                this.isUploading = false;  
+                ( <any> document.getElementById("files")).value = "";
+                this.nService.presentSuccess('Arquivo processado com sucesso!');
+
+            }).catch( e => {
+                this.selectedFiles = [];
+                this.nService.error(e);
+                this.isUploading = false;
+            });
+    }
+ 
 
 }

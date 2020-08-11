@@ -7,36 +7,48 @@
             <div class="card-header ml-0" role="tab" id="headingTwo">
                <h5 class="mb-0">
                   <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                     Produtos fornecidos
+                     <i class="batch-icon batch-icon-layout-content-left"></i> Produtos fornecidos
                   </a>
                </h5>
             </div> 
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" style="">
                <div class="card-body">  
                         <div class="row mt-2">
-                              <div class="col-lg-4">
+                           <div class="col-lg-3">
+                              <div class="form-group">
+                                 <label class="control-label">Tabela de Preço</label>            
+                                 <select class="form-control"  value.bind="selectedPriceList" change.delegate="loadProducts()">
+                                    <option  repeat.for="p of priceLists" model.bind="p">${p.name}</option>
+                                 </select>
+                              </div>
+                           </div> 
+                              <div class="col-lg-3">
                                  <div class="form-group">
                                     <label class="control-label">Mercado</label>            
-                                    <select class="form-control"  value.bind="selectedClass" change.delegate="updateCategories()">
+                                    <select class="form-control"  value.bind="selectedClass" change.delegate="loadProducts()">
                                        <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
                                     </select>
                                  </div>
                               </div> 
-                           <div class="col-lg-4">
+                           <div class="col-lg-3">
                               <div class="form-group">
                                  <label class="control-label">Categoria</label>            
-                                 <select class="form-control "    value.bind="selectedCategory" change.delegate="loadProducts()">                                    
+                                 <select class="form-control "    value.bind="selectedCategory" change.delegate="search()">
+                                    <option value="-1">Todos</option>
                                     <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
                                  </select>
                               </div>
                            </div>
-                           <div class="col-lg-4">
+                           <div class="col-lg-3">
                               <div class="form-group">
                                  <label class="control-label">Filtro</label> 
                                  <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
                               </div>
                            </div> 
                         </div> 
+                  </div> 
+                  <div class="fa-2x text-center mx-auto" if.bind="isLoading" >
+                     <i class="fa fa-refresh fa-spin"></i>
                   </div> 
                   <table class="table table-hover mt-2" if.bind="! isLoading">
                      <thead>
@@ -56,24 +68,24 @@
                         <tr repeat.for="supplierProduct of filteredProducts">
                            <td>
                                  <div class="col-md-8 mx-auto">
-                                    <input type="text" class="text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.clientCode" />
+                                    <input type="text" class="text-right form-control ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.product.clientCode" />
                                  </div>
                            </td>
                            <td>
-                                 ${supplierProduct.product.base.name}
+                                 ${supplierProduct.product.product.base.name}
                                  <span if.bind="supplierProduct.isNew" class="badge badge-warning">Novo!</span>                                
                            </td>
-                           <td>${supplierProduct.product.brand.name}</td>
-                           <td>${supplierProduct.product.description}</td>  
+                           <td>${supplierProduct.product.product.brand.name}</td>
+                           <td>${supplierProduct.product.product.description}</td>  
                            <td>
-                              ${supplierProduct.product.unit.name}
-                              <span if.bind="supplierProduct.product.unitInternal != null"> com ${supplierProduct.product.multiplier} ${supplierProduct.product.unitInternal.name}(s)</span>
+                              ${supplierProduct.product.product.unit.name}
+                              <span if.bind="supplierProduct.product.product.unitInternal != null"> com ${supplierProduct.product.product.multiplier} ${supplierProduct.product.unitInternal.name}(s)</span>
                            </td>
                            <td>
                               <input type="text" class="money text-right form-control float-left ${supplierProduct.isEditing ? '' : 'disabled' } " disabled.bind="! supplierProduct.isEditing" autocomplete="off" value.bind="supplierProduct.price | money" money placeholder="000,00" />
                            </td>
                            <td>
-                              <span class="badge badge-warning float-left ml-2 mt-4" if.bind="supplierProduct.product.unitInternal != null"> / ${supplierProduct.product.unitInternal.name}</span>
+                              <span class="badge badge-warning float-left ml-2 mt-4" if.bind="supplierProduct.product.unitInternal != null"> / ${supplierProduct.product.product.unitInternal.name}</span>
                            </td>
                            <th>
                               <span class="badge badge-success mt-3 ${supplierProduct.status == 0 && ! supplierProduct.isEditing ? 'float-left' :  'invisible' }" >Ativo</span>
@@ -103,7 +115,7 @@
             <div class="card-header ml-0" role="tab" id="headingThree">
                <h5 class="mb-0">
                   <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Download 
+                     <i class="batch-icon batch-icon-cloud-download"></i> Download 
                   </a>
                </h5>
             </div>
@@ -121,13 +133,11 @@
             <div class="card-header ml-0" role="tab" id="headingFour">
                <h5 class="mb-0">
                   <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                   Upload
+                     <i class="batch-icon batch-icon-cloud-upload"></i> Upload
                   </a>
                </h5> 
             </div>
-            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" style="">
-                  
-                   
+            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" style=""> 
                <div class="card-body" > 
                      <p class="text-left">Atualize o preço para os seus produtos através do download e upload de planilha</p>
                      <br />

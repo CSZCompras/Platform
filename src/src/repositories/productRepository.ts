@@ -8,6 +8,7 @@ import { ProductClass } from './../domain/productClass';
 import { Product } from "../domain/product";
 import { HttpClient } from 'aurelia-fetch-client';
 import { Brand } from '../domain/brand';
+import { PriceListItem } from '../domain/priceListItem';
 
 
 @autoinject
@@ -131,10 +132,10 @@ export class ProductRepository{
 
     
 
-    getAllSuplierProducts(categoryId : string) : Promise<SupplierProduct[]> {
+    getAllSuplierProducts(priceListId : string, productClassId : string) : Promise<PriceListItem[]> {
         
         return this.api
-            .find('supplierProduct?categoryId=' + categoryId)
+            .find('supplierProduct?priceListId='+ priceListId+'&productClassId=' + productClassId)
             .then( (result : Promise<SupplierProduct[]>) => {                 
                     return result;
                 })
@@ -146,7 +147,7 @@ export class ProductRepository{
                 });
     }
 
-    alterSuplierProduct(supplierProduct : Array<SupplierProduct>): Promise<any> { 
+    alterSuplierProduct(supplierProduct : PriceListItem[]): Promise<any> { 
         
         var list = [];
 
@@ -154,9 +155,9 @@ export class ProductRepository{
 
             var viewModel = {
                 id : x.id,
-                status : x.status,            
+                status : x.product.status,            
                 price :  x.price,
-                clientCode : x.clientCode
+                clientCode : x.product.clientCode
             }; 
 
             list.push(viewModel);
@@ -193,6 +194,43 @@ export class ProductRepository{
 
         return this.client
             .fetch('uploadSupplierProducts?userId=' + userId, { 
+                method: 'POST', 
+                body: file,
+                headers : headers    
+            })
+            .then(response => {      
+                if(response.status != 200){
+                    throw "Erro";
+                }           
+                return response.json();
+            })
+            .then(data => {         
+                return data;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => { 
+                    throw error;
+                })); 
+            });
+    }
+
+    uploadProductsFile(file) : Promise<any>{ 
+
+        /* Usando o http client na mão, pois, não consegui sobreescrever as configs default do API*/
+        this.client.configure(config => {
+            config.withBaseUrl(this.api.client.baseUrl);
+        }); 
+
+        this.client.defaults.headers = {};
+
+        let headers = new Headers();        
+        headers.append('Accept', 'application/json'); 
+
+        var userId = this.service.getIdentity().id;
+
+        return this.client
+            .fetch('uploadSupplierProductsFile?userId=' + userId, { 
                 method: 'POST', 
                 body: file,
                 headers : headers    

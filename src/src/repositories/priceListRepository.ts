@@ -19,9 +19,7 @@ export class PriceListRepository{
         
         return this.api
             .find('priceList')
-            .then( (result : Promise<PriceList[]>) => {                 
-                return result;
-            })
+            .then( (result : Promise<PriceList[]>) => result)
             .catch( (e) => {
                 console.log(e);
                 return Promise.resolve(e.json().then( error => {

@@ -10,20 +10,26 @@ import { ProductClass } from '../../../domain/productClass';
 import { autoinject } from 'aurelia-framework'; 
 import { EventAggregator } from 'aurelia-event-aggregator'; 
 import { SupplierProductStatus } from '../../../domain/supplierProductStatus';
+import { PriceListRepository } from '../../../repositories/priceListRepository';
+import { PriceList } from '../../../domain/priceList';
+import { PriceListItem } from '../../../domain/priceListItem';
 
 @autoinject
 export class AtualizacaoDePrecos{ 
 
-    supplierProducts    : Array<SupplierProduct>; 
-    filteredProducts    : Array<SupplierProduct>; 
-    selectedFiles       : any; 
-    isUploading         : boolean;
+    supplierProducts    : PriceListItem[]; 
+    filteredProducts    : PriceListItem[]]; 
+    alteredProducts     : PriceListItem[]; 
     classes             : ProductClass[];
     categories          : ProductCategory[];
+    priceLists          : PriceList[];
+
+    selectedFiles       : any; 
+    isUploading         : boolean;
+    selectedPriceList   : PriceList;
     selectedClass       : ProductClass;
     selectedCategory    : ProductCategory;
     filter              : string;
-    alteredProducts     : Array<SupplierProduct>; 
     isLoading           : boolean;
 
     constructor(		
@@ -31,12 +37,13 @@ export class AtualizacaoDePrecos{
 		private nService            : NotificationService, 
         private ea                  : EventAggregator ,
         private  productRepository  : ProductRepository,
+        private priceListRepository : PriceListRepository,
         private config              : Config,
         private repository          : ProductRepository) { 
 
-            this.filteredProducts = new Array<SupplierProduct>();
-            this.supplierProducts = new Array<SupplierProduct>();
-            this.alteredProducts = new Array<SupplierProduct>();
+            this.filteredProducts = [];
+            this.supplierProducts = [];]
+            this.alteredProducts = [];]
             this.isLoading = true; 
     } 
 
@@ -44,57 +51,76 @@ export class AtualizacaoDePrecos{
 
         this.loadData(true); 
 
-        this.ea.subscribe('productAdded', (product : SupplierProduct) =>{
-            this.loadData(true).then( () => this.search());
-        }) 
+        this.ea.subscribe('productAdded', (product : SupplierProduct) => {
+            this.loadData(true);
+        });
+
+        this.ea.subscribe('productFileUploaded', () => {
+            
+            this.loadData(true);
+        });
     }
 
-    loadData(loadProducts : boolean) : Promise<any>{   
+    loadData(loadProducts : boolean){
 
-        return this.productRepository
-                    .getProductClassesBySelectedProducts()
-                    .then( (data : ProductClass[]) => {  
-                        this.classes = data;
+        var promissePriceList = this.priceListRepository
+                                    .getAll()
+                                    .then(x => {
+                                        
+                                        if(x.length > 0){
 
-                        if(this.selectedCategory == null &&  data.length > 0){
-                                if(data[0].categories.length > 0){
-                                    this.selectedCategory = data[0].categories[0];
-                                }
-                        }
-                        else {
-                            var selectedCtg= this.selectedCategory;
-                            var classFiltered = data.filter( (x : ProductClass) => x.id == this.selectedClass.id);
+                                            this.priceLists = x;
+                                            if(this.selectedPriceList == null)
+                                            this.selectedPriceList = x[0];
+                                        }
+                                    });
 
-                            if(classFiltered.length > 0){
-                                    this.selectedClass = classFiltered[0];
-                                
-                                    var filteredCategory = this.selectedClass.categories.filter( (x : ProductCategory) => x.id == selectedCtg.id);
-                                
-                                    if(filteredCategory.length > 0){
-                                        this.selectedCategory = filteredCategory[0];
-                                    }
-                                }
-                        }
+        var promisseProducts = this.productRepository
+                                    .getProductClassesBySelectedProducts()
+                                    .then( (data : ProductClass[]) => {   
+                                        
+                                        this.classes = data; 
 
-                        this.ea.publish('atualizacaoDePrecosLoaded');
+                                        if(this.selectedCategory != null &&  data.length > 0) {
+                                            var selectedCtg = this.selectedCategory;
+                                            var classFiltered = data.filter( (x : ProductClass) => x.id == this.selectedClass.id);
 
-                        if(loadProducts){
-                                this.loadProducts();
-                        }
-                        else{
-                            this.isLoading = false;
-                        }
-                    }).catch( e => {
-                       // this.nService.presentError(e);
-                    });
+                                            if(classFiltered.length > 0){
+                                                    this.selectedClass = classFiltered[0];
+                                                
+                                                    var filteredCategory = this.selectedClass.categories.filter( (x : ProductCategory) => x.id == selectedCtg.id);
+                                                
+                                                    if(filteredCategory.length > 0){
+                                                        this.selectedCategory = filteredCategory[0];
+                                                    }
+                                                }
+                                        }
+
+                                        this.ea.publish('atualizacaoDePrecosLoaded');
+                                    }).catch( e => {
+                                    // this.nService.presentError(e);
+                                    });
+
+        Promise.all([promissePriceList, promisseProducts])
+               .then( () => {
+
+                   this.search(); 
+
+                    if(loadProducts){
+                        this.loadProducts();
+                    }
+                    else{
+                        this.isLoading = false;
+                    }
+               });
     } 
 
-    updateCategories(){
-        this.selectedCategory = this.selectedClass.categories[0];
+    updateClass(){
+        this.selectedClass = this.classes[0];
         this.loadProducts();
     }
 
-    loadProducts(){
+    loadProducts() : Promise<any>{
 
         this.isLoading = true; 
         this.supplierProducts = [];
@@ -102,43 +128,46 @@ export class AtualizacaoDePrecos{
         this.alteredProducts = [];  
         this.filter = '';
         
-        if(this.selectedCategory != null){
-            this.repository
-                .getAllSuplierProducts(this.selectedCategory.id)            
-                .then( (data : SupplierProduct[]) => {
+        if(this.selectedPriceList != null && this.selectedClass != null){
+            
+            return this.repository
+                .getAllSuplierProducts(this.selectedPriceList.id, this.selectedClass.id)
+                .then( (data : PriceListItem[]) => {
                     this.supplierProducts = data;
                     this.filteredProducts = data;  
                     this.isLoading = false; 
 
                 }).catch( e => {
-                    this.nService.presentError(e);
+                    this.nService.presentError(e); 
+                    this.isLoading = false; 
                 });
         }
     }
 
     search(){
 
-        this.filteredProducts = this.supplierProducts.filter( (x : SupplierProduct) =>{
+        
 
-            var isFound = true; 
+        this.filteredProducts = this.supplierProducts.filter( (x : PriceListItem) => {
 
-                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.product.base.category.id == this.selectedCategory.id){
+            var isFound = true;  
+
+                if( this.selectedCategory != null && this.selectedCategory.id != '' && ( <any> this.selectedCategory) != '-1'){ 
+
+                    if(x.product.product.base.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
                         isFound= false;
                     }
                 }
-           
-
                 if(isFound){
 
                     if( (this.filter != null && this.filter != '')){ 
                         if( 
-                                x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.product.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.product.brand != null && x.product.brand.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                                x.product.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.product.product.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.product.product.brand != null && x.product.product.brand.name.toUpperCase().includes(this.filter.toUpperCase()) 
                         ){
                             isFound = true;
                         }
@@ -172,15 +201,14 @@ export class AtualizacaoDePrecos{
     alterStatus(product : SupplierProduct, status : SupplierProductStatus){
         
         product.status = status; 
-
     }
 
-    save(product  :SupplierProduct){
+    save(item : PriceListItem){
 
-        this.alteredProducts.push(product);
-        ( <any> product).isEditing = false;
-        ( <any> product).wasAltered = true;
-        ( <any> product).isLoading = true;
+        this.alteredProducts.push(item);
+        ( <any> item).isEditing = false;
+        ( <any> item).wasAltered = true;
+        ( <any> item).isLoading = true;
 
         this.repository
             .alterSuplierProduct(this.alteredProducts)
@@ -190,12 +218,12 @@ export class AtualizacaoDePrecos{
                 this.isLoading = false;
                 this.ea.publish('uploadSupplierProductFileDone');
                 this.alteredProducts = [];
-                ( <any> product).isLoading = false;
+                ( <any> item).isLoading = false;
 
-                if(product.status == SupplierProductStatus.Removed){
-                    this.filteredProducts = this.filteredProducts.filter( x => x.id != product.id);
-                    this.supplierProducts = this.supplierProducts.filter( x => x.id != product.id);
-                    this.ea.publish('supplierProductRemoved', product);
+                if(item.status == SupplierProductStatus.Removed){
+                    this.filteredProducts = this.filteredProducts.filter( x => x.id != item.id);
+                    this.supplierProducts = this.supplierProducts.filter( x => x.id != item.id);
+                    this.ea.publish('supplierProductRemoved', item);
                 }
 
             }).catch( e => {
@@ -222,7 +250,7 @@ export class AtualizacaoDePrecos{
         }
 
         this.repository
-            .uploadFile(formData) 
+            .uploadProductsFile(formData) 
             .then( (result : SupplierProductFile) =>{                    
                 
                 this.loadData(true);

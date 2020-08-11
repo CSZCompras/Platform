@@ -44,8 +44,7 @@
                                  <th class="text-left">Nome</th>
                                  <th>Marca</th> 
                                  <th class="text-center">Descrição</th>
-                                 <th class="text-center">UM</th> 
-                                 <th class="text-center">Preço</th>  
+                                 <th class="text-center">UM</th>  
                                  <th></th>
                               </tr>
                            </thead>
@@ -59,10 +58,6 @@
                                  <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">
                                     ${product.unit.name}
                                     <span if.bind="product.unitInternal != null"> com ${product.multiplier} ${product.unitInternal.name}(s)</span>
-                                 </td> 
-                                 <td class="align-middle text-center ${ $index > 0 ? 'border-0' : ''}">
-                                       <input type="text" disabled.bind="! product.supplierProduct" class="money form-control mx-auto col-md-6  float-left text-right ${ product.supplierProduct ? '' : 'disabled' } " autocomplete="off" value.bind="product.supplierProduct.price | money" money placeholder="000,00" />
-                                       <span class="badge badge-warning  float-left ml-2 mt-4" if.bind="product.unitInternal != null"> / ${product.unitInternal.name}</span>
                                  </td> 
                                  <td class="align-middle  ${ $index > 0 ? 'border-0' : ''}"><div class="fa-2x text-center mx-auto" if.bind="product.isLoading" >
                                           <i class="fa fa-refresh fa-spin"></i>
@@ -125,7 +120,7 @@
                                              <i class="fa fa-circle-o-notch fa-spin"></i> Processando arquivo
                                        </span>
                                  </button>
-                                 <input id="files" type="file" accept=".csv" files.bind="selectedFiles" class="${ isUploading ? 'invisible' : ''}"> 
+                                 <input id="files" type="file" accept=".xlsx" files.bind="selectedFiles" class="${ isUploading ? 'invisible' : ''}"> 
                            </form> 
                   </div>
                </div>
