@@ -18,7 +18,7 @@ import { PriceListItem } from '../../../domain/priceListItem';
 export class AtualizacaoDePrecos{ 
 
     supplierProducts    : PriceListItem[]; 
-    filteredProducts    : PriceListItem[]]; 
+    filteredProducts    : PriceListItem[]; 
     alteredProducts     : PriceListItem[]; 
     classes             : ProductClass[];
     categories          : ProductCategory[];
@@ -42,8 +42,8 @@ export class AtualizacaoDePrecos{
         private repository          : ProductRepository) { 
 
             this.filteredProducts = [];
-            this.supplierProducts = [];]
-            this.alteredProducts = [];]
+            this.supplierProducts = [];
+            this.alteredProducts = [];
             this.isLoading = true; 
     } 
 
@@ -154,7 +154,7 @@ export class AtualizacaoDePrecos{
 
                 if( this.selectedCategory != null && this.selectedCategory.id != '' && ( <any> this.selectedCategory) != '-1'){ 
 
-                    if(x.product.product.base.category.id == this.selectedCategory.id){
+                    if(x.supplierProduct.product.base.category.id == this.selectedCategory.id){
                         isFound = true;
                     }
                     else {
@@ -165,9 +165,9 @@ export class AtualizacaoDePrecos{
 
                     if( (this.filter != null && this.filter != '')){ 
                         if( 
-                                x.product.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.product.product.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.product.product.brand != null && x.product.product.brand.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                                x.supplierProduct.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.supplierProduct.product.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.supplierProduct.product.brand != null && x.supplierProduct.product.brand.name.toUpperCase().includes(this.filter.toUpperCase()) 
                         ){
                             isFound = true;
                         }
@@ -220,7 +220,7 @@ export class AtualizacaoDePrecos{
                 this.alteredProducts = [];
                 ( <any> item).isLoading = false;
 
-                if(item.status == SupplierProductStatus.Removed){
+                if(item.supplierProduct.status == SupplierProductStatus.Removed){
                     this.filteredProducts = this.filteredProducts.filter( x => x.id != item.id);
                     this.supplierProducts = this.supplierProducts.filter( x => x.id != item.id);
                     this.ea.publish('supplierProductRemoved', item);

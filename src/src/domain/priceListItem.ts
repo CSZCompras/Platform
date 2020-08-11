@@ -4,7 +4,7 @@ import { Supplier } from './supplier';
 
 export class PriceListItem{
 
-    id          : string;
-    product     : SupplierProduct;    
-    price       : number;
+    id                  : string;
+    supplierProduct     : SupplierProduct;    
+    price               : number;
 }

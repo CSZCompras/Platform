@@ -217,7 +217,7 @@ export class SelecaoDeProdutos{
             .then( (result : any) =>{   
                 this.selectedFiles = []; 
                 this.isUploading = false;  
-                ( <any> document.getElementById("files")).value = "";
+                ( <any> document.getElementById("filesSelectProduts")).value = "";
                 this.nService.presentSuccess('Arquivo processado com sucesso!');
 
             }).catch( e => {
