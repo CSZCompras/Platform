@@ -229,6 +229,7 @@ export class AtualizacaoDePrecos{
             }).catch( e => {
                 this.nService.error(e);
                 this.isLoading = false;
+                ( <any> item).isLoading = false;
             });
 
     }
@@ -250,7 +251,7 @@ export class AtualizacaoDePrecos{
         }
 
         this.repository
-            .uploadProductsFile(formData) 
+            .uploadFile(formData) 
             .then( (result : SupplierProductFile) =>{                    
                 
                 this.loadData(true);
@@ -279,7 +280,8 @@ export class AtualizacaoDePrecos{
             }).catch( e => {
                 this.selectedFiles = [];
                 this.nService.error(e);
-                this.isUploading = false;
+                this.isUploading = false; 
+                ( <any> document.getElementById("files")).value = "";
             });
     }
  

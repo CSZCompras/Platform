@@ -155,9 +155,9 @@ export class ProductRepository{
 
             var viewModel = {
                 id : x.id,
-                status : x.product.status,            
+                status : x.supplierProduct.status,            
                 price :  x.price,
-                clientCode : x.product.clientCode
+                clientCode : x.supplierProduct.clientCode
             }; 
 
             list.push(viewModel);

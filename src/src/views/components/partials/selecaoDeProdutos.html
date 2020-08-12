@@ -16,7 +16,7 @@
                      <div class="col-lg-4">
                         <div class="form-group">
                            <label class="control-label">Mercado</label>            
-                           <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedClass" change.delegate="updateCategories()">
+                           <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedClass" change.delegate="loadProducts()">
                               <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
                            </select>
                         </div>
@@ -24,7 +24,8 @@
                      <div class="col-lg-4">
                         <div class="form-group">
                            <label class="control-label">Categoria</label>            
-                           <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedCategory" change.delegate="loadProducts()">
+                           <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedCategory" change.delegate="search()">
+                              <option  value="-1">Todos</option>
                               <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
                            </select>
                         </div>
@@ -42,6 +43,7 @@
                            <thead>
                               <tr>
                                  <th class="text-left">Nome</th>
+                                 <th>Categoria</th>
                                  <th>Marca</th> 
                                  <th class="text-center">Descrição</th>
                                  <th class="text-center">UM</th>  
@@ -53,6 +55,7 @@
                                  <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">
                                     <span if.bind="$index == 0">${base.name}</span> 
                                  </td> 
+                                 <td class="align-middle">${base.category.name}</td>
                                  <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">${product.brand.name}</td>
                                  <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
                                  <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">

@@ -43,6 +43,23 @@ export class ProductBaseRepository{
                     })); 
                 });
     }
+
+    
+
+    getAllProductsByClass(classId : string) : Promise<ProductBase[]> {
+
+        return this.api
+                .find('productByClass?classId=' + classId)
+                .then( (result : Promise<ProductBase[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    }
     
 
 

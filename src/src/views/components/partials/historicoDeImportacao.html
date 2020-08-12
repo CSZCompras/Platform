@@ -20,6 +20,7 @@
                      <thead>
                         <tr>
                            <th>Nº da Linha</th>
+                           <th>Tabela de Preço</th>
                            <th>Cod. Produto</th>
                            <th>Nome</th>
                            <th>Descrição</th>
@@ -36,6 +37,7 @@
                      <tbody>
                         <tr repeat.for="row of file.rows">
                             <td>${row.lineNumber}</td>
+                            <td>${row.priceListName}</td>
                             <td>${row.supplierProduct.clientCode}</td>
                            <td>${row.supplierProduct.product.base.name}</td>
                            <td>${row.supplierProduct.product.description}</td>

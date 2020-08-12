@@ -11,9 +11,7 @@ import { SupplierProductStatus } from '../../../domain/supplierProductStatus';
 import { ProductBase } from '../../../domain/productBase';
 import { ProductBaseRepository } from '../../../repositories/productBaseRepository';
 import { IdentityService } from '../../../services/identityService';
-import { Config } from 'aurelia-api';
-import { SupplierProductFile } from '../../../domain/supplierProductFile';
-import { SupplierProductFileRow } from '../../../domain/supplierProductFileRow';
+import { Config } from 'aurelia-api'; 
 
 
 @autoinject
@@ -67,10 +65,6 @@ export class SelecaoDeProdutos{
                 if(data.length > 0){
                     
                     this.selectedClass = data[0];
-                    
-                    if(data[0].categories.length > 0){
-                        this.selectedCategory = data[0].categories[0];
-                    }
                 }
                 
                 this.loadProducts();
@@ -88,14 +82,29 @@ export class SelecaoDeProdutos{
         this.allProducts = [];
         this.filteredProducts = [];
 
-        if(this.selectedCategory != null){
+        if( (<any> (this.selectedCategory)) == '-1' || this.selectedCategory == null){
+            
+            return this.productBaseRepository
+                        .getAllProductsByClass(this.selectedClass.id)
+                        .then( (data : ProductBase[]) => {
+                            this.allProducts = data;
+                            this.filteredProducts = data; 
+                            if(this.filter != null && this.filter != ''){
+                                this.search();
+                            }
+                            this.isLoaded = true;
+                        }).catch( e => {
+                            this.nService.presentError(e);
+                            this.isLoaded = true;
+                        });
+        }
+        else if(this.selectedCategory != null){
                 
             return this.productBaseRepository
                         .getOfferedProducts(this.selectedCategory.id)
                         .then( (data : ProductBase[]) => {
                             this.allProducts = data;
-                            this.filteredProducts = data;
-
+                            this.filteredProducts = data; 
                             if(this.filter != null && this.filter != ''){
                                 this.search();
                             }
@@ -105,15 +114,9 @@ export class SelecaoDeProdutos{
                             this.isLoaded = true;
                         });
 
-        }
+        } 
 
-    }
-
-    updateCategories(){
-        this.selectedCategory = this.selectedClass.categories[0];
-        this.loadProducts();
-
-    }
+    } 
 
     search(){ 
         if( (this.selectedCategory == null || this.selectedCategory.id == '') && (this.filter == null || this.filter == '') ) {
@@ -127,14 +130,15 @@ export class SelecaoDeProdutos{
             this.filteredProducts = this.allProducts.filter( (x : ProductBase) =>{
 
                 var isFound = true;
-
-                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.category.id == this.selectedCategory.id){
-                        isFound = true;
-                    }
-                    else {
-                        isFound= false;
-                    }
+                
+                if((<any> this.selectedCategory) == '-1' || this.selectedCategory == null ){
+                    isFound = true;
+                }
+                else if(x.category.id == this.selectedCategory.id){
+                    isFound = true;
+                }
+                else {
+                    isFound= false;
                 }
                 
                 if(isFound){    
@@ -219,6 +223,8 @@ export class SelecaoDeProdutos{
                 this.isUploading = false;  
                 ( <any> document.getElementById("filesSelectProduts")).value = "";
                 this.nService.presentSuccess('Arquivo processado com sucesso!');
+                this.loadData();
+                this.ea.publish('productFileUploaded');
 
             }).catch( e => {
                 this.selectedFiles = [];
