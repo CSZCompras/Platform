@@ -1,0 +1,41 @@
+<template> 
+    <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+    <require from="../attributes/moneyMask"></require>
+    <require from="../attributes/datepicker"></require>
+    <require from="../valueConverters/dateFormatValueConverter"></require>
+
+    <div class="row mb-5">
+            <div class="col-md-12">
+               <div class="card">
+                  <div class="card-header">
+                     Aprovação de Cliente
+                  </div>
+                  <div class="card-body">                     
+                      <div class="row"> 
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Seleciona uma tabela de preço para o cliente <b>${foodService.name}</b>?</label>
+                            </div>        
+                        </div> 
+                    </div>  
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <select class="form-control text-center"    value.bind="selectedPriceList">
+                                <option value=""></option>
+                                <option  repeat.for="p of priceLists" model.bind="p">${p.name}</option>
+                            </select>
+                        </div>
+                    </div>               
+                  </div> 
+                 <div class="row mb-5">
+                    <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5"  click.trigger="cancel()" if.bind="! processing" >
+                        <i class="fa fa-undo mr-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn  btn-success waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="save()"  if.bind="! processing" >
+                        <i class="fa fa-check mr-2"></i>Aprovar
+                    </button>                
+                 </div>      
+               </div>
+            </div>
+         </div>    
+</template>

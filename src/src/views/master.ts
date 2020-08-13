@@ -337,7 +337,9 @@ export class Master {
     } 
 
 	logout() : void {
+		debugger;
 		this.identityService.resetIdentity();
+
 		if(this.prefix != null && this.prefix != ''){
 			window.location.assign( window.location.origin + this.prefix + '/'); 
 		}

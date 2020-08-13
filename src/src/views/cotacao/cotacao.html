@@ -153,9 +153,9 @@
                                                             </td>
                                                             <td class="text-right">
                                                                <span style="padding : 10px; cursor: pointer;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of product.suppliers" class="badge ${  supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">
-                                                               <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! suplier.isInvalid " aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
-                                                               <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! suplier.isInvalid  " aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
-                                                               ${supplier.name}
+                                                                  <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! suplier.isInvalid " aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                                  <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! suplier.isInvalid  " aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
+                                                                  ${supplier.name}
                                                                </span>
                                                                <span class="font-bold" if.bind="product.suppliers == null || product.suppliers.length == 0">Não há fornecedores cadastrados que oferecem esse produto</span>
                                                             </td>

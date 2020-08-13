@@ -2,6 +2,8 @@ import { FoodService } from "./foodService";
 
 export class FoodServiceConnectionViewModel{
 
-    foodService : FoodService;
-    status      : number;
+    foodService     : FoodService;
+    priceListId     : string;
+    priceListName   : string;
+    status          : number;
 }

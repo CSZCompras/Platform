@@ -20,7 +20,7 @@ export class BaixaPedido{
     constructor(
         pController                         : DialogController, 
         private ea                          : EventAggregator,
-        private evalRepository               : EvaluationRepository,
+        private evalRepository              : EvaluationRepository,
         private notification                : NotificationService,
         private orderRepo                   : OrderRepository){ 
 
