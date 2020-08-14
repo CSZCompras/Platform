@@ -215,8 +215,12 @@
                         <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light"  if.bind="edit"   click.trigger="save()"><span class="gradient">Salvar</span></button>
                         <button type="button" class="btn btn-success  ml-2 waves-effect waves-light"       if.bind="foodService.status != 0 && edit"  click.trigger="editStatus(0)">Ativar</button>
                         <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="foodService.status == 0 && edit " click.trigger="editStatus(1)">Inativar</button>
-                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       if.bind="edit"   click.trigger="cancel()">Cancelar</button>   
-                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       if.bind="! edit"   click.trigger="cancelShowDetails()">Cancelar</button>   
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       if.bind="edit"   click.trigger="cancel()">
+                           <i class="fa fa-undo mr-2"></i>Voltar
+                        </button>   
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       if.bind="! edit"   click.trigger="cancelShowDetails()">
+                           <i class="fa fa-undo mr-2"></i>Voltar
+                        </button>   
                  </div>
               </div>
            </div>

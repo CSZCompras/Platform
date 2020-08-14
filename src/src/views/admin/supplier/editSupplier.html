@@ -97,7 +97,7 @@
                              </div>
                              <div class="form-group">
                                 <label class="control-label">Telefone Comercial </label>
-                                <input type="text" class="form-control " phone-with-ddd value.bind="supplier.contact.commercialPhone | phoneWithDDD"  placeholder="(01) 1234-5678"/>
+                                <input type="text" class="form-control " phone-with-ddd value.bind="supplier.contact.commercialPhone | phoneWithDDD"  disabled.bind="! edit" placeholder="(01) 1234-5678"/>
                              </div>
                              <div class="form-group">
                                 <label class="control-label">E-mail</label>
@@ -139,8 +139,10 @@
 												 <i class="fa fa-circle-o-notch fa-spin"></i> Processando arquivo
 										   </span>
 									 </button>
-                                     <button type="button" class="btn btn-secondary   waves-effect waves-light"  if.bind="selectedFiles != null && selectedFiles.length > 0"  click.trigger="cancelUpload()">Cancelar</button>    
-                                     <input id="files" type="file" accept=".pdf" files.bind="selectedFiles" class="${ isUploading || (selectedFiles != null && selectedFiles.length > 0) ? 'invisible' : ''} mt-4"> 
+									   <button type="button" class="btn btn-secondary   waves-effect waves-light"  if.bind="selectedFiles != null && selectedFiles.length > 0"  click.trigger="cancelUpload()">
+                                 <i class="fa fa-undo mr-2"></i>Voltar
+                              </button>    
+                              <input id="files" type="file" accept=".pdf" files.bind="selectedFiles" class="${ isUploading || (selectedFiles != null && selectedFiles.length > 0) ? 'invisible' : ''} mt-4"> 
 							   </form>  
                              </div>
                           </div>
@@ -200,7 +202,9 @@
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"   if.bind="x.isEditing && supplier.status == 0"               click.trigger="saveEditUser(x)">Salvar</button>
                                             <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"   if.bind="! x.isEditing  && supplier.status == 0"            click.trigger="editUser(x)">Editar</button>
-                                            <button type="button" class="btn btn-secondary btn-sm waves-effect waves-light"   if.bind="  x.isEditing  && supplier.status == 0"                                  click.trigger="cancelEditUser(x)">Cancelar</button>
+                                            <button type="button" class="btn btn-secondary btn-sm waves-effect waves-light"   if.bind="  x.isEditing  && supplier.status == 0"                                  click.trigger="cancelEditUser(x)">
+                                                <i class="fa fa-undo mr-2"></i>Voltar
+                                             </button>
                                             <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"    if.bind="x.status == 0 && ! x.isEditing && supplier.status == 0"                    click.trigger="editUserStatus(x, 1)">Inativar</button>
                                             <button type="button" class="btn btn-success btn-sm waves-effect waves-light"   if.bind="x.status == 1 && ! x.isEditing  && supplier.status == 0"                   click.trigger="editUserStatus(x, 0)">Ativar</button>                                            
                                             <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"    if.bind="x.status == 2  && !    x.isEditing  && supplier.status == 0"               click.trigger="resendInvite(x)">Reenviar convite</button>
@@ -227,10 +231,14 @@
                         <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light" click.trigger="save()"><span class="gradient">Salvar</span></button>
                         <button type="button" class="btn btn-success  ml-2 waves-effect waves-light"       if.bind="supplier.status != 0"  click.trigger="editStatus(0)">Ativar</button>
                         <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="supplier.status == 0" click.trigger="editStatus(1)">Inativar</button>
-                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancel()">Cancelar</button>   
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancel()">
+                           <i class="fa fa-undo mr-2"></i>Voltar
+                        </button>   
                  </div>
                  <div class="row mt-5 mb-5 mx-auto"  if.bind="! edit"  >
-                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancelView()">Cancelar</button>   
+                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancelView()">
+                           <i class="fa fa-undo mr-2"></i>Voltar
+                        </button>   
                  </div>
               </div>
            </div>

@@ -30,13 +30,16 @@
                                 </div>
                             </div>
                         </div>  
-                        <table class="table table-hover mt-2">
+                        <div class="fa-2x text-center mx-auto mt-4" if.bind="isLoading">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                        <table class="table table-hover mt-4" if.bind="! isLoading">
                             <thead>
                                 <tr>
                                     <th class="text-center">Nº pedido</th>
                                     <th class="text-right">Valor do pedido</th>
-                                    <th class="text-center">Food Service</th>
-                                    <th class="text-center">Fornecedor</th>
+                                    <th>Food Service</th>
+                                    <th>Fornecedor</th>
                                     <th>Avaliador</th>
                                     <th class="text-center">Data da avaliação</th>
                                     <th class="text-center" style="min-width: 250px;">Avaliação</th>      
@@ -65,13 +68,13 @@
                                         <span class="badge badge-danger" if.bind="x.status == 2 || x.status == 3">Rejeitado</span>                    
                                     </td>
                                     <td>
-                                            <button type="button" class="btn  btn-primary btn-sm  waves-effect waves-light mx-auto ml-2"  click.trigger="showDetails(x)"  if.bind="! x.processing" >
-                                                Detalhes
+                                            <button type="button" class="btn  btn-primary btn-sm  waves-effect waves-light mx-auto"  click.trigger="showDetails(x)"  if.bind="! x.processing" >
+                                                <i class="batch-icon batch-icon-pencil mr-2"></i>Detalhes
                                             </button> 
                                             <button type="button" class="btn btn-danger  btn-sm waves-effect waves-light mx-auto"  click.trigger="reject(x)" if.bind="! x.processing && (x.status == 1)" >
                                                 <i class="fa fa-times mr-2" aria-hidden="true"></i> Rejeitar                                                    
                                             </button>
-                                            <button type="button" class="btn  btn-success btn-sm  waves-effect waves-light mx-auto ml-2"  click.trigger="approve(x)"  if.bind="! x.processing && (  x.status == 2  || x.status == 3)" >
+                                            <button type="button" class="btn  btn-success btn-sm  waves-effect waves-light mx-auto"  click.trigger="approve(x)"  if.bind="! x.processing && (  x.status == 2  || x.status == 3)" >
                                                 <i class="fa fa-check mr-2"></i>Aprovar
                                             </button> 
                                             <div class="fa-2x text-center  mx-auto" if.bind="x.processing" >

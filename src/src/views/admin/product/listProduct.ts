@@ -97,9 +97,8 @@ export class ListProduct{
                    
                     this.classes = data.filter(x => x.isActive);
                     this.classes.forEach( x=> x.categories = x.categories.filter(y => y.isActive));
-
-                    this.categories = data[0].categories;
-                    this.selectedCategory = this.categories[0];
+                    this.selectedClass = this.classes[0];
+                    this.categories = this.selectedClass.categories; 
                     this.searchProducts();
                     this.ea.publish('dataLoaded');
                }).catch( e => {
@@ -128,8 +127,7 @@ export class ListProduct{
 
     updateCategories(){
 
-        this.categories = this.selectedClass.categories;
-        this.selectedCategory = this.categories[0];
+        this.categories = this.selectedClass.categories; 
         this.searchProducts();
         this.products = [];
         this.filteredProducts = [];
@@ -137,12 +135,12 @@ export class ListProduct{
 
     searchProducts() {  
 
-        if(this.selectedCategory != null){
+        if(this.selectedClass != null){
         
             this.isLoading = true;
 
             this.repository
-                .getAllProductsByCategory(this.selectedCategory.id)
+                .getAllProductsByClass(this.selectedClass.id)
                 .then(x => {
                     this.products = x;
                     this.filteredProducts = x;
@@ -167,7 +165,7 @@ export class ListProduct{
 
             var isFound = true; 
 
-                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
+                if( ( (<any> this.selectedCategory != '-1' ) && this.selectedCategory != null && this.selectedCategory.id != '')){ 
                     if(x.category.id == this.selectedCategory.id){
                         isFound = true;
                     }

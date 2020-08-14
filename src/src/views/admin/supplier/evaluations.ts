@@ -16,6 +16,7 @@ export class Evaluations{
     filteredEvaluations                     : Evaluation[];
     selectedStatus                          : number;
     evaluation                              : Evaluation;
+    isLoading                               : boolean;
 
     constructor(
         private router              : Router, 
@@ -38,17 +39,19 @@ export class Evaluations{
     }
 
     load(){ 
-
+        this.isLoading = true;
         this.repository
             .getEvaluations(this.selectedStatus)
             .then(x =>{
 
                 this.evaluations = x;
                 this.filteredEvaluations = x;
+                this.isLoading = false;
                 this.ea.publish('dataLoaded');
             })
             .catch( e => {
                 this.ea.publish('dataLoaded');
+                this.isLoading = false;
                 this.nService.presentError(e);
             });
     }

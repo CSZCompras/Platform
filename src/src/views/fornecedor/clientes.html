@@ -58,15 +58,23 @@
                              <td>${x.foodService.contact.name}</td>
                              <td>${x.foodService.contact.email}</td>
                              <td>
-                                 <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 1 && ! x.isLoading" click.trigger="registrationSent(x)">Cadastro recebido</button>
-                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="(x.status == 5 || x.status == 3) && ! x.isLoading" click.trigger="approve(x)">
-                                    Aprovar
+                                 <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 1 && ! x.isLoading" click.trigger="registrationSent(x)">
+                                    <i class="fa fa-check mr-2" aria-hidden="true"></i>Cadastro recebido
                                  </button>
-                                 <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 5 && ! x.isLoading" click.trigger="reject(x)">Rejeitar</button>
-                                 <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">Bloquear</button>
-                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="x.status == 4 && ! x.isLoading" click.trigger="unblock(x)">Desbloquear</button>
+                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="(x.status == 5 || x.status == 3) && ! x.isLoading" click.trigger="approve(x)">
+                                    <i class="fa fa-check mr-2" aria-hidden="true"></i>Aprovar
+                                 </button>
+                                 <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 5 && ! x.isLoading" click.trigger="reject(x)">
+                                    Rejeitar
+                                 </button>
+                                 <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">
+                                    <i class="fa fa-ban mr-2" aria-hidden="true"></i>Bloquear
+                                 </button>
+                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="x.status == 4 && ! x.isLoading" click.trigger="unblock(x)">
+                                    <i class="fa fa-unlock mr-2" aria-hidden="true"></i>Desbloquear
+                                 </button>
                                 <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="showFoodServiceDetails(x)">
-                                    Detalhes 
+                                    <i class="batch-icon batch-icon-pencil mr-2"></i>Detalhes 
                                 </button>
                              </td>
                              <td>

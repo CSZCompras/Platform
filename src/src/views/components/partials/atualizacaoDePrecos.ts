@@ -70,8 +70,13 @@ export class AtualizacaoDePrecos{
                                         if(x.length > 0){
 
                                             this.priceLists = x;
-                                            if(this.selectedPriceList == null)
-                                            this.selectedPriceList = x[0];
+
+                                            if(this.selectedPriceList == null){
+                                                this.selectedPriceList = x[0];
+                                            } 
+                                            if(loadProducts){
+                                                this.loadProducts();
+                                            } 
                                         }
                                     });
 
@@ -96,6 +101,9 @@ export class AtualizacaoDePrecos{
                                                 }
                                         }
 
+                                        if(loadProducts){
+                                            this.loadProducts();
+                                        }
                                         this.ea.publish('atualizacaoDePrecosLoaded');
                                     }).catch( e => {
                                     // this.nService.presentError(e);
@@ -107,7 +115,7 @@ export class AtualizacaoDePrecos{
                    this.search(); 
 
                     if(loadProducts){
-                        this.loadProducts();
+                        setTimeout( () => this.loadProducts(), 1000);
                     }
                     else{
                         this.isLoading = false;

@@ -46,6 +46,7 @@ export class Master {
         private messageService 			: MessageService, 
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator) {
+
 	//	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
