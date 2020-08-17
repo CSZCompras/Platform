@@ -47,7 +47,7 @@ export class Master {
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator) {
 
-	//	this.prefix = '/cszhomologacao';
+		this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
 
@@ -167,7 +167,7 @@ export class Master {
 	loadFoodServiceConnections(){
 
 		var p1 = this.connRepository
-					.getSuppliers(0)
+					.getSupplierConnections(0)
 					.then( (data : FoodServiceConnectionViewModel[]) =>{
 							this.novoFoodServices = data;
 					}).catch( e => {
@@ -175,7 +175,7 @@ export class Master {
 					});
 
 		var p2 = this.connRepository
-					.getSuppliers(1)
+					.getSupplierConnections(1)
 					.then( (data : FoodServiceConnectionViewModel[]) =>{
 							this.waitingFoodServices = data;
 					}).catch( e => {

@@ -34,19 +34,18 @@
                        <thead>
                           <tr>
                              <th>Nome do cliente</th>
-                             <th class="w-25">Tabela de Preço</th>
                              <th>Situação Cadastral</th>
+                             <th class="w-25">Tabela de Preço</th>
                              <th class="w-25">Telefone</th> 
                              <th>Contato</th>
                              <th>E-mail</th>
-                             <th></th> 
+                             <th class="w-25"></th> 
                              <th></th>
                           </tr>
                        </thead>
                        <tbody>
                           <tr repeat.for="x of filteredFoodServices">
                              <td>${x.foodService.name}</td>
-                             <td>${x.priceListName}</td>
                              <td> 
                                 <span class="badge badge-danger" if.bind="x.status == 1">Não cadastrado</span>
                                 <span class="badge badge-success" if.bind="x.status == 2">Cadastrado</span>
@@ -54,6 +53,7 @@
                                 <span class="badge badge-default" if.bind="x.status == 4">Bloqueado</span>
                                 <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
                              </td>
+                             <td>${x.priceListName}</td>
                              <td phone-with-ddd>${x.foodService.contact.phone}</td> 
                              <td>${x.foodService.contact.name}</td>
                              <td>${x.foodService.contact.email}</td>
@@ -65,7 +65,7 @@
                                     <i class="fa fa-check mr-2" aria-hidden="true"></i>Aprovar
                                  </button>
                                  <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 5 && ! x.isLoading" click.trigger="reject(x)">
-                                    Rejeitar
+                                    <i class="fa fa-ban mr-2" aria-hidden="true"></i>Rejeitar
                                  </button>
                                  <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">
                                     <i class="fa fa-ban mr-2" aria-hidden="true"></i>Bloquear
@@ -73,7 +73,10 @@
                                  <button type="button" class="btn btn-success btn-sm waves-effect waves-light"  if.bind="x.status == 4 && ! x.isLoading" click.trigger="unblock(x)">
                                     <i class="fa fa-unlock mr-2" aria-hidden="true"></i>Desbloquear
                                  </button>
-                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="showFoodServiceDetails(x)">
+                                 <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="! (x.status == 5 || x.status == 3) && ! x.isLoading"  click.trigger="alterTable(x)">
+                                     <i class="fa fa-edit mr-2"></i>Alterar Tabela 
+                                 </button>
+                                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"   if.bind="! x.isLoading" click.trigger="showFoodServiceDetails(x)">
                                     <i class="batch-icon batch-icon-pencil mr-2"></i>Detalhes 
                                 </button>
                              </td>

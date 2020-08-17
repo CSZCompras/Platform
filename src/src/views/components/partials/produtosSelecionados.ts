@@ -55,11 +55,6 @@ export class ProdutosSelecionados{
                 if(productClass.categories == null ){
                     productClass.categories = [];
                 }
-                var novo = new ProductCategory();
-                novo.id = '-2';
-                novo.name = "Todos";
-                productClass.categories.unshift(novo); 
-                this.selectedCategory = novo; 
                 this.classes.unshift(productClass);
             }
             this.loadProducts();
@@ -98,8 +93,7 @@ export class ProdutosSelecionados{
 
     }
 
-    updateCategories(){
-        this.selectedCategory = this.selectedClass.categories[0];
+    updateCategories(){ 
         this.defineCurrentLists();
         this.defineProductsInList();
         this.search();
@@ -117,25 +111,10 @@ export class ProdutosSelecionados{
 
                                 if(x.categories == null ){
                                     x.categories = [];
-                                }
-
-                                var novo = new ProductCategory();
-                                novo.id = '-2';
-                                novo.name = "Todos";
-                                x.categories.unshift(novo); 
-                                
-                                this.selectedCategory = novo; 
+                                } 
                             });
-                            
-                            if(data.length > 0){
-                                
-                                this.selectedClass = data[0];
 
-                                if(data[0].categories.length > 0){
-                                    this.selectedCategory = this.selectedClass.categories[0];
-                                }
-                            }
-                            
+                            this.ea.publish('dataLoaded');
                             this.loadProducts();
 
                         }).catch( e => {
@@ -152,6 +131,7 @@ export class ProdutosSelecionados{
             .then( (data : FoodServiceProduct[]) => { 
 
                 this.allProducts = data; 
+                this.filteredProducts = data;
                 this.loadBuyLists();
             }).catch( e => {
                 this.nService.presentError(e);
@@ -176,7 +156,7 @@ export class ProdutosSelecionados{
     defineCurrentLists(){
 
         var defaultList = this.getDefaultList();
-        this.lists = this.allLists.filter( (x : BuyList) => x.productClass != null && x.productClass.id == this.selectedClass.id);
+        this.lists = this.allLists.filter( (x : BuyList) => ! x.isDefaultList && ( x.productClass == null || x.productClass.id == this.selectedClass.id) );
 
         if(defaultList != null){
             this.lists.unshift(defaultList);
@@ -201,42 +181,51 @@ export class ProdutosSelecionados{
             
             this.isFiltered = true;
 
-            var products = this.allProducts.filter( (x : FoodServiceProduct) => x.product.base.category.productClass.id == this.selectedClass.id);
-            
-            if(this.selectedCategory != null && this.selectedCategory.id == '-2'){
-                this.filteredProducts = products;
+            if( (<any> this.selectedClass) == '-1'){
+                this.filteredProducts = this.allProducts;
             } 
+            else{
+                this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
 
-            this.filteredProducts = products.filter( (x : FoodServiceProduct) =>{
+                        var isFound = true; 
 
-                    var isFound = true; 
-
-                        if( (this.selectedCategory != null && this.selectedCategory.id != '' && this.selectedCategory.id  != '-2')){ 
-                            
-                            if(x.product.base.category.id == this.selectedCategory.id){
+                        if( (this.selectedClass != null && this.selectedClass.id != null)){ 
+                                
+                            if(x.product.base.category.productClass.id == this.selectedClass.id){
                                 isFound = true;
                             }
                             else {
                                 isFound= false;
                             }
                         }
-                        
-                        if(isFound){
 
-                            if( (this.filter != null && this.filter != '')){ 
-                                if( x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                            if( (this.selectedCategory != null && this.selectedCategory.id != null)){ 
+                                
+                                if(x.product.base.category.id == this.selectedCategory.id){
                                     isFound = true;
                                 }
                                 else {
                                     isFound= false;
                                 }
                             }
-                        }
+                            
+                            if(isFound){
 
-                        if(isFound){
-                            return x;
-                        } 
-                }); 
+                                if( (this.filter != null && this.filter != '')){ 
+                                    if( x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                        isFound = true;
+                                    }
+                                    else {
+                                        isFound= false;
+                                    }
+                                }
+                            }
+
+                            if(isFound){
+                                return x;
+                            } 
+                    }); 
+                }
     }
 
     addProduct(product : Product){
@@ -260,7 +249,7 @@ export class ProdutosSelecionados{
             
             var buyList = new BuyList();
             buyList.name = this.newListName;
-            buyList.productClass = this.selectedClass;
+
             this.repository
                 .addBuyList(buyList)
                 .then( (data : BuyList) => { 

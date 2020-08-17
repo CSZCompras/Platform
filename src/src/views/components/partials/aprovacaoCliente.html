@@ -8,20 +8,19 @@
             <div class="col-md-12">
                <div class="card">
                   <div class="card-header">
-                     Aprovação de Cliente
+                     Tabela de Preços
                   </div>
                   <div class="card-body">                     
                       <div class="row"> 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Seleciona uma tabela de preço para o cliente <b>${foodService.name}</b>?</label>
+                                <label class="control-label">Seleciona uma tabela de preço para o cliente <b>${fsSupplier.foodService.name}</b>?</label>
                             </div>        
                         </div> 
                     </div>  
                     <div class="col-lg-8">
                         <div class="form-group">
                             <select class="form-control text-center"    value.bind="selectedPriceList">
-                                <option value=""></option>
                                 <option  repeat.for="p of priceLists" model.bind="p">${p.name}</option>
                             </select>
                         </div>
@@ -32,7 +31,7 @@
                         <i class="fa fa-undo mr-2"></i>Cancelar
                     </button>
                     <button type="button" class="btn  btn-success waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="save()"  if.bind="! processing" >
-                        <i class="fa fa-check mr-2"></i>Aprovar
+                        <i class="fa fa-check mr-2"></i>Confirmar
                     </button>                
                  </div>      
                </div>

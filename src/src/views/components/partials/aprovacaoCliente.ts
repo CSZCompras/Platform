@@ -3,6 +3,7 @@ import { PriceListRepository } from '../../../repositories/priceListRepository';
 import { PriceList } from '../../../domain/priceList';
 import { FoodService } from '../../../domain/foodService';
 import { DialogController } from 'aurelia-dialog';
+import { FoodServiceSupplier } from '../../../domain/foodServiceSupplier';
 
 @autoinject
 export class AprovacaoCliente{
@@ -10,7 +11,7 @@ export class AprovacaoCliente{
     isLoading                       : boolean;
     priceLists                      : PriceList[];
     selectedPriceList               : PriceList;
-    foodService                     : FoodService;
+    fsSupplier                      : FoodServiceSupplier;
 
     constructor(		
 		private controller          : DialogController, 
@@ -21,9 +22,9 @@ export class AprovacaoCliente{
 
     activate(params){  
 
-        if(params.FoodService != null){
+        if(params.FoodServiceSupplier != null){
 
-            this.foodService = params.FoodService; 
+            this.fsSupplier = params.FoodServiceSupplier; 
         }
     }
 
@@ -34,6 +35,13 @@ export class AprovacaoCliente{
             .then(x => {
                 this.priceLists = x;
                 this.isLoading = false;
+
+                if(this.fsSupplier.priceListId != null && this.fsSupplier.priceListId != ''){
+                    this.selectedPriceList = this.priceLists.filter( p => p.id == this.fsSupplier.priceListId)[0];
+                }
+                else if(this.priceLists.length > 0){
+                    this.selectedPriceList = this.priceLists[0];
+                }
             })
             .catch(e => {
                 this.isLoading = false;
@@ -46,7 +54,7 @@ export class AprovacaoCliente{
     } 
 
     save(){
-        if(this.selectedPriceList != null && (<any> this.selectedPriceList) != ''){
+        if(this.selectedPriceList != null && ( <any> this.selectedPriceList) != ''){
             this.controller.ok(this.selectedPriceList);
         }
     }

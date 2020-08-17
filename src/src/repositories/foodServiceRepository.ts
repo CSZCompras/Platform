@@ -177,7 +177,7 @@ export class FoodServiceRepository {
 
     addBuyList(buyList : BuyList) : Promise<BuyList>{
 
-        if(buyList.productClass.categories != null){
+        if(buyList.productClass != null && buyList.productClass.categories != null){
             buyList.productClass.categories = [];
         }
 

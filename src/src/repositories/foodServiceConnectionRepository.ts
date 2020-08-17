@@ -18,7 +18,7 @@ export class FoodServiceConnectionRepository {
         this.api = this.config.getEndpoint('apiAddress');
     }
 
-    getSuppliers(queryType : number) : Promise<FoodServiceConnectionViewModel[]>  {
+    getSupplierConnections(queryType : number) : Promise<FoodServiceConnectionViewModel[]>  {
 
         return this.api
                     .find('foodServiceConnection?queryType=' + queryType)
@@ -36,7 +36,22 @@ export class FoodServiceConnectionRepository {
     updateConnection(connection : FoodServiceConnectionViewModel) : Promise<any>  {
 
         return this.api
-                    .post('FoodServiceConnection', connection)
+                    .post('foodServiceConnection', connection)
+                    .then( (result : Promise<any>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+    
+    alterPriceList(connection : FoodServiceConnectionViewModel) : Promise<any>  {
+
+        return this.api
+                    .post('alterPriceList', connection)
                     .then( (result : Promise<any>) => {                 
                         return result;
                     })

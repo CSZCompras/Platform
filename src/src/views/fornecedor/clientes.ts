@@ -3,10 +3,7 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { FoodServiceConnectionRepository } from '../../repositories/foodServiceConnectionRepository';
-import { FoodServiceConnectionViewModel } from '../../domain/foodServiceViewModel';
-import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
-import { PriceListRepository } from '../../repositories/priceListRepository';
-import { PriceList } from '../../domain/priceList'; 
+import { FoodServiceConnectionViewModel } from '../../domain/foodServiceViewModel'; 
 import { DialogService } from 'aurelia-dialog';
 import { AprovacaoCliente } from '../components/partials/aprovacaoCliente';
 
@@ -58,7 +55,7 @@ export class Clientes{
                 this.foodServices = [];
                 this.filteredFoodServices = []; 
 
-                this.loadSuppliers().then( () => this.ea.publish('dataLoaded')); 
+                this.loadConnections().then( () => this.ea.publish('dataLoaded')); 
         }
 
         alterView() : Promise<any>{
@@ -78,15 +75,15 @@ export class Clientes{
                         this.title = 'Clientes Bloqueados'; 
                 }
 
-                return  this.loadSuppliers();
+                return  this.loadConnections();
         }
 
-        loadSuppliers() : Promise<any> {
+        loadConnections() : Promise<any> {
 
                 this.processing = true;
 
                 return this.repository
-                                .getSuppliers(this.type)
+                                .getSupplierConnections(this.type)
                                 .then( (data : FoodServiceConnectionViewModel[]) =>{
                                         this.foodServices = data;
                                         this.search();
@@ -97,9 +94,42 @@ export class Clientes{
                                 });
         } 
 
-        approve(x : FoodServiceSupplier){ 
+        alterTable(x : FoodServiceConnectionViewModel){ 
+                
 
-                var params = { FoodService : x.foodService };
+                var params = { FoodServiceSupplier : x };
+
+                this.dialogService
+                        .open({ viewModel: AprovacaoCliente, model: params, lock: false })
+                        .whenClosed(response => {
+
+                                if (response.wasCancelled || response.output.id == x.priceListId) {
+                                        return;
+                                }  
+                                ( <any> x).isLoading = true;
+
+                                var viewModel = new FoodServiceConnectionViewModel();
+                                viewModel.priceListId = response.output.id;
+                                viewModel.foodService = x.foodService; 
+
+                                this.repository
+                                        .alterPriceList(viewModel)
+                                        .then( (data : any) =>{                                
+                                                x.priceListId =  response.output.id;
+                                                x.priceListName = response.output.name;
+                                                this.nService.presentSuccess('Alteraçao feita com sucesso!');
+                                                ( <any> x).isLoading = false;
+                                        })
+                                        .catch( e => {
+                                                this.nService.presentError(e);
+                                                ( <any> x).isLoading = false;
+                                        });
+                        }); 
+        }
+
+        approve(x : FoodServiceConnectionViewModel){ 
+
+                var params = { FoodServiceSupplier : x };
 
                 this.dialogService
                         .open({ viewModel: AprovacaoCliente, model: params, lock: false })
@@ -108,9 +138,10 @@ export class Clientes{
                                 if (response.wasCancelled) {
                                         return;
                                 }  
+                                ( <any> x).isLoading = true;
 
                                 var viewModel = new FoodServiceConnectionViewModel();
-                                viewModel.priceListId = response.output.priceListId;
+                                viewModel.priceListId = response.output.id;
                                 viewModel.foodService = x.foodService;                
                                 viewModel.status = 2;
 
@@ -121,14 +152,16 @@ export class Clientes{
                                                 this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                                 this.nService.presentSuccess('Cliente foi aprovado com sucesso!');
                                                 this.ea.publish('foodApproved');
+                                                ( <any> x).isLoading = false;
                                         })
                                         .catch( e => {
                                                 this.nService.presentError(e);
+                                                ( <any> x).isLoading = false;
                                         });
                         }); 
         }
 
-        registrationSent(x : FoodServiceSupplier){
+        registrationSent(x : FoodServiceConnectionViewModel){
 
                 ( <any> x).isLoading = true;
 
@@ -140,12 +173,13 @@ export class Clientes{
                         .updateConnection(viewModel)
                         .then( (data : any) =>{ 
                                 
-                                ( <any> x).isLoading = false;
+                                ( <any> x).isLoading = true;
 
                                 this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                 this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);                                      
                                 this.nService.presentSuccess('Status atualizado com sucesso!');
                                 this.ea.publish('registrationSent');
+                                ( <any> x).isLoading = false;
                         }).catch( e => {
 
                             this.nService.presentError(e);
@@ -154,7 +188,7 @@ export class Clientes{
 
         }
 
-        reject(x : FoodServiceSupplier){
+        reject(x : FoodServiceConnectionViewModel){
 
                 ( <any> x).isLoading = true;
 
@@ -170,6 +204,7 @@ export class Clientes{
                                 this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                 this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                 this.nService.presentSuccess('Status rejeitado com sucesso!');
+                                ( <any> x).isLoading = false;
                         }).catch( e => {
 
                             this.nService.presentError(e);
@@ -178,7 +213,7 @@ export class Clientes{
 
         }
 
-        block(x : FoodServiceSupplier){
+        block(x : FoodServiceConnectionViewModel){
 
                 ( <any> x).isLoading = true;
 
@@ -194,6 +229,7 @@ export class Clientes{
                                 this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                 this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                 this.nService.presentSuccess('Status bloqueado com sucesso!');  
+                                ( <any> x).isLoading = false;
                         }).catch( e => {
 
                             this.nService.presentError(e);                                
@@ -202,7 +238,7 @@ export class Clientes{
 
         }
 
-        unblock(x : FoodServiceSupplier){
+        unblock(x : FoodServiceConnectionViewModel){
 
                 ( <any> x).isLoading = true;
 
@@ -218,6 +254,7 @@ export class Clientes{
                                 this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                 this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
                                 this.nService.presentSuccess('Status desbloqueado com sucesso!');    
+                                ( <any> x).isLoading = false;
                         }).catch( e => {
                             this.nService.presentError(e);                           
                             ( <any> x).isLoading = false;

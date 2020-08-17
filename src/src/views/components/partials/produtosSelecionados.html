@@ -4,6 +4,7 @@
                <div class="form-group">
                   <label class="control-label">Mercado</label>            
                   <select class="form-control"  value.bind="selectedClass" change.delegate="updateCategories()">
+                     <option value="-1">Todos</option>
                      <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
                   </select>
                </div>
@@ -12,6 +13,7 @@
                <div class="form-group">
                   <label class="control-label">Categoria</label>
                   <select class="form-control"  value.bind="selectedCategory" change.delegate="search()">
+                     <option value="-1">Todos</option>
                      <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
                   </select>
                </div>
@@ -71,7 +73,10 @@
                           ${x.product.description}
                           <span if.bind="x.isNew" class="badge badge-warning ml-2">Novo!</span>
                         </td>
-                       <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">${x.product.base.category.name}</td>
+                       <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">
+                           <span if.bind="selectedClass == -1">${x.product.base.category.productClass.name} / </span>
+                           ${x.product.base.category.name}
+                        </td>
                        <td class="${ (filteredProducts[$index -1].product.base.id == x.product.base.id) ? 'border-0' : ''}">
                           ${x.product.unit.name}
                           <span if.bind="x.product.unitInternal != null"> com ${x.product.multiplier} ${x.product.unitInternal.name}(s)</span>

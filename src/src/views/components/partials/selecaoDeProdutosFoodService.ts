@@ -18,8 +18,7 @@ export class SelecaoDeProdutosFoodService{
     classes             : ProductClass[];
     categories          : ProductCategory[];
     allProducts         : ProductBase[];
-    filteredProducts    : ProductBase[];
-    isFiltered          : boolean;
+    filteredProducts    : ProductBase[]; 
     selectedCategory    : ProductCategory;
     selectedClass       : ProductClass;
     filter              : string;
@@ -32,9 +31,7 @@ export class SelecaoDeProdutosFoodService{
         private ea                      : EventAggregator ,
         private productRepository       : ProductRepository,
         private productBaseRepository   : ProductBaseRepository,
-        private repository              : FoodServiceRepository) {
-        
-        this.isFiltered = false;
+        private repository              : FoodServiceRepository) { 
         this.isProcessing = false;
     } 
     
@@ -48,71 +45,78 @@ export class SelecaoDeProdutosFoodService{
     } 
 
     updateCategory(){
-        this.selectedCategory = this.selectedClass.categories[0];
         this.search();
     }
 
     loadData(){
 
         this.allProducts = [];
-        this.filteredProducts = [];
-        this.isFiltered = false;
+        this.filteredProducts = []; 
         this.isLoading = true;
 
         var promisse0 = this.productRepository
                             .getAllClasses()
                             .then( (data : ProductClass[]) => { 
-                                this.classes = data
-                                this.selectedClass = data[0];
-                                this.selectedCategory = this.selectedClass.categories[0];
+                                this.classes = data;
+                                
+                                if(data.length > 0){
+                                    this.selectedClass = data[0];
+                                }
+                                this.ea.publish('dataLoaded');
                             })
                             .catch( e => this.nService.presentError(e));
 
         var promisse1 = this.productBaseRepository
                             .getAllProducts()
                             .then( (data : ProductBase[]) => { 
-                                this.allProducts = data
+                                this.allProducts = data;
+                                this.filteredProducts = data;
                             })
                             .catch( e => this.nService.presentError(e));
 
         Promise.all([promisse0, promisse1]).then( () => { 
-
-            this.search();
-            this.ea.publish('dataLoaded');
             this.isLoading = false;
+            this.search();
         });
     }
 
     search(){ 
 
-        if( (this.selectedCategory == null || this.selectedCategory.id == '') && (this.filter == null || this.filter == '') ) {
-            this.isFiltered = false;
-        }
-        else{
-            
-            this.isFiltered = true;
+        this.isLoading = true;
 
-            this.filteredProducts = this.allProducts.filter( (x : ProductBase) =>{
+          this.filteredProducts = this.allProducts.filter( (x : ProductBase) =>{
 
                 var isFound = true;
 
-                if( (this.selectedCategory != null && this.selectedCategory.id != '')){ 
-                    if(x.category.id == this.selectedCategory.id){
+                if(this.selectedClass != null && this.selectedClass.id != ''){ 
+                    if(x.category.productClass.id == this.selectedClass.id){
                         isFound = true;
                     }
                     else {
                         isFound= false;
                     }
-                }
+                } 
                 
                 if(isFound){
 
-                    if( (this.filter != null && this.filter != '')){ 
-                        if( x.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                    if(this.selectedCategory != null && this.selectedCategory.id != null){ 
+                        if(x.category.id == this.selectedCategory.id){
                             isFound = true;
                         }
                         else {
                             isFound= false;
+                        }
+                    }
+                    
+                    if(isFound){
+
+                        if( (this.filter != null && this.filter != '')){ 
+                            if( x.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                isFound = true;
+                            }
+                            else {
+                                isFound= false;
+                            }
                         }
                     }
                 }
@@ -120,8 +124,9 @@ export class SelecaoDeProdutosFoodService{
                 if(isFound){
                     return x;
                 }
-            });
-        }
+            }); 
+
+            this.isLoading = false;
     }
 
     addProduct(product : Product, base : ProductBase){ 
@@ -132,8 +137,7 @@ export class SelecaoDeProdutosFoodService{
 
         var foodProduct = new FoodServiceProduct();
         foodProduct.product = product;
-        foodProduct.isActive = true;         
-        this.isFiltered = true;
+        foodProduct.isActive = true;  
         
 
         this.repository
