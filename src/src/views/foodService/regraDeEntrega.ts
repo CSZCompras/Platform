@@ -41,6 +41,10 @@ export class RegraDeEntrega{
             .getAllClasses()
             .then( (classes : ProductClass[]) => { 
                 this.productClasses = classes;
+                if(classes.length > 0){
+                    this.selectedClass = classes[0];
+                    this.loadRule();
+                }
             })
             .then( () => this.ea.publish('dataLoaded'))
             .catch( e =>  {
@@ -49,8 +53,6 @@ export class RegraDeEntrega{
     }
     
     loadRule() : void{
-
-        debugger;
 
         this.deliveryRepository
             .getRule(this.selectedClass.id)
