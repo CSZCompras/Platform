@@ -4,7 +4,7 @@ import { CheckDeliveryViewModel } from "../checkDeliveryViewModel";
 import { CheckDeliveryResult } from "../checkDeliveryResult";
 import { DeliveryRule } from "../deliveryRule";
 
-export class MarketInputViewModel{
+export class SimulationMarketInputViewModel{
     
     
     constructor() {  
