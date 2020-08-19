@@ -147,17 +147,18 @@ export class ProductRepository{
                 });
     }
 
-    alterSuplierProduct(supplierProduct : PriceListItem[]): Promise<any> { 
+    alterSuplierProduct(supplierProduct : PriceListItem[], priceListId : string): Promise<any> { 
         
         var list = [];
 
         supplierProduct.forEach(x =>{
-
             var viewModel = {
-                id : x.id,
-                status : x.supplierProduct.status,            
-                price :  x.price,
-                clientCode : x.supplierProduct.clientCode
+                id                  : x.id,
+                supplierProductId   : x.supplierProduct.id,
+                priceListId         : priceListId,
+                status              : x.supplierProduct.status,            
+                price               : x.price,
+                clientCode          : x.supplierProduct.clientCode
             }; 
 
             list.push(viewModel);

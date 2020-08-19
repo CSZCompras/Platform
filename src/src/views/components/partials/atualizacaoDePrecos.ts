@@ -219,7 +219,7 @@ export class AtualizacaoDePrecos{
         ( <any> item).isLoading = true;
 
         this.repository
-            .alterSuplierProduct(this.alteredProducts)
+            .alterSuplierProduct(this.alteredProducts, this.selectedPriceList.id)
             .then( (result : any) =>{    
                 
                 this.nService.success('O produto foi atualizado com sucesso!');  
@@ -238,6 +238,7 @@ export class AtualizacaoDePrecos{
                 this.nService.error(e);
                 this.isLoading = false;
                 ( <any> item).isLoading = false;
+                this.alteredProducts = [];
             });
 
     }
