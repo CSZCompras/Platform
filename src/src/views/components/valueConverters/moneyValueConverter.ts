@@ -4,7 +4,7 @@ export class MoneyValueConverter{
     toView(value) { 
 
         if(value != null){          
-             var numero = value.toFixed(2).split('.');
+             var numero = parseFloat(value).toFixed(2).split('.');
             numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
             return numero.join(',');
         }

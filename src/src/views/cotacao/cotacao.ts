@@ -17,13 +17,13 @@ import { SimulationInput } from '../../domain/simulation/simulationInput';
 import { SimulationResult } from '../../domain/simulation/simulationResult';
 import { SimulationSummaryItem } from '../../domain/simulation/simulationSummaryItem'; 
 import { Simulation } from '../../domain/simulation/simulation';
-import 'twitter-bootstrap-wizard';
-import 'jquery-mask-plugin';
-import 'aurelia-validation';
 import { SimulationMarketInputViewModel } from '../../domain/simulation/simulationMarketInputViewModel';
 import { DetalhesProduto } from '../components/partials/detalhesProduto';
 import { SimulationInputBaseItem } from '../../domain/simulation/simulationInputBaseItem';
 import { DialogService } from 'aurelia-dialog';
+import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class Cotacao{
@@ -144,8 +144,8 @@ export class Cotacao{
 		this.ea.publish('loadingData');  
 		this.isProcessing = true;  
 
-		this.simulations = [];
-		this.results = [];
+		this.simulations 	= [];
+		this.results 		= [];
 
         this.simulationRepository
             .simulate(this.selectedQuote)
@@ -180,7 +180,11 @@ export class Cotacao{
             .whenClosed(response => {
                 if (response.wasCancelled) {
                     return;
-                }  
+				}
+
+				if(response.output != null){
+					simulationInputItem = response.output;
+				}
             });
 	}
 
@@ -267,6 +271,8 @@ export class Cotacao{
 	}
 
 	loadDeliveryRule(){
+
+		this.selectedQuote.markets.forEach(x => x.items.forEach(y => y.quantity = 10));
 
 		if(this.selectedQuote != null){
 			( <any> this.selectedQuote.markets[0]).show = true;
