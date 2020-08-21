@@ -190,6 +190,15 @@ export class Cotacao{
 
 	back(){
 		this.currentStep--;
+
+		if(this.currentStep == 1){
+			var market = this.selectedQuote.markets[0];
+			this.showHideMarket(market); 
+			window.setTimeout(()=>{
+				$('#' + market.id).removeClass('fade');
+				$('#' + market.id).addClass('active');
+			}, 1000);
+		}
 	}
 
     attached() : void {		 
@@ -271,8 +280,6 @@ export class Cotacao{
 	}
 
 	loadDeliveryRule(){
-
-		this.selectedQuote.markets.forEach(x => x.items.forEach(y => y.quantity = 10));
 
 		if(this.selectedQuote != null){
 			( <any> this.selectedQuote.markets[0]).show = true;
