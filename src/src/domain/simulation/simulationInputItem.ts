@@ -1,18 +1,18 @@
 import { SupplierViewModel } from "../supplierViewModel";
+import { UnitViewModel } from "../unitViewModel";
+import { BrandViewModel } from "../brandViewModel";
 
 export class SimulationInputItem{
 
-    constructor() {
-        this.suppliers = [];
+    constructor() { 
     }
-
+    
+    
+    foodServiceProductId    : string;
     productId               : string;
-    quantity                : number;
     description             : string;
-    name                    : string;
-    unitOfMeasure           : string;
-    category                : string;
-    brand                   : string;
-
-    suppliers               : SupplierViewModel[];
+    umDetailed              : string;
+    unit                    : UnitViewModel;
+    unitInternal            : UnitViewModel;
+    brand                   : BrandViewModel;;
 }

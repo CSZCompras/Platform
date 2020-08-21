@@ -17,13 +17,16 @@ import { SimulationInput } from '../../domain/simulation/simulationInput';
 import { SimulationResult } from '../../domain/simulation/simulationResult';
 import { SimulationSummaryItem } from '../../domain/simulation/simulationSummaryItem'; 
 import { Simulation } from '../../domain/simulation/simulation';
+import { SimulationMarketInputViewModel } from '../../domain/simulation/simulationMarketInputViewModel';
+import { DetalhesProduto } from '../components/partials/detalhesProduto';
+import { SimulationInputBaseItem } from '../../domain/simulation/simulationInputBaseItem';
+import { DialogService } from 'aurelia-dialog';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
-import { MarketInputViewModel } from '../../domain/simulation/marketInputViewModel';
 
 @autoinject
-export class Pedido{
+export class Cotacao{
 
 	$               				: any;
 	orderId							: string;
@@ -41,7 +44,8 @@ export class Pedido{
 
 	
     constructor(		
-        private router                  	: Router, 	
+        private router                  	: Router, 	 
+        private dialogService           	: DialogService,
 		private repository              	: FoodServiceRepository,	
 		private ea 							: EventAggregator, 
 		private simulationRepository    	: SimulationRepository,
@@ -130,13 +134,9 @@ export class Pedido{
 		}
 	}
 	
-	showHideMarket(market : MarketInputViewModel){
-		if(  ( <any> market).show ){
-			( <any> market).show = ! ( <any> market).show;
-		}
-		else{
-			window.setTimeout(() => ( <any> market).show = ! ( <any> market).show, 500); // problemas na renderizacao
-		}
+	showHideMarket(market : SimulationMarketInputViewModel){
+		this.selectedQuote.markets.forEach( x => ( <any> x).show = false );
+		(<any> market).show = true;
 	}
     
     simulate(){
@@ -144,8 +144,8 @@ export class Pedido{
 		this.ea.publish('loadingData');  
 		this.isProcessing = true;  
 
-		this.simulations = [];
-		this.results = [];
+		this.simulations 	= [];
+		this.results 		= [];
 
         this.simulationRepository
             .simulate(this.selectedQuote)
@@ -168,10 +168,37 @@ export class Pedido{
 				this.isProcessing = false;
 				this.ea.publish('dataLoaded');
             });
-    }
+	}
+	
+	showDetails(simulationInputItem : SimulationInputBaseItem){
+		
+
+        var params = { SimulationInputBaseItem : simulationInputItem};
+
+        this.dialogService
+            .open({ viewModel: DetalhesProduto, model: params, lock: false })
+            .whenClosed(response => {
+                if (response.wasCancelled) {
+                    return;
+				}
+
+				if(response.output != null){
+					simulationInputItem = response.output;
+				}
+            });
+	}
 
 	back(){
 		this.currentStep--;
+
+		if(this.currentStep == 1){
+			var market = this.selectedQuote.markets[0];
+			this.showHideMarket(market); 
+			window.setTimeout(()=>{
+				$('#' + market.id).removeClass('fade');
+				$('#' + market.id).addClass('active');
+			}, 1000);
+		}
 	}
 
     attached() : void {		 
@@ -181,7 +208,7 @@ export class Pedido{
 		this.loadData(); 
 	}  
 
-	addRemoveSupplier (market : MarketInputViewModel,supplier : SupplierViewModel){ 
+	addRemoveSupplier (market : SimulationMarketInputViewModel,supplier : SupplierViewModel){ 
 
 		if(( <any> supplier).wasRemoved && ! (<any> supplier).isInvalid){
 
@@ -215,18 +242,6 @@ export class Pedido{
 					( <any> x).isInvalid = false; 
 					( <any> x).wasRemoved = true;
 				}
-			});
-
-
-			market.items.forEach(x => {
-
-				x.suppliers.forEach(y =>{
-
-					if( y.id  == supplier.id){
-						( <any> y).isInvalid = false;
-						( <any> y).wasRemoved = true;
-					}
-				});
 			});
 
 			market.supplierBlackList.push(supplier);
@@ -265,6 +280,10 @@ export class Pedido{
 	}
 
 	loadDeliveryRule(){
+
+		if(this.selectedQuote != null){
+			( <any> this.selectedQuote.markets[0]).show = true;
+		}
 	
 		this.selectedQuote.markets.forEach(market  => {
 
@@ -296,73 +315,49 @@ export class Pedido{
 		}); 
 	}
 
-	checkDeliveryDate(market : MarketInputViewModel){
+	checkDeliveryDate(market : SimulationMarketInputViewModel){
 
 		this.deliveryWasChecked = false;
 		market.checkDeliveryViewModel.suppliers = [];
+		
+		if(market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null){
+			market.suppliers.forEach(x => {
+				market.checkDeliveryViewModel.suppliers.push(x.id);
+			});		
 
-		market.suppliers.forEach(x => {
-			market.checkDeliveryViewModel.suppliers.push(x.id);
-		});
-
-		if(market.checkDeliveryViewModel.deliveryDate < new Date()){
-			
-			this.nService.presentError('A data de entrega deve ser maior ou igual a hoje');		
-			market.isValid = false;
-		}
-
-		if(market.checkDeliveryViewModel.deliveryScheduleStart >= market.checkDeliveryViewModel.deliveryScheduleEnd){
-			this.nService.presentError('O horário inicial deve ser maior que o horário final');		
-			market.isValid = false;
-		}
-
-		this.deliveryRepository
-			.checkDeliveryRule(market.checkDeliveryViewModel)
-			.then( (x : CheckDeliveryResult) => {
-				
-				market.checkDeliveryResult = x;
-
-				x.items.forEach( (item : CheckDeliveryResultItem) =>{
+			this.deliveryRepository
+				.checkDeliveryRule(market.checkDeliveryViewModel)
+				.then( (x : CheckDeliveryResult) => {
 					
-						market.suppliers.forEach(y =>{
-							if(y.id == item.supplierId){
+					market.checkDeliveryResult = x;
+					( <any> market).suppliersInvalid = 0;
 
-								if(! item.isValid){
-									( <any> y).isInvalid = true; 
-									market.supplierBlackList.push(y);
-								}
-								else{
-									( <any> y).isInvalid = false;
-									market.supplierBlackList = market.supplierBlackList.filter(x => x.id != y.id);
-								} 
-							}
-						});
-
-						market.items.forEach(x => {
-
-							x.suppliers.forEach(y =>{
-			
-								if( y.id  == item.supplierId){
+					x.items.forEach( (item : CheckDeliveryResultItem) =>{
+						
+							market.suppliers.forEach(y => {
+								if(y.id == item.supplierId){
 
 									if(! item.isValid){
-										( <any> y).isInvalid = true;
+										( <any> y).isInvalid = true; 
+										market.supplierBlackList.push(y);
+										( <any> market).suppliersInvalid++;
 									}
 									else{
 										( <any> y).isInvalid = false;
-									}
+										market.supplierBlackList = market.supplierBlackList.filter(x => x.id != y.id);
+									} 
 								}
 							});
-						}); 
-				});
+					});
 
-				this.deliveryWasChecked = true;
-				this.checkIfOrderIsvalid(market);
-			})
-			.catch( e => this.nService.presentError(e));  
+					this.deliveryWasChecked = true;
+					this.checkIfOrderIsvalid(market);
+			}).catch( e => this.nService.presentError(e));   
+		}
 	}
 
 
-	checkIfOrderIsvalid(market : MarketInputViewModel){
+	checkIfOrderIsvalid(market : SimulationMarketInputViewModel){
 		
 		market.isValid = true;
 

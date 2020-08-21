@@ -10,6 +10,6 @@ export class NumberMask{
 	}
 
     attached(){ 
-        $(this.element).mask('00');
+        $(this.element).mask('0000');
     }
 }

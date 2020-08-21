@@ -24,26 +24,23 @@ export class SimulationRepository{
         })
       }
 
-    simulate(input : SimulationInput) :  Promise<Simulation[]> {
+    simulate(input : SimulationInput) :  Promise<Simulation[]> { 
 
-      
-
-        return this.api.post('simulation', input)
-          .then( (result : Promise<any>) => {    
-                if(result == null)             
-                    return Promise.resolve();
-                return result;
-            })
-            .catch( (e) => {
-                console.log(e);
-                return Promise.resolve(e.json().then( error => {
-                    
-                    console.log(error);
-                    throw error;
-                }))
-            });
-            //});
-        
+        return this.api
+                    .post('simulation', input)
+                    .then( (result : Promise<any>) => {    
+                            if(result == null)             
+                                return Promise.resolve();
+                            return result;
+                        })
+                        .catch( (e) => {
+                            console.log(e);
+                            return Promise.resolve(e.json().then( error => {
+                                
+                                console.log(error);
+                                throw error;
+                            }))
+                        }); 
     }
 
     getCotacaoFromOrder(orderId: string): Promise<SimulationInput> { 

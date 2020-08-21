@@ -3,8 +3,9 @@ import { SupplierViewModel } from "../supplierViewModel";
 import { CheckDeliveryViewModel } from "../checkDeliveryViewModel";
 import { CheckDeliveryResult } from "../checkDeliveryResult";
 import { DeliveryRule } from "../deliveryRule";
+import { SimulationInputBaseItem } from "./simulationInputBaseItem";
 
-export class MarketInputViewModel{
+export class SimulationMarketInputViewModel{
     
     
     constructor() {  
@@ -17,7 +18,7 @@ export class MarketInputViewModel{
     id                          : string;
     name                        : string;
     suppliers                   : SupplierViewModel[];
-    items                       : SimulationInputItem[];
+    items                       : SimulationInputBaseItem[];
     supplierBlackList           : SupplierViewModel[];
     deliveryRule                : DeliveryRule;
     checkDeliveryViewModel 		: CheckDeliveryViewModel;
