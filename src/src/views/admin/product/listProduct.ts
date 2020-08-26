@@ -178,9 +178,7 @@ export class ListProduct{
                 if(isFound){
 
                     if( (this.filter != null && this.filter != '')){ 
-                        if( 
-                                x.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.category.name.toUpperCase().includes(this.filter.toUpperCase())){
+                        if(x.name.toUpperCase().includes(this.filter.toUpperCase())){
                             isFound = true;
                         }
                         else {

@@ -63,16 +63,14 @@ export class SelecaoDeProdutosFoodService{
                                     this.selectedClass = data[0];
                                 }
                                 this.ea.publish('dataLoaded');
-                            })
-                            .catch( e => this.nService.presentError(e));
+                            });
 
         var promisse1 = this.productBaseRepository
                             .getAllProducts()
                             .then( (data : ProductBase[]) => { 
                                 this.allProducts = data;
                                 this.filteredProducts = data;
-                            })
-                            .catch( e => this.nService.presentError(e));
+                            });
 
         Promise.all([promisse0, promisse1]).then( () => { 
             this.isLoading = false;

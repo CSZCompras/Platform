@@ -174,7 +174,7 @@ export class AtualizacaoDePrecos{
                     if( (this.filter != null && this.filter != '')){ 
                         if( 
                                 x.supplierProduct.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.supplierProduct.product.base.category.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  x.supplierProduct.product.description.toUpperCase().includes(this.filter.toUpperCase()) 
                             ||  x.supplierProduct.product.brand != null && x.supplierProduct.product.brand.name.toUpperCase().includes(this.filter.toUpperCase()) 
                         ){
                             isFound = true;
@@ -206,9 +206,8 @@ export class AtualizacaoDePrecos{
         this.alteredProducts = this.alteredProducts.filter(x => x.id != product.id);
     }
 
-    alterStatus(product : SupplierProduct, status : SupplierProductStatus){
-        
-        product.status = status; 
+    alterStatus(item : PriceListItem, status : SupplierProductStatus){
+        item.supplierProduct.status = status; 
     }
 
     save(item : PriceListItem){

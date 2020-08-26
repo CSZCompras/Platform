@@ -149,7 +149,7 @@ export class ProdutosSelecionados{
                 this.defineProductsInList();
                 this.search();
             }).catch( e => {
-                this.nService.presentError(e);
+            //    this.nService.presentError(e);
             });
     }
 
@@ -181,15 +181,14 @@ export class ProdutosSelecionados{
             
             this.isFiltered = true;
 
-            if( (<any> this.selectedClass) == '-1'){
-                this.filteredProducts = this.allProducts;
-            } 
-            else{
                 this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
 
                         var isFound = true; 
 
-                        if( (this.selectedClass != null && this.selectedClass.id != null)){ 
+                        if( (<any> this.selectedClass) == '-1'){
+                            isFound = true;
+                        } 
+                        else if( (this.selectedClass != null && this.selectedClass.id != null)){ 
                                 
                             if(x.product.base.category.productClass.id == this.selectedClass.id){
                                 isFound = true;
@@ -197,19 +196,9 @@ export class ProdutosSelecionados{
                             else {
                                 isFound= false;
                             }
-                        }
-
-                            if( (this.selectedCategory != null && this.selectedCategory.id != null)){ 
-                                
-                                if(x.product.base.category.id == this.selectedCategory.id){
-                                    isFound = true;
-                                }
-                                else {
-                                    isFound= false;
-                                }
-                            }
+                        } 
                             
-                            if(isFound){
+                        if(isFound){
 
                                 if( (this.filter != null && this.filter != '')){ 
                                     if( x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
@@ -224,8 +213,7 @@ export class ProdutosSelecionados{
                             if(isFound){
                                 return x;
                             } 
-                    }); 
-                }
+                    });  
     }
 
     addProduct(product : Product){

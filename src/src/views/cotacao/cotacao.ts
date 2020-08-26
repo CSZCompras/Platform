@@ -40,8 +40,8 @@ export class Cotacao{
 	validationController            : ValidationController;
 	deliveryWasChecked				: boolean;
 	isOrderValid					: boolean; 
+	isLoadingQuotes					: boolean; 
 	results 						: SimulationResult[]; 
-
 	
     constructor(		
         private router                  	: Router, 	 
@@ -58,6 +58,7 @@ export class Cotacao{
         this.totalSteps = 3;		
 		this.isProcessing = false;
 		this.orderWasGenerated = false; 
+		this.isLoadingQuotes = true;
 
 		// Validation.
 		this.validationController = this.validationControllerFactory.createForCurrentScope();
@@ -114,9 +115,7 @@ export class Cotacao{
 
 
     activate(params){  
-
-        if(params.orderId != null && params.orderId != ''){
-
+        if(params.orderId != null && params.orderId != ''){ 
 			this.orderId = params.orderId;	
         }
     }
@@ -138,6 +137,21 @@ export class Cotacao{
 		this.selectedQuote.markets.forEach( x => ( <any> x).show = false );
 		(<any> market).show = true;
 	}
+
+	showHideSimulationResultMarket(result : Simulation){
+		this.results.forEach( x => ( <any> x).show = false );
+		(<any> result).show = true;
+
+	}
+
+	renderSimulationResults(){
+
+		window.setTimeout(()=>{
+			$('#tabSimulationResult-' + this.simulations[0].market.id).addClass('active show');
+			$('#simulationResult-' + this.simulations[0].market.id).removeClass('fade');
+			$('#simulationResult-' + this.simulations[0].market.id).addClass('active');
+		}, 500);					
+	}
     
     simulate(){
 
@@ -154,13 +168,19 @@ export class Cotacao{
 				this.simulations = x;
 				
 				this.simulations.forEach( y => { 
-					if(y.bestResult != null && (y.bestResult.validationMessages == null || y.bestResult.validationMessages.length == 0)){
+					if(y.bestResult != null){
 						this.results.push(y.bestResult);
 					}
 				});
 				this.isProcessing = false;
 				this.runScript();
 				this.ea.publish('dataLoaded');
+
+				if(this.simulations.length > 0){
+
+					this.showHideSimulationResultMarket(this.simulations[0]);
+					this.renderSimulationResults();
+				}
             })
             .catch( e => {
 				this.simulations = [];
@@ -197,7 +217,10 @@ export class Cotacao{
 			window.setTimeout(()=>{
 				$('#' + market.id).removeClass('fade');
 				$('#' + market.id).addClass('active');
-			}, 1000);
+			}, 500);
+		}
+		else if(this.currentStep == 2){
+			this.renderSimulationResults();
 		}
 	}
 
@@ -272,17 +295,31 @@ export class Cotacao{
  
 			this.repository
 				.getBuyListsParaCotacao()
-				.then(x =>  this.quotes = x) 
-				.then( () => this.ea.publish('dataLoaded'))
-				.catch( e =>  this.nService.presentError(e));
-
+				.then(x =>  {
+					this.quotes = x;
+					this.ea.publish('dataLoaded');
+					this.isLoadingQuotes = false;
+				}) 
+				.catch( e => {
+					this.nService.presentError(e);
+					this.isLoadingQuotes = false;
+				}); 
 		} 
 	}
 
 	loadDeliveryRule(){
 
-		if(this.selectedQuote != null){
-			( <any> this.selectedQuote.markets[0]).show = true;
+		if(this.selectedQuote != null){ 
+
+			( <any> this.selectedQuote.markets[0]).show = true; 
+			
+			/* this.selectedQuote.markets.forEach( y => y.items.forEach(x => 
+				{
+					if(x.suppliers.length > 0){
+						x.quantity = 10;
+					}
+				})
+			);   **/
 		}
 	
 		this.selectedQuote.markets.forEach(market  => {
