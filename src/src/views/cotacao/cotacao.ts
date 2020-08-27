@@ -311,15 +311,7 @@ export class Cotacao{
 
 		if(this.selectedQuote != null){ 
 
-			( <any> this.selectedQuote.markets[0]).show = true; 
-			
-			/* this.selectedQuote.markets.forEach( y => y.items.forEach(x => 
-				{
-					if(x.suppliers.length > 0){
-						x.quantity = 10;
-					}
-				})
-			);   **/
+			( <any> this.selectedQuote.markets[0]).show = true;  
 		}
 	
 		this.selectedQuote.markets.forEach(market  => {
@@ -409,11 +401,11 @@ export class Cotacao{
 		if(market.supplierBlackList.length == market.suppliers.length){
 			market.isValid = false;
 		}
-	}
+	} 
 	
 	generateOrder(){
  
-		this.isProcessing = true;
+		this.isProcessing = true; 
 						
 		this.orderRepository
 					.createOrder(this.results)

@@ -46,13 +46,7 @@ export class SelecaoDeProdutos{
     attached() : void{  
 
         this.loadData();
-        
-        this.ea.subscribe('supplierProductRemoved', (product : SupplierProduct) => { 
-
-            if(this.selectedCategory.id == product.product.base.category.id){
-                this.loadProducts();
-            }
-        });
+        this.ea.subscribe('supplierProductRemoved', () => this.loadProducts());
     } 
 
     loadData(){ 

@@ -88,21 +88,33 @@
                               <span class="badge badge-warning float-left ml-2 mt-4" if.bind="item.supplierProduct.product.unitInternal != null"> / ${item.supplierProduct.product.unitInternal.name}</span>
                            </td>
                            <th>
-                              <span class="badge badge-success mt-3 ${item.status == 0 && ! item.isEditing ? 'float-left' :  'invisible' }" >Ativo</span>
-                              <span class="badge badge-danger  mt-3 ${item.status == 1 && ! item.isEditing ? 'float-left' :  'invisible' }">Inativo</span>  
+                              <span class="badge badge-success mt-3" if.bind="item.supplierProduct.status == 0 && ! item.isEditing">Ativo</span>
+                              <span class="badge badge-danger  mt-3" if.bind="item.supplierProduct.status == 1 && ! item.isEditing ">Inativo</span>  
                               <span class="badge badge-warning" if.bind="item.wasAltered">Alterado</span>                              
                            </th>
                            <td>
                               <div class="fa-2x text-center mx-auto" if.bind="item.isLoading" >
                                  <i class="fa fa-refresh fa-spin"></i>
                               </div> 
-                              <div class="col-md-12 mx-auto">   
-                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ ! item.isEditing && ! isLoading  && (! item.isEditing && ! item.isLoading)? '' : 'invisible' }" click.trigger="edit(item)">  Editar  </button>
-                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light ${item.supplierProduct.status == 1 && item.isEditing && (item.supplierProduct.status != 0) ? 'float-left' :  'invisible'  } " click.trigger="alterStatus(item, 0) ">Ativar</button>
-                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light ${item.supplierProduct.status == 0 && item.isEditing && (item.supplierProduct.status != 1) ? ' float-left' : 'invisible' } " click.trigger="alterStatus(item, 1)"  >Inativar</button>
-                                    <button type="button" class="btn btn-warning btn-sm waves-effect waves-light ${ item.isEditing && ! isLoading && (item.supplierProduct.status != 2) ? '' : 'invisible' } "  click.trigger="alterStatus(item, 2)">Remover</button>
-                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light ${ item.isEditing && ! isLoading && item.isEditing ? '' : 'invisible' } "  click.trigger="save(item)">Salvar</button>
-                                    <button type="button" class="btn btn-secondary btn-sm waves-effect waves-light ${ item.isEditing && ! isLoading && item.isEditing? '' : 'invisible' } "  click.trigger="cancelEdit(item)">Cancelar</button>                                    
+                              <div>   
+                                    <button type="button" style="width: 100px;" class="btn btn-primary btn-sm waves-effect waves-light" if.bind="! item.isEditing && ! item.isLoading" click.trigger="edit(item)">
+                                       Editar
+                                    </button>
+                                    <button type="button"  style="width: 100px;" class="btn btn-success btn-sm waves-effect waves-light }" if.bind="item.isEditing && item.supplierProduct.status == 1" click.trigger="alterStatus(item, 0) ">
+                                       Ativar
+                                    </button>
+                                    <button type="button"  style="width: 100px;" class="btn btn-danger btn-sm waves-effect waves-light" if.bind="item.isEditing && item.supplierProduct.status == 0" click.trigger="alterStatus(item, 1)">
+                                       Inativar
+                                    </button>
+                                    <button type="button"  style="width: 100px;" class="btn btn-warning btn-sm waves-effect waves-light" if.bind="item.isEditing && ! isLoading && (item.supplierProduct.status != 2)"  click.trigger="alterStatus(item, 2)">
+                                       Remover
+                                    </button>
+                                    <button type="button" style="width: 100px;"  class="btn btn-primary btn-sm waves-effect waves-light" if.bind="item.isEditing && ! isLoading && item.isEditing"  click.trigger="save(item)">
+                                       Salvar
+                                    </button>
+                                    <button type="button"  style="width: 100px;" class="btn btn-secondary btn-sm waves-effect waves-light" if.bind="item.isEditing && ! isLoading && item.isEditing"  click.trigger="cancelEdit(item)">
+                                       Cancelar
+                                    </button>
                               </div>                                    
                            </td> 
                         </tr>

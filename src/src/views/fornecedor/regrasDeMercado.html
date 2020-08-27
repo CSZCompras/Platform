@@ -24,7 +24,7 @@
                         <div class="col-md-3">
                            <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Valor mínimo</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                            <div class="input-group">
                               <span class="input-group-addon">$</span> 
                               <input type="text" class="money form-control text-right ${validator.isMinimumOrderValueInvalid  ? 'border-danger' : '' }  " autocomplete="off" money placeholder="000,00" value.bind="rule.minimumOrderValue | money"  change.delegate="validator.validateMinimumOrderValue()" />
@@ -37,7 +37,7 @@
                         <div class="col-md-3">
                            <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Qtde de dias para aceite</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                            <div class="input-group">                               
                               <input type="text" class="money form-control text-right ${validator.isnumberOfDaysToAcceptInvalid  ? 'border-danger' : '' } " autocomplete="off"  number value.bind="rule.numberOfDaysToAccept | number"  change.delegate="validator.validateNumberOfDaysToAccept()" />
                            </div>
@@ -49,7 +49,7 @@
                         <div class="col-md-3">
                            <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Período de Aceite</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                            <div class="input-group">
                               <span class="input-group-addon input-group-icon">
                                  <i class="batch-icon batch-icon-clock"></i>
@@ -131,7 +131,7 @@
                         <div class="col-md-3">
                            <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Período de Entrega</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                            <div class="input-group">
                               <span class="input-group-addon input-group-icon">
                               <i class="batch-icon batch-icon-clock"></i>

@@ -36,86 +36,71 @@ export class AtualizacaoDePrecos{
 		private service             : IdentityService,
 		private nService            : NotificationService, 
         private ea                  : EventAggregator ,
-        private  productRepository  : ProductRepository,
+        private productRepository  : ProductRepository,
         private priceListRepository : PriceListRepository,
         private config              : Config,
         private repository          : ProductRepository) { 
 
-            this.filteredProducts = [];
-            this.supplierProducts = [];
-            this.alteredProducts = [];
-            this.isLoading = true; 
+            this.filteredProducts   = [];
+            this.supplierProducts   = [];
+            this.alteredProducts    = [];
+            this.isLoading          = true; 
     } 
 
     attached(){
-
+        this.ea.subscribe('productAdded', () => this.loadData(true));
+        this.ea.subscribe('productFileUploaded', () => this.loadData(true));
         this.loadData(true); 
-
-        this.ea.subscribe('productAdded', (product : SupplierProduct) => {
-            this.loadData(true);
-        });
-
-        this.ea.subscribe('productFileUploaded', () => {
-            
-            this.loadData(true);
-        });
     }
 
     loadData(loadProducts : boolean){
 
+        
+        this.isLoading          = true; 
+
         var promissePriceList = this.priceListRepository
                                     .getAll()
-                                    .then(x => {
+                                    .then(priceLists => {
                                         
-                                        if(x.length > 0){
+                                        if(priceLists.length > 0){
 
-                                            this.priceLists = x;
-
+                                            this.priceLists = priceLists;
                                             if(this.selectedPriceList == null){
-                                                this.selectedPriceList = x[0];
-                                            } 
-                                            if(loadProducts){
-                                                this.loadProducts();
+                                                this.selectedPriceList = priceLists[0];
                                             } 
                                         }
                                     });
 
         var promisseProducts = this.productRepository
                                     .getProductClassesBySelectedProducts()
-                                    .then( (data : ProductClass[]) => {   
+                                    .then( (classes : ProductClass[]) => {   
                                         
-                                        this.classes = data; 
+                                        this.classes = classes; 
 
-                                        if(this.selectedCategory != null &&  data.length > 0) {
+                                        if(this.selectedCategory != null &&  classes.length > 0) {
                                             var selectedCtg = this.selectedCategory;
-                                            var classFiltered = data.filter( (x : ProductClass) => x.id == this.selectedClass.id);
+                                            var classesFiltered = classes.filter( (x : ProductClass) => x.id == this.selectedClass.id);
 
-                                            if(classFiltered.length > 0){
-                                                    this.selectedClass = classFiltered[0];
-                                                
+                                            if(classesFiltered.length > 0){
+
+                                                    this.selectedClass = classesFiltered[0];
                                                     var filteredCategory = this.selectedClass.categories.filter( (x : ProductCategory) => x.id == selectedCtg.id);
-                                                
                                                     if(filteredCategory.length > 0){
                                                         this.selectedCategory = filteredCategory[0];
                                                     }
                                                 }
-                                        }
-
-                                        if(loadProducts){
-                                            this.loadProducts();
-                                        }
+                                        } 
                                         this.ea.publish('atualizacaoDePrecosLoaded');
                                     }).catch( e => {
                                     // this.nService.presentError(e);
                                     });
 
-        Promise.all([promissePriceList, promisseProducts])
+        Promise.all([promissePriceList, promisseProducts]) 
                .then( () => {
 
-                   this.search(); 
-
                     if(loadProducts){
-                        setTimeout( () => this.loadProducts(), 1000);
+                        setTimeout( () => 
+                            this.loadProducts().then(() => this.search()), 1000);
                     }
                     else{
                         this.isLoading = false;
@@ -152,9 +137,7 @@ export class AtualizacaoDePrecos{
         }
     }
 
-    search(){
-
-        
+    search(){ 
 
         this.filteredProducts = this.supplierProducts.filter( (x : PriceListItem) => {
 
@@ -173,9 +156,10 @@ export class AtualizacaoDePrecos{
 
                     if( (this.filter != null && this.filter != '')){ 
                         if( 
-                                x.supplierProduct.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.supplierProduct.product.description.toUpperCase().includes(this.filter.toUpperCase()) 
-                            ||  x.supplierProduct.product.brand != null && x.supplierProduct.product.brand.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                                 x.supplierProduct.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) 
+                            ||  (x.supplierProduct.clientCode != null && x.supplierProduct.clientCode.toUpperCase().includes(this.filter.toUpperCase()))
+                            ||  (x.supplierProduct.product.description != null && x.supplierProduct.product.description.toUpperCase().includes(this.filter.toUpperCase())) 
+                            ||  (x.supplierProduct.product.brand != null && x.supplierProduct.product.brand.name != null && x.supplierProduct.product.brand.name.toUpperCase().includes(this.filter.toUpperCase())) 
                         ){
                             isFound = true;
                         }
@@ -191,19 +175,19 @@ export class AtualizacaoDePrecos{
         });
     }
 
-    edit(product : SupplierProduct){
-        ( <any> product).isEditing = true;
-        ( <any> product).oldPrice  = product.price;
-        ( <any> product).oldStatus  = product.status;
+    edit(item : PriceListItem){
+        ( <any> item).isEditing = true;
+        ( <any> item).oldPrice  = item.price;
+        ( <any> item).oldStatus  = item.supplierProduct.status;
     }
 
-    cancelEdit(product : SupplierProduct){
-        ( <any> product).isEditing = false;
-        ( <any> product).walAltered = false;
-        product.price  = ( <any> product).oldPrice;
-        product.status  = ( <any> product).oldStatus;
+    cancelEdit(item : PriceListItem){
+        ( <any> item).isEditing = false;
+        ( <any> item).walAltered = false;
+        item.price  = ( <any> item).oldPrice;
+        item.supplierProduct.status  = ( <any> item).oldStatus;
 
-        this.alteredProducts = this.alteredProducts.filter(x => x.id != product.id);
+        this.alteredProducts = this.alteredProducts.filter(x => x.id != item.id);
     }
 
     alterStatus(item : PriceListItem, status : SupplierProductStatus){
@@ -219,21 +203,23 @@ export class AtualizacaoDePrecos{
 
         this.repository
             .alterSuplierProduct(this.alteredProducts, this.selectedPriceList.id)
-            .then( (result : any) =>{    
-                
-                this.nService.success('O produto foi atualizado com sucesso!');  
-                this.isLoading = false;
-                this.ea.publish('uploadSupplierProductFileDone');
+            .then( () => {    
+
                 this.alteredProducts = [];
+                this.nService.success('O produto foi atualizado com sucesso!');  
+                this.ea.publish('uploadSupplierProductFileDone');
+
+                this.isLoading = false;
                 ( <any> item).isLoading = false;
 
-                if(item.supplierProduct.status == SupplierProductStatus.Removed){
-                    this.filteredProducts = this.filteredProducts.filter( x => x.id != item.id);
-                    this.supplierProducts = this.supplierProducts.filter( x => x.id != item.id);
-                    this.ea.publish('supplierProductRemoved', item);
+                if(item.supplierProduct.status == SupplierProductStatus.Removed){ 
+                    this.filteredProducts = this.filteredProducts.filter( x => x != item);
+                    this.supplierProducts = this.supplierProducts.filter( x => x != item);
+                    this.ea.publish('supplierProductRemoved', item.supplierProduct);
                 }
 
-            }).catch( e => {
+            })
+            .catch( e => {
                 this.nService.error(e);
                 this.isLoading = false;
                 ( <any> item).isLoading = false;

@@ -10,6 +10,7 @@ export class DetalhesProduto{
     controller                              : DialogController;  
     simulationInput                         : SimulationInputBaseItem;
     processing                              : boolean;
+    unitName                                : string;
 
     constructor(pController : DialogController){ 
 
@@ -21,8 +22,14 @@ export class DetalhesProduto{
 
         if(params.SimulationInputBaseItem != null){ 
             this.simulationInput = params.SimulationInputBaseItem; 
-            this.simulationInput.brands.forEach(x => x.wasRemoved = false);
-            this.simulationInput.units.forEach(x => x.wasRemoved = false);
+            if(this.simulationInput.items.length > 0){
+                if(this.simulationInput.items[0].unitInternal == null){
+                    this.unitName = this.simulationInput.items[0].unit.name;
+                }
+                else{
+                    this.unitName = this.simulationInput.items[0].unitInternal.name;
+                }
+            }
         }
     }
 
