@@ -42,6 +42,7 @@ export class Cotacao{
 	isOrderValid					: boolean; 
 	isLoadingQuotes					: boolean; 
 	results 						: SimulationResult[]; 
+	quoteTimer						: number;
 	
     constructor(		
         private router                  	: Router, 	 
@@ -152,6 +153,26 @@ export class Cotacao{
 			$('#simulationResult-' + this.simulations[0].market.id).addClass('active');
 		}, 500);					
 	}
+
+/*	setQuoteTimer(){
+
+
+		window.setTimeout(() =>{
+			this.quoteTimer--;
+
+			if(this.quoteTimer < 0){
+
+				if(this.currentStep != 1){
+					this.currentStep = 2;
+					this.back();
+				}
+				this.selectedQuote.markets.forEach( market => this.checkDeliveryDate(market));
+			}
+			else{
+				this.setQuoteTimer();
+			}
+		} , 1000)
+	} */
     
     simulate(){
 
@@ -175,6 +196,8 @@ export class Cotacao{
 				this.isProcessing = false;
 				this.runScript();
 				this.ea.publish('dataLoaded');
+			//	this.quoteTimer = 30;
+		//		this.setQuoteTimer();
 
 				if(this.simulations.length > 0){
 
@@ -310,37 +333,39 @@ export class Cotacao{
 	loadDeliveryRule(){
 
 		if(this.selectedQuote != null){ 
-
 			( <any> this.selectedQuote.markets[0]).show = true;  
 		}
 	
-		this.selectedQuote.markets.forEach(market  => {
+		this.selectedQuote
+			.markets
+			.forEach(market  => {
 
-			if(market.id != null){
+				if(market.id != null){
 
-				this.deliveryRepository
-					.getRule(market.id)
-					.then( (x : DeliveryRule) => { 
-						if(x != null){
+					this.deliveryRepository
+						.getRule(market.id)
+						.then( (deliveryRule : DeliveryRule) => { 
 
-							market.deliveryRule = <DeliveryRule> x;
+							if(deliveryRule != null){
 
-							if(market.checkDeliveryViewModel == null){
-								market.checkDeliveryViewModel = new CheckDeliveryViewModel();
+								market.deliveryRule = <DeliveryRule> deliveryRule;
+
+								if(market.checkDeliveryViewModel == null){
+									market.checkDeliveryViewModel = new CheckDeliveryViewModel();
+								}
+								market.checkDeliveryViewModel.deliveryScheduleStart = deliveryRule.deliveryScheduleInitial;
+								market.checkDeliveryViewModel.deliveryScheduleEnd = deliveryRule.deliveryScheduleFinal;
+								market.checkDeliveryViewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(market.deliveryRule);
+								this.checkDeliveryDate(market);
 							}
-							market.checkDeliveryViewModel.deliveryScheduleStart = x.deliveryScheduleInitial;
-							market.checkDeliveryViewModel.deliveryScheduleEnd = x.deliveryScheduleFinal;
-							market.checkDeliveryViewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(market.deliveryRule);
-							this.checkDeliveryDate(market);
-						}
-					}) 
-					.catch( e => this.nService.presentError(e)); 
-			}
-			else{
-				market.deliveryRule = null;
-				this.checkDeliveryDate(market);
-	
-			} 
+						}) 
+						.catch( e => this.nService.presentError(e)); 
+				}
+				else{
+					market.deliveryRule = null;
+					this.checkDeliveryDate(market);
+		
+				} 
 		}); 
 	}
 
@@ -350,20 +375,22 @@ export class Cotacao{
 		market.checkDeliveryViewModel.suppliers = [];
 		
 		if(market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null){
+		
 			market.suppliers.forEach(x => {
 				market.checkDeliveryViewModel.suppliers.push(x.id);
 			});		
 
 			this.deliveryRepository
 				.checkDeliveryRule(market.checkDeliveryViewModel)
-				.then( (x : CheckDeliveryResult) => {
+				.then( (deliveryResult : CheckDeliveryResult) => {
 					
-					market.checkDeliveryResult = x;
+					market.checkDeliveryResult = deliveryResult;
 					( <any> market).suppliersInvalid = 0;
 
-					x.items.forEach( (item : CheckDeliveryResultItem) =>{
+					deliveryResult.items.forEach( (item : CheckDeliveryResultItem) => {
 						
 							market.suppliers.forEach(y => {
+
 								if(y.id == item.supplierId){
 
 									if(! item.isValid){

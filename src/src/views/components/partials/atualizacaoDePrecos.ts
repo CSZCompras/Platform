@@ -1,7 +1,6 @@
 import { SupplierProductFileRow } from '../../../domain/supplierProductFileRow';
 import { SupplierProductFile } from '../../../domain/supplierProductFile';
 import { Config } from 'aurelia-api'; 
-import { SupplierProduct } from '../../../domain/supplierProduct';
 import { ProductRepository } from '../../../repositories/productRepository';
 import { NotificationService } from '../../../services/notificationService';
 import { IdentityService } from '../../../services/identityService';
@@ -76,8 +75,11 @@ export class AtualizacaoDePrecos{
                                     .then( (classes : ProductClass[]) => {   
                                         
                                         this.classes = classes; 
-
-                                        if(this.selectedCategory != null &&  classes.length > 0) {
+                                        if(this.selectedClass == null){
+                                            this.selectedClass = classes[0];
+                                        }
+                                        
+                                        /* if(this.selectedCategory != null &&  classes.length > 0) {
                                             var selectedCtg = this.selectedCategory;
                                             var classesFiltered = classes.filter( (x : ProductClass) => x.id == this.selectedClass.id);
 
@@ -89,7 +91,7 @@ export class AtualizacaoDePrecos{
                                                         this.selectedCategory = filteredCategory[0];
                                                     }
                                                 }
-                                        } 
+                                        } */
                                         this.ea.publish('atualizacaoDePrecosLoaded');
                                     }).catch( e => {
                                     // this.nService.presentError(e);
@@ -97,10 +99,8 @@ export class AtualizacaoDePrecos{
 
         Promise.all([promissePriceList, promisseProducts]) 
                .then( () => {
-
                     if(loadProducts){
-                        setTimeout( () => 
-                            this.loadProducts().then(() => this.search()), 1000);
+                        this.loadProducts();
                     }
                     else{
                         this.isLoading = false;
@@ -119,21 +119,21 @@ export class AtualizacaoDePrecos{
         this.supplierProducts = [];
         this.filteredProducts = []; 
         this.alteredProducts = [];  
-        this.filter = '';
         
         if(this.selectedPriceList != null && this.selectedClass != null){
             
             return this.repository
-                .getAllSuplierProducts(this.selectedPriceList.id, this.selectedClass.id)
-                .then( (data : PriceListItem[]) => {
-                    this.supplierProducts = data;
-                    this.filteredProducts = data;  
-                    this.isLoading = false; 
+                        .getAllSuplierProducts(this.selectedPriceList.id, this.selectedClass.id)
+                        .then( (data : PriceListItem[]) => {
+                            this.supplierProducts = data;
+                            this.filteredProducts = data; 
+                            this.search(); 
+                            this.isLoading = false; 
 
-                }).catch( e => {
-                    this.nService.presentError(e); 
-                    this.isLoading = false; 
-                });
+                        }).catch( e => {
+                            this.nService.presentError(e); 
+                            this.isLoading = false; 
+                        });
         }
     }
 
