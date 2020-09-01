@@ -17,8 +17,10 @@ export class SimulationMarketInputViewModel{
 
     id                          : string;
     name                        : string;
+    filter                      : string;
     suppliers                   : SupplierViewModel[];
     items                       : SimulationInputBaseItem[];
+    filteredItems               : SimulationInputBaseItem[];
     supplierBlackList           : SupplierViewModel[];
     deliveryRule                : DeliveryRule;
     checkDeliveryViewModel 		: CheckDeliveryViewModel;

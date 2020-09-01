@@ -125,16 +125,22 @@
                                                          <div if.bind="market.items.length > 0 ">
                                                             <div class="col-md-12 mt-1">
                                                                <div class="form-group">
-                                                                  <div class="row mt-3" if.bind="market.suppliersInvalid > 0">
-                                                                     <p>Alertas</p>
-                                                                     <!-- repeat.for="x of market.checkDeliveryResult.items" -->
+                                                                  <div class="row mt-3" if.bind="market.suppliersInvalid > 0">                                                                     
+                                                                     <div class="col-md-4">
+                                                                        <p>Alertas</p>                                                                     
+                                                                     </div>
                                                                      <div class="col-md-12" if.bind="market.suppliersInvalid < market.suppliers.length">
                                                                         <span class="badge badge-danger">Alguns fornecedores nao entregam nesta data/horário</span>
                                                                      </div>
                                                                      <div class="col-md-12" if.bind="market.suppliersInvalid == market.suppliers.length">
                                                                         <span class="badge badge-danger">Infelizmente nenhum fornecedor entrega nesta data/horário</span>
                                                                      </div>
+                                                                     <div class="col-md-12" repeat.for="x of market.checkDeliveryResult.items">
+                                                                        <span class="badge badge-danger">${x.message}</span>
+                                                                     </div>
                                                                   </div>
+                                                                  <br />
+                                                                  <br />
                                                                   <div class="row mt-5" if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null">
                                                                      <h3>Fornecedores</h3>
                                                                   </div>
@@ -155,6 +161,14 @@
                                                                <div class="row mt-5" if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null">
                                                                   <h3>Produtos</h3>
                                                                </div>
+                                                               <div class="row mt-2" if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null">
+                                                                  <div class="col-lg-4">
+                                                                     <div class="form-group">
+                                                                        <label class="control-label">Filtro</label> 
+                                                                        <input type="text" class="form-control"  value.bind="market.filter"  placeholder="Pesquise por produto / marca / descrição"  change.trigger="search(market)"/>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>                                                               
                                                                <table if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null" 
                                                                   class="table table-hover table-responsive mt-5">
                                                                   <thead>
@@ -169,13 +183,18 @@
                                                                      </tr>
                                                                   </thead>
                                                                   <tbody>
-                                                                     <tr repeat.for="product of market.items">
+                                                                     <tr repeat.for="product of market.filteredItems">
                                                                         <td>
                                                                            <span class="badge badge-warning" if.bind="product.suppliers == null || product.suppliers.length == 0">
                                                                            <i class="fa fa-warning"></i> 
                                                                            ${product.name}
                                                                            </span>
                                                                            <span if.bind="product.suppliers != null && product.suppliers.length > 0">${product.name}</span>
+                                                                           <p if.bind="product.suppliers.length == 0 ">
+                                                                              <span class="badge badge-warning"> 
+                                                                                 Não há fornecedores que disponibilizam esse produto
+                                                                              </span>
+                                                                           </p>
                                                                         </td>
                                                                         <td class="text-left">
                                                                            <span if.bind="product.items.length == 1">
@@ -196,7 +215,7 @@
                                                                            </span>  
                                                                         </td>
                                                                         <td class="text-center">
-                                                                           <div class="col-md-12 mx-auto">
+                                                                           <div class="col-md-12 mx-auto" if.bind="product.suppliers.length > 0">
                                                                               <input type="text" class="money text-right  form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }" autocomplete="off" value.bind="product.quantity | money" money placeholder="000" disabled.bind="product.suppliers == null || product.suppliers.length == 0" />
                                                                            </div>
                                                                         </td>
@@ -206,11 +225,6 @@
                                                                                  Detalhes
                                                                               </button>
                                                                            </div>
-                                                                           <p class="mt-3" if.bind="product.suppliers.length == 0 ">
-                                                                              <span class="badge badge-warning"> 
-                                                                                 Não há fornecedores que disponibilizam esse produto
-                                                                              </span>
-                                                                           </p>
                                                                         </td>
                                                                      </tr>
                                                                   </tbody>

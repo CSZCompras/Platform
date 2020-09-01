@@ -42,7 +42,7 @@ export class Cotacao{
 	isOrderValid					: boolean; 
 	isLoadingQuotes					: boolean; 
 	results 						: SimulationResult[]; 
-	quoteTimer						: number;
+	quoteTimer						: number; 
 	
     constructor(		
         private router                  	: Router, 	 
@@ -173,7 +173,38 @@ export class Cotacao{
 			}
 		} , 1000)
 	} */
-    
+	
+	
+	
+
+    search(market : SimulationMarketInputViewModel){  
+
+		if(market.filter == null || market.filter == ''){
+			market.filteredItems =  market.items;
+		}
+		else{
+			market.filteredItems = market.items.filter( (item : SimulationInputBaseItem) => {
+				
+				let isFound = true;
+
+				if(		 item.name.toUpperCase().includes(market.filter.toUpperCase()) 
+					||	(item.items.length == 1 && item.items[0].description != null && item.items[0].description.toUpperCase().includes(market.filter.toUpperCase()))
+					||	(item.items.length == 1 && item.items[0].brand != null && item.items[0].brand.name.toUpperCase().includes(market.filter.toUpperCase()))
+				){
+
+					isFound = true;
+				}
+				else {
+					isFound= false;
+				}
+
+				if(isFound){
+					return item;
+				} 
+			});  
+		}
+    }
+
     simulate(){
 
 		this.ea.publish('loadingData');  
@@ -237,6 +268,10 @@ export class Cotacao{
 		if(this.currentStep == 1){
 			var market = this.selectedQuote.markets[0];
 			this.showHideMarket(market); 
+			this.selectedQuote.markets.forEach( market => { 
+				market.filteredItems = market.items;
+				market.filter = '';
+			});
 			window.setTimeout(()=>{
 				$('#' + market.id).removeClass('fade');
 				$('#' + market.id).addClass('active');
@@ -334,6 +369,10 @@ export class Cotacao{
 
 		if(this.selectedQuote != null){ 
 			( <any> this.selectedQuote.markets[0]).show = true;  
+			this.selectedQuote.markets.forEach( market => { 
+				market.filteredItems = market.items;
+				market.filter = '';
+			});
 		}
 	
 		this.selectedQuote
