@@ -43,16 +43,28 @@
                                 </thead>
                                 <tbody>
                                     <tr repeat.for="product of simulationInput.items">
-                                        <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }">${product.brand.name}</td>
+                                        <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }">
+                                            <span if.bind="product.hasSuppliers">
+                                                ${product.brand.name} 
+                                            </span>
+                                            <span class="badge badge-warning" if.bind="! product.hasSuppliers">
+                                                <i class="fa fa-warning"></i> 
+                                                ${product.brand.name}
+                                            </span>
+                                            <br />
+                                            <span class="badge badge-warning" if.bind="! product.hasSuppliers">
+                                                Não há fornecedores que disponibilizam esse produto
+                                            </span>
+                                        </td>
                                         <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }" class="text-center">
                                             ${product.unit.name}
                                         </td>
                                         <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }">${product.description}</td>
-                                        <th>
-                                            <button type="button" if.bind="! product.wasRemoved" class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
+                                        <th> 
+                                            <button type="button" if.bind="! product.wasRemoved && product.hasSuppliers" class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
                                                 <i class="fa fa-times mr-2"></i>Remover
                                             </button>
-                                            <button type="button"  if.bind="product.wasRemoved" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
+                                            <button type="button"  if.bind="product.wasRemoved && product.hasSuppliers" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
                                                 <i class="fa fa-plus mr-2"></i>Adicionar
                                             </button>
                                         </th>

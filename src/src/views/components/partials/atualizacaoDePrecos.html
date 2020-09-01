@@ -25,7 +25,7 @@
                               <div class="col-lg-3">
                                  <div class="form-group">
                                     <label class="control-label">Mercado</label>            
-                                    <select class="form-control"  value.bind="selectedClass" change.delegate="loadProducts()">
+                                    <select class="form-control"  value.bind="selectedClass" change.delegate="updateCategories()">
                                        <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
                                     </select>
                                  </div>

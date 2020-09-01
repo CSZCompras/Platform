@@ -186,8 +186,8 @@
                                                                      <tr repeat.for="product of market.filteredItems">
                                                                         <td>
                                                                            <span class="badge badge-warning" if.bind="product.suppliers == null || product.suppliers.length == 0">
-                                                                           <i class="fa fa-warning"></i> 
-                                                                           ${product.name}
+                                                                              <i class="fa fa-warning"></i> 
+                                                                              ${product.name}
                                                                            </span>
                                                                            <span if.bind="product.suppliers != null && product.suppliers.length > 0">${product.name}</span>
                                                                            <p if.bind="product.suppliers.length == 0 ">

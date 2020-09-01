@@ -69,7 +69,7 @@
                         <i class="fa fa-truck" aria-hidden="true"></i>
                         Entrega
                      </h2>
-                     <div class="row">
+                     <div class="row mt-5">
                         <div class="col-md-3">
                            <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Dias de entrega</label>
                         </div>
@@ -151,13 +151,14 @@
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         Alertas
                      </h2>
-                     <div class="form-inline">
+                     <div class="form-inline mt-2">
                         <div class="col-md-3"></div>
-                        <div class="col-md-5">                           
-                            <label class="form-check-label  ml-2 float-left">                                    
-                                <input class="form-check-input  float-left" type="checkbox" value="0" checked.bind="rule.sendNotificationToNewClient" />
-                                <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Receber notificação de um novo cliente por email</label>
-                            </label>								
+                        <div class="">  
+                           <label class="custom-control custom-checkbox ml-2 float-left">
+                              <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.sendNotificationToNewClient">
+                              <span class="custom-control-indicator"></span> 
+                              <span class="ml-1 mt-1">Receber notificação de um novo cliente por e-mail</span>
+                         </label> 				
                         </div>
                      </div>
                      <br /> 
@@ -172,12 +173,12 @@
                      <br /> 
                      <div class="form-inline">
                         <div class="col-md-3"></div>
-                        <div class="col-md-5">                           
-                            <label class="form-check-label  ml-2 float-left">                                    
-                                <input class="form-check-input  float-left" type="checkbox" value="0" checked.bind="rule.sendNotificationToNewOrder" /> 
-                                <!--<span class="badge ${ rule.sendNotificationToNewOrder ? 'badge-success' : 'badge-warning' }">Receber notificação de um novo pedido por email</span>-->
-                                <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Receber notificação de um novo pedido por email</label>                                
-                            </label>
+                        <div class="">  
+                           <label class="custom-control custom-checkbox ml-2 float-left">
+                              <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.sendNotificationToNewOrder">
+                              <span class="custom-control-indicator"></span> 
+                              <span class="ml-1 mt-1">Receber notificação de um novo pedido por e-mail</span>
+                         </label>   
                         </div>
                      </div>  
                      <br /> 
@@ -196,7 +197,7 @@
                        <span class="gradient">Salvar</span>
                     </button>
                     <div class="fa-2x text-center mx-auto" if.bind="isLoading" >
-                            <i class="fa fa-refresh fa-spin"></i>
+                        <i class="fa fa-refresh fa-spin"></i>
                     </div> 
                </div>
             </div>

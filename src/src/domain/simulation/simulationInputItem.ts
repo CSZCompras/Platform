@@ -14,5 +14,6 @@ export class SimulationInputItem{
     umDetailed              : string;
     unit                    : UnitViewModel;
     unitInternal            : UnitViewModel;
-    brand                   : BrandViewModel;;
+    brand                   : BrandViewModel;
+    hasSuppliers            : boolean;
 }

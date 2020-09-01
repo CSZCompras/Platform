@@ -108,6 +108,13 @@ export class AtualizacaoDePrecos{
                });
     } 
 
+    updateCategories(){
+        if(this.selectedClass != null){
+            (<any> this.selectedCategory) = '-1';
+            this.loadProducts();
+        }
+    }
+
     updateClass(){
         this.selectedClass = this.classes[0];
         this.loadProducts();
