@@ -1,6 +1,6 @@
 export default {
-  debug: false,
-  testing: false,
-  apiAddress: 'https://csz.azurewebsites.net/Backendhomologacao/api/',
+  debug: true,
+  testing: true,
+  apiAddress: 'http://localhost:49791/api/',
   viacepAddress: 'viacep.com.br/ws/00000000/json/'
 };

@@ -185,12 +185,14 @@
                                                                   <tbody>
                                                                      <tr repeat.for="product of market.filteredItems">
                                                                         <td>
-                                                                           <span class="badge badge-warning" if.bind="product.suppliers == null || product.suppliers.length == 0">
+                                                                           <span class="badge badge-warning" if.bind="product.suppliers == null || product.suppliers.length == 0 || product.noSuppliers">
                                                                               <i class="fa fa-warning"></i> 
                                                                               ${product.name}
                                                                            </span>
-                                                                           <span if.bind="product.suppliers != null && product.suppliers.length > 0">${product.name}</span>
-                                                                           <p if.bind="product.suppliers.length == 0 ">
+                                                                           <span if.bind="(product.suppliers != null && product.suppliers.length > 0) && (! product.noSuppliers)">
+                                                                              ${product.name}
+                                                                           </span>
+                                                                           <p if.bind="product.suppliers.length == 0 || product.noSuppliers">
                                                                               <span class="badge badge-warning"> 
                                                                                  Não há fornecedores que disponibilizam esse produto
                                                                               </span>
@@ -215,12 +217,12 @@
                                                                            </span>  
                                                                         </td>
                                                                         <td class="text-center">
-                                                                           <div class="col-md-12 mx-auto" if.bind="product.suppliers.length > 0">
+                                                                           <div class="col-md-12 mx-auto" if.bind="product.suppliers.length > 0 && ! product.noSuppliers ">
                                                                               <input type="text" class="money text-right  form-control ${ product.suppliers == null || product.suppliers.length == 0 ? 'disabled' : '' }" autocomplete="off" value.bind="product.quantity | money" money placeholder="000" disabled.bind="product.suppliers == null || product.suppliers.length == 0" />
                                                                            </div>
                                                                         </td>
                                                                         <td>
-                                                                           <div class="col-md-12 mx-auto" if.bind="product.items.length > 1 && product.suppliers.length > 0">
+                                                                           <div class="col-md-12 mx-auto" if.bind="product.items.length > 1 && product.suppliers.length > 0 && ! product.noSuppliers ">
                                                                               <button type="button" class="btn btn-sm btn-primary waves-effect waves-light mt-3" click.trigger="showDetails(product)">
                                                                                  Detalhes
                                                                               </button>

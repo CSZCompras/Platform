@@ -15,6 +15,7 @@ export class SimulationInputBaseItem{
     quantity                    : number;
     name                        : string;
     category                    : string;
+    noSuppliers                 : boolean;
     items                       : SimulationInputItem[];
     brands                      : BrandViewModel[];
     units                       : UnitViewModel[];

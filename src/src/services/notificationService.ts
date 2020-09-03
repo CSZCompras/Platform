@@ -23,17 +23,19 @@ export class NotificationService {
 
     error(error : any) : void{
         if(error.message != null){
-            
             if(Array.isArray(error.message)){
-                
                 ( <string[]> error.message).forEach( message => this.presentError(message));
             }
             else{
                 this.presentError(error.message)            
             }
         }
-        else
+        else if(Array.isArray(error)){
+            ( <any[]> error).forEach( e => this.presentError(e.message));
+
+        }else{
             this.presentError(error);
+        }
     }
 
     success(success : any) : void{
@@ -44,7 +46,10 @@ export class NotificationService {
     }
 
     presentError(message : string){
-        toastr.error(message, 'Erro'); 
+        let options =  { 
+            timeOut : 7500
+        };
+        toastr.error(message, 'Erro', options); 
     }
 
     presentSuccess(message : string){

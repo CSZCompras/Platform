@@ -42,7 +42,6 @@ export class Cotacao{
 	isOrderValid					: boolean; 
 	isLoadingQuotes					: boolean; 
 	results 						: SimulationResult[]; 
-	quoteTimer						: number; 
 	
     constructor(		
         private router                  	: Router, 	 
@@ -152,27 +151,7 @@ export class Cotacao{
 			$('#simulationResult-' + this.simulations[0].market.id).removeClass('fade');
 			$('#simulationResult-' + this.simulations[0].market.id).addClass('active');
 		}, 500);					
-	}
-
-/*	setQuoteTimer(){
-
-
-		window.setTimeout(() =>{
-			this.quoteTimer--;
-
-			if(this.quoteTimer < 0){
-
-				if(this.currentStep != 1){
-					this.currentStep = 2;
-					this.back();
-				}
-				this.selectedQuote.markets.forEach( market => this.checkDeliveryDate(market));
-			}
-			else{
-				this.setQuoteTimer();
-			}
-		} , 1000)
-	} */
+	} 
 	
 	
 	
@@ -226,9 +205,7 @@ export class Cotacao{
 				});
 				this.isProcessing = false;
 				this.runScript();
-				this.ea.publish('dataLoaded');
-			//	this.quoteTimer = 30;
-		//		this.setQuoteTimer();
+				this.ea.publish('dataLoaded'); 
 
 				if(this.simulations.length > 0){
 
@@ -289,7 +266,7 @@ export class Cotacao{
 		this.loadData(); 
 	}  
 
-	addRemoveSupplier (market : SimulationMarketInputViewModel,supplier : SupplierViewModel){ 
+	addRemoveSupplier (market : SimulationMarketInputViewModel, supplier : SupplierViewModel){ 
 
 		if(( <any> supplier).wasRemoved && ! (<any> supplier).isInvalid){
 
@@ -327,7 +304,40 @@ export class Cotacao{
 
 			market.supplierBlackList.push(supplier);
 		}
+		this.verifyAvailableProducts(market);
 		this.checkIfOrderIsvalid(market);
+	}
+
+	verifyAvailableProducts(market : SimulationMarketInputViewModel){
+
+		market.items.forEach( (item : SimulationInputBaseItem) => {
+			var countInvalidSuppliers = 0;
+			var suppliersProduct = item.suppliers;
+			
+			suppliersProduct.forEach( supplierProduct =>{
+
+				var supplierBlackList = market.supplierBlackList.filter(x => x.id == supplierProduct.id);
+				if(supplierBlackList != null && supplierBlackList.length > 0){
+					countInvalidSuppliers++;
+				}
+			});
+
+			if(countInvalidSuppliers == suppliersProduct.length){
+				item.noSuppliers = true;
+				if(item.quantity > 0){
+					( <any> item).oldQuantity = item.quantity;
+					item.quantity = 0;
+				}
+			}
+			else{
+				if(item.noSuppliers && ( <any> item).oldQuantity != null){
+
+					item.quantity = ( <any> item).oldQuantity;
+					( <any> item).oldQuantity = null;
+				}
+				item.noSuppliers = false;
+			}
+		});
 	}
 
     loadData(){
@@ -431,8 +441,13 @@ export class Cotacao{
 							market.suppliers.forEach(y => {
 
 								if(y.id == item.supplierId){
-
-									if(! item.isValid){
+									
+									if(( <any> y).wasRemoved){
+										if(! item.isValid){
+											( <any> y).isInvalid = true;
+										}
+									}
+									else if(! item.isValid){
 										( <any> y).isInvalid = true; 
 										market.supplierBlackList.push(y);
 										( <any> market).suppliersInvalid++;
@@ -446,6 +461,7 @@ export class Cotacao{
 					});
 
 					this.deliveryWasChecked = true;
+					this.verifyAvailableProducts(market);
 					this.checkIfOrderIsvalid(market);
 			}).catch( e => this.nService.presentError(e));   
 		}
@@ -480,10 +496,20 @@ export class Cotacao{
 						this.router.navigateToRoute('pedidosFoodService');
 						this.isProcessing = false;
 						this.orderWasGenerated = true;
-					}).catch( e => {
-								
-						this.isProcessing = false;
-						this.nService.error(e);
+					}).catch( e => {								
+						this.isProcessing = false; 
+						if(Array.isArray(e)){
+							
+							this.back();
+							this.back();
+
+							for (let i = 0; i < e.length; i++) {
+								this.nService.error(e[i].items); 
+							}
+							this.loadDeliveryRule();
+						}else{
+							this.nService.error(e);
+						}
 			});   
 
 	}
