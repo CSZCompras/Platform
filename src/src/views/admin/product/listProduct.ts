@@ -70,8 +70,7 @@ export class ListProduct{
     }
 
     applyRules(){
-
-
+        
         ValidationRules 
             .ensure((p : ProductBase) => p.name).displayName('Nome').required() 
             .ensure((p : ProductBase) => p.category).displayName('Categoria do produto').required() 
@@ -79,10 +78,11 @@ export class ListProduct{
 
         this.product.products.forEach( (x : Product) => {
 
+
             if(x.unit == null){
                 x.unit = new UnitOfMeasurement();
             }
-
+            
             ValidationRules 
                 .ensure((x : UnitOfMeasurement) => x.id).displayName('Unidade de medida').required()  
                 .on(x.unit);
