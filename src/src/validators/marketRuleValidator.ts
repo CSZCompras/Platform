@@ -12,7 +12,7 @@ export class MarketRuleValidator {
     isDeliverySchedule1Invalid : boolean;
     isDeliverySchedule2Invalid : boolean;
     isReceiverNewClientInvalid : boolean;
-    isreceiverNewOrderInvalid : boolean;
+    isReceiverNewOrderInvalid : boolean;
     
     constructor(private rule : MarketRule) {   
 
@@ -34,19 +34,43 @@ export class MarketRuleValidator {
         return this.errorMessages;
     }
 
-    validateReceiverNewClient(){
-        if(this.rule.sendNotificationToNewClient && (this.rule.receiverNewClient == null || this.rule.receiverNewClient  == '')){
-            this.errorMessages.push('O e-mail do destinatário em caso de novo cliente está em branco');
-            this.isReceiverNewClientInvalid = true;
-        }
-    }
+    validateReceiverNewClient(email = null){
 
-    validateReceiverNewOrder(){
-        if(this.rule.sendNotificationToNewOrder && (this.rule.receiverNewOrder == null || this.rule.receiverNewOrder  == '')){
-            this.errorMessages.push('O e-mail do destinatário em caso de novo pedido está em branco');
-            this.isReceiverNewClientInvalid = true;
+        if(email == null){
+            if(this.rule.sendNotificationToNewClient && (this.rule.receiverNewClient == null || this.rule.receiverNewClient  == '')){
+                this.errorMessages.push('É necessário adicionar ao menos um e-mail em caso de novo cliente');
+                this.isReceiverNewClientInvalid = true;
+            }
+        }
+        else{
+            if(this.rule.sendNotificationToNewClient && (email == null || email  == '')){
+                this.errorMessages.push('O e-mail do destinatário em caso de novo cliente está em branco');
+                this.isReceiverNewClientInvalid = true;
+            }
+            else{
+                this.isReceiverNewClientInvalid = false;
+            }
         }
     }
+    
+    validateReceiverNewOrder(email = null){
+
+        if(email == null){
+            if(this.rule.sendNotificationToNewOrder && (this.rule.receiverNewOrder == null || this.rule.receiverNewOrder  == '')){
+                this.errorMessages.push('É necessário adicionar ao menos um e-mail em caso de novo pedido');
+                this.isReceiverNewOrderInvalid = true;
+            }
+        }
+        else{
+            if(this.rule.sendNotificationToNewOrder && (email == null || email  == '')){
+                this.errorMessages.push('O e-mail do destinatário em caso de novo pedido está em branco');
+                this.isReceiverNewOrderInvalid = true;
+            }
+            else{
+                this.isReceiverNewOrderInvalid = false;
+            }
+        }
+    } 
     
     validateMinimumOrderValue(){
         

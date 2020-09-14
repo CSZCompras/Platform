@@ -27,6 +27,21 @@ export class DeliveryRuleRepository{
                         }));
                     });
     }
+    
+    getRules(foodServiceId : string) : Promise<DeliveryRule[]> {
+        
+        return this.api
+                    .find('deliveryRuleControllerBySupplier?foodServiceId=' + foodServiceId)
+                    .then( (result : Promise<DeliveryRule>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
 
     save(rule : DeliveryRule) : Promise<DeliveryRule>{
         

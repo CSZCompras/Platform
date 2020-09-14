@@ -13,8 +13,11 @@ export class RegraDeEntrega{
 
     rule            : DeliveryRule;
     isLoading       : boolean;
+    canEdit         : boolean;
+    foodServiceId   : string;
     productClasses  : ProductClass[];
     selectedClass   : ProductClass;
+    rules           : DeliveryRule[];
     
     constructor(		 
         private service             : IdentityService,
@@ -24,55 +27,99 @@ export class RegraDeEntrega{
         private deliveryRepository  : DeliveryRuleRepository) {
 
         this.isLoading = false;
+        this.canEdit = true;
     } 
 
     
     attached() : void{ 
-
-        this.ea.publish('loadingData'); 
+        
+        if(this.canEdit){
+            this.ea.publish('loadingData'); 
+        } 
 		this.loadData(); 
     } 
 
+    
+    activate(params){  
+        
+        if(params.CanEdit != null){
+            this.canEdit = params.CanEdit;            
+        }
+        if(params.FoodServiceId){
+            this.foodServiceId = params.FoodServiceId;
+        }
+    }
+
     loadData() : void {
 
-		var identity = this.service.getIdentity();
+		if(this.canEdit){
 
-		this.productRepository
-            .getAllClasses()
-            .then( (classes : ProductClass[]) => { 
-                this.productClasses = classes;
-                if(classes.length > 0){
-                    this.selectedClass = classes[0];
-                    this.loadRule();
-                }
-            })
-            .then( () => this.ea.publish('dataLoaded'))
-            .catch( e =>  {
-                this.nService.presentError(e);
-            });
+            this.productRepository
+                .getAllClasses()
+                .then( (classes : ProductClass[]) => { 
+                    this.productClasses = classes;
+                    if(classes.length > 0){
+                        this.selectedClass = classes[0];
+                        this.loadRule();
+                    }
+                })
+                .then( () => this.ea.publish('dataLoaded'))
+                .catch( e =>  {
+                    this.nService.presentError(e);
+                });
+
+        }
+        else{
+
+            this.deliveryRepository
+                .getRules(this.foodServiceId)
+                .then( (rules : DeliveryRule[]) => {                     
+                    this.rules = rules;
+                    this.productClasses = [];
+                    this.rules.forEach(x => this.productClasses.push(x.productClass));
+                    if(this.rules.length > 0){
+                        this.rule = this.rules[0];
+                    }
+                    this.ea.publish('dataLoaded');
+                })
+                .catch( e =>  {
+                    this.nService.presentError(e);
+                });
+
+        }
     }
     
     loadRule() : void{
 
-        this.deliveryRepository
-            .getRule(this.selectedClass.id)
-            .then( (x: DeliveryRule) => { 
-                
-                if(x == null){
-                    this.rule = new DeliveryRule();
-                    this.rule.productClass = this.selectedClass;
-                }
-                else{
-                    this.rule = x;
-                }
+        if(this.canEdit){
 
-            })
-            .catch( e =>  this.nService.presentError(e));
+            this.deliveryRepository
+                .getRule(this.selectedClass.id)
+                .then( (x: DeliveryRule) => { 
+                    
+                    if(x == null){
+                        this.rule = new DeliveryRule();
+                        this.rule.productClass = this.selectedClass;
+                    }
+                    else{
+                        this.rule = x;
+                    }
+
+                })
+                .catch( e =>  this.nService.presentError(e));
+
+        }
+        else{
+            let rules = this.rules.filter(x => x.productClass.id == this.selectedClass.id);
+            if(rules.length > 0){
+                this.rule = rules[0];
+            }
+        }
     }
 
     save(){
  
-
+        if(this.canEdit){
             this.isLoading = true;
 
             this.deliveryRepository
@@ -86,5 +133,7 @@ export class RegraDeEntrega{
                         this.nService.error(e);
                         this.isLoading = false;
                     }); 
+
+        }
     }
 }

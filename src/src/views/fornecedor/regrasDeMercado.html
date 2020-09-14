@@ -1,12 +1,10 @@
 <template>
-  <require from="../components/attributes/moneyMask"></require>
-  <require from="../components/attributes/numberMask"></require>
-  <require from="../components/attributes/timeMask"></require>
-
-  <require from="../components/valueConverters/moneyValueConverter"></require>
-  <require from="../components/valueConverters/numberValueConverter"></require>
-  <require from="../components/valueConverters/timeValueConverter"></require>
-
+   <require from="../components/attributes/moneyMask"></require>
+   <require from="../components/attributes/numberMask"></require>
+   <require from="../components/attributes/timeMask"></require>
+   <require from="../components/valueConverters/moneyValueConverter"></require>
+   <require from="../components/valueConverters/numberValueConverter"></require>
+   <require from="../components/valueConverters/timeValueConverter"></require>
    <div class="row mb-5 au-animate">
       <div class="col-md-12">
          <div class="card">
@@ -52,18 +50,18 @@
                         <div class="col-md-4">
                            <div class="input-group">
                               <span class="input-group-addon input-group-icon">
-                                 <i class="batch-icon batch-icon-clock"></i>
+                              <i class="batch-icon batch-icon-clock"></i>
                               </span>
                               <input type="time" class="time form-control  ${validator.isPeriodToAcceptOrder1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time value.bind="rule.periodToAcceptOrder1 | time & updateTrigger:'blur' "   change.delegate="validator.validatePeriodToAcceptOrder1()" />
                               <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
                               <span class="input-group-addon input-group-icon">
-                                 <i class="batch-icon batch-icon-clock"></i>
+                              <i class="batch-icon batch-icon-clock"></i>
                               </span>
                               <input type="time" class="time form-control  ${validator.isPeriodToAcceptOrder2Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" maxlength="8" time  value.bind="rule.periodToAcceptOrder2 | time & updateTrigger:'blur' " change.delegate="validator.validatePeriodToAcceptOrder2()" /> 
                            </div>
                         </div>
                      </div>
-                  </div>                  
+                  </div>
                   <div class="col-md-12 mt-5">
                      <h2 class="ml-2">
                         <i class="fa fa-truck" aria-hidden="true"></i>
@@ -75,51 +73,51 @@
                         </div>
                         <div class="form-check form-check-inline"> 
                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.deliveryOnMonday">
-                                <span class="ml-1 mt-1">Segunda-feira</span>
-                                <span class="custom-control-indicator"></span> 
+                           <input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.deliveryOnMonday">
+                           <span class="ml-1 mt-1">Segunda-feira</span>
+                           <span class="custom-control-indicator"></span> 
                            </label> 
                            <br />
                            <br />
                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="1" checked.bind="rule.deliveryOnTuesday">
-                                <span class="ml-1 mt-1">Terça-feira</span>
-                                <span class="custom-control-indicator"></span> 
+                           <input type="checkbox" class="custom-control-input" value="1" checked.bind="rule.deliveryOnTuesday">
+                           <span class="ml-1 mt-1">Terça-feira</span>
+                           <span class="custom-control-indicator"></span> 
                            </label>
                            <br />
                            <br />
                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="2" checked.bind="rule.deliveryOnWednesday">
-                                <span class="ml-1 mt-1">Quarta-feira</span>
-                                <span class="custom-control-indicator"></span> 
+                           <input type="checkbox" class="custom-control-input" value="2" checked.bind="rule.deliveryOnWednesday">
+                           <span class="ml-1 mt-1">Quarta-feira</span>
+                           <span class="custom-control-indicator"></span> 
                            </label> 
                            <br />
                            <br />
                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="3" checked.bind="rule.deliveryOnThursday">
-                                <span class="ml-1 mt-1">Quinta-feira</span>
-                                <span class="custom-control-indicator"></span> 
+                           <input type="checkbox" class="custom-control-input" value="3" checked.bind="rule.deliveryOnThursday">
+                           <span class="ml-1 mt-1">Quinta-feira</span>
+                           <span class="custom-control-indicator"></span> 
                            </label>  
                            <br />
                            <br />
                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="4" checked.bind="rule.deliveryOnFriday">
-                                <span class="ml-1 mt-1">Sexta-feira</span>
-                                <span class="custom-control-indicator"></span> 
+                           <input type="checkbox" class="custom-control-input" value="4" checked.bind="rule.deliveryOnFriday">
+                           <span class="ml-1 mt-1">Sexta-feira</span>
+                           <span class="custom-control-indicator"></span> 
                            </label>  
                            <br />
                            <br />
                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="5" checked.bind="rule.deliveryOnSaturday">
-                                <span class="ml-1 mt-1">Sábado</span>
-                                <span class="custom-control-indicator"></span> 
+                           <input type="checkbox" class="custom-control-input" value="5" checked.bind="rule.deliveryOnSaturday">
+                           <span class="ml-1 mt-1">Sábado</span>
+                           <span class="custom-control-indicator"></span> 
                            </label>  
                            <br />
                            <br />
                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.deliveryOnSunday">
-                                <span class="ml-1 mt-1">Domingo</span>
-                                <span class="custom-control-indicator"></span> 
+                           <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.deliveryOnSunday">
+                           <span class="ml-1 mt-1">Domingo</span>
+                           <span class="custom-control-indicator"></span> 
                            </label>  
                            <br />
                            <br />
@@ -155,53 +153,114 @@
                         <div class="col-md-3"></div>
                         <div class="">  
                            <label class="custom-control custom-checkbox ml-2 float-left">
-                              <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.sendNotificationToNewClient">
-                              <span class="custom-control-indicator"></span> 
-                              <span class="ml-1 mt-1">Receber notificação de um novo cliente por e-mail</span>
-                         </label> 				
+                           <input type="checkbox" class="custom-control-input" value="6" change.delegate="sendNotificationToNewClientChanged()" checked.bind="rule.sendNotificationToNewClient">
+                           <span class="custom-control-indicator"></span> 
+                           <span class="ml-1 mt-1">Receber notificação de um novo cliente por e-mail</span>
+                           </label> 				
                         </div>
                      </div>
                      <br /> 
                      <div class="form-inline">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-5">
-                           <div class="input-group">                              
-                              <input type="email" class="form-control ${validator.sendNotificationToNewClient  ? 'border-danger' : '' }  " autocomplete="off"   data-validation="email" if.bind="rule.sendNotificationToNewClient"  value.bind="rule.receiverNewClient" change.delegate="validator.validateReceiverNewClient()" />
+                        <div class="col-md-3 mt-3"></div>
+                        <div class="col-md-6 mt-3" if.bind="rule.sendNotificationToNewClient">
+                           <div class="input-group">   
+                                 <input type="email" 
+                                    class="form-control ${validator.isReceiverNewClientInvalid && emailsNewClient.length == 0  ? 'border-danger' : '' }" 
+                                    autocomplete="off"   
+                                    data-validation="email"  
+                                    value.bind="emailNewClient" 
+                                    change.delegate="validator.validateReceiverNewClient(emailNewClient)" />
+                              <span class="col-md-1">
+                                 <button type="button" class="btn btn-primary"  click.trigger="addEmailNewClient()">
+                                    <span class="gradient">Adicionar</span>
+                                 </button>
+                              </span>
+                           </div>
+                           <div class="input-group mt-5" if.bind="emailsNewClient.length > 0">
+                              <p class=" text-center mx-auto">
+                                 <i class="fa fa-envelope" aria-hidden="true"></i>
+                                 E-mails cadastrados
+                              </p>
+                           </div>
+                           <div class="input-group mt-1" repeat.for="email of emailsNewClient" >
+                                 <input type="email" 
+                                    class="form-control ${validator.sendNotificationToNewClient  ? 'border-danger' : '' }  " 
+                                    autocomplete="off"   
+                                    data-validation="email"  
+                                    value.two-way="emailsNewClient[$index]" 
+                                    change.delegate="receiverNewClientChanged(emailsNewClient[$index])" />
+                              <span class="col-md-1">
+                                    <button type="button" class="btn btn-danger"  click.trigger="removeEmailNewClient(email)">
+                                    <span class="gradient">Remover</span>
+                                    </button>
+                              </span>
                            </div>
                         </div>
-                     </div> 
-                     <br /> 
-                     <div class="form-inline">
-                        <div class="col-md-3"></div>
-                        <div class="">  
-                           <label class="custom-control custom-checkbox ml-2 float-left">
+                     </div>
+                     <div class="mt-5">
+                        <br /> 
+                        <div class="form-inline">
+                           <div class="col-md-3"></div>
+                           <div class="">  
+                              <label class="custom-control custom-checkbox ml-2 float-left">
                               <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.sendNotificationToNewOrder">
                               <span class="custom-control-indicator"></span> 
                               <span class="ml-1 mt-1">Receber notificação de um novo pedido por e-mail</span>
-                         </label>   
-                        </div>
-                     </div>  
-                     <br /> 
-                     <div class="form-inline">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-5">
-                           <div class="input-group">                              
-                              <input type="email" class="form-control  ${validator.sendNotificationToNewOrder  ? 'border-danger' : '' }  " autocomplete="off"   data-validation="email"  if.bind="rule.sendNotificationToNewOrder" value.bind="rule.receiverNewOrder"  change.delegate="validator.validateReceiverNewOrder()" />
+                              </label>   
                            </div>
                         </div>
-                     </div> 
-                  </div>          
-               </div>
-               <div class="row mt-5">
-                   <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light mx-auto"  click.trigger="save()"  if.bind="! isLoading">
-                       <span class="gradient">Salvar</span>
-                    </button>
-                    <div class="fa-2x text-center mx-auto" if.bind="isLoading" >
-                        <i class="fa fa-refresh fa-spin"></i>
-                    </div> 
+                        <br />  
+                        <div class="form-inline">
+                           <div class="col-md-3"></div>
+                           <div class="col-md-6" if.bind="rule.sendNotificationToNewOrder">
+                              <div class="input-group">   
+                                 <input type="email" 
+                                       class="form-control ${validator.isReceiverNewOrderInvalid && emailsNewOrder.length == 0  ? 'border-danger' : '' }  " 
+                                       autocomplete="off"   
+                                       data-validation="email"  
+                                       value.bind="emailNewOrder" 
+                                       change.delegate="validator.validateReceiverNewOrder(emailNewOrder)" />
+                                 <span class="col-md-1">
+                                    <button type="button" class="btn btn-primary"  click.trigger="addEmailNewOrder()">                                       
+                                       Adicionar
+                                    </button>
+                                 </span>
+                              </div>
+                              <div class="input-group mt-5"  if.bind="emailsNewOrder.length > 0">
+                                 <p class=" text-center mx-auto">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    E-mails cadastrados
+                                 </p>
+                              </div>
+                              <div class="input-group mt-1" repeat.for="receiverNewOrder of emailsNewOrder" >
+                                    <input type="email" 
+                                       class="form-control" 
+                                       autocomplete="off"   
+                                       data-validation="email"  
+                                       value.two-way="emailsNewOrder[$index]"/> 
+                                 <span class="col-md-1">
+                                       <button type="button" class="btn btn-danger"  click.trigger="removeEmailNewOrder(receiverNewOrder)">
+                                          <span class="gradient">Remover</span>
+                                       </button>
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-12 mt-5">
+                     <div class="row mt-5">
+                        <button type="button" class="btn btn-primary mx-auto"  click.trigger="save()"  if.bind="! isLoading">
+                           <span class="gradient">Salvar</span>
+                        </button>
+                        <div class="fa-2x text-center mx-auto" if.bind="isLoading" >
+                           <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
       </div>
-   </div>	  
+   </div>
 </template>

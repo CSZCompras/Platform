@@ -11,9 +11,13 @@ import 'jquery-mask-plugin';
 @autoinject
 export class RegrasDeMercado{
 
-    rule            : MarketRule;
-    validator       : MarketRuleValidator;
-    isLoading       : boolean;
+    rule                : MarketRule;
+    validator           : MarketRuleValidator;
+    isLoading           : boolean;
+    emailNewClient      : string;
+    emailsNewClient     : string[];
+    emailNewOrder       : string;
+    emailsNewOrder      : string[];
     
     constructor(		
 		private router: Router, 
@@ -23,7 +27,8 @@ export class RegrasDeMercado{
         private repository : MarketRuleRepository) {
 
         this.isLoading = false;
-
+        this.emailsNewClient = [];
+        this.emailsNewOrder = [];
     } 
 
     
@@ -32,6 +37,60 @@ export class RegrasDeMercado{
         this.ea.publish('loadingData'); 
 		this.loadData(); 
     } 
+
+    addEmailNewClient(){
+
+        var emailAlreadyExist = this.emailsNewClient.filter(x => x == this.emailNewClient).length > 0;
+
+        if(emailAlreadyExist){
+            this.nService.error('Este e-mail já foi adicionado');
+        }
+        else{
+
+            if(this.emailNewClient != null && this.emailNewClient != ''){
+                this.emailsNewClient.push(this.emailNewClient);
+                this.emailNewClient = '';
+            }
+        }
+    }
+
+    removeEmailNewClient(email){
+
+        this.emailsNewClient = this.emailsNewClient.filter(e => e != email);
+    }
+
+    addEmailNewOrder(){
+    
+        var emailAlreadyExist = this.emailsNewOrder.filter(x => x == this.emailNewOrder).length > 0;
+
+        if(emailAlreadyExist){
+            this.nService.error('Este e-mail já foi adicionado');
+        }
+        else{
+            if(this.emailNewOrder != null && this.emailNewOrder != ''){
+                this.emailsNewOrder.push(this.emailNewOrder);
+                this.emailNewOrder = '';
+            }
+        }
+    }
+
+    removeEmailNewOrder(email){
+
+        this.emailsNewOrder = this.emailsNewOrder.filter(e => e != email);
+    }
+
+    receiverNewClientChanged(email){
+        if(email == null || email == ''){
+            this.removeEmailNewClient(email);
+        }
+    }
+
+
+    sendNotificationToNewClientChanged(){
+        if(! this.rule.sendNotificationToNewClient){
+            this.emailNewClient = '';
+        }
+    };
 
     loadData() : void {
 
@@ -44,7 +103,23 @@ export class RegrasDeMercado{
                     this.rule = new MarketRule();
                 }
                 else{
-                    this.rule = rule;
+                    this.rule = rule; 
+                    if(this.rule.sendNotificationToNewClient && this.rule.receiverNewClient != null && this.rule.receiverNewClient != ''){
+
+                        this.rule
+                            .receiverNewClient
+                            .split(';')
+                            .filter(r => r != null && r != '')
+                            .forEach(r => this.emailsNewClient.push(r));
+                    }
+                    if(this.rule.sendNotificationToNewOrder && this.rule.receiverNewOrder != null && this.rule.receiverNewOrder != ''){
+
+                        this.rule
+                            .receiverNewOrder
+                            .split(';')
+                            .filter(r => r != null && r != '')
+                            .forEach(r => this.emailsNewOrder.push(r));
+                    }
                 }
 				this.validator = new MarketRuleValidator(this.rule);
                 this.validator.validate();
@@ -56,6 +131,22 @@ export class RegrasDeMercado{
 	}
 
     save(){
+
+        if(this.rule.sendNotificationToNewClient){
+            this.rule.receiverNewClient = '';
+            this.emailsNewClient.forEach( e => this.rule.receiverNewClient += e + ';');
+        }
+        else{
+            this.rule.receiverNewClient = '';
+        }
+
+        if(this.rule.sendNotificationToNewOrder){
+            this.rule.receiverNewOrder = '';
+            this.emailsNewOrder.forEach( e => this.rule.receiverNewOrder += e + ';');
+        }
+        else{
+            this.rule.receiverNewOrder = '';
+        }
 
         var errors = this.validator.validate();
 
@@ -79,7 +170,8 @@ export class RegrasDeMercado{
                         this.router.navigate('/#/dashboard');        
                         this.isLoading = false;
 
-                    }).catch( e => {
+                    })
+                    .catch( e => {
                         
                         this.nService.error(e);
                         this.isLoading = false;

@@ -210,11 +210,25 @@
                             </table>   
                         </div>
                     </div>    
+                    <h4 class="mt-4" >Regras de Entrega</h4>   
+                    <div class="tab-pane">
+                       <div class="row">
+                          <div class="col-md-6">
+                             <div class="form-group"> 
+                              <button type="button" class="btn btn-primary  ml-2 waves-effect waves-light"click.trigger="showDeliveryRule()">
+                                 <i class="fa fa-truck" aria-hidden="true"></i>
+                                 Visualizar regras de Entrega
+                              </button>
+                             </div> 
+                          </div> 
+                       </div>
+                    </div>      
+
                  </div>
                  <div class="row mt-5 mb-5 mx-auto">
                         <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light"  if.bind="edit"   click.trigger="save()"><span class="gradient">Salvar</span></button>
                         <button type="button" class="btn btn-success  ml-2 waves-effect waves-light"       if.bind="foodService.status != 0 && edit"  click.trigger="editStatus(0)">Ativar</button>
-                        <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="foodService.status == 0 && edit " click.trigger="editStatus(1)">Inativar</button>
+                        <button type="button" class="btn btn-danger  ml-2 waves-effect waves-light"        if.bind="foodService.status == 0 && edit " click.trigger="editStatus(1)">Inativar</button>                                                
                         <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       if.bind="edit"   click.trigger="cancel()">
                            <i class="fa fa-undo mr-2"></i>Voltar
                         </button>   

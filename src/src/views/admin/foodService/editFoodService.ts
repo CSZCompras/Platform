@@ -1,15 +1,8 @@
-import { inject, NewInstance} from 'aurelia-framework';
 import { Aurelia, autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
+import { Router } from 'aurelia-router';
 import { Rest, Config } from 'aurelia-api';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { IdentityService } from '../../../services/identityService';
 import { NotificationService } from '../../../services/notificationService';
-import { ProductRepository } from '../../../repositories/productRepository';
-import { Product } from '../../../domain/product';
-import { ProductCategory } from '../../../domain/productCategory';
-import { UnitOfMeasurementRepository } from '../../../repositories/unitOfMeasurementRepository';
-import { UnitOfMeasurement } from '../../../domain/unitOfMeasurement';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
@@ -26,6 +19,9 @@ import { ConsultaCEPService } from '../../../services/consultaCEPService';
 import { ConsultaCepResult } from '../../../domain/consultaCepResult';
 import { FoodServiceValidator } from '../../../validators/foodServiceValidator';
 import { Address } from '../../../domain/address';
+import { DialogService } from 'aurelia-dialog';
+import { AceitePedido } from '../../components/partials/aceitePedido';
+import { RegraDeEntrega } from '../../foodService/regraDeEntrega';
 
 @autoinject
 export class EditFoodService{
@@ -44,6 +40,7 @@ export class EditFoodService{
     constructor(
         private router              : Router, 
         private ea                  : EventAggregator,
+        private dialogService       : DialogService,
         private nService            : NotificationService,
         private stateRepo           : StateRegistrationRepository, 
         private userRepository      : UserRepository,
@@ -287,4 +284,17 @@ export class EditFoodService{
     cancelShowDetails(){ 
         this.ea.publish('showFoodServiceDetailsCanceled');
     }
+
+    
+
+    showDeliveryRule(){
+
+        var params = { CanEdit : false, FoodServiceId : this.foodId};
+
+        this.dialogService
+            .open({ viewModel: RegraDeEntrega, model: params, lock: false })
+            .whenClosed(response => {
+                return;
+            });
+    }  
 }

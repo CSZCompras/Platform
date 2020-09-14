@@ -39,7 +39,7 @@ export class PedidosFornecedor{
             this.selectedStatus = 0; 
             this.selectedStatusFaturamento = 0;
 
-    } 
+    }
 
     attached(){
 
