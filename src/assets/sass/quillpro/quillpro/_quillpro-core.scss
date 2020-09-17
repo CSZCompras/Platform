@@ -57,7 +57,7 @@ h5{
 	font-size: 1.2rem !important;
 }
 p{
-	color: $qp-color-text;
+	color:  #000000;
 	font-weight: 400;
 }
 .invisible{
@@ -2310,6 +2310,7 @@ table.table-inverse{
 /* Forms */
 label{
 	@include qp-font($qp-active-font);
+	color: #000000;
 }
 .form-control{
 	background-color: $qp-color-white !important;

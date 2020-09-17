@@ -55,7 +55,7 @@ export class RegraDeEntrega{
 		if(this.canEdit){
 
             this.productRepository
-                .getAllClasses()
+                .getProductClassesBySelectedProducts()
                 .then( (classes : ProductClass[]) => { 
                     this.productClasses = classes;
                     if(classes.length > 0){

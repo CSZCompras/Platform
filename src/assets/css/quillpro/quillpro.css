@@ -58,7 +58,7 @@ h5 {
   font-size: 1.2rem !important; }
 
 p {
-  color: #72848c;
+  color: #000000;
   font-weight: 400; }
 
 .invisible {
@@ -2638,7 +2638,8 @@ table.table-inverse {
 label {
   font-family: 'Montserrat', sans-serif !important;
   font-size: 12px;
-  font-weight: 400; }
+  font-weight: 400; 
+	color: #000000;}
 
 .form-control {
   background-color: #FFFFFF !important;
