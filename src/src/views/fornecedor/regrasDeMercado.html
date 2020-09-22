@@ -166,8 +166,7 @@
                            <div class="input-group">   
                                  <input type="email" 
                                     class="form-control ${validator.isReceiverNewClientInvalid && emailsNewClient.length == 0  ? 'border-danger' : '' }" 
-                                    autocomplete="off"   
-                                    data-validation="email"  
+                                    autocomplete="false"
                                     value.bind="emailNewClient" 
                                     change.delegate="validator.validateReceiverNewClient(emailNewClient)" />
                               <span class="col-md-1">
@@ -185,7 +184,8 @@
                            <div class="input-group mt-1" repeat.for="email of emailsNewClient" >
                                  <input type="email" 
                                     class="form-control ${validator.sendNotificationToNewClient  ? 'border-danger' : '' }  " 
-                                    autocomplete="off"   
+                                    autocomplete="false"
+                                    id="${emailsNewOrder[$index]}"   
                                     data-validation="email"  
                                     value.two-way="emailsNewClient[$index]" 
                                     change.delegate="receiverNewClientChanged(emailsNewClient[$index])" />
@@ -216,8 +216,7 @@
                               <div class="input-group">   
                                  <input type="email" 
                                        class="form-control ${validator.isReceiverNewOrderInvalid && emailsNewOrder.length == 0  ? 'border-danger' : '' }  " 
-                                       autocomplete="off"   
-                                       data-validation="email"  
+                                       autocomplete="false"
                                        value.bind="emailNewOrder" 
                                        change.delegate="validator.validateReceiverNewOrder(emailNewOrder)" />
                                  <span class="col-md-1">
@@ -235,8 +234,9 @@
                               <div class="input-group mt-1" repeat.for="receiverNewOrder of emailsNewOrder" >
                                     <input type="email" 
                                        class="form-control" 
-                                       autocomplete="off"   
+                                       autocomplete="false"
                                        data-validation="email"  
+                                       id="${emailsNewOrder[$index]}"
                                        value.two-way="emailsNewOrder[$index]"/> 
                                  <span class="col-md-1">
                                        <button type="button" class="btn btn-danger"  click.trigger="removeEmailNewOrder(receiverNewOrder)">

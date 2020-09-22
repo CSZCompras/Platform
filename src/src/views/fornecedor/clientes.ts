@@ -6,6 +6,8 @@ import { FoodServiceConnectionRepository } from '../../repositories/foodServiceC
 import { FoodServiceConnectionViewModel } from '../../domain/foodServiceViewModel'; 
 import { DialogService } from 'aurelia-dialog';
 import { AprovacaoCliente } from '../components/partials/aprovacaoCliente';
+import { RejeicaoCadastroFoodService } from '../components/partials/rejeicaoCadastroFoodService'; 
+
 
 @autoinject
 export class Clientes{
@@ -190,27 +192,39 @@ export class Clientes{
 
         reject(x : FoodServiceConnectionViewModel){
 
-                ( <any> x).isLoading = true;
+                var params = { FoodService : x.foodService };
 
-                var viewModel = new FoodServiceConnectionViewModel();
-                viewModel.foodService = x.foodService;                
-                viewModel.status = 3;
+                this.dialogService
+                    .open({ viewModel: RejeicaoCadastroFoodService, model: params, lock: false })
+                    .whenClosed(response => {
 
-                this.repository
-                        .updateConnection(viewModel)
-                        .then( (data : any) =>{
+                        if (response.wasCancelled) {
+                            return;
+                        } 
 
-                                ( <any> x).isLoading = false;
-                                this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                this.nService.presentSuccess('Status rejeitado com sucesso!');
-                                ( <any> x).isLoading = false;
-                        }).catch( e => {
+                        ( <any> x).isLoading = true;
 
-                            this.nService.presentError(e);
-                            ( <any> x).isLoading = false;
-                        });
-
+                        var viewModel = new FoodServiceConnectionViewModel();
+                        viewModel.foodService = x.foodService;                
+                        viewModel.reasonToRejectId = response.output.reason.id;
+                        viewModel.status = 3;
+        
+                        this.repository
+                                .updateConnection(viewModel)
+                                .then( (data : any) =>{
+        
+                                        ( <any> x).isLoading = false;
+                                        this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
+                                        this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
+                                        this.nService.presentSuccess('Status rejeitado com sucesso!');
+                                        ( <any> x).isLoading = false;
+                                })
+                                .catch( e => {
+        
+                                    this.nService.presentError(e);
+                                    ( <any> x).isLoading = false;
+                                });
+                    });  
         }
 
         block(x : FoodServiceConnectionViewModel){
