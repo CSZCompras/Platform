@@ -22,6 +22,8 @@ import { Address } from '../../../domain/address';
 import { DialogService } from 'aurelia-dialog';
 import { AceitePedido } from '../../components/partials/aceitePedido';
 import { RegraDeEntrega } from '../../foodService/regraDeEntrega';
+import { FoodServiceSupplier } from '../../../domain/foodServiceSupplier';
+import { FoodServiceConnectionRepository } from '../../../repositories/foodServiceConnectionRepository';
 
 @autoinject
 export class EditFoodService{
@@ -36,17 +38,20 @@ export class EditFoodService{
     userEditing         : User;     
     validator 			: FoodServiceValidator;
     edit                : boolean;
+    loadConnection      : boolean;
+    connection          : FoodServiceSupplier;
 
     constructor(
-        private router              : Router, 
-        private ea                  : EventAggregator,
-        private dialogService       : DialogService,
-        private nService            : NotificationService,
-        private stateRepo           : StateRegistrationRepository, 
-        private userRepository      : UserRepository,
-        private config              : Config,
-        private repository          : FoodServiceRepository, 
-		private consultaCepService  : ConsultaCEPService) { 
+        private router                  : Router, 
+        private ea                      : EventAggregator,
+        private dialogService           : DialogService,
+        private nService                : NotificationService,
+        private stateRepo               : StateRegistrationRepository, 
+        private userRepository          : UserRepository,
+        private config                  : Config,
+        private connectionRepository    : FoodServiceConnectionRepository,
+        private repository              : FoodServiceRepository, 
+		private consultaCepService      : ConsultaCEPService) { 
 
             this.foodService = new FoodService();
             this.foodService.address = new Address();
@@ -57,8 +62,16 @@ export class EditFoodService{
 
                 this.foodId = event.foodId;
                 this.edit = event.edit
+                this.loadConnection = event.loadConnection;
+
+                if(! this.loadConnection){
+                    this.connection = null;
+                }
+
                 this.loadData();
             });
+            this.connection = null;
+            this.loadConnection= null;
     }
 
     attached(){ 
@@ -106,6 +119,16 @@ export class EditFoodService{
                 } 
                 this.validator = new FoodServiceValidator(this.foodService);				
             });
+
+            
+
+            if(this.loadConnection){
+                this.connectionRepository
+                    .getSupplierConnection(this.foodId)
+                    .then( (x : FoodServiceSupplier) => this.connection = x)
+                    .catch( e => this.nService.presentError(e)); 
+
+            }
 
         }
     } 

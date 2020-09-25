@@ -26,7 +26,6 @@
                <div class="row mt-2"  if.bind="canEdit || ! ( ! canEdit && rules.length == 0)">
                   <div class="col-md-4">
                      <select class="form-control" change.delegate="loadRule()" value.bind="selectedClass">
-                        <option if.bind="canEdit"  value=""></option>
                         <option  repeat.for="x of productClasses"  model.bind="x">${x.name}</option>
                      </select>
                   </div>

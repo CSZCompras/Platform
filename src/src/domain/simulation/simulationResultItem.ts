@@ -11,4 +11,5 @@ export class SimulationResultItem{
     priceByUnit         : number;    
     total               : number;  
     clientCode          : string;
+    message             : string;
 }

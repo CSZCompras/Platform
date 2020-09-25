@@ -98,7 +98,10 @@ export class RegraDeEntrega{
                 .then( (x: DeliveryRule) => { 
                     
                     if(x == null){
-                        this.rule = new DeliveryRule();
+                        if(this.rule == null){                            
+                            this.rule = new DeliveryRule();
+                        }
+                        delete this.rule.id;
                         this.rule.productClass = this.selectedClass;
                     }
                     else{

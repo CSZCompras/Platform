@@ -55,7 +55,7 @@ export class SelecaoDeProdutosFoodService{
         this.isLoading = true;
 
         var promisse0 = this.productRepository
-                            .getAllClasses()
+                            .getAllClassesByOfferedProducts()
                             .then( (data : ProductClass[]) => { 
                                 this.classes = data;
                                 

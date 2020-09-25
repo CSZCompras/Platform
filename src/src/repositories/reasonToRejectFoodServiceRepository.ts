@@ -2,6 +2,7 @@ import { IdentityService } from '../services/identityService';
 import { autoinject } from 'aurelia-framework'; 
 import { Rest, Config } from 'aurelia-api';  
 import { HttpClient } from 'aurelia-fetch-client';
+import { ReasonToRejectFoodService } from '../domain/reasonToRejectFoodService';
 
 @autoinject
 export class ReasonToRejectFoodServiceRepository{

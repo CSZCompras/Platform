@@ -9,6 +9,8 @@ import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
 import { SupplierViewModel } from '../../domain/supplierViewModel';
 import { BlockSupplierConnectionViewModel } from '../../domain/blockSupplierConnectionViewModel';
 import { ProductClass } from '../../domain/productClass';
+import { FoodService } from '../../domain/foodService';
+import { ConnectionStatus } from '../../domain/connectionStatus';
 
 @autoinject
 export class Fornecedores{
@@ -28,11 +30,10 @@ export class Fornecedores{
         selectedMarket                  : ProductClass;
 
         constructor(
-                private router          : Router, 
-                private repository      : SupplierConnectionRepository, 
-                private  productRepository : ProductRepository, 
-                private nService        : NotificationService,
-                private ea              : EventAggregator) { 
+                private repository              : SupplierConnectionRepository, 
+                private  productRepository      : ProductRepository, 
+                private nService                : NotificationService,
+                private ea                      : EventAggregator) { 
 
                 this.tipoFiltro = '3';
                 
@@ -298,6 +299,7 @@ export class Fornecedores{
         showSupplierDetails(x : SupplierViewModel){
                 
                 this.showDetails = true; 
-                this.ea.publish('showSupplierDetails', { supplierId : x.supplier.id, edit : false } );
+                let loadConnectionDetails = x.status == ConnectionStatus.Rejected ? true : false;
+                this.ea.publish('showSupplierDetails', { supplierId : x.supplier.id, edit : false, loadConnection : loadConnectionDetails } );
         }
 }

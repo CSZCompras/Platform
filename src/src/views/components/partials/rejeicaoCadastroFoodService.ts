@@ -44,12 +44,7 @@ export class RejeicaoCadastroFoodService{
 
         if(params.FoodService != null){ 
             this.foodService = params.FoodService; 
-        } 
-
-        ValidationRules 
-        .ensure((r: ReasonToRejectFoodService) => r.id).displayName('Motivo da rejeição')
-        .required() 
-        .on(this.selectedReason);  
+        }  
        
     }
 
@@ -59,6 +54,9 @@ export class RejeicaoCadastroFoodService{
             .getAllActiveReasons()
             .then( (result : ReasonToRejectFoodService[]) => {
                 this.reasonsToReject = result;
+                if(this.reasonsToReject.length > 0){
+                    this.selectedReason = this.reasonsToReject[0];
+                }
                 this.isLoading = false;
             })
             .catch( e => {
@@ -74,7 +72,7 @@ export class RejeicaoCadastroFoodService{
         .then((result: ControllerValidateResult) => { 
             
                 if (result.valid) {   
-                    this.controller.ok(this.selectedReason); 
+                    this.controller.ok({ reason : this.selectedReason}); 
                 }
                 else {
                     this.isLoading = false;

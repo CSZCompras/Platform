@@ -7,6 +7,7 @@ import { FoodServiceConnectionViewModel } from '../../domain/foodServiceViewMode
 import { DialogService } from 'aurelia-dialog';
 import { AprovacaoCliente } from '../components/partials/aprovacaoCliente';
 import { RejeicaoCadastroFoodService } from '../components/partials/rejeicaoCadastroFoodService'; 
+import { ConnectionStatus } from '../../domain/connectionStatus';
 
 
 @autoinject
@@ -28,10 +29,7 @@ export class Clientes{
                 private repository              : FoodServiceConnectionRepository, 
                 private nService                : NotificationService, 
                 private ea                      : EventAggregator) {   
-                
-                this.ea.subscribe( 'registrationSent', () =>{
-                        this.loadData();
-                });
+                 
 
                 this.ea.subscribe( 'showFoodServiceDetailsCanceled', () =>{
                         this.showDetails = false;  
@@ -75,8 +73,8 @@ export class Clientes{
                 }                
                 else if(this.type == 3){
                         this.title = 'Clientes Bloqueados'; 
-                }
-
+                }     
+                
                 return  this.loadConnections();
         }
 
@@ -301,7 +299,8 @@ export class Clientes{
         showFoodServiceDetails(x : FoodServiceConnectionViewModel){
                 
                 this.showDetails = true; 
-                this.ea.publish('showFoodServiceDetails', { foodId : x.foodService.id, edit : false } );
+                let loadConnectionDetails = x.status == ConnectionStatus.Rejected ? true : false;
+                this.ea.publish('showFoodServiceDetails', { foodId : x.foodService.id, edit : false ,loadConnection : loadConnectionDetails } );
         }
 
 }

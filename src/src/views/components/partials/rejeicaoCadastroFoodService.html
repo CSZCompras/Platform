@@ -14,7 +14,7 @@
                       <div class="row"> 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <h5 class="control-label">Tem certeza que deseja rejeitar o cadastro do foodservice ${foodservice.fantasyName} <strong>nº ${order.code}</strong>?</h5>
+                                <p class="control-label">Tem certeza que deseja rejeitar o cadastro do food service <strong>${foodService.fantasyName}</strong>?</p>
                             </div>        
                         </div> 
                     </div>   
@@ -22,8 +22,8 @@
                           <div class="col-md-12 mt-3">
                               <div class="form-group">
                                 <label class="control-label">Informe o motivo da rejeição</label>
-                                <select class="form-control "    value.bind="selectedReason">
-                                    <option  repeat.for="reason of reasonsToReject" model.bind="control">
+                                <select class="form-control"    value.bind="selectedReason">
+                                    <option  repeat.for="reason of reasonsToReject" model.bind="reason">
                                         ${reason.description}
                                     </option>
                                 </select>
@@ -35,12 +35,12 @@
                     <div class="fa-2x text-center mx-auto " if.bind="loading" >
                         <i class="fa fa-refresh fa-spin"></i>
                     </div> 
-                    <button type="button" class="btn btn-danger waves-effect waves-light mx-auto ml-5"  click.trigger="rejectOrder()" >
-                        <i class="fa fa-times mr-2"></i>Rejeitar
-                    </button>
                     <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5" click.trigger="cancel()">
                         <i class="fa fa-undo mr-2"></i>Cancelar
                     </button> 
+                    <button type="button" class="btn btn-danger waves-effect waves-light mx-auto ml-5"  click.trigger="reject()" >
+                        <i class="fa fa-times mr-2"></i>Rejeitar
+                    </button>
                  </div>      
                </div>
             </div>

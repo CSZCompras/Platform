@@ -97,6 +97,20 @@ export class ProductRepository{
                 });
     } 
 
+    getAllClassesByOfferedProducts() : Promise<ProductClass[]> {
+
+        return this.api
+                .find('productClassByOfferedProducts')
+                .then( (result : Promise<ProductClass[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    }
 
     getAllProducts() : Promise<Product[]> {
 

@@ -9,6 +9,7 @@ import { StateRegistration } from '../../../domain/stateRegistration';
 import { StateRegistrationRepository } from '../../../repositories/stateRegistrationRepository';
 import { User } from '../../../domain/user';
 import { UserRepository } from '../../../repositories/userRepository';
+import { FoodServiceConnectionRepository } from '../../../repositories/foodServiceConnectionRepository';
 import { UserStatus } from '../../../domain/userStatus';
 import { UserType } from '../../../domain/userType';
 import { SupplierStatus } from '../../../domain/supplierStatus';
@@ -18,7 +19,8 @@ import { ConsultaCepResult } from '../../../domain/consultaCepResult';
 import { Address } from '../../../domain/address';
 import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
-import 'aurelia-validation';
+import 'aurelia-validation';  
+import { FoodServiceSupplier } from '../../../domain/foodServiceSupplier';
 
 @autoinject
 export class EditSupplier{
@@ -33,6 +35,8 @@ export class EditSupplier{
     userEditing         : User;     
     validator           : SupplierValidator;
     edit                : boolean;
+    loadConnection      : boolean;
+    connection          : FoodServiceSupplier;
 
 
     constructor(
@@ -43,6 +47,7 @@ export class EditSupplier{
         private userRepository      : UserRepository,
         private consultaCepService  : ConsultaCEPService,
         private config              : Config,
+        private connectionRepository : FoodServiceConnectionRepository,
         private repository          : SupplierRepository) { 
 
             this.supplier = new Supplier();
@@ -53,8 +58,15 @@ export class EditSupplier{
 
                 this.supplierId = event.supplierId;
                 this.edit = event.edit
+                this.loadConnection = event.loadConnection;
+
+                if(! this.loadConnection){
+                    this.connection = null;
+                }
                 this.loadData();
             });
+            this.connection = null;
+            this.loadConnection= null;
     }
 
     attached(){
@@ -68,7 +80,7 @@ export class EditSupplier{
 
         if(params != null && params.supplierId){ 
 
-            this.supplierId = params.supplierId;
+            this.supplierId = params.supplierId; 
         } 
     }
 
@@ -102,6 +114,14 @@ export class EditSupplier{
 
                     this.validator = new SupplierValidator(this.supplier);						
                 });
+
+                if(this.loadConnection){
+                    this.connectionRepository
+                        .getFoodServiceConnection(this.supplierId)
+                        .then( (x : FoodServiceSupplier) => this.connection = x)
+                        .catch( e => this.nService.presentError(e)); 
+
+                }
             }
         }
 

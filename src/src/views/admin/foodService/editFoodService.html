@@ -14,7 +14,14 @@
                  <div class="card-header">          
                     Edição de Food Service
                  </div>    
-                 <div class="card-body">                                                                                                                                                                  
+                 <div class="card-body">  
+                  <div class="row mt-1 float-right">
+                     <h5 class="mb-0 float-right">  
+                        <span class="badge badge-warning float-right" if.bind="connection.reasonToReject">
+                           Motivo da rejeição: ${connection.reasonToReject.description}
+                        </span>
+                     </h5>
+                  </div>                                                                                                                                                                
                     <h4>Dados básicos</h4>
                     <div class="row mt-4">
                         <div class="col-md-6">

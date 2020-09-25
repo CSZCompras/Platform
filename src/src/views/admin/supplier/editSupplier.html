@@ -16,10 +16,17 @@
         <div class="col-lg-12"> 
               <div class="card">
                  <div class="card-header">          
-                    Edição de fornecedor
+                    Edição de fornecedor 
                  </div>    
-                 <div class="card-body">                                                                                                                                                                  
-                    <h4>Dados básicos</h4>
+                 <div class="card-body"> 
+                     <div class="row mt-1 float-right">
+                        <h5 class="mb-0 float-right">  
+                           <span class="badge badge-warning float-right" if.bind="connection.reasonToReject">
+                              Motivo da rejeição: ${connection.reasonToReject.description}
+                           </span>
+                        </h5>
+                     </div>
+                    <h4 class="mt-4">Dados básicos</h4>
                     <div class="row mt-4">
                         <div class="col-md-6">
                             <div class="form-group">

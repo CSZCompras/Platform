@@ -18,6 +18,36 @@ export class FoodServiceConnectionRepository {
         this.api = this.config.getEndpoint('apiAddress');
     }
 
+    getFoodServiceConnection(supplierId : string) : Promise<FoodServiceSupplier> {
+        return this.api
+                    .find('foodServiceSupplierConnection?supplierId=' + supplierId)
+                    .then( (result : Promise<FoodServiceSupplier>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
+    
+
+    getSupplierConnection(foodServiceId : string) : Promise<FoodServiceSupplier> {
+        return this.api
+                    .find('foodServiceSupplierConnection?foodServiceId=' + foodServiceId)
+                    .then( (result : Promise<FoodServiceSupplier>) => {                 
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+    }
+
     getSupplierConnections(queryType : number) : Promise<FoodServiceConnectionViewModel[]>  {
 
         return this.api
