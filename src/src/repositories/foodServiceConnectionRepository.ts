@@ -78,7 +78,7 @@ export class FoodServiceConnectionRepository {
                     });
     }
     
-    alterPriceList(connection : FoodServiceConnectionViewModel) : Promise<any>  {
+    alterConnection(connection : FoodServiceConnectionViewModel) : Promise<any>  {
 
         return this.api
                     .post('alterPriceList', connection)

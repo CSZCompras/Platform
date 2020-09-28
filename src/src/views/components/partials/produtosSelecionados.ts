@@ -197,19 +197,34 @@ export class ProdutosSelecionados{
                                 isFound= false;
                             }
                         } 
-                            
+                        
                         if(isFound){
 
-                                if( (this.filter != null && this.filter != '')){ 
-                                    if( x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
-                                        isFound = true;
-                                    }
-                                    else {
-                                        isFound= false;
-                                    }
+                            if( (<any> this.selectedCategory) == '-1'){
+                                isFound = true;
+                            } 
+                            else if( (this.selectedCategory != null && this.selectedCategory.id != null)){ 
+                                    
+                                if(x.product.base.category.id == this.selectedCategory.id){
+                                    isFound = true;
                                 }
-                            }
+                                else {
+                                    isFound= false;
+                                }
+                            } 
+                                
+                            if(isFound){
 
+                                    if( (this.filter != null && this.filter != '')){ 
+                                        if( x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
+                                            isFound = true;
+                                        }
+                                        else {
+                                            isFound= false;
+                                        }
+                                    }
+                            }
+                        }
                             if(isFound){
                                 return x;
                             } 

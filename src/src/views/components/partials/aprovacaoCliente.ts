@@ -55,7 +55,10 @@ export class AprovacaoCliente{
 
     save(){
         if(this.selectedPriceList != null && ( <any> this.selectedPriceList) != ''){
-            this.controller.ok(this.selectedPriceList);
+            this.controller.ok({ 
+                priceList : this.selectedPriceList,
+                paymentTerm : this.fsSupplier.paymentTerm
+            });
         }
     }
 

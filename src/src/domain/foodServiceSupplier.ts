@@ -12,6 +12,7 @@ export class FoodServiceSupplier{
     priceList           : PriceList;
     priceListId         : string;
     status              : number;
+    paymentTerm         : number;
     reasonToReject      : ReasonToRejectFoodService;
     reasonToRejectId    : string;
 }

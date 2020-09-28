@@ -1,40 +1,46 @@
 <template> 
     <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
     <require from="../attributes/moneyMask"></require>
+    <require from="../attributes/numberMask"></require>
     <require from="../attributes/datepicker"></require>
     <require from="../valueConverters/dateFormatValueConverter"></require>
+    <require from="../valueConverters/numberValueConverter"></require>
 
     <div class="row mb-5">
-            <div class="col-md-12">
-               <div class="card">
+        <div class="col-md-12">
+            <div class="card">
                   <div class="card-header">
-                     Tabela de Preços
+                    Aprovaçao de Clientes
                   </div>
-                  <div class="card-body">                     
-                      <div class="row"> 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label">Seleciona uma tabela de preço para o cliente <b>${fsSupplier.foodService.name}</b>?</label>
-                            </div>        
+                  <div class="card-body">                
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label active">Informe o prazo para pagamento</label>                             
+                                    <input type="text" class="form-control col-md-4" autocomplete="off" value.bind="fsSupplier.paymentTerm | number" number >
+                                </div>   
+                            </div> 
+                        </div>   
+                        <div class="row mt-3"> 
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Selecione uma tabela de preço</label>                                
+                                    <select class="form-control text-center"    value.bind="selectedPriceList">
+                                        <option  repeat.for="p of priceLists" model.bind="p">${p.name}</option>
+                                    </select>
+                                </div>
+                            </div>  
                         </div> 
-                    </div>  
-                    <div class="col-lg-8">
-                        <div class="form-group">
-                            <select class="form-control text-center"    value.bind="selectedPriceList">
-                                <option  repeat.for="p of priceLists" model.bind="p">${p.name}</option>
-                            </select>
-                        </div>
-                    </div>               
-                  </div> 
-                 <div class="row mb-5">
-                    <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5"  click.trigger="cancel()" if.bind="! processing" >
-                        <i class="fa fa-undo mr-2"></i>Cancelar
-                    </button>
-                    <button type="button" class="btn  btn-success waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="save()"  if.bind="! processing" >
-                        <i class="fa fa-check mr-2"></i>Confirmar
-                    </button>                
-                 </div>      
-               </div>
+                        <div class="row mb-5 mt-5">
+                            <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5"  click.trigger="cancel()" if.bind="! processing" >
+                                <i class="fa fa-undo mr-2"></i>Cancelar
+                            </button>
+                            <button type="button" class="btn  btn-success waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="save()"  if.bind="! processing" >
+                                <i class="fa fa-check mr-2"></i>Confirmar
+                            </button>                
+                        </div>     
+                </div>     
             </div>
-         </div>    
+        </div>
+    </div>    
 </template>

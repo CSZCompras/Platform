@@ -1,13 +1,15 @@
 <template> 
     <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
     <require from="../attributes/moneyMask"></require>
+    <require from="../attributes/numberMask"></require>
     <require from="../attributes/datepicker"></require>
     <require from="../attributes/timeMask"></require>
     <require from="../valueConverters/dateFormatValueConverter"></require>
+    <require from="../valueConverters/numberValueConverter"></require>
     <require from="../valueConverters/timeValueConverter"></require>
 
     <div class="row mb-5">
-            <div class="col-md-12">
+            <div class="col-md-9">
                <div class="card">
                   <div class="card-header">
                      Aceite de Pedido
@@ -28,7 +30,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label active">Data de entrega<span class="text-danger  ml-1 bold">*</span></label>                             
-                                <input type="text" class="form-control  ${ order.deliveryDate == null ? '' : 'disabled' }"  disabled.bind="order.deliveryDate != null"  autocomplete="off" placeholder="00/00/0000" value.bind="order.deliveryDate | dateFormat  & validate" datepicker >
+                                <input type="text" class="form-control text-right ${ order.deliveryDate == null ? '' : 'disabled' }"  disabled.bind="order.deliveryDate != null"  autocomplete="off" placeholder="00/00/0000" value.bind="order.deliveryDate | dateFormat  & validate" datepicker >
                             </div>   
                         </div> 
                     </div>    
@@ -58,20 +60,29 @@
                               </div>        
                           </div> 
                     </div>                   
-                    <div class="row pb-5"> 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label active">Informe a data de pagamento do boleto<span class="text-danger  ml-1 bold">*</span></label>                             
-                                    <input type="text" class="form-control" autocomplete="off" placeholder="00/00/0000" value.bind="order.paymentDate | dateFormat & validate" datepicker >
+                    <div class="row mt-2"> 
+                        <div class="col-md-6 mt-3">
+                            <div class="form-inline">
+                                <label class="control-label active">Data de pagamento do boleto<span class="text-danger  ml-1 bold">*</span></label>                             
+                                <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="order.paymentDate | dateFormat & validate" datepicker change.trigger="updatePaymentDate()">
+                            </div>   
+                        </div> 
+                            <div class="col-md-6 mt-3">
+                                <label class="control-label active">Prazo para pagamento</label>
+                                <div class="form-inline">
+                                    <input type="text" class="form-control  text-right ml-2 col-md-4" autocomplete="off" change.trigger="setPaymentDate()" value.bind="connection.paymentTerm | number" number >
+                                    <span class="ml-1">dia(s)</span>
+                                    <button type="button" class="btn btn-sm btn-primary ml-4"  click.trigger="savePaymentTerm()" if.bind="connection.paymentTerm" >
+                                        Salvar
+                                    </button>
                                 </div>   
                             </div> 
-                    </div>                         
-                  </div> 
-                 <div class="row">
-                    <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="cancel()" if.bind="! processing" >
+                    </div>   
+                 <div class="row mt-3 form-group mx-auto text-center">
+                    <button type="button" class="btn btn-secondary waves-effect waves-light mr-5"  click.trigger="cancel()" if.bind="! processing" >
                         <i class="fa fa-undo mr-2"></i>Cancelar
                     </button>
-                    <button type="button" class="btn  btn-success   waves-effect waves-light mx-auto ml-5"  click.trigger="acceptOrder()"  if.bind="! processing" >
+                    <button type="button" class="btn  btn-success waves-effect waves-light ml-5"  click.trigger="acceptOrder()"  if.bind="! processing" >
                         <i class="fa fa-check mr-2"></i>Aceitar
                     </button>
                     <div class="fa-2x text-center  mx-auto  " if.bind="processing" >

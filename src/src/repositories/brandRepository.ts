@@ -44,4 +44,19 @@ export class BrandRepository{
                     })); 
                 });
     } 
+
+    getAllActiveBrands() : Promise<Brand[]> {
+
+        return this.api
+                .find('brand?onlyActives=true')
+                .then( (result : Promise<ProductClass[]>) => {                 
+                    return result;
+                })
+                .catch( (e) => {
+                    console.log(e);
+                    return Promise.resolve(e.json().then( error => { 
+                        throw error;
+                    })); 
+                });
+    } 
 }

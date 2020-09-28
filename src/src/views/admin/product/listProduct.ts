@@ -107,7 +107,7 @@ export class ListProduct{
 
 
             this.brandRepository
-               .getAllBrands()
+               .getAllActiveBrands()
                .then( (data : Brand[]) =>  this.brands = data)
                .catch( e => this.nService.presentError(e));               
 

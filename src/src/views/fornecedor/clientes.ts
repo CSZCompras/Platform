@@ -23,8 +23,7 @@ export class Clientes{
         showDetails             : boolean;
         processing              : boolean;                       
 
-        constructor(
-                private router                  : Router,  	 
+        constructor(  
                 private dialogService           : DialogService,
                 private repository              : FoodServiceConnectionRepository, 
                 private nService                : NotificationService, 
@@ -94,7 +93,7 @@ export class Clientes{
                                 });
         } 
 
-        alterTable(x : FoodServiceConnectionViewModel){ 
+        alterConfig(x : FoodServiceConnectionViewModel){ 
                 
 
                 var params = { FoodServiceSupplier : x };
@@ -103,20 +102,23 @@ export class Clientes{
                         .open({ viewModel: AprovacaoCliente, model: params, lock: false })
                         .whenClosed(response => {
 
-                                if (response.wasCancelled || response.output.id == x.priceListId) {
+                                if (response.wasCancelled) {
                                         return;
                                 }  
                                 ( <any> x).isLoading = true;
 
                                 var viewModel = new FoodServiceConnectionViewModel();
-                                viewModel.priceListId = response.output.id;
+                                viewModel.priceListId = response.output.priceList.id;
+                                viewModel.paymentTerm = response.output.paymentTerm;
                                 viewModel.foodService = x.foodService; 
 
                                 this.repository
-                                        .alterPriceList(viewModel)
-                                        .then( (data : any) =>{                                
-                                                x.priceListId =  response.output.id;
-                                                x.priceListName = response.output.name;
+                                        .alterConnection(viewModel)
+                                        .then( () =>{
+
+                                                x.priceListId =  response.output.priceList.id;
+                                                x.priceListName = response.output.priceList.name;
+                                                x.paymentTerm = response.output.paymentTerm;
                                                 this.nService.presentSuccess('Alteraçao feita com sucesso!');
                                                 ( <any> x).isLoading = false;
                                         })
@@ -141,7 +143,8 @@ export class Clientes{
                                 ( <any> x).isLoading = true;
 
                                 var viewModel = new FoodServiceConnectionViewModel();
-                                viewModel.priceListId = response.output.id;
+                                viewModel.priceListId = response.output.priceList.id;
+                                viewModel.paymentTerm = response.output.paymentTerm;
                                 viewModel.foodService = x.foodService;                
                                 viewModel.status = 2;
 

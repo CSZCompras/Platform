@@ -7,6 +7,10 @@ import { OrderRepository } from '../../../repositories/orderRepository';
 import { FormValidationRenderer } from '../../formValidationRenderer';
 import { Order } from '../../../domain/order';
 import { OrderStatus } from '../../../domain/orderStatus';
+import { FoodServiceConnectionRepository } from '../../../repositories/foodServiceConnectionRepository';
+import { FoodServiceSupplier } from '../../../domain/foodServiceSupplier';
+import { FoodServiceConnectionViewModel } from '../../../domain/foodServiceViewModel';
+import { FoodService } from '../../../domain/foodService';
 
 @autoinject
 export class AceitePedido{
@@ -15,12 +19,14 @@ export class AceitePedido{
     controller                              : DialogController;  
     validationController                    : ValidationController;
     processing                              : boolean;
+    connection                              : FoodServiceSupplier;
 
     constructor(
         pController                         : DialogController, 
         private validationControllerFactory : ValidationControllerFactory,
         private ea                          : EventAggregator,
         private notification                : NotificationService,
+        private connectionRepository        : FoodServiceConnectionRepository,
         private orderRepo                   : OrderRepository){ 
  
         this.controller = pController;   
@@ -47,6 +53,64 @@ export class AceitePedido{
             .ensure((order: Order) => order.paymentDate).displayName('Data de pagamento').required() 
             .on(this.order);
        
+    }
+
+    attached(){
+        this.loadData();
+    }
+
+    loadData(){
+        
+        this.connectionRepository
+            .getSupplierConnection(this.order.foodService.id)
+            .then( (x  : FoodServiceSupplier) => {
+                this.connection = x;
+
+                if(this.connection != null && this.connection.paymentTerm != null && this.connection.paymentTerm > 0){
+                    this.setPaymentDate();
+                }
+            })
+            .catch( e => {
+                this.notification.presentError(e); 
+                this.processing = false;
+            });
+    }
+
+    setPaymentDate(){
+        var someDate = new Date();
+        var numberOfDaysToAdd = Number.parseInt(this.connection.paymentTerm.toString());
+        someDate.setDate(someDate.getDate() + numberOfDaysToAdd);        
+        this.order.paymentDate = new Date(someDate.getFullYear(), someDate.getMonth(), someDate.getDate()); 
+    }
+
+    updatePaymentDate(){
+
+        if(this.order.paymentDate != null && <any> this.order.paymentDate != ''){
+            const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+            let today = new Date();
+            let paymentDate = new Date(this.order.paymentDate);
+
+            const diffDays = Math.round(Math.abs(( (<any> today - <any> paymentDate) / oneDay))) +1;
+
+            this.connection.paymentTerm = diffDays;
+        }
+    }
+
+    savePaymentTerm(){
+        var vm = new FoodServiceConnectionViewModel();
+        vm.foodService = new FoodService();
+        vm.foodService.id = this.connection.foodServiceId;
+        vm.paymentTerm = this.connection.paymentTerm;
+        vm.priceListId = this.connection.priceListId;
+        vm.status = this.connection.status;
+
+        this.connectionRepository
+            .updateConnection(vm)
+            .then( _ => this.notification.success('Prazo alterado com sucesso!'))
+            .catch( e => {
+                this.notification.presentError(e); 
+                this.processing = false;
+            });
     }
 
     acceptOrder(){
