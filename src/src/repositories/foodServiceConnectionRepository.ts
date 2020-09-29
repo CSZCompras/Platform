@@ -76,20 +76,5 @@ export class FoodServiceConnectionRepository {
                             throw error;
                         }));
                     });
-    }
-    
-    alterConnection(connection : FoodServiceConnectionViewModel) : Promise<any>  {
-
-        return this.api
-                    .post('alterPriceList', connection)
-                    .then( (result : Promise<any>) => {                 
-                        return result;
-                    })
-                    .catch( (e) => {
-                        console.log(e);
-                        return Promise.resolve(e.json().then( error => {
-                            throw error;
-                        }));
-                    });
-    }
+    } 
 }

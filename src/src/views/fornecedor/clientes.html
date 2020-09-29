@@ -36,6 +36,7 @@
                              <th>Nome do cliente</th>
                              <th>Situação Cadastral</th>
                              <th class="w-25">Tabela de Preço</th>
+                             <th class="w-25">Prazo aprovado</th>
                              <th class="w-25">Telefone</th> 
                              <th>Contato</th>
                              <th>E-mail</th>
@@ -54,6 +55,11 @@
                                 <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
                              </td>
                              <td>${x.priceListName}</td>
+                             <td>
+                                <span if.bind="x.paymentTerm">
+                                    ${x.paymentTerm} dia(s)
+                                 </span>
+                              </td>
                              <td phone-with-ddd>${x.foodService.contact.phone}</td> 
                              <td>${x.foodService.contact.name}</td>
                              <td>${x.foodService.contact.email}</td>

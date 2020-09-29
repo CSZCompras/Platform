@@ -77,22 +77,28 @@ export class AceitePedido{
     }
 
     setPaymentDate(){
-        var someDate = new Date();
+        let deliveryDate = new Date(this.order.deliveryDate);
         var numberOfDaysToAdd = Number.parseInt(this.connection.paymentTerm.toString());
-        someDate.setDate(someDate.getDate() + numberOfDaysToAdd);        
-        this.order.paymentDate = new Date(someDate.getFullYear(), someDate.getMonth(), someDate.getDate()); 
+        deliveryDate.setDate(deliveryDate.getDate() + numberOfDaysToAdd);        
+        this.order.paymentDate = new Date(deliveryDate.getFullYear(), deliveryDate.getMonth(), deliveryDate.getDate()); 
     }
 
     updatePaymentDate(){
 
         if(this.order.paymentDate != null && <any> this.order.paymentDate != ''){
-            const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-            let today = new Date();
-            let paymentDate = new Date(this.order.paymentDate);
 
-            const diffDays = Math.round(Math.abs(( (<any> today - <any> paymentDate) / oneDay))) +1;
-
-            this.connection.paymentTerm = diffDays;
+            if(this.order.paymentDate < this.order.deliveryDate){
+                this.setPaymentDate();
+                this.notification.error('A data de pagamento deve ser posterior a data de entrega');
+            }
+            else{                
+            
+                const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+                let deliveryDate = new Date(this.order.deliveryDate);
+                let paymentDate = new Date(this.order.paymentDate);
+                const diffDays = Math.round(Math.abs(( (<any> deliveryDate - <any> paymentDate) / oneDay)));
+                this.connection.paymentTerm = diffDays;
+            }
         }
     }
 

@@ -138,19 +138,19 @@ export class Fornecedores{
 
                 if(type == 1){
                         this.title = 'Fornecedores Sugeridos';
-                        return this.loadSuggestedSuppliers();
+                        return this.loadSuggestedSuppliers().then(_ => this.search());
                 }
                 else if(type == 2){
                         this.title = 'Meus fornecedores';
-                        return this.loadMySuppliers();
+                        return this.loadMySuppliers().then(_ => this.search());
                 }                
                 else if(type == 3){
                         this.title = 'Todos fornecedores';
-                        return this.loadAllSuppliers();
+                        return this.loadAllSuppliers().then(_ => this.search());
                 }                
                 else if(type == 4){
                         this.title = 'Todos fornecedores';
-                        return this.loadBlockedSuppliers();
+                        return this.loadBlockedSuppliers().then(_ => this.search());
                 }
         }
 

@@ -16,15 +16,15 @@
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label active">Informe o prazo para pagamento</label>                             
-                                    <input type="text" class="form-control col-md-4" autocomplete="off" value.bind="fsSupplier.paymentTerm | number" number >
+                                    <label class="control-label active">Informe o prazo para pagamento<span class="text-danger  ml-1 bold">*</span></label>                             
+                                    <input type="text" class="form-control col-md-4" autocomplete="off" value.bind="fsSupplier.paymentTerm | number & validate" number >
                                 </div>   
                             </div> 
                         </div>   
                         <div class="row mt-3"> 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label">Selecione uma tabela de preço</label>                                
+                                    <label class="control-label">Selecione uma tabela de preço<span class="text-danger  ml-1 bold">*</span></label>                                
                                     <select class="form-control text-center"    value.bind="selectedPriceList">
                                         <option  repeat.for="p of priceLists" model.bind="p">${p.name}</option>
                                     </select>

@@ -111,9 +111,11 @@ export class Clientes{
                                 viewModel.priceListId = response.output.priceList.id;
                                 viewModel.paymentTerm = response.output.paymentTerm;
                                 viewModel.foodService = x.foodService; 
+                                viewModel.status = x.status;
+                        
 
                                 this.repository
-                                        .alterConnection(viewModel)
+                                        .updateConnection(viewModel)
                                         .then( () =>{
 
                                                 x.priceListId =  response.output.priceList.id;
@@ -147,6 +149,7 @@ export class Clientes{
                                 viewModel.paymentTerm = response.output.paymentTerm;
                                 viewModel.foodService = x.foodService;                
                                 viewModel.status = 2;
+                                viewModel.isApproving = true;
 
                                 this.repository
                                         .updateConnection(viewModel)
@@ -209,7 +212,8 @@ export class Clientes{
                         viewModel.foodService = x.foodService;                
                         viewModel.reasonToRejectId = response.output.reason.id;
                         viewModel.status = 3;
-        
+                        viewModel.isRejecting = true;
+                        
                         this.repository
                                 .updateConnection(viewModel)
                                 .then( (data : any) =>{

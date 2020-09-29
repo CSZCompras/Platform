@@ -39,6 +39,7 @@
                            <tr>
                               <th>Nome</th>
                               <th>Situação Cadastral</th>
+                              <th>Prazo aprovado</th>
                               <th>Contato</th>
                               <th>E-mail</th>
                               <th>Telefone</th>
@@ -59,6 +60,11 @@
                                  <span class="badge badge-warning" if.bind="x.status == 5">Aguardando aprovação</span>
                                  <span class="badge badge-danger" if.bind="x.status == 6">Bloqueado</span>
                               </td>
+                              <td>
+                                 <span if.bind="x.paymentTerm">
+                                     ${x.paymentTerm} dia(s)
+                                  </span>
+                               </td>
                               <td>${x.supplier.contact.name}</td>
                               <td>${x.supplier.contact.email}</td>
                               <td phone-with-ddd>${x.supplier.contact.phone}</td>
