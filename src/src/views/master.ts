@@ -36,7 +36,7 @@ export class Master {
 	rejectedOrdersCount		: number;
     novoFoodServices		: FoodServiceConnectionViewModel[];
 	waitingFoodServices		: FoodServiceConnectionViewModel[];
-
+ 
     constructor(
         private service                 : IdentityService, 
         private nService 				: NotificationService,

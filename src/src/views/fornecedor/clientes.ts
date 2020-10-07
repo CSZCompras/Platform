@@ -8,6 +8,8 @@ import { DialogService } from 'aurelia-dialog';
 import { AprovacaoCliente } from '../components/partials/aprovacaoCliente';
 import { RejeicaoCadastroFoodService } from '../components/partials/rejeicaoCadastroFoodService'; 
 import { ConnectionStatus } from '../../domain/connectionStatus';
+import { Config } from 'aurelia-api';
+import { IdentityService } from '../../services/identityService';
 
 
 @autoinject
@@ -26,6 +28,8 @@ export class Clientes{
         constructor(  
                 private dialogService           : DialogService,
                 private repository              : FoodServiceConnectionRepository, 
+                private identityService         : IdentityService,
+                private config                  : Config,
                 private nService                : NotificationService, 
                 private ea                      : EventAggregator) {   
                  
@@ -308,6 +312,15 @@ export class Clientes{
                 this.showDetails = true; 
                 let loadConnectionDetails = x.status == ConnectionStatus.Rejected ? true : false;
                 this.ea.publish('showFoodServiceDetails', { foodId : x.foodService.id, edit : false ,loadConnection : loadConnectionDetails } );
+        }
+
+        
+
+        exportFoodServices(){ 
+                
+                var user = this.identityService.getIdentity();
+                var api = this.config.getEndpoint('apiAddress');
+                window.open(api.client.baseUrl + 'downloadFoodServiceConnection?supplierId=' + user.companyId +'&queryType='+ this.tipoFiltro, '_parent');
         }
 
 }

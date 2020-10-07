@@ -24,6 +24,12 @@
                               <label class="active">Nome do cliente</label>
                               <input type="text" class="form-control"  placeholder="nome..."  change.trigger="search()"   value.bind="filter"  />
                            </div>
+                           <div class="col-lg-3 ml-3" if.bind="tipoFiltro == '1' && filteredFoodServices.length > 0">
+                              <button type="button" class="btn btn-success mt-4 waves-effect waves-light" click.trigger="exportFoodServices()">
+                                 <i class="fa fa-file-excel-o  mr-2"></i> 
+                                 Exportar
+                              </button>
+                           </div>
                           <div class="col-lg-3 ml-4 mt-3 fa-2x text-center" if.bind="processing" >
                               <i class="fa fa-refresh fa-spin"></i>
                           </div>  
