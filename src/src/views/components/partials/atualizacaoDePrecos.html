@@ -79,13 +79,13 @@
                            <td>${item.supplierProduct.product.description}</td>  
                            <td>
                               ${item.supplierProduct.product.unit.name}
-                              <span if.bind="item.supplierProduct.product.unitInternal != null"> com ${item.supplierProduct.product.multiplier} ${item.supplierProduct.unitInternal.name}(s)</span>
+                              <span if.bind="item.supplierProduct.product.unitInternal != null"> com ${item.supplierProduct.product.multiplier} ${item.supplierProduct.product.unitInternal.name}(s)</span>
                            </td>
                            <td>
                               <input type="text" class="money text-right form-control float-left ${item.isEditing ? '' : 'disabled' } " disabled.bind="! item.isEditing" autocomplete="off" value.bind="item.price | money" money placeholder="000,00" />
                            </td>
                            <td>
-                              <span class="badge badge-warning float-left ml-2 mt-4" if.bind="item.supplierProduct.product.unitInternal != null"> / ${item.supplierProduct.product.unitInternal.name}</span>
+                              <span class="badge badge-warning float-left ml-2 mt-4" if.bind="! item.supplierProduct.product.priceIsByUnitPrincipal && item.supplierProduct.product.unitInternal != null"> / ${item.supplierProduct.product.unitInternal.name}</span>
                            </td>
                            <th>
                               <span class="badge badge-success mt-3" if.bind="item.supplierProduct.status == 0 && ! item.isEditing">Ativo</span>

@@ -60,7 +60,7 @@
                                  <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
                                  <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">
                                     ${product.unit.name}
-                                    <span if.bind="product.unitInternal != null"> com ${product.multiplier} ${product.unitInternal.name}(s)</span>
+                                    <span if.bind="product.unitInternal != null && product.multiplier > 0 && ! product.priceIsByUnitPrincipal"> com ${product.multiplier} ${product.unitInternal.name}(s)</span>
                                  </td> 
                                  <td class="align-middle  ${ $index > 0 ? 'border-0' : ''}"><div class="fa-2x text-center mx-auto" if.bind="product.isLoading" >
                                           <i class="fa fa-refresh fa-spin"></i>

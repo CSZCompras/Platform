@@ -221,6 +221,7 @@ export class ListProduct{
         if(p.unit == null || (<any> p.unit)  == '' || p.unit.id  == null || p.unit.id  == '' || ! p.unit.mustInformQuantity){
             p.unitInternal = null;
             p.multiplier = null;
+            p.priceIsByUnitPrincipal = false;
         }
     }
 
@@ -228,6 +229,13 @@ export class ListProduct{
         
         if(p.unitInternal == null || (<any> p.unitInternal)  == '' || p.unitInternal.id  == null || p.unitInternal.id  == ''){
             p.multiplier = null;
+            p.priceIsByUnitPrincipal = false;
+        }
+    }
+
+    updateMultiplier(p : Product){
+        if(p.multiplier == null || p.multiplier <= 0){
+            p.priceIsByUnitPrincipal = false;
         }
     }
 

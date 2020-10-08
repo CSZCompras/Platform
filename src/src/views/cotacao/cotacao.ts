@@ -231,8 +231,11 @@ export class Cotacao{
 
 		let summary = result.summaryItems.filter(r => r.supplier.id == item.supplier.id);
 		if(summary != null && summary.length > 0){
-			summary[0].total += item.price;
-			summary[0].products;
+			summary[0].total += item.price; 
+
+			let summaryItem = summary[0].items.filter(s => s.product.id == item.product.id);
+			summaryItem[0].quantity++;
+			summaryItem[0].total += item.price;
 		}
 	}
 	
