@@ -3,8 +3,9 @@ import { PriceListItem } from "./priceListItem";
 
 export class PriceList{
 
-    id          : string;
-    date        : Date;
-    items       : PriceListItem[];
-    supplier    : Supplier;
+    id                  : string;
+    date                : Date;
+    items               : PriceListItem[];
+    isDefaultPriceList  : boolean;
+    supplier            : Supplier;
 }

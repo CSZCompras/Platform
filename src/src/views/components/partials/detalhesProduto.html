@@ -38,6 +38,7 @@
                                         <th>Marca</th> 
                                         <th>Unidade de medida</th>
                                         <th>Descricao</th>
+                                        <th>UM</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -59,7 +60,12 @@
                                         <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }" class="text-center">
                                             ${product.unit.name}
                                         </td>
-                                        <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }">${product.description}</td>
+                                        <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }">
+                                            ${product.description}
+                                        </td>
+                                        <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }">
+                                            ${product.umDetailed}
+                                        </td>
                                         <th> 
                                             <button type="button" if.bind="! product.wasRemoved && product.hasSuppliers" class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
                                                 <i class="fa fa-times mr-2"></i>Remover

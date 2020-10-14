@@ -64,8 +64,10 @@ export class AtualizacaoDePrecos{
                                         if(priceLists.length > 0){
 
                                             this.priceLists = priceLists;
-                                            if(this.selectedPriceList == null){
-                                                this.selectedPriceList = priceLists[0];
+                                            let defaultList = this.priceLists.filter(p => p.isDefaultPriceList);
+
+                                            if(this.selectedPriceList == null && defaultList != null && defaultList.length > 0){
+                                                this.selectedPriceList = defaultList[0];
                                             } 
                                         }
                                     });

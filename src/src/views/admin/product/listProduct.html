@@ -145,16 +145,16 @@
                                     <option  value=""></option>
                                     <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
                                 </select>
-                            </div>  
+                            </div> 
                             <div class="col-md-3 ${p.unit.mustInformQuantity ? '' : 'invisible' }">
                               <div class="form-group">
-                                    <label class="control-label" if.bind="p.unit.name == 'CX'">O preço da caixa é por</label>    
-                                    <label class="control-label" if.bind="p.unit.name == 'PCT'">O preço do pacote é por</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'UN'">O preço da unidade é por</label>
-                                    <label class="control-label" if.bind="p.unit.name == 'BLD'">O preço do balde é por</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'SC'">O preço do saco é por</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'BJ'">O preço da bandeja é por</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">O preço é por</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'CX'">A UM interna da caixa é</label>    
+                                    <label class="control-label" if.bind="p.unit.name == 'PCT'">A UM interna do pacote é</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'UN'">A UM interna da unidade é</label>
+                                    <label class="control-label" if.bind="p.unit.name == 'BLD'">A UM interna do balde é</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'SC'">A UM interna do saco é</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'BJ'">A UM interna da bandeja é</label>  
+                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">A UM interna da peça é </label>  
                                     <select class="form-control "    value.bind="p.unitInternal" change.trigger="updateUnitInternal(p)">
                                         <option  value=""></option>
                                         <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
@@ -173,15 +173,15 @@
                                     <input type="text" class="form-control money"   value.bind="p.multiplier | money" money placeholder="00" change.trigger="updateMultiplier(p)" />
                                  </div> 
                             </div> 
-                           <div class="col-md-2 ${p.unit.mustInformQuantity && p.unitInternal.id && p.multiplier > 0 ? '' : 'invisible' }">
-                                <div class="form-group mt-5">
-                                    <label class="custom-control custom-checkbox">
-                                        <span class="ml-2 mt-1">Preço é informado por ${p.unit.name}?</span>
-                                        <input type="checkbox" class="custom-control-input" checked.bind="p.priceIsByUnitPrincipal">
-                                        <span class="custom-control-indicator"></span> 
-                                    </label>
-                                </div>     
-                           </div>    
+                            <div class="col-md-2 ${p.unit.mustInformQuantity && p.unitInternal.id && p.multiplier > 0 ? '' : 'invisible' }">
+                                 <div class="form-group mt-5">
+                                     <label class="custom-control custom-checkbox">
+                                         <span class="ml-2 mt-1">Preço é informado por ${p.unit.name}?</span>
+                                         <input type="checkbox" class="custom-control-input" checked.bind="p.priceIsByUnitPrincipal">
+                                         <span class="custom-control-indicator"></span> 
+                                     </label>
+                                 </div>     
+                            </div>    
                         </div>
                         <div class="row">
                             <hr>
