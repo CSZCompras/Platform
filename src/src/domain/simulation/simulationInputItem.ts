@@ -5,6 +5,8 @@ import { BrandViewModel } from "../brandViewModel";
 export class SimulationInputItem{
 
     constructor() { 
+        this.suppliers = [];
+        this.suppliersBlackList = [];
     }
     
     
@@ -12,8 +14,11 @@ export class SimulationInputItem{
     productId               : string;
     description             : string;
     umDetailed              : string;
+    suppliers               : SupplierViewModel[]; 
+    suppliersBlackList      : SupplierViewModel[]; 
     unit                    : UnitViewModel;
     unitInternal            : UnitViewModel;
     brand                   : BrandViewModel;
     hasSuppliers            : boolean;
+    noSuppliers             : boolean;
 }

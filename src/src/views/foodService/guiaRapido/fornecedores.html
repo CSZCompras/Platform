@@ -1,0 +1,56 @@
+<template> 
+    <div class="row mb-5 task-manager au-animate">
+       <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+                Fornecedores
+            </div>
+            <div class="card-body">  
+                <p>O vídeo abaixo explica sobre o menu Fornecedores</p>
+                <video class="mt-5" src="assets/videos/guiaRapido/foodService/fornecedores.mp4" controls style="width:980px;height:450px">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="mt-5">Esse menu permite ao usuário gerenciar seus fornecedores que irão participar de suas cotações.</p>
+                <p>Através das segregações abaixo a plataforma facilita a gestão dos fornecedores</p>
+                <ul>
+                    <li>Todos</li>
+                    <li>Meus Fornecedores</li>
+                    <li>Bloqueados</li>
+                </ul>
+                <h3 class="mt-5">Todos</h3>
+                <p>Essa funcionalidade busca todos os fornecedores cadastrados na plataforma da Econocompras.</p>
+                <img src="assets/img/guiaRapido/foodService/fornecedoresTodos.png" class="mt-3">
+
+                <p class="mt-5">Na ilustração acima, indica fornecedores que já estão conectados e outros não. Essa indicação é vista através do campo “Situação Cadastral”.</p>
+                <p>O Botão “Detalhes”, mostra dados do fornecedor como, Razão Social, CNPJ, Inscrição Estadual, Endereço e informações de contato caso precise falar com o fornecedor.</p>
+                <p>Ao clicar no botão “Conectar” o campo “Situação Cadastral” altera para “Cadastro Enviado” e fica aguardando o fornecedor confirmar o recebimento do cadastro. As informações enviadas serão as informadas do menu Cadastro.</p>
+                <img src="assets/img/guiaRapido/foodService/fornecedoresCadastroEnviado.png" class="mt-3">
+
+                <p class="mt-5">Após o fornecedor confirmar o recebimento da solicitação de cadastro, o status é alterado para “Aguardando Aprovação”, conforme ilustrado na figura abaixo.</p> 
+                <p>Nesse momento o fornecedor está fazendo analises interna para verificar se consegue atender esse cliente.</p>
+                <img src="assets/img/guiaRapido/foodService/fornecedoresAguardandoAprovacao.png" class="mt-3">
+                
+                <p class="mt-5">Caso o fornecedor não consiga realizar o atendendo a esse cliente, ele irá recusar o cadastro que será indicado pelo campo “Situação Cadastral” com o status “Cadastro Rejeitado”.</p>
+                <img src="assets/img/guiaRapido/foodService/fornecedoresCadastroRejeitado.png" class="mt-3">
+                
+                <p class="mt-5">Com a confirmação do cadastro pelo fornecedor o campo “Situação Cadastral” indicara “Disponível”, e esse fornecedor irá para o filtro “Meus Fornecedores”. </p>
+
+                
+                <h3 class="mt-5">Meus fornecedores</h3>
+                <p>Todos os fornecedores cadastrados serão listados nesse filtro. Os produtos disponibilizados para comprar, são dos fornecedores aqui relacionados.</p>
+                <p>Caso não queira que um fornecedor cadastrado participe mais das cotações, basta clicar no botão “Bloquear” que esse fornecedor sairá do filtro “Meus Fornecedores e irá para o Filtro “Bloqueados”.</p>
+                <img src="assets/img/guiaRapido/foodService/meusFornecedores.png" class="mt-3">
+
+                <h3 class="mt-5">Bloqueados</h3>
+                <p>Esse filtro lista os fornecedores que foram bloqueados pelo usuário. Com esse bloqueio, os produtos desses fornecedores não estarão mais disponíveis para compra.</p>
+                <p>Caso o usuário deseje voltar a comprar de um fornecedor bloqueado, basta clicar no botão “Desbloquear”, que o fornecedor retornará para o filtro “Meus Fornecedores” (item b).</p>
+                <img src="assets/img/guiaRapido/foodService/fornecedoresCadastroBloquado.png" class="mt-3">                
+            </div>
+            <div class="row mt-5 mb-5 mx-auto">  
+               <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light" click.trigger="back()">
+                  <i class="fa fa-undo mr-2"></i>Voltar
+               </button>   
+           </div>
+       </div>
+    </div> 
+ </template>

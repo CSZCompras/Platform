@@ -328,33 +328,41 @@ export class Cotacao{
 
 	verifyAvailableProducts(market : SimulationMarketInputViewModel){
 
-		market.items.forEach( (item : SimulationInputBaseItem) => {
-			var countInvalidSuppliers = 0;
-			var suppliersProduct = item.suppliers;
-			
-			suppliersProduct.forEach( supplierProduct =>{
+		market
+			.items
+			.forEach( (item : SimulationInputBaseItem) => {
 
-				var supplierBlackList = market.supplierBlackList.filter(x => x.id == supplierProduct.id);
-				if(supplierBlackList != null && supplierBlackList.length > 0){
-					countInvalidSuppliers++;
-				}
-			});
+				var countInvalidSuppliers = 0;
+				var suppliersProduct = item.suppliers;
+				item.suppliersBlackList = [];
 
-			if(countInvalidSuppliers == suppliersProduct.length){
-				item.noSuppliers = true;
-				if(item.quantity > 0){
-					( <any> item).oldQuantity = item.quantity;
-					item.quantity = 0;
-				}
-			}
-			else{
-				if(item.noSuppliers && ( <any> item).oldQuantity != null){
+				suppliersProduct
+					.forEach( supplierProduct => {
 
-					item.quantity = ( <any> item).oldQuantity;
-					( <any> item).oldQuantity = null;
+						var supplierBlackList = market.supplierBlackList.filter(x => x.id == supplierProduct.id);
+
+						if(supplierBlackList != null && supplierBlackList.length > 0){
+							item.suppliersBlackList.push(supplierBlackList[0]);
+							countInvalidSuppliers++;
+						}
+					});
+
+				if(countInvalidSuppliers == suppliersProduct.length){
+
+					item.noSuppliers = true;
+					if(item.quantity > 0){
+						( <any> item).oldQuantity = item.quantity;
+						item.quantity = 0;
+					}
 				}
-				item.noSuppliers = false;
-			}
+				else{
+					if(item.noSuppliers && ( <any> item).oldQuantity != null){
+
+						item.quantity = ( <any> item).oldQuantity;
+						( <any> item).oldQuantity = null;
+					}
+					item.noSuppliers = false;
+				}
 		});
 	}
 

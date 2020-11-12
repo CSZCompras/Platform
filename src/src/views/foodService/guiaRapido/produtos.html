@@ -1,0 +1,45 @@
+<template> 
+    <div class="row mb-5 task-manager au-animate">
+       <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+                Produtos
+            </div>
+            <div class="card-body">  
+                <p>O vídeo abaixo explica sobre o menu Produtos</p>
+                <video class="mt-5" src="assets/videos/guiaRapido/foodService/produtos.mp4" controls style="width:980px;height:450px">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="mt-5">Após o cadastro dos fornecedores (menu Fornecedores), essa funcionalidade permite que o foodservice selecione os produtos que irá comprar.</p>
+                <p>Para facilitar a usabilidade, foi criado duas abas:</p>
+                <ul>
+                    <li>Seleção de Produtos</li>
+                    <li>Meus Produtos</li>
+                </ul>
+
+                <h3 class="mt-5">Seleção de Produtos</h3>
+                <p>Essa aba lista todos os produtos disponibilizados pelos fornecedores cadastrados, onde o foodservice pode buscar seus produtos utilizando os filtros “Categoria”, que filtra por tipo de produto, e ainda o campo “Filtro” que busca pelo nome ou descrição do produto.</p>
+                <img src="assets/img/guiaRapido/foodService/produtosSelecaoDeProdutos.png" class="mt-3">
+                <p class="mt-2">Os produtos são compostos por; Nome, Descrição, Categoria e UM (Unidade de Medida).</p>
+                <p>Após localizar o produto, para incluir em sua base de produtos para compra, basta clicar no botão “Incluir”, que o produto sairá dessa lista e estará disponível na aba “Meus Produtos” (ver item abaixo).</p>
+                
+
+                <h3 class="mt-5">Meus Produtos</h3>
+                <p>Os produtos selecionados na aba “Seleção de Produtos” serão listados nessa aba. A plataforma permite buscar os produtos utilizando os campos “Categoria” e “Filtro”.</p>
+                <p>Caso algum produto não faça mais parte de suas cotações, basta remover através do botão “Remover”.</p>
+                <img src="assets/img/guiaRapido/foodService/produtosRemocaoDeProdutos.png" class="mt-3">
+
+                <p class="mt-5">Para realizar cotações, os produtos devem pertencer a uma lista de compras. Todos os produtos selecionados na aba “Seleção de produtos” estarão disponíveis automaticamente a lista de compras “Meus Produtos”.</p>
+                <img src="assets/img/guiaRapido/foodService/produtosListaDeCompras.png" class="mt-3">
+                
+                <p class="mt-5">Pode-se também criar listas de compras personalizáveis. Através do botão “Criar Lista” o sistema permite dar um nome de sua preferencia a lista e salvar para finalizar.</p>
+                <img src="assets/img/guiaRapido/foodService/produtosCriarLista.png" class="mt-3">                
+            </div>
+            <div class="row mt-5 mb-5 mx-auto">  
+               <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light" click.trigger="back()">
+                  <i class="fa fa-undo mr-2"></i>Voltar
+               </button>   
+           </div>
+       </div>
+    </div> 
+ </template>

@@ -22,6 +22,7 @@ export class DetalhesProduto{
 
         if(params.SimulationInputBaseItem != null){ 
             this.simulationInput = params.SimulationInputBaseItem; 
+
             if(this.simulationInput.items.length > 0){
                 if(this.simulationInput.items[0].unitInternal == null){
                     this.unitName = this.simulationInput.items[0].unit.name;
@@ -30,8 +31,39 @@ export class DetalhesProduto{
                     this.unitName = this.simulationInput.items[0].unitInternal.name;
                 }
             }
+            this.verifyAvailableSuppliers();
         }
     }
+
+    
+	verifyAvailableSuppliers(){
+
+        this.simulationInput
+            .items
+            .forEach( (item : SimulationInputItem) => {
+
+                var countInvalidSuppliers = 0; 
+                item.suppliersBlackList = [];
+                
+                item.suppliers.forEach( supplier =>{
+
+                    var supplierBlackList = this.simulationInput
+                                                .suppliersBlackList
+                                                .filter(x => x.id == supplier.id);
+                    
+                    if(supplierBlackList != null && supplierBlackList.length > 0){
+                        countInvalidSuppliers++;
+                    }
+                });
+
+                if(countInvalidSuppliers == item.suppliers.length){
+                    item.noSuppliers = true;
+                }
+                else{
+                    item.noSuppliers = false;
+                }
+		});
+	}
 
     addRemoveBrand(brand : BrandViewModel, checkProducts : boolean){
 

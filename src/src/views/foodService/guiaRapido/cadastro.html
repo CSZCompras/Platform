@@ -1,0 +1,47 @@
+<template> 
+    <div class="row mb-5 task-manager au-animate">
+       <div class="col-lg-12">
+          <div class="card">
+             <div class="card-header">
+                Cadastro
+             </div>
+             <div class="card-body">  
+                <p>O vídeo abaixo explica sobre o menu Cadastro</p>
+                <video class="mt-5" src="assets/videos/guiaRapido/foodService/cadastro.mp4" controls style="width:980px;height:450px">
+                    Your browser does not support the video tag.
+                  </video>
+               <p class="display-6 mt-5">Contém as informações cadastrais do cliente. É segregada em três etapas:<p> 
+               <ul>
+                  <li>Dados Básicos</li>
+                  <li>Endereço</li>
+                  <li>Contato</li>
+               </ul>
+                
+                <h3 class="mt-5">Dados Básicos</h3>
+                <p>Contém informações básicas que não podem ser alteradas pelo usuário, como: Razão Social, Nome Fantasia, CNPJ e Inscrição Estadual.</p> 
+                <p>Caso haja necessidade de alterar algum desses dados, deve-se entrar em contato com o Econocompras.</p>
+                <img src="assets/img/guiaRapido/foodService/cadastroDadosBasicos.png" style="width: 980px;height: 260px;">
+                
+                <h3 class="mt-5">Endereço</h3>
+                <p>Para acessar essa tela, deve-se clicar no botão “Avançar” do item 1. Dados Básicos.</p>
+                <p>As informações de endereço cadastradas nessa tela, serão as que os fornecedores visualizarão. </p>
+                <p>O sistema permite o usuário fazer a alteração em tela. Para salvar as alterações, deve-se clicar no botão “Avançar” e ir para a próxima aba (3. Contatos).</p>
+                <p>O sistema permite retornar a aba Dados Básicos, através do botão “Voltar”.</p>
+                <img src="assets/img/guiaRapido/foodService/cadastroEndereco.png" style="width: 980px;height: 350px;">
+
+                <h3 class="mt-5">Contatos</h3>
+                <p>Para acessar essa tela, deve-se clicar no botão “Avançar” do item 2. Endereço </p>
+                <p>As informações de contato que os fornecedores visualizarão, serão as cadastradas nessa tela. O sistema permite o usuário fazer a alteração em tela.</p>
+                <p>Para salvar as alterações, deve-se clicar no botão “Salvar”. O sistema irá salvar todas as alterações realizadas nas abas Endereço e Contato.</p>
+                <p>A plataforma permite retornar a aba Endereço, através do botão “Voltar”.</p>
+                <img src="assets/img/guiaRapido/foodService/cadastroContatos.png" style="width: 980px;height: 350px;">
+             </div>
+             <div class="row mt-5 mb-5 mx-auto">  
+                <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light" click.trigger="back()">
+                   <i class="fa fa-undo mr-2"></i>Voltar
+                </button>   
+            </div>
+          </div>
+       </div>
+    </div> 
+ </template>

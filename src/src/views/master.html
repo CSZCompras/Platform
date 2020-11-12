@@ -1,14 +1,13 @@
 <template>
         <div>
-                <div class="row">
+               <div class="row">
                     <nav id="sidebar" class="px-0 bg-dark bg-gradient sidebar">
                         <!-- FORNECEDOR TABS -->
                         <ul class="nav nav-pills flex-column" if.bind="identity.type == 0">
                             <li class="logo-nav-item">
                                 <a class="navbar-brand" >
                                     <img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro" class="mCS_img_loaded" style="width: 150px;height: 85px; margin-left: 5px;">
-                                </a>
-        
+                                </a> 
                             </li>
                             <li class="mt-3">
                                 <h6 class="nav-header"></h6>
@@ -25,7 +24,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/regrasDeMercado">
-                                    <i class="batch-icon batch-icon-star"></i> Regras de Mercado
+                                    <i class="batch-icon batch-icon-grid"></i> Regras de Mercado
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -70,6 +69,11 @@
                                 <h6 class="nav-header"></h6>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="${prefix}/#/econocompras/guiaRapidoFoodService">
+                                    <i class="batch-icon batch-icon-browser-alt"></i> Guia rápido <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" if.bind="identity.registerStatus == 0"  href="${prefix}/#/econocompras/dashboardFoodService">
                                     <i class="batch-icon batch-icon-browser-alt"></i> Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -81,7 +85,7 @@
                             </li> 
                             <li class="nav-item">
                                 <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/regraDeEntrega">
-                                    <i class="batch-icon batch-icon-star "></i> Regras de entrega
+                                    <i class="batch-icon batch-icon-grid"></i> Regras de entrega
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -121,8 +125,7 @@
                             <li class="logo-nav-item">
                                 <a class="navbar-brand" >
                                     <img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro" class="mCS_img_loaded" style="width: 150px;height: 85px; margin-left: 5px;">
-                                </a>
-        
+                                </a> 
                             </li>
                             <li>
                                 <h6 class="nav-header"></h6>

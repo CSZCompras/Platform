@@ -1,0 +1,61 @@
+<template> 
+    <div class="row mb-5 task-manager au-animate">
+       <div class="col-lg-12">
+          <div class="card">
+             <div class="card-header">
+                Cotação
+             </div>
+             <div class="card-body">  
+                <p>O vídeo abaixo explica sobre o menu Cotação</p>
+                <video class="mt-5" src="assets/videos/guiaRapido/foodService/cotacao.mp4" controls style="width:980px;height:450px">
+                    Your browser does not support the video tag.
+                </video>
+
+                <p class="display-6 mt-5">Esse menu permite o foodservice fazer cotações e pedidos para os fornecedores cadastrados através de três etapas:<p> 
+                <ul>
+                    <li>Lista de compras</li>
+                    <li>Cotações</li>
+                    <li>Pedido</li>
+                </ul> 
+                <h3 class="mt-5">Lista de compras</h3>
+                <p>O campo “Selecione a lista de compras” mostra as listas criadas no menu “Produtos >> Meus Produtos”, ao selecionar a lista os produtos são listados em tela, assim como quais fornecedores estão disponíveis para participarem da cotação.</p>
+                <img src="assets/img/guiaRapido/foodService/cotacao.png">
+
+                <p class="mt-5">Logo abaixo do campo “Selecione a lista de compras” a plataforma mostra os mercados pertencentes a lista de compras selecionada, a data e horário de entrega e quais os fornecedores que participarão da cotação.</p>
+                <p class="bold">
+                   <b>Importante: A data e horário de entrega são preenchidos automaticamente conforme o menu “Regras de Entrega”. Caso não tenha configurado as Regras de Entrega, pode-se definir a data e horário manualmente, e somente após esse preenchimento a plataforma libera dos fornecedores.</b>
+               </p>
+                <p>Ao clicar em algum fornecedor é possível retirar / incluir um ou mais fornecedores para a cotação, conforme figura abaixo.</p>
+                <img src="assets/img/guiaRapido/foodService/cotacaoRemoverFornecedor.png">
+                
+                <p class="mt-5">O Campo Filtro permite buscar produtos dentro dos produtos listados para cotação, buscando pelo nome do produto, marca ou descrição.</p>
+                <p>O Botão “Detalhes” presente em alguns produtos, indica que o mesmo tem outras marcas ou Unidades de Medidas disponíveis para cotação, possibilitando ao foodservice cotar todas as marcas disponíveis ou selecionar uma marca específica.</p>
+                <p>No exemplo abaixo, não desejamos cotar Açúcar Mascavo da marca “Mais Vita”. Portando retiramos a marca no detalhe do produto.</p>                
+                <img src="assets/img/guiaRapido/foodService/cotacaoMarca.png">
+
+                <p class="mt-5">Após essas configurações, basta preencher as quantidades para cada produto e clicar no botão “avançar” para a próxima etapa.  Importante: Observar sempre a Unidade de Medida de compra para cada produto. Ex: Produtos que estão com a unidade de medida “KG”. A compra será por KG.</p>
+                <p>Caso deseje voltar a etapa anterior, basta clicar no botão “Voltar” no final da tela.</p>
+
+                <h3 class="mt-5">Cotações</h3>
+                <p>Ao avançar da etapa 2. Lista de compras, o sistema irá realizar cotações conforme as configurações realizadas.</p>
+                <p>A plataforma da Econocompras, mostrará quais fornecedores participarão do possível pedido e a abaixo a alocação dos fornecedores por produto.</p>
+                <img src="assets/img/guiaRapido/foodService/cotacoes.png" >
+                <p>Clique no botão “Avançar” passando para a última etapa, o pedido. Caso queria realizar ajustes na cotação, o botão “Voltar” retornará a tela anterior 1. Lista de Compras podendo editar as quantidades de cada produto.</p>
+
+                
+                <h3 class="mt-5">Pedido</h3>
+                <p>Nessa etapa a plataforma segrega os produtos, gerando uma visão por fornecedor. Assim o foodservice pode controlar quais produtos e os valores das notas dos pedidos para cada fornecedor, facilitando na conferência no momento da entrega.</p>
+                <p>Estando tudo certo, o botão “Gerar Pedido” enviará os pedidos para cada fornecedores respectivamente.</p>
+                <p>Através de campo “Observação”, é possível o foodservice enviar alguma informação sobre o seu pedido ao fornecedor.</p>
+                <p>Caso deseje voltar a etapa anterior, basta clicar no botão “Voltar” no final da tela.</p>
+                <img src="assets/img/guiaRapido/foodService/cotacaoPedido.png" >
+             </div>
+             <div class="row mt-5 mb-5 mx-auto">  
+                <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light" click.trigger="back()">
+                   <i class="fa fa-undo mr-2"></i>Voltar
+                </button>   
+            </div>
+          </div>
+       </div>
+    </div> 
+ </template>

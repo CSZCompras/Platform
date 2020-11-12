@@ -47,7 +47,7 @@ export class Master {
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator) {
 
-	//	this.prefix = '/cszhomologacao';
+	// 	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
         this.ea.subscribe('loadingData', () => this.isLoading = true);
@@ -327,7 +327,17 @@ export class Master {
 			{ route: 'avaliacoes', name: 'avaliacoes', moduleId: PLATFORM.moduleName('./admin/supplier/evaluations') },
 			{ route: 'avaliacoesFornecedor', name: 'avaliacoesFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/evaluations') },
 			{ route: 'avaliacoesFoodService', name: 'avaliacoesFoodService', moduleId: PLATFORM.moduleName('./foodService/evaluations') },
-			{ route: 'financeiro', name: 'financeiro', moduleId: PLATFORM.moduleName('./admin/finance/listInvoice') }
+			{ route: 'financeiro', name: 'financeiro', moduleId: PLATFORM.moduleName('./admin/finance/listInvoice') },
+			
+			{ route: 'guiaRapidoFoodService', name: 'guiaRapido', moduleId: PLATFORM.moduleName('./foodService/guiaRapido') }, 			
+			{ route: 'guiaRapidoFoodServiceCadastro', name: 'guiaRapidoFoodServiceCadastro', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/cadastro') },
+			{ route: 'guiaRapidoFoodServiceRegrasDeEntrega', name: 'guiaRapidoFoodServiceRegrasDeEntrega', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/regrasDeEntrega') }, 
+			{ route: 'guiaRapidoFoodServiceFornecedores', name: 'guiaRapidoFoodServiceFornecedores', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/fornecedores') },
+			{ route: 'guiaRapidoFoodServiceProdutos', name: 'guiaRapidoFoodServiceProdutos', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/produtos') }, 
+			{ route: 'guiaRapidoFoodServiceCotacao', name: 'guiaRapidoFoodServiceCotacao', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/cotacao') },   
+			{ route: 'guiaRapidoFoodServicePedidos', name: 'guiaRapidoFoodServicePedidos', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/pedidos') },  
+			{ route: 'guiaRapidoFoodServiceAvaliacoes', name: 'guiaRapidoFoodServiceAvaliacoes', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/avaliacoes') }
+			
 		]);
 
         config.mapUnknownRoutes({ route: null, redirect: '/' });

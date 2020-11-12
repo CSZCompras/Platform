@@ -1,0 +1,60 @@
+<template> 
+    <div class="row mb-5 task-manager au-animate">
+       <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+                Pedidos
+            </div>
+            <div class="card-body">  
+                <p>O vídeo abaixo explica sobre o menu Pedidos</p>
+                <video class="mt-5" src="assets/videos/guiaRapido/foodService/pedidos.mp4" controls style="width:980px;height:450px">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="mt-5">Esse menu permite ao foodservice fazer o controle de seus pedidos realizados pela plataforma da Econocompras. São disponibilizados quarto status de pedido para auxiliar na gestão.</p>
+                <ul>
+                    <li>Novo pedido</li>
+                    <li>Aceito</li>
+                    <li>Entregue</li>
+                    <li>Rejeitado</li>
+                </ul>
+                <h3 class="mt-5">Todos</h3>
+                <p>Essa funcionalidade busca todos os fornecedores cadastrados na plataforma da Econocompras.</p>
+                <img src="assets/img/guiaRapido/foodService/fornecedoresTodos.png" class="mt-3">
+
+                
+                <h3 class="mt-5">Novo pedido</h3>
+                <p>Todo novo pedido, a plataforma sempre irá alertar de duas formas: Alerta superior Direito, Alerta ao lado do Menu “Pedidos”, conforme ilustração abaixo.</p>
+                <img src="assets/img/guiaRapido/foodService/novoPedido.png" class="mt-3">
+                <p class="mt-5">Ao enviar um pedido novo, o botão “Ver Detalhes” traz informações completas do pedido, como: informações do fornecedor, o pedido detalhado e o status do pedido.</p>
+                <img src="assets/img/guiaRapido/foodService/detalhesPedido.png" class="mt-3">
+
+
+                <h3 class="mt-5">Aceito</h3>
+                <p>No momento em que o fornecedor aceita o pedido, automaticamente o sistema altera o status do pedido alertando que o mesmo foi aceito. O pedido pode ser localizado no campo “Status” na opção “Aceito”. </p>
+                <img src="assets/img/guiaRapido/foodService/pedidoAceito.png" class="mt-3">
+                <p class="mt-5">
+                    <b>Importante: Ao receber o pedido deve-se finalizar o pedido através do botão “Efetuar baixa”, realizando uma breve avaliação dessa compra.</b>
+                </p>
+                <img src="assets/img/guiaRapido/foodService/efetuarBaixa.png" class="mt-3">
+                
+                <h3 class="mt-5">Rejeitado</h3>
+                <p>Caso o fornecedor não consiga atender algum produto devido a quantidade solicitada, o mesmo irá rejeitar o pedido.</p>
+                <p>Ao rejeitar um pedido, a plataforma permite que o fornecedor informe ao foodservice o motivo da rejeição.</p>
+                <p>Basta clicar em “Ver Detalhes” no pedido rejeitado localizado no campo “Status” opção “Rejeitado”.</p>
+                <img src="assets/img/guiaRapido/foodService/pedidoRejeitado.png" class="mt-3">
+                <p class="mt-5">
+                    <b>Importante:</b>
+                    Através do botão “Cotar novamente”, o sistema levará os produtos rejeitados para a tela de cotação, permitindo o ajuste e envio de novo pedido.
+                </p>
+                <h3 class="mt-5">Entregues</h3>
+                <p>Essa opção lista todos os pedidos realizados e finalizados pela plataforma da Econocompras. Assim pode-se manter um histórico de compras.</p>
+                <img src="assets/img/guiaRapido/foodService/pedidosEntregue.png" class="mt-3">
+            </div>
+            <div class="row mt-5 mb-5 mx-auto">  
+               <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light" click.trigger="back()">
+                  <i class="fa fa-undo mr-2"></i>Voltar
+               </button>   
+           </div>
+       </div>
+    </div> 
+ </template>

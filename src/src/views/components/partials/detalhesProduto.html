@@ -45,15 +45,15 @@
                                 <tbody>
                                     <tr repeat.for="product of simulationInput.items">
                                         <td style="${product.wasRemoved ? 'text-decoration : line-through' : '' }">
-                                            <span if.bind="product.hasSuppliers">
+                                            <span if.bind="product.hasSuppliers && ! product.noSuppliers">
                                                 ${product.brand.name} 
                                             </span>
-                                            <span class="badge badge-warning" if.bind="! product.hasSuppliers">
+                                            <span class="badge badge-warning" if.bind="! product.hasSuppliers || product.noSuppliers">
                                                 <i class="fa fa-warning"></i> 
                                                 ${product.brand.name}
                                             </span>
                                             <br />
-                                            <span class="badge badge-warning" if.bind="! product.hasSuppliers">
+                                            <span class="badge badge-warning" if.bind="! product.hasSuppliers || product.noSuppliers">
                                                 Não há fornecedores que disponibilizam esse produto
                                             </span>
                                         </td>
@@ -67,10 +67,10 @@
                                             ${product.umDetailed}
                                         </td>
                                         <th> 
-                                            <button type="button" if.bind="! product.wasRemoved && product.hasSuppliers" class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
+                                            <button type="button" if.bind="! product.wasRemoved && (product.hasSuppliers && ! product.noSuppliers) " class="btn btn-danger btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
                                                 <i class="fa fa-times mr-2"></i>Remover
                                             </button>
-                                            <button type="button"  if.bind="product.wasRemoved && product.hasSuppliers" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
+                                            <button type="button"  if.bind="product.wasRemoved && (product.hasSuppliers && ! product.noSuppliers)" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="removeProduct(product)">
                                                 <i class="fa fa-plus mr-2"></i>Adicionar
                                             </button>
                                         </th>
