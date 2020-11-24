@@ -43,7 +43,7 @@
                            </li>
                         </ul>
                         <div class="tab-content clearfix">
-                           <div class="tab-pane" id="tab1" if.bind="currentStep == 1">
+                           <div class="tab-pane" id="tab1" if.bind="currentStep <= 1">
                               <div class="card-body">
                                  <div class="fa-2x text-center" if.bind="isLoadingQuotes" >
                                     <i class="fa fa-refresh fa-spin"></i>
@@ -280,7 +280,7 @@
                                           <div class="mt-4" if.bind="! isProcessing && (simulation.bestResult == null || simulation.bestResult.total  == 0)">
                                              <p class="mt-3">
                                                 <span class="badge badge-danger">
-                                                <i class="fa fa-tag mr-2"></i> Nenhum resultado foi retornado
+                                                <i class="fa fa-tag mr-2"></i> Mínimo de compra não atingido para nenhum fornecedor
                                                 </span>
                                              </p>
                                           </div>
