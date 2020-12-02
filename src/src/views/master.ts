@@ -36,6 +36,7 @@ export class Master {
 	rejectedOrdersCount		: number;
     novoFoodServices		: FoodServiceConnectionViewModel[];
 	waitingFoodServices		: FoodServiceConnectionViewModel[];
+	message					: string;
  
     constructor(
         private service                 : IdentityService, 
@@ -50,8 +51,20 @@ export class Master {
 	// 	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
-        this.ea.subscribe('loadingData', () => this.isLoading = true);
-        this.ea.subscribe('dataLoaded', () => window.setTimeout(() => this.isLoading = false, 500));
+        this.ea.subscribe('loadingData', (param) => {
+			this.isLoading = true;
+			if(param && param.message){
+				this.message = param.message;
+			}
+		});
+        this.ea.subscribe('dataLoaded', () => {
+			
+			
+			window.setTimeout(() => {
+				this.isLoading = false;
+				this.message = null;
+			}, 500);
+		});
 	}
 	
     attached() { 

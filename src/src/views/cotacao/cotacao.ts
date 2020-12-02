@@ -187,7 +187,8 @@ export class Cotacao{
 
     simulate(){
 
-		this.ea.publish('loadingData');  
+		this.ea.publish('loadingData', 
+			{ message : 'Estamos calculando a melhor cotação para você!'});  
 		this.isProcessing = true;  
 
 		this.simulations 	= [];

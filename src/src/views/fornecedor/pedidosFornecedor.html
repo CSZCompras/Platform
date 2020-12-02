@@ -159,7 +159,7 @@
                                                  <td>${item.product.description}</td> 
                                                  <td>
                                                     ${item.product.unit.name}
-                                                   <span if.bind="item.product.unitInternal != null"> com ${item.multiplier.multiplier} ${item.product.unitInternal.name}(s)</span>
+                                                   <span if.bind="item.product.unitInternal != null"> com ${item.multiplier} ${item.product.unitInternal.name}(s)</span>
                                                 </td>
                                                  <td class="text-center">${item.quantity | money}</td>
                                                  <td class="text-center">

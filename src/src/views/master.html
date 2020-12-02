@@ -252,6 +252,9 @@
                         <div class="fa-5x ${  isLoading  ? '' : 'invisible'}" style="position: fixed;top: 40%;left: 50%;" >
                             <i class="fa fa-refresh fa-spin"></i>
                         </div>
+                        <div class="row" if.bind="message" style="position: fixed;top: 60%;left: 35%;">
+                            <h4>${message}</h4>
+                        </div>
                     </div>
                 </div>    
             </div>  
