@@ -55,7 +55,8 @@
                            </td>
                            <td>       
                               <span class="badge badge-success" if.bind="row.status == 0">Sucesso</span>
-                              <span class="badge badge-danger" if.bind="row.status == 1">Erro</span>                        
+                              <span class="badge badge-danger" if.bind="row.status == 1">Erro</span> 
+                              <span class="badge badge-warning" if.bind="row.status == 1">${row.message}</span>
                            </td>
                         </tr>
                      </tbody>

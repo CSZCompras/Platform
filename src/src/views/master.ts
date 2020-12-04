@@ -48,7 +48,7 @@ export class Master {
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator) {
 
-	// 	this.prefix = '/cszhomologacao';
+	 //	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
         this.ea.subscribe('loadingData', (param) => {

@@ -391,7 +391,8 @@ export class Cotacao{
 			this.repository
 				.getBuyListsParaCotacao()
 				.then(x =>  {
-					this.quotes = x;
+					this.quotes = x; 
+
 					this.ea.publish('dataLoaded');
 					this.isLoadingQuotes = false;
 				}) 
