@@ -21,7 +21,7 @@ export class Supplier {
     status                  : SupplierStatus;
     registerStatus          : RegisterStatus;
     fee                     : Number;
-    isTrainingAccount       : boolean;
+    isTrainingAccount       : boolean; 
 
     constructor() {
          

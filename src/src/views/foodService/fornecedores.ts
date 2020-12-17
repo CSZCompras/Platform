@@ -9,7 +9,6 @@ import { FoodServiceSupplier } from '../../domain/foodServiceSupplier';
 import { SupplierViewModel } from '../../domain/supplierViewModel';
 import { BlockSupplierConnectionViewModel } from '../../domain/blockSupplierConnectionViewModel';
 import { ProductClass } from '../../domain/productClass';
-import { FoodService } from '../../domain/foodService';
 import { ConnectionStatus } from '../../domain/connectionStatus';
 
 @autoinject
