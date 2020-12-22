@@ -4,15 +4,31 @@ import { Contact } from '../domain/contact';
 
 export class MarketRuleValidator {
 
-    errorMessages : Array<string>;
-    isMinimumOrderValueInvalid : boolean;
-    isnumberOfDaysToAcceptInvalid : boolean;
-    isPeriodToAcceptOrder1Invalid : boolean;
-    isPeriodToAcceptOrder2Invalid : boolean;
-    isDeliverySchedule1Invalid : boolean;
-    isDeliverySchedule2Invalid : boolean;
-    isReceiverNewClientInvalid : boolean;
-    isReceiverNewOrderInvalid : boolean;
+    errorMessages                       : Array<string>;
+    isMinimumOrderValueInvalid          : boolean;
+    isnumberOfDaysToAcceptInvalid       : boolean;
+    isPeriodToAcceptOrder1Invalid       : boolean;
+    isPeriodToAcceptOrder2Invalid       : boolean;
+    isReceiverNewClientInvalid          : boolean;
+    isReceiverNewOrderInvalid           : boolean;
+    
+    isDeliveryOnMondayStartInvalid      : boolean;
+    isDeliveryOnMondayEndInvalid        : boolean;
+    isDeliveryOnTuesdayStartInvalid     : boolean;
+    isDeliveryOnTuesdayEndInvalid       : boolean;
+    isDeliveryOnWednesdayStartInvalid   : boolean;
+    isDeliveryOnWednesdayEndInvalid     : boolean;    
+    isDeliveryOnThursdayStartInvalid    : boolean;
+    isDeliveryOnThursdayEndInvalid      : boolean;
+    isDeliveryOnFridayStartInvalid      : boolean;
+    isDeliveryOnFridayEndInvalid        : boolean;
+    isDeliveryOnSaturdayStartInvalid    : boolean;
+    isDeliveryOnSaturdayEndInvalid      : boolean;
+    isDeliveryOnSundayStartInvalid      : boolean;
+    isDeliveryOnSundayEndInvalid        : boolean; 
+    
+    isDeliverySchedule1Invalid  : boolean;
+    isDeliverySchedule2Invalid  : boolean;    
     
     constructor(private rule : MarketRule) {   
 

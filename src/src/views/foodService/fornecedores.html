@@ -42,11 +42,11 @@
                               <th>Nome</th>
                               <th>Situação Cadastral</th>
                               <th>Prazo aprovado</th>
+                              <th>Mínimo de compra</th>
                               <th>Contato</th>
                               <th>E-mail</th>
                               <th>Telefone</th>
                               <th>Mercados</th>
-                              <th>Mínimo de compra</th>
                               <th></th>
                               <th></th>
                            </tr>
@@ -67,7 +67,8 @@
                                  <span if.bind="x.paymentTerm">
                                      ${x.paymentTerm} dia(s)
                                   </span>
-                               </td>
+                              </td>
+                              <td class="text-center">${x.supplier.marketRule.minimumOrderValue | money}</td>
                               <td>${x.supplier.contact.name}</td>
                               <td>${x.supplier.contact.email}</td>
                               <td phone-with-ddd>${x.supplier.contact.phone}</td>
@@ -76,7 +77,6 @@
                                        ${m}
                                     </span>
                               </td>
-                              <td class="text-center">${x.supplier.marketRule.minimumOrderValue | money}</td>
                               <td>
                                  <button  type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="x.status == 0 && ! x.isLoading" click.trigger="connect(x)">Conectar</button>
                                  <button  type="button" class="btn btn-danger btn-sm waves-effect waves-light"  if.bind="x.status == 2 && ! x.isLoading" click.trigger="block(x)">Bloquear</button>

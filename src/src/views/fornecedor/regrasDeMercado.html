@@ -67,82 +67,152 @@
                         <i class="fa fa-truck" aria-hidden="true"></i>
                         Entrega
                      </h2>
-                     <div class="row mt-5">
-                        <div class="col-md-3">
-                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Dias de entrega</label>
-                        </div>
-                        <div class="form-check form-check-inline"> 
-                           <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.deliveryOnMonday">
-                           <span class="ml-1 mt-1">Segunda-feira</span>
-                           <span class="custom-control-indicator"></span> 
-                           </label> 
-                           <br />
-                           <br />
-                           <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" value="1" checked.bind="rule.deliveryOnTuesday">
-                           <span class="ml-1 mt-1">Terça-feira</span>
-                           <span class="custom-control-indicator"></span> 
-                           </label>
-                           <br />
-                           <br />
-                           <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" value="2" checked.bind="rule.deliveryOnWednesday">
-                           <span class="ml-1 mt-1">Quarta-feira</span>
-                           <span class="custom-control-indicator"></span> 
-                           </label> 
-                           <br />
-                           <br />
-                           <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" value="3" checked.bind="rule.deliveryOnThursday">
-                           <span class="ml-1 mt-1">Quinta-feira</span>
-                           <span class="custom-control-indicator"></span> 
-                           </label>  
-                           <br />
-                           <br />
-                           <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" value="4" checked.bind="rule.deliveryOnFriday">
-                           <span class="ml-1 mt-1">Sexta-feira</span>
-                           <span class="custom-control-indicator"></span> 
-                           </label>  
-                           <br />
-                           <br />
-                           <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" value="5" checked.bind="rule.deliveryOnSaturday">
-                           <span class="ml-1 mt-1">Sábado</span>
-                           <span class="custom-control-indicator"></span> 
-                           </label>  
-                           <br />
-                           <br />
-                           <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.deliveryOnSunday">
-                           <span class="ml-1 mt-1">Domingo</span>
-                           <span class="custom-control-indicator"></span> 
-                           </label>  
-                           <br />
-                           <br />
-                        </div>
-                     </div>
-                     <br />
-                     <br />
-                     <div class="form-inline">
-                        <div class="col-md-3">
-                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Período de Entrega</label>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="input-group">
-                              <span class="input-group-addon input-group-icon">
-                              <i class="batch-icon batch-icon-clock"></i>
-                              </span>
-                              <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
-                              <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                              <span class="input-group-addon input-group-icon">
-                              <i class="batch-icon batch-icon-clock"></i>
-                              </span>
-                              <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                     <div class="row mt-5"> 
+                        <div class="form-check form-check-inline ml-5 col-md-8"> 
+                           <div class="input-group"> 
+                              <label class="custom-control custom-checkbox col-md-3">
+                                 <input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.deliveryOnMonday">
+                                 <span class="ml-1 mt-1">Segunda-feira</span>
+                                 <span class="custom-control-indicator"></span> 
+                              </label>
+                              <div class="input-group">
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
+                                 <label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                              </div>
                            </div>
+                           <br />
+                           <br />
+                           <div class="input-group"> 
+                              <label class="custom-control custom-checkbox col-md-3">
+                                 <input type="checkbox" class="custom-control-input" value="1" checked.bind="rule.deliveryOnTuesday">
+                                 <span class="ml-1 mt-1">Terça-feira</span>
+                                 <span class="custom-control-indicator"></span> 
+                              </label>
+                              <div class="input-group">
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
+                                 <label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                              </div>      
+                           </div>
+                           <br />
+                           <br />
+                           <div class="input-group"> 
+                                 <label class="custom-control custom-checkbox col-md-3">
+                                    <input type="checkbox" class="custom-control-input" value="2" checked.bind="rule.deliveryOnWednesday">
+                                    <span class="ml-1 mt-1">Quarta-feira</span>
+                                    <span class="custom-control-indicator"></span> 
+                                 </label>  
+                                 <div class="input-group">
+                                    <span class="input-group-addon input-group-icon">
+                                       <i class="batch-icon batch-icon-clock"></i>
+                                    </span>
+                                    <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
+                                    <label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+                                    <span class="input-group-addon input-group-icon">
+                                       <i class="batch-icon batch-icon-clock"></i>
+                                    </span>
+                                    <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                                 </div>
+                           </div>
+                           <br />
+                           <br />
+                           <div class="input-group"> 
+                              <label class="custom-control custom-checkbox col-md-3">
+                                 <input type="checkbox" class="custom-control-input" value="3" checked.bind="rule.deliveryOnThursday">
+                                 <span class="ml-1 mt-1">Quinta-feira</span>
+                                 <span class="custom-control-indicator"></span>  
+                              </label>   
+                              <div class="input-group">
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
+                                 <label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                              </div>
+                           </div>
+                           <br />
+                           <br />
+                           <div class="input-group"> 
+                              <label class="custom-control custom-checkbox col-md-3">
+                                 <input type="checkbox" class="custom-control-input" value="4" checked.bind="rule.deliveryOnFriday">
+                                 <span class="ml-1 mt-1">Sexta-feira</span>
+                                 <span class="custom-control-indicator"></span>
+                              </label>    
+                              <div class="input-group">
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
+                                 <label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                              </div>
+                           </div>
+                           <br />
+                           <br />
+                           <div class="input-group"> 
+                              <label class="custom-control custom-checkbox col-md-3">
+                                 <input type="checkbox" class="custom-control-input" value="5" checked.bind="rule.deliveryOnSaturday">
+                                 <span class="ml-1 mt-1">Sábado</span>
+                                 <span class="custom-control-indicator"></span> 
+                              </label>  
+                              <div class="input-group">
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
+                                 <label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                              </div>
+                           </div>
+                           <br />
+                           <br />
+                           <div class="input-group"> 
+                              <label class="custom-control custom-checkbox col-md-3">
+                                 <input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.deliveryOnSunday">
+                                 <span class="ml-1 mt-1">Domingo</span>
+                                 <span class="custom-control-indicator"></span>  
+                              </label>  
+                              <div class="input-group">
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule1Invalid  ? 'border-danger' : '' } " autocomplete="off" placeholder="HH:mm" time  value.bind="rule.deliverySchedule1 | time & updateTrigger:'blur' "    change.delegate="validator.validateDeliverySchedule1()" /> 
+                                 <label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+                                 <span class="input-group-addon input-group-icon">
+                                    <i class="batch-icon batch-icon-clock"></i>
+                                 </span>
+                                 <input type="time" class="time form-control ${validator.isDeliverySchedule2Invalid ? 'border-danger' : '' }" autocomplete="off" placeholder="HH:mm"  time value.bind="rule.deliverySchedule2 | time & updateTrigger:'blur' "  change.delegate="validator.validateDeliverySchedule2()"  /> 
+                              </div> 
+                           </div>
+                           <br />
+                           <br />
                         </div>
                      </div>
+                     <br />
+                     <br />
                   </div>
                   <div class="col-md-12 mt-5">
                      <h2>
@@ -197,7 +267,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="mt-5">
+                     <div class="mt-3">
                         <br /> 
                         <div class="form-inline">
                            <div class="col-md-3"></div>
