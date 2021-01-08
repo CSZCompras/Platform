@@ -50,7 +50,6 @@
                           <th class="text-center">Qtde de dias para aceite</th>
                           <th class="text-center">Período de Aceite</th>
                           <th class="text-center">Dias de entrega</th>
-                          <th class="text-center">Período de Entrega</th> 
                           <th class="text-right">Total</th>
                        </tr>
                     </thead>
@@ -84,11 +83,6 @@
                               <br />
                               <span if.bind="item.rule.deliveryOnSaturday"  class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>     
                               <span  if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>                                                                                                                                                                               
-                          </td>
-                          <td class="text-center">
-                              ${item.rule.deliverySchedule1 | time}
-                              <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>                                                                  
-                              ${item.rule.deliverySchedule2 | time}
                           </td> 
                           <td class="text-right">
                              ${item.total  | money}

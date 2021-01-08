@@ -1,5 +1,4 @@
 import { MarketRule } from '../domain/marketRule';
-import { Contact } from '../domain/contact'; 
 
 
 export class MarketRuleValidator {
@@ -33,7 +32,6 @@ export class MarketRuleValidator {
     constructor(private rule : MarketRule) {   
 
         this.errorMessages = new Array<string>();
-        this.validate();
     }
 
 
@@ -43,8 +41,22 @@ export class MarketRuleValidator {
         this.validateNumberOfDaysToAccept();
         this.validatePeriodToAcceptOrder1();
         this.validatePeriodToAcceptOrder2();
-        this.validateDeliverySchedule1();
-        this.validateDeliverySchedule2();
+
+        this.validateDeliveryMondayScheduleStart();
+        this.validateDeliveryMondayScheduleEnd();
+        this.validateDeliveryTuesdayScheduleStart();
+        this.validateDeliveryTuesdayScheduleEnd();        
+        this.validateDeliveryWednesdayScheduleStart();
+        this.validateDeliveryWednesdayScheduleEnd();
+        this.validateDeliveryThursdayScheduleStart();
+        this.validateDeliveryThursdayScheduleEnd();
+        this.validateDeliveryFridayScheduleStart();
+        this.validateDeliveryFridayScheduleEnd();
+        this.validateDeliverySaturdayScheduleStart();
+        this.validateDeliverySaturdayScheduleEnd();
+        this.validateDeliverySundayScheduleStart();
+        this.validateDeliverySundayScheduleEnd();
+
         this.validateReceiverNewClient();
         this.validateReceiverNewOrder();
         return this.errorMessages;
@@ -149,33 +161,213 @@ export class MarketRuleValidator {
         }
     }
 
-    validateDeliverySchedule1(){
+    validateDeliveryMondayScheduleStart(){
 
-        if(this.rule.deliverySchedule1  == null || ( '' + this.rule.deliverySchedule1) == ''){
-            this.errorMessages.push('O horário inicial de entrega é obrigatório');
-            this.isDeliverySchedule1Invalid = true;
-        }
-        else if (  ( <Number> this.rule.deliverySchedule1) > 1800){
-            this.errorMessages.push('O horário inicial de entrega é inválido');
-            this.isDeliverySchedule1Invalid = true;
-        }
-        else{
-            this.isDeliverySchedule1Invalid = false;
+        if(this.rule.deliveryOnMonday){
+            
+            if(this.rule.deliveryOnMondayStart  == null || ( '' + this.rule.deliveryOnMondayStart) == '' || ( <Number> this.rule.deliveryOnMondayStart) > 1800) {
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliveryOnMondayStartInvalid = true;
+            }
+            else{
+                this.isDeliveryOnMondayStartInvalid = false;
+            }
         }
     }
 
-    validateDeliverySchedule2(){ 
+    validateDeliveryMondayScheduleEnd(){
 
-        if(this.rule.deliverySchedule2  == null || ( '' + this.rule.deliverySchedule2) == ''){
-            this.errorMessages.push('O horário final de entrega é obrigatório');
-            this.isDeliverySchedule2Invalid = true;
+        if(this.rule.deliveryOnMonday){
+
+            if(this.rule.deliveryOnMondayEnd  == null || ( '' + this.rule.deliveryOnMondayEnd) == '' ||  ( <Number> this.rule.deliveryOnMondayEnd) > 2400){
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliveryOnMondayEndInvalid = true;
+            } 
+            else{
+                this.isDeliveryOnMondayEndInvalid = false;
+            }
         }
-        else if (  ( <Number> this.rule.deliverySchedule1) > 2400){
-            this.errorMessages.push('O horário final de entrega é inválido');
-            this.isDeliverySchedule2Invalid = true;
+    } 
+
+    validateDeliveryTuesdayScheduleStart(){
+
+        if(this.rule.deliveryOnTuesday){
+
+            if(this.rule.deliveryOnTuesdayStart  == null || ( '' + this.rule.deliveryOnTuesdayStart) == '' || ( <Number> this.rule.deliveryOnTuesdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliveryOnTuesdayStartInvalid = true;
+            } 
+            else{
+                this.isDeliveryOnTuesdayStartInvalid = false;
+            } 
         }
-        else{
-            this.isDeliverySchedule2Invalid = false;
+    }
+
+    validateDeliveryTuesdayScheduleEnd(){
+
+        if(this.rule.deliveryOnTuesday){
+
+            if(this.rule.deliveryOnTuesdayEnd  == null || ( '' + this.rule.deliveryOnTuesdayEnd) == '' || ( <Number> this.rule.deliveryOnTuesdayEnd) > 2400){
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliveryOnTuesdayEndInvalid = true;
+            }
+            else{
+                this.isDeliveryOnTuesdayEndInvalid = false;
+            }
+        }
+    } 
+    
+
+    validateDeliveryWednesdayScheduleStart(){
+
+        if(this.rule.deliveryOnWednesday){
+        
+            if(this.rule.deliveryOnWednesdayStart  == null || ( '' + this.rule.deliveryOnWednesdayStart) == '' || ( <Number> this.rule.deliveryOnWednesdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliveryOnWednesdayStartInvalid = true;
+            } 
+            else{
+                this.isDeliveryOnWednesdayStartInvalid = false;
+            }
+        }
+    }
+
+    validateDeliveryWednesdayScheduleEnd(){
+
+        if(this.rule.deliveryOnWednesday){
+
+            if(this.rule.deliveryOnWednesdayEnd  == null || ( '' + this.rule.deliveryOnWednesdayEnd) == '' || ( <Number> this.rule.deliveryOnWednesdayEnd) > 2400){
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliveryOnWednesdayEndInvalid = true;
+            } 
+            else{
+                this.isDeliveryOnWednesdayEndInvalid = false;
+            }
+        }
+    }
+
+    
+    validateDeliveryThursdayScheduleStart(){
+
+        if(this.rule.deliveryOnThursday){
+
+            if(this.rule.deliveryOnThursdayStart  == null || ( '' + this.rule.deliveryOnThursdayStart) == '' || ( <Number> this.rule.deliveryOnThursdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliveryOnThursdayStartInvalid = true;
+            }
+            else{
+                this.isDeliveryOnThursdayStartInvalid = false;
+            }
+
+        }
+    }
+
+    validateDeliveryThursdayScheduleEnd(){
+
+        if(this.rule.deliveryOnThursday){
+
+            if(this.rule.deliveryOnThursdayEnd  == null || ( '' + this.rule.deliveryOnThursdayEnd) == '' || ( <Number> this.rule.deliveryOnThursdayEnd) > 2400){
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliveryOnThursdayEndInvalid = true;
+            } 
+            else{
+                this.isDeliveryOnThursdayEndInvalid = false;
+            } 
+        }
+    }
+
+    
+    validateDeliveryFridayScheduleStart(){
+
+
+        if(this.rule.deliveryOnFriday){
+
+            if(this.rule.deliveryOnFridayStart  == null || ( '' + this.rule.deliveryOnFridayStart) == '' || ( <Number> this.rule.deliveryOnFridayStart) > 1800){
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliveryOnFridayStartInvalid = true;
+            }
+            else{
+                this.isDeliveryOnFridayStartInvalid = false;
+            }
+        }
+    }
+
+    validateDeliveryFridayScheduleEnd(){
+
+
+        if(this.rule.deliveryOnFriday){
+
+            if(this.rule.deliveryOnFridayEnd  == null || ( '' + this.rule.deliveryOnFridayEnd) == '' || ( <Number> this.rule.deliveryOnFridayEnd) > 2400){
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliveryOnFridayEndInvalid = true;
+            } 
+            else{
+                this.isDeliveryOnFridayEndInvalid = false;
+            }
+        }
+    }
+
+    validateDeliverySaturdayScheduleStart(){
+
+        if(this.rule.deliveryOnSaturday){
+
+            if(this.rule.deliveryOnSaturdayStart  == null || ( '' + this.rule.deliveryOnSaturdayStart) == '' || ( <Number> this.rule.deliveryOnSaturdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliveryOnSaturdayStartInvalid = true;
+            }
+            else{
+                this.isDeliveryOnSaturdayStartInvalid = false;
+            } 
+        }
+    }
+
+    validateDeliverySaturdayScheduleEnd(){
+
+        if(this.rule.deliveryOnSaturday){
+
+            if(this.rule.deliveryOnSaturdayEnd  == null || ( '' + this.rule.deliveryOnSaturdayEnd) == ''){
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliveryOnSaturdayEndInvalid = true;
+            }
+            else if (  ( <Number> this.rule.deliveryOnSaturdayEnd) > 2400){
+                this.errorMessages.push('O horário final de entrega é inválido');
+                this.isDeliveryOnSaturdayEndInvalid = true;
+            }
+            else{
+                this.isDeliveryOnSaturdayEndInvalid = false;
+            }
+        }
+    }
+
+    validateDeliverySundayScheduleStart(){
+
+        if(this.rule.deliveryOnSunday){
+
+            if(this.rule.deliveryOnSundayStart  == null || ( '' + this.rule.deliveryOnSundayStart) == '' || ( <Number> this.rule.deliveryOnSundayStart) > 1800){
+                this.errorMessages.push('O horário inicial de entrega é obrigatório');
+                this.isDeliveryOnSundayStartInvalid = true;
+            } 
+            else{
+                this.isDeliveryOnSundayStartInvalid = false;
+            } 
+        }
+    }
+
+    validateDeliverySundayScheduleEnd(){
+
+        if(this.rule.deliveryOnSunday){
+
+            if(this.rule.deliveryOnSundayEnd  == null || ( '' + this.rule.deliveryOnSundayEnd) == ''){
+                this.errorMessages.push('O horário final de entrega é obrigatório');
+                this.isDeliveryOnSundayEndInvalid = true;
+            }
+            else if (  ( <Number> this.rule.deliveryOnSundayEnd) > 2400){
+                this.errorMessages.push('O horário final de entrega é inválido');
+                this.isDeliveryOnSundayEndInvalid = true;
+            }
+            else{
+                this.isDeliveryOnSundayEndInvalid = false;
+            } 
         }
     }
 }

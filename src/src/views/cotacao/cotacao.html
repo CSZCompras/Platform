@@ -127,7 +127,7 @@
                                                                <div class="form-group">
                                                                   <div class="row mt-3" if.bind="market.suppliersInvalid > 0">                                                                     
                                                                      <div class="col-md-4">
-                                                                        <p>Alertas</p>                                                                     
+                                                                        <h3>Alertas</h3>
                                                                      </div>
                                                                      <div class="col-md-12" if.bind="market.suppliersInvalid < market.suppliers.length">
                                                                         <span class="badge badge-danger">Alguns fornecedores nao entregam nesta data/horário</span>
@@ -149,10 +149,10 @@
                                                                   </p>
                                                                   <div class="row mt-1" if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null" >
                                                                      <span style="padding : 10px; cursor: pointer; width: 200px;" click.trigger="addRemoveSupplier(market, supplier)" repeat.for="supplier of market.suppliers" class="badge ${ supplier.isInvalid ? 'badge-danger' : ! supplier.wasRemoved ?  'badge-success' : 'badge-default' }  ml-3 mt-2">                                                                    
-                                                                     <i class="fa fa-times mr-3" if.bind="supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
-                                                                     <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
-                                                                     <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
-                                                                     ${supplier.name}
+                                                                        <i class="fa fa-times mr-3" if.bind="supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                                        <i class="fa fa-times mr-3" if.bind="! supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="removeSupplier(market, supplier)"></i>
+                                                                        <i class="fa fa-plus mr-3" if.bind="supplier.wasRemoved && ! supplier.isInvalid" aria-hidden="true" style="cursor: pointer;" click.trigger="addSupplier(market, supplier)"></i>
+                                                                        ${supplier.name}
                                                                      </span>
                                                                   </div>
                                                                </div>
@@ -301,8 +301,7 @@
                                                             <th class="text-center">Avaliação</th>
                                                             <th class="text-center">Qtde de dias para aceite</th>
                                                             <th class="text-center">Período de Aceite</th>
-                                                            <th class="text-center">Dias de entrega</th>
-                                                            <th class="text-center">Período de Entrega</th>
+                                                            <th class="text-center">Dias de entrega</th> 
                                                             <th class="text-right">Total</th>
                                                          </tr>
                                                       </thead>
@@ -336,12 +335,7 @@
                                                                <br />
                                                                <span if.bind="item.rule.deliveryOnSaturday" class="badge ${ item.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
                                                                <span if.bind="item.rule.deliveryOnSunday" class="badge ${ item.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
-                                                            </td>
-                                                            <td class="text-center">
-                                                               ${item.rule.deliverySchedule1 | time}
-                                                               <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                               ${item.rule.deliverySchedule2 | time}
-                                                            </td>
+                                                            </td> 
                                                             <td class="text-right">
                                                                ${item.total | money}
                                                             </td>
@@ -455,8 +449,7 @@
                                                 <th class="text-center">Avaliação</th>
                                                 <th class="text-center">Qtde de dias para aceite</th>
                                                 <th class="text-center">Período de Aceite</th>
-                                                <th class="text-center">Dias de entrega</th>
-                                                <th class="text-center">Período de Entrega</th>
+                                                <th class="text-center">Dias de entrega</th> 
                                                 <th class="text-right">Total</th>
                                              </tr>
                                           </thead>
@@ -490,12 +483,7 @@
                                                    <br />
                                                    <span if.bind="summary.rule.deliveryOnSaturday" class="badge ${ summary.rule.deliveryOnSaturday ? 'badge-success' : 'badge-warning' }">Sábado</span>
                                                    <span if.bind="summary.rule.deliveryOnSunday" class="badge ${ summary.rule.deliveryOnSunday ? 'badge-success' : 'badge-warning' }">Domingo</span>
-                                                </td>
-                                                <td class="text-center">
-                                                   ${summary.rule.deliverySchedule1 | time}
-                                                   <label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-                                                   ${summary.rule.deliverySchedule2 | time}
-                                                </td>
+                                                </td> 
                                                 <td class="text-right">
                                                    ${summary.total | money}
                                                 </td>

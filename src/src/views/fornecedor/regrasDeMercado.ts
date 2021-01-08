@@ -122,13 +122,77 @@ export class RegrasDeMercado{
                     }
                 }
 				this.validator = new MarketRuleValidator(this.rule);
-                this.validator.validate();
             })
             .then( () => this.ea.publish('dataLoaded'))
             .catch( e =>  {
                 this.nService.presentError(e);
             });
-	}
+    }
+    
+    deliveryOnMondayChanged(){
+        if(! this.rule.deliveryOnMonday){
+            this.rule.deliveryOnMondayStart = null;
+            this.rule.deliveryOnMondayEnd = null;
+            this.validator.isDeliveryOnMondayStartInvalid = null;
+            this.validator.isDeliveryOnMondayEndInvalid = null;
+        }
+    } 
+    
+    deliveryOnTuesdayChanged(){
+        if(! this.rule.deliveryOnTuesday){
+            this.rule.deliveryOnTuesdayStart = null;
+            this.rule.deliveryOnTuesdayEnd = null;
+            this.validator.isDeliveryOnTuesdayStartInvalid = null;
+            this.validator.isDeliveryOnTuesdayEndInvalid = null;
+        }
+    }
+    
+    deliveryOnWednesdayChanged(){
+        if(! this.rule.deliveryOnWednesday){
+            this.rule.deliveryOnWednesdayStart = null;
+            this.rule.deliveryOnWednesdayEnd = null;
+            this.validator.isDeliveryOnWednesdayStartInvalid = null;
+            this.validator.isDeliveryOnWednesdayEndInvalid = null;
+        }
+    }
+    
+    deliveryOnThursdayChanged(){
+        if(! this.rule.deliveryOnThursday){
+            this.rule.deliveryOnThursdayStart = null;
+            this.rule.deliveryOnThursdayEnd = null;
+            this.validator.isDeliveryOnThursdayStartInvalid = null;
+            this.validator.isDeliveryOnThursdayEndInvalid = null;
+        }
+    }
+    
+    deliveryOnFridayChanged(){
+        if(! this.rule.deliveryOnFriday){
+            this.rule.deliveryOnFridayStart = null;
+            this.rule.deliveryOnFridayEnd = null;
+            this.validator.isDeliveryOnFridayStartInvalid = null;
+            this.validator.isDeliveryOnFridayEndInvalid = null;
+        }
+    }
+    
+    deliveryOnSaturdayChanged(){
+        if(! this.rule.deliveryOnSaturday){
+            this.rule.deliveryOnSaturdayStart = null;
+            this.rule.deliveryOnSaturdayEnd = null;
+            this.validator.isDeliveryOnSaturdayStartInvalid = null;
+            this.validator.isDeliveryOnSaturdayEndInvalid = null;
+        }
+    }
+
+    
+    deliveryOnSundayChanged(){
+        if(! this.rule.deliveryOnSunday){
+            this.rule.deliveryOnSundayStart = null;
+            this.rule.deliveryOnSundayEnd = null;
+            this.validator.isDeliveryOnSundayStartInvalid = null;
+            this.validator.isDeliveryOnSundayEndInvalid = null;
+        }
+    }
+
 
     save(){
 
