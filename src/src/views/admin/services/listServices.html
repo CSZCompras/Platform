@@ -1,0 +1,98 @@
+<template>        
+    <require from="../../components/valueConverters/phoneWithDDDValueConverter"></require>
+    <require from="../../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
+    <div class="au-animate">
+        <div class="row mb-5 task-manager">
+            <div class="col-lg-12">
+                <div class="card">    
+                    <div class="card-header">          
+                        Serviços
+                    </div> 
+                    <div class="card-body"> 
+                        <div>
+                            <div class="row mt-2">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Filtro</label> 
+                                        <input type="text" class="form-control "  value.bind="filter"  placeholder="Pesquise por título / site"  change.trigger="search()"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo de serviço</label>
+                                        <select class="form-control"    value.bind="selectedServiceTypeId" change.delegate="search()">
+                                            <option value="-1">Todos</option>
+                                            <option  repeat.for="type of types" model.bind="type.id">${type.name}</option>
+                                        </select>                                 
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" if.bind="edit">
+                                    <div class="form-group mt-4">
+                                        <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="create()">Novo serviço</button>                                
+                                    </div>
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5 task-manager">
+            <div class="col-lg-4 mt-4" repeat.for="x of filteredServices">
+                <div class="card"  class="col-lg-4">  
+                        <div class="card-header text-center">${x.title}</div>
+                        <div class="card-body">  
+                            <blockquote class="blockquote">
+                                <p class="mt-3">${x.description}</p>
+                                <p class="">
+                                    Telefone: ${x.phone | phoneWithDDD}
+                                    <br />
+                                    <span if.bind="x.site">Site: <a target="_blank" href="http://${x.site}" router-ignore download data-router-ignore>${x.site}</a> </span>
+                                </p>
+                            </blockquote>
+                    </div>
+                    <div class="card-footer text-muted tex-center">
+                        <div class="row text-center">
+                            <button type="button" class="btn btn-primary waves-effect waves-light mx-auto"  if.bind="edit" click.trigger="editService(x)">Editar</button>
+                            <button type="button" class="btn btn-primary waves-effect waves-light mx-auto"  if.bind="! edit" click.trigger="editService(x)">Detalhes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                  <!--   <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Telefone</th>
+                                <th>Celular</th>
+                                <th>E-mail</th>
+                                <th>Site</th> 
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="x of filteredServices">
+                                <td>${x.title}</td>
+                                <td>${x.typeName}</td>
+                                <td>${x.phone  | phoneWithDDD }</td> 
+                                <td>${x.mobilePhone  | cellPhoneWithDDD }</td> 
+                                <td>${x.email}</td> 
+                                <td>${x.site}</td> 
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="edit" click.trigger="editService(x)">Editar</button>
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  if.bind="! edit" click.trigger="editService(x)">Detalhes</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                
+                </div> 
+             </div>
+          </div>
+       </div>
+    </div>-->
+ </template>

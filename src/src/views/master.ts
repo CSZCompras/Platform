@@ -48,7 +48,7 @@ export class Master {
         private connRepository 			: FoodServiceConnectionRepository,
         private ea                      : EventAggregator) {
 
-	 //	this.prefix = '/cszhomologacao';
+	 	this.prefix = '/cszhomologacao';
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
         this.ea.subscribe('loadingData', (param) => {
@@ -341,7 +341,10 @@ export class Master {
 			{ route: 'avaliacoesFornecedor', name: 'avaliacoesFornecedor', moduleId: PLATFORM.moduleName('./fornecedor/evaluations') },
 			{ route: 'avaliacoesFoodService', name: 'avaliacoesFoodService', moduleId: PLATFORM.moduleName('./foodService/evaluations') },
 			{ route: 'financeiro', name: 'financeiro', moduleId: PLATFORM.moduleName('./admin/finance/listInvoice') },
+			{ route: 'servicosAdmin', name: 'servicosAdmin', moduleId: PLATFORM.moduleName('./admin/services/listServices') },
+			{ route: 'editServiceAdmin', name: 'editServiceAdmin', moduleId: PLATFORM.moduleName('./admin/services/editService') },
 			
+
 			{ route: 'guiaRapidoFoodService', name: 'guiaRapido', moduleId: PLATFORM.moduleName('./foodService/guiaRapido') }, 			
 			{ route: 'guiaRapidoFoodServiceCadastro', name: 'guiaRapidoFoodServiceCadastro', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/cadastro') },
 			{ route: 'guiaRapidoFoodServiceRegrasDeEntrega', name: 'guiaRapidoFoodServiceRegrasDeEntrega', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/regrasDeEntrega') }, 

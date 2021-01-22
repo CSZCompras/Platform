@@ -1,11 +1,5 @@
-import { Supplier } from '../domain/supplier';
-import { autoinject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
-import { Rest, Config } from 'aurelia-api';
-import { Identity } from '../domain/identity';
-import { Credential } from "../domain/credential";
-import { SupplierProduct } from '../domain/supplierProduct';
-import { UnitOfMeasurement } from '../domain/unitOfMeasurement';
+import { autoinject } from 'aurelia-framework'; 
+import { Rest, Config } from 'aurelia-api'; 
 import { User } from '../domain/user';
 import { ConfirmInviteViewModel } from '../domain/confirmInviteViewModel';
 import { WelcomeUser } from '../domain/welcomeUser';
@@ -17,9 +11,7 @@ export class UserRepository{
 
     constructor(private config: Config) {
         this.api = this.config.getEndpoint('apiAddress');
-    }
-
-
+    } 
 
     getUsersFromFoodService(foodServiceId : string) : Promise<User[]> {
         
