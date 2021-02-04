@@ -128,6 +128,73 @@ export class RegrasDeMercado{
                 this.nService.presentError(e);
             });
     }
+
+    
+    
+    acceptOrderOnMondayChanged(){
+        if(! this.rule.acceptOrderOnMonday){
+            this.rule.acceptOrderOnMondayStart = null;
+            this.rule.acceptOrderOnMondayEnd = null;
+            this.validator.isAcceptOrderOnMondayStartInvalid = null;
+            this.validator.isAcceptOrderOnMondayEndInvalid = null;
+        }
+    } 
+    
+    acceptOrderOnTuesdayChanged(){
+        if(! this.rule.acceptOrderOnTuesday){
+            this.rule.acceptOrderOnTuesdayStart = null;
+            this.rule.acceptOrderOnTuesdayEnd = null;
+            this.validator.isAcceptOrderOnTuesdayStartInvalid = null;
+            this.validator.isAcceptOrderOnTuesdayEndInvalid = null;
+        }
+    }
+    
+    acceptOrderOnWednesdayChanged(){
+        if(! this.rule.acceptOrderOnWednesday){
+            this.rule.acceptOrderOnWednesdayStart = null;
+            this.rule.acceptOrderOnWednesdayEnd = null;
+            this.validator.isAcceptOrderOnWednesdayStartInvalid = null;
+            this.validator.isAcceptOrderOnWednesdayEndInvalid = null;
+        }
+    }
+    
+    acceptOrderOnThursdayChanged(){
+        if(! this.rule.acceptOrderOnThursday){
+            this.rule.acceptOrderOnThursdayStart = null;
+            this.rule.acceptOrderOnThursdayEnd = null;
+            this.validator.isAcceptOrderOnThursdayStartInvalid = null;
+            this.validator.isAcceptOrderOnThursdayEndInvalid = null;
+        }
+    }
+    
+    acceptOrderOnFridayChanged(){
+        if(! this.rule.acceptOrderOnFriday){
+            this.rule.acceptOrderOnFridayStart = null;
+            this.rule.acceptOrderOnFridayEnd = null;
+            this.validator.isAcceptOrderOnFridayStartInvalid = null;
+            this.validator.isAcceptOrderOnFridayEndInvalid = null;
+        }
+    }
+    
+    acceptOrderOnSaturdayChanged(){
+        if(! this.rule.acceptOrderOnSaturday){
+            this.rule.acceptOrderOnSaturdayStart = null;
+            this.rule.acceptOrderOnSaturdayEnd = null;
+            this.validator.isAcceptOrderOnSaturdayStartInvalid = null;
+            this.validator.isAcceptOrderOnSaturdayEndInvalid = null;
+        }
+    }
+
+    
+    acceptOrderOnSundayChanged(){
+        if(! this.rule.acceptOrderOnSunday){
+            this.rule.acceptOrderOnSundayStart = null;
+            this.rule.acceptOrderOnSundayEnd = null;
+            this.validator.isAcceptOrderOnSundayStartInvalid = null;
+            this.validator.isAcceptOrderOnSundayEndInvalid = null;
+        }
+    }
+    
     
     deliveryOnMondayChanged(){
         if(! this.rule.deliveryOnMonday){

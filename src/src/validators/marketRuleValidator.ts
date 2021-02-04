@@ -10,6 +10,22 @@ export class MarketRuleValidator {
     isPeriodToAcceptOrder2Invalid       : boolean;
     isReceiverNewClientInvalid          : boolean;
     isReceiverNewOrderInvalid           : boolean;
+
+    isAcceptOrderOnMondayStartInvalid      : boolean;
+    isAcceptOrderOnMondayEndInvalid        : boolean;
+    isAcceptOrderOnTuesdayStartInvalid     : boolean;
+    isAcceptOrderOnTuesdayEndInvalid       : boolean;
+    isAcceptOrderOnWednesdayStartInvalid   : boolean;
+    isAcceptOrderOnWednesdayEndInvalid     : boolean;    
+    isAcceptOrderOnThursdayStartInvalid    : boolean;
+    isAcceptOrderOnThursdayEndInvalid      : boolean;
+    isAcceptOrderOnFridayStartInvalid      : boolean;
+    isAcceptOrderOnFridayEndInvalid        : boolean;
+    isAcceptOrderOnSaturdayStartInvalid    : boolean;
+    isAcceptOrderOnSaturdayEndInvalid      : boolean;
+    isAcceptOrderOnSundayStartInvalid      : boolean;
+    isAcceptOrderOnSundayEndInvalid        : boolean; 
+
     
     isDeliveryOnMondayStartInvalid      : boolean;
     isDeliveryOnMondayEndInvalid        : boolean;
@@ -41,6 +57,24 @@ export class MarketRuleValidator {
         this.validateNumberOfDaysToAccept();
         this.validatePeriodToAcceptOrder1();
         this.validatePeriodToAcceptOrder2();
+
+        
+
+        this.validateAcceptOrderMondayScheduleStart();
+        this.validateAcceptOrderMondayScheduleEnd();
+        this.validateAcceptOrderTuesdayScheduleStart();
+        this.validateAcceptOrderTuesdayScheduleEnd();        
+        this.validateAcceptOrderWednesdayScheduleStart();
+        this.validateAcceptOrderWednesdayScheduleEnd();
+        this.validateAcceptOrderThursdayScheduleStart();
+        this.validateAcceptOrderThursdayScheduleEnd();
+        this.validateAcceptOrderFridayScheduleStart();
+        this.validateAcceptOrderFridayScheduleEnd();
+        this.validateAcceptOrderSaturdayScheduleStart();
+        this.validateAcceptOrderSaturdayScheduleEnd();
+        this.validateAcceptOrderSundayScheduleStart();
+        this.validateAcceptOrderSundayScheduleEnd();
+
 
         this.validateDeliveryMondayScheduleStart();
         this.validateDeliveryMondayScheduleEnd();
@@ -160,6 +194,224 @@ export class MarketRuleValidator {
             this.isPeriodToAcceptOrder2Invalid = false;
         }
     }
+
+    
+
+    validateAcceptOrderMondayScheduleStart(){
+
+        if(this.rule.acceptOrderOnMonday){
+            
+            if(this.rule.acceptOrderOnMondayStart  == null || ( '' + this.rule.acceptOrderOnMondayStart) == '' || ( <Number> this.rule.acceptOrderOnMondayStart) > 1800) {
+                this.errorMessages.push('O horário inicial de aceite é obrigatório');
+                this.isAcceptOrderOnMondayStartInvalid = true;
+            }
+            else{
+                this.isAcceptOrderOnMondayStartInvalid = false;
+            }
+        }
+    }
+
+    validateAcceptOrderMondayScheduleEnd(){
+
+        if(this.rule.acceptOrderOnMonday){
+
+            if(this.rule.acceptOrderOnMondayEnd  == null || ( '' + this.rule.acceptOrderOnMondayEnd) == '' ||  ( <Number> this.rule.acceptOrderOnMondayEnd) > 2400){
+                this.errorMessages.push('O horário final de aceite é obrigatório');
+                this.isAcceptOrderOnMondayEndInvalid = true;
+            } 
+            else{
+                this.isAcceptOrderOnMondayEndInvalid = false;
+            }
+        }
+    } 
+
+    validateAcceptOrderTuesdayScheduleStart(){
+
+        if(this.rule.acceptOrderOnTuesday){
+
+            if(this.rule.acceptOrderOnTuesdayStart  == null || ( '' + this.rule.acceptOrderOnTuesdayStart) == '' || ( <Number> this.rule.acceptOrderOnTuesdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de aceite é obrigatório');
+                this.isAcceptOrderOnTuesdayStartInvalid = true;
+            } 
+            else{
+                this.isAcceptOrderOnTuesdayStartInvalid = false;
+            } 
+        }
+    }
+
+    validateAcceptOrderTuesdayScheduleEnd(){
+
+        if(this.rule.acceptOrderOnTuesday){
+
+            if(this.rule.acceptOrderOnTuesdayEnd  == null || ( '' + this.rule.acceptOrderOnTuesdayEnd) == '' || ( <Number> this.rule.acceptOrderOnTuesdayEnd) > 2400){
+                this.errorMessages.push('O horário final de aceite é obrigatório');
+                this.isAcceptOrderOnTuesdayEndInvalid = true;
+            }
+            else{
+                this.isAcceptOrderOnTuesdayEndInvalid = false;
+            }
+        }
+    } 
+    
+
+    validateAcceptOrderWednesdayScheduleStart(){
+
+        if(this.rule.acceptOrderOnWednesday){
+        
+            if(this.rule.acceptOrderOnWednesdayStart  == null || ( '' + this.rule.acceptOrderOnWednesdayStart) == '' || ( <Number> this.rule.acceptOrderOnWednesdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de aceite é obrigatório');
+                this.isAcceptOrderOnWednesdayStartInvalid = true;
+            } 
+            else{
+                this.isAcceptOrderOnWednesdayStartInvalid = false;
+            }
+        }
+    }
+
+    validateAcceptOrderWednesdayScheduleEnd(){
+
+        if(this.rule.acceptOrderOnWednesday){
+
+            if(this.rule.acceptOrderOnWednesdayEnd  == null || ( '' + this.rule.acceptOrderOnWednesdayEnd) == '' || ( <Number> this.rule.acceptOrderOnWednesdayEnd) > 2400){
+                this.errorMessages.push('O horário final de aceite é obrigatório');
+                this.isAcceptOrderOnWednesdayEndInvalid = true;
+            } 
+            else{
+                this.isAcceptOrderOnWednesdayEndInvalid = false;
+            }
+        }
+    }
+
+    
+    validateAcceptOrderThursdayScheduleStart(){
+
+        if(this.rule.acceptOrderOnThursday){
+
+            if(this.rule.acceptOrderOnThursdayStart  == null || ( '' + this.rule.acceptOrderOnThursdayStart) == '' || ( <Number> this.rule.acceptOrderOnThursdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de aceite é obrigatório');
+                this.isAcceptOrderOnThursdayStartInvalid = true;
+            }
+            else{
+                this.isAcceptOrderOnThursdayStartInvalid = false;
+            }
+
+        }
+    }
+
+    validateAcceptOrderThursdayScheduleEnd(){
+
+        if(this.rule.acceptOrderOnThursday){
+
+            if(this.rule.acceptOrderOnThursdayEnd  == null || ( '' + this.rule.acceptOrderOnThursdayEnd) == '' || ( <Number> this.rule.acceptOrderOnThursdayEnd) > 2400){
+                this.errorMessages.push('O horário final de aceite é obrigatório');
+                this.isAcceptOrderOnThursdayEndInvalid = true;
+            } 
+            else{
+                this.isAcceptOrderOnThursdayEndInvalid = false;
+            } 
+        }
+    }
+
+    
+    validateAcceptOrderFridayScheduleStart(){
+
+
+        if(this.rule.acceptOrderOnFriday){
+
+            if(this.rule.acceptOrderOnFridayStart  == null || ( '' + this.rule.acceptOrderOnFridayStart) == '' || ( <Number> this.rule.acceptOrderOnFridayStart) > 1800){
+                this.errorMessages.push('O horário inicial de aceite é obrigatório');
+                this.isAcceptOrderOnFridayStartInvalid = true;
+            }
+            else{
+                this.isAcceptOrderOnFridayStartInvalid = false;
+            }
+        }
+    }
+
+    validateAcceptOrderFridayScheduleEnd(){
+
+
+        if(this.rule.acceptOrderOnFriday){
+
+            if(this.rule.acceptOrderOnFridayEnd  == null || ( '' + this.rule.acceptOrderOnFridayEnd) == '' || ( <Number> this.rule.acceptOrderOnFridayEnd) > 2400){
+                this.errorMessages.push('O horário final de aceite é obrigatório');
+                this.isAcceptOrderOnFridayEndInvalid = true;
+            } 
+            else{
+                this.isAcceptOrderOnFridayEndInvalid = false;
+            }
+        }
+    }
+
+    validateAcceptOrderSaturdayScheduleStart(){
+
+        if(this.rule.acceptOrderOnSaturday){
+
+            if(this.rule.acceptOrderOnSaturdayStart  == null || ( '' + this.rule.acceptOrderOnSaturdayStart) == '' || ( <Number> this.rule.acceptOrderOnSaturdayStart) > 1800){
+                this.errorMessages.push('O horário inicial de aceite é obrigatório');
+                this.isAcceptOrderOnSaturdayStartInvalid = true;
+            }
+            else{
+                this.isAcceptOrderOnSaturdayStartInvalid = false;
+            } 
+        }
+    }
+
+    validateAcceptOrderSaturdayScheduleEnd(){
+
+        if(this.rule.acceptOrderOnSaturday){
+
+            if(this.rule.acceptOrderOnSaturdayEnd  == null || ( '' + this.rule.acceptOrderOnSaturdayEnd) == ''){
+                this.errorMessages.push('O horário final de aceite é obrigatório');
+                this.isAcceptOrderOnSaturdayEndInvalid = true;
+            }
+            else if (  ( <Number> this.rule.acceptOrderOnSaturdayEnd) > 2400){
+                this.errorMessages.push('O horário final de aceite é inválido');
+                this.isAcceptOrderOnSaturdayEndInvalid = true;
+            }
+            else{
+                this.isAcceptOrderOnSaturdayEndInvalid = false;
+            }
+        }
+    }
+
+    validateAcceptOrderSundayScheduleStart(){
+
+        if(this.rule.acceptOrderOnSunday){
+
+            if(this.rule.acceptOrderOnSundayStart  == null || ( '' + this.rule.acceptOrderOnSundayStart) == '' || ( <Number> this.rule.acceptOrderOnSundayStart) > 1800){
+                this.errorMessages.push('O horário inicial de aceite é obrigatório');
+                this.isAcceptOrderOnSundayStartInvalid = true;
+            } 
+            else{
+                this.isAcceptOrderOnSundayStartInvalid = false;
+            } 
+        }
+    }
+
+    validateAcceptOrderSundayScheduleEnd(){
+
+        if(this.rule.acceptOrderOnSunday){
+
+            if(this.rule.acceptOrderOnSundayEnd  == null || ( '' + this.rule.acceptOrderOnSundayEnd) == ''){
+                this.errorMessages.push('O horário final de aceite é obrigatório');
+                this.isAcceptOrderOnSundayEndInvalid = true;
+            }
+            else if (  ( <Number> this.rule.acceptOrderOnSundayEnd) > 2400){
+                this.errorMessages.push('O horário final de aceite é inválido');
+                this.isAcceptOrderOnSundayEndInvalid = true;
+            }
+            else{
+                this.isAcceptOrderOnSundayEndInvalid = false;
+            } 
+        }
+    }
+
+
+
+
+
+    /* 888888888888888888888 */ 
 
     validateDeliveryMondayScheduleStart(){
 

@@ -59,7 +59,6 @@ export class EditService{
         ValidationRules 
             .ensure((s : ServiceViewModel) => s.title).displayName('Título').required()
             .ensure((s : ServiceViewModel) => s.description).displayName('Descrição').required()  
-            .ensure((s : ServiceViewModel) => s.phone).displayName('Telefone').required()
             .ensure((s : ServiceViewModel) => s.typeId).displayName('Tipo').required()
             .on(this.service);
 

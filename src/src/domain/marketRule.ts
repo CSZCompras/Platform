@@ -6,6 +6,35 @@ export class MarketRule {
     numberOfDaysToAccept            : number;
     periodToAcceptOrder1            : number;
     periodToAcceptOrder2            : number;
+
+    acceptOrderOnMonday                : boolean;
+    acceptOrderOnMondayStart           : number;
+    acceptOrderOnMondayEnd             : number;
+
+    acceptOrderOnTuesday               : boolean;
+    acceptOrderOnTuesdayStart          : number;
+    acceptOrderOnTuesdayEnd            : number; 
+
+    acceptOrderOnWednesday             : boolean;
+    acceptOrderOnWednesdayStart        : number;
+    acceptOrderOnWednesdayEnd          : number; 
+
+    acceptOrderOnThursday              : boolean;
+    acceptOrderOnThursdayStart         : number;
+    acceptOrderOnThursdayEnd           : number; 
+
+    acceptOrderOnFriday                : boolean;
+    acceptOrderOnFridayStart           : number;
+    acceptOrderOnFridayEnd             : number; 
+
+    acceptOrderOnSaturday              : boolean;
+    acceptOrderOnSaturdayStart         : number;
+    acceptOrderOnSaturdayEnd           : number;
+
+    acceptOrderOnSunday                : boolean;
+    acceptOrderOnSundayStart           : number;
+    acceptOrderOnSundayEnd             : number; 
+
     
     deliveryOnMonday                : boolean;
     deliveryOnMondayStart           : number;
