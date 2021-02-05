@@ -35,22 +35,21 @@
                      <h2 class="ml-2">
                         <i class="fa fa-truck" aria-hidden="true"></i>
                         Aceite de Pedido
-                     </h2>
+                     </h2> 
+                     <div class="form-inline">
+                        <div class="col-md-3">
+                           <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Qtde de dias para aceite</label>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="input-group">
+                              <span class="input-group-addon"></span> 
+                              <input type="text" class="money form-control text-right ${validator.isnumberOfDaysToAcceptInvalid  ? 'border-danger' : '' } " autocomplete="off"  number value.bind="rule.numberOfDaysToAccept | number"  change.delegate="validator.validateNumberOfDaysToAccept()" />
+                           </div>
+                        </div>
+                     </div>
                      <div class="row mt-5"> 
-                        <br />
-                        <br />
-                        <div class="form-check form-check-inline ml-5 col-md-8 mt-3">
-                           <div class="col-md-3">
-                              <label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Qtde de dias para aceite</label>
-                           </div>
-                           <div class="col-md-4">
-                              <div class="input-group">                               
-                                 <input type="text" class="money form-control text-right ${validator.isnumberOfDaysToAcceptInvalid  ? 'border-danger' : '' } " autocomplete="off"  number value.bind="rule.numberOfDaysToAccept | number"  change.delegate="validator.validateNumberOfDaysToAccept()" />
-                              </div>
-                           </div>
-                        </div> 
                         <div class="form-check form-check-inline ml-5 col-md-8 mt-3"> 
-                           <div class="input-group"> 
+                           <div class="input-group mt-4"> 
                               <label class="custom-control custom-checkbox col-md-3  mt-2">
                                  <input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.acceptOrderOnMonday" change.trigger="acceptOrderOnMondayChanged()">
                                  <span class="ml-1 mt-1">Segunda-feira</span>
