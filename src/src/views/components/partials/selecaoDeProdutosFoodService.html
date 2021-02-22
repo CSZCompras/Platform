@@ -3,7 +3,7 @@
       <div class="col-lg-4">
          <div class="form-group">
             <label class="control-label">Mercado</label>
-            <select class="form-control"  value.bind="selectedClass" change.delegate="search()"> 
+            <select class="form-control"  value.bind="selectedClass" change.delegate="marketChanged()"> 
                <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
             </select>
          </div>

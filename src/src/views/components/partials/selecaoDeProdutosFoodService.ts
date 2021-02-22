@@ -78,6 +78,11 @@ export class SelecaoDeProdutosFoodService{
         });
     }
 
+    marketChanged(){
+        ( <any> this.selectedCategory) = '-1';
+        this.search();
+    }
+
     search(){ 
 
         this.isLoading = true;

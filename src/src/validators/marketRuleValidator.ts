@@ -6,8 +6,6 @@ export class MarketRuleValidator {
     errorMessages                       : Array<string>;
     isMinimumOrderValueInvalid          : boolean;
     isnumberOfDaysToAcceptInvalid       : boolean;
-    isPeriodToAcceptOrder1Invalid       : boolean;
-    isPeriodToAcceptOrder2Invalid       : boolean;
     isReceiverNewClientInvalid          : boolean;
     isReceiverNewOrderInvalid           : boolean;
 
@@ -40,10 +38,7 @@ export class MarketRuleValidator {
     isDeliveryOnSaturdayStartInvalid    : boolean;
     isDeliveryOnSaturdayEndInvalid      : boolean;
     isDeliveryOnSundayStartInvalid      : boolean;
-    isDeliveryOnSundayEndInvalid        : boolean; 
-    
-    isDeliverySchedule1Invalid  : boolean;
-    isDeliverySchedule2Invalid  : boolean;    
+    isDeliveryOnSundayEndInvalid        : boolean;  
     
     constructor(private rule : MarketRule) {   
 
@@ -54,9 +49,7 @@ export class MarketRuleValidator {
     validate() : Array<string> {                
         this.errorMessages = [];   
         this.validateMinimumOrderValue();
-        this.validateNumberOfDaysToAccept();
-        this.validatePeriodToAcceptOrder1();
-        this.validatePeriodToAcceptOrder2();
+        this.validateNumberOfDaysToAccept(); 
 
         
 
@@ -163,39 +156,7 @@ export class MarketRuleValidator {
         else{
             this.isnumberOfDaysToAcceptInvalid = false;
         }
-    }
-
-    validatePeriodToAcceptOrder1(){
-
-        if(this.rule.periodToAcceptOrder1  == null || ( '' + this.rule.periodToAcceptOrder1) == ''){
-            this.errorMessages.push('O período inicial de aceite é obrigatório');
-            this.isPeriodToAcceptOrder1Invalid = true;
-        }
-        else if (  ( <Number> this.rule.periodToAcceptOrder1) > 1800){
-            this.errorMessages.push('O período inicial de aceite é inválido');
-            this.isPeriodToAcceptOrder1Invalid = true;
-        }
-        else{
-            this.isPeriodToAcceptOrder1Invalid = false;
-        }
-    }
-
-    validatePeriodToAcceptOrder2()
-    {
-        if(this.rule.periodToAcceptOrder2  == null || ( '' + this.rule.periodToAcceptOrder2) == ''){
-            this.errorMessages.push('O período final de aceite é obrigatório');
-            this.isPeriodToAcceptOrder2Invalid = true;
-        }
-        else if (  ( <Number> this.rule.periodToAcceptOrder2) > 2400){
-            this.errorMessages.push('O período final  de aceite é inválido');
-            this.isPeriodToAcceptOrder2Invalid = true;
-        }
-        else{
-            this.isPeriodToAcceptOrder2Invalid = false;
-        }
-    }
-
-    
+    } 
 
     validateAcceptOrderMondayScheduleStart(){
 

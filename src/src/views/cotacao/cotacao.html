@@ -550,7 +550,7 @@
                            <li class="previous " if.bind="currentStep != 1">
                               <a href="#" class="waves-effect waves-light" click.trigger="back()" if.bind="currentStep > 0 ">Voltar</a>
                            </li>
-                           <li class="next" if.bind="isOrderValid && currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && simulations.length > 0) ) ">
+                           <li class="next" if.bind="isOrderValid && currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && simulations.length > 0) ) " click.trigger="advance()">
                               <a href="#" id="next" class=" ${ ! isOrderValid ? 'disabled' : '' } waves-effect waves-light" click.trigger="advance()">Avançar</a>
                            </li>
                            <li class="finish float-right" if.bind="currentStep == totalSteps">
