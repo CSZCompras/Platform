@@ -118,7 +118,7 @@
                                                             Não há fornecedores para os itens desta lista
                                                          </span>
                                                       </p>
-                                                   </div>
+                                                   </div>  
                                                    <div class="row">
                                                       <div class="col-md-12  mt-5">
                                                          <span class="badge badge-warning" if.bind="market.items.length == 0">Lista sem produtos selecionados. Favor incluir em Produtos > Meus Produtos </span>
@@ -168,6 +168,22 @@
                                                                         <input type="text" class="form-control"  value.bind="market.filter"  placeholder="Pesquise por produto / marca / descrição"  change.trigger="search(market)"/>
                                                                      </div>
                                                                   </div>
+                                                                  <div class="col-lg-6">
+                                                                     <div class="form-group">
+                                                                        <label class="control-label">Cotações salvas</label>  
+                                                                        <select class="form-control " value.bind="market.selectedSimulation" change.trigger="setQuantitiesFromSavedSimulation(market)">
+                                                                           <option value=""></option>
+                                                                           <option repeat.for="market of market.simulationsRecorded" model.bind="market">${market.name}</option>
+                                                                        </select>
+                                                                     </div>                                                                    
+                                                                  </div> 
+                                                                  <div class="col-lg-2">
+                                                                     <div class="form-group">
+                                                                        <button type="button" class="btn btn-success btn-sm mt-5 waves-effect waves-light" click.trigger="saveSimulation(market)">
+                                                                           <span class="gradient">Salvar</span> 
+                                                                        </button>
+                                                                     </div>
+                                                                  </div> 
                                                                </div>                                                               
                                                                <table if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null" 
                                                                   class="table table-hover table-responsive mt-5">
@@ -555,8 +571,8 @@
                            </li>
                            <li class="finish float-right" if.bind="currentStep == totalSteps">
                               <button type="button" class="btn btn-success waves-effect waves-light" if.bind="! isProcessing && ! orderWasGenerated" click.trigger="generateOrder()">
-                              <span class="gradient">Gerar pedido</span>
-                              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                 <span class="gradient">Gerar pedido</span>
+                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
                               </button>
                               <div class="fa-2x text-center" if.bind="isProcessing">
                                  <i class="fa fa-refresh fa-spin"></i>

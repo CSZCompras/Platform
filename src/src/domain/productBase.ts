@@ -9,6 +9,7 @@ export class ProductBase{
     
     id          : string;
     name        : string;
+    categoryId  : string;
     category    : ProductCategory;
     isActive    : boolean;  
     products    : Product[];    

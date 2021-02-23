@@ -4,6 +4,7 @@ import { CheckDeliveryViewModel } from "../checkDeliveryViewModel";
 import { CheckDeliveryResult } from "../checkDeliveryResult";
 import { DeliveryRule } from "../deliveryRule";
 import { SimulationInputBaseItem } from "./simulationInputBaseItem";
+import { SimulationRecorded } from "./simulationRecorded";
 
 export class SimulationMarketInputViewModel{
     
@@ -13,6 +14,7 @@ export class SimulationMarketInputViewModel{
         this.items = [];  
         this.suppliers = [];
         this.supplierBlackList = [];
+        this.simulationsRecorded = [];
     }
 
     id                          : string;
@@ -26,4 +28,7 @@ export class SimulationMarketInputViewModel{
     checkDeliveryViewModel 		: CheckDeliveryViewModel;
     checkDeliveryResult			: CheckDeliveryResult;
     isValid                     : boolean;
+
+    simulationsRecorded         : SimulationRecorded[];
+    selectedSimulation          : SimulationRecorded;
 }

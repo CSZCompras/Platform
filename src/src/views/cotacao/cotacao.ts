@@ -25,6 +25,8 @@ import 'twitter-bootstrap-wizard';
 import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { SimulationResultItem } from '../../domain/simulation/simulationResultItem';
+import { SalvarCotacao } from '../components/partials/salvarCotacao';
+import { SimulationRecorded } from '../../domain/simulation/simulationRecorded';
 
 @autoinject
 export class Cotacao{
@@ -43,6 +45,7 @@ export class Cotacao{
 	isOrderValid					: boolean; 
 	isLoadingQuotes					: boolean; 
 	results 						: SimulationResult[]; 
+	simulationsRecorded				: SimulationRecorded[];
 	
     constructor(		
         private router                  	: Router, 	 
@@ -68,6 +71,7 @@ export class Cotacao{
 		this.deliveryWasChecked  = false;   
 		this.isOrderValid = true;
 		this.results = []; 
+		this.simulationsRecorded = [];
     } 
  
 
@@ -392,7 +396,7 @@ export class Cotacao{
 				.getBuyListsParaCotacao()
 				.then(x =>  {
 					this.quotes = x; 
-
+					this.loadSimulations();
 					this.ea.publish('dataLoaded');
 					this.isLoadingQuotes = false;
 				}) 
@@ -552,5 +556,72 @@ export class Cotacao{
 			summary.observation = summary.observation.substr(0, 249);
 		}
 		return true;
+	}
+
+	saveSimulation(simulationMarket : SimulationMarketInputViewModel){
+
+		var params = { SimulationMarket : simulationMarket};
+
+        this.dialogService
+            .open({ viewModel: SalvarCotacao, model: params, lock: false })
+            .whenClosed(response => { 
+                if (response.wasCancelled) {
+                    return;
+				}   
+				if(response.output != null){
+					if(simulationMarket.selectedSimulation == null || ( <any> simulationMarket.selectedSimulation) == ""){
+						simulationMarket.simulationsRecorded.unshift(response.output);
+						simulationMarket.selectedSimulation = response.output;
+					}
+				}
+            });
+	}
+
+	loadSimulations(){
+
+		this.simulationRepository
+			.getSimulations()
+			.then(x =>  {
+				
+				this.simulationsRecorded = x;
+				this.setSimulationsToMarkets();
+
+			}) 
+			.catch( e => {
+				this.nService.presentError(e);
+			}); 
+	}
+
+	setSimulationsToMarkets(){
+
+		if(this.simulationsRecorded != null && this.simulationsRecorded.length > 0){
+			this.quotes.forEach(quote =>{
+				quote.markets.forEach(market => {
+					market.simulationsRecorded = this.simulationsRecorded.filter(s => s.productClass.id == market.id);
+				});
+			})
+		}
+	}
+
+	setQuantitiesFromSavedSimulation(simulationMarket : SimulationMarketInputViewModel){
+
+		simulationMarket.items.filter(x => x.quantity > 0).forEach(x => x.quantity = 0);
+
+		if(simulationMarket.selectedSimulation != null && simulationMarket.selectedSimulation.id != null){
+
+			simulationMarket.selectedSimulation
+							.items
+							.forEach(item =>{
+								if(item.quantity > 0){
+	
+									let simulationItem = simulationMarket.items.filter(x => x.productBaseId == item.productBase.id);
+	
+									if(simulationItem != null && simulationItem.length > 0){
+										simulationItem[0].quantity = item.quantity;
+									}
+								}
+							});
+
+		}
 	}
 }

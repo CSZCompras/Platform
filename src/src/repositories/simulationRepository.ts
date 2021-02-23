@@ -4,6 +4,7 @@ import { Rest, Config } from 'aurelia-api';
 import { HttpClient } from 'aurelia-fetch-client';
 import { Simulation } from '../domain/simulation/simulation';
 import { SimulationInput } from '../domain/simulation/simulationInput';
+import { SimulationRecorded } from '../domain/simulation/simulationRecorded';
 
 @autoinject
 export class SimulationRepository{
@@ -48,6 +49,40 @@ export class SimulationRepository{
         return this.api
             .find('cotacaoParcial?orderId=' + orderId)
             .then( (result : Promise<SimulationInput>) => { 
+                return result;
+            })
+            .catch( (e) => {
+                console.log(e);
+                return Promise.resolve(e.json().then( error => {
+                    throw error;
+                }));
+            });
+    }
+
+    saveSimulation(simulation : SimulationRecorded){
+
+        return this.api
+                    .post('simulationRecorded', simulation)
+                    .then( (result : Promise<any>) => {    
+                            if(result == null)             
+                                return Promise.resolve();
+                            return result;
+                        })
+                        .catch( (e) => {
+                            console.log(e);
+                            return Promise.resolve(e.json().then( error => {
+                                
+                                console.log(error);
+                                throw error;
+                            }))
+                        }); 
+    }
+
+    getSimulations(): Promise<SimulationRecorded[]> { 
+
+        return this.api
+            .find('simulationRecorded')
+            .then( (result : Promise<SimulationRecorded[]>) => { 
                 return result;
             })
             .catch( (e) => {
