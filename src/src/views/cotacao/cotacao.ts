@@ -21,12 +21,13 @@ import { SimulationMarketInputViewModel } from '../../domain/simulation/simulati
 import { DetalhesProduto } from '../components/partials/detalhesProduto';
 import { SimulationInputBaseItem } from '../../domain/simulation/simulationInputBaseItem';
 import { DialogService } from 'aurelia-dialog';
-import 'twitter-bootstrap-wizard';
-import 'jquery-mask-plugin';
-import 'aurelia-validation';
 import { SimulationResultItem } from '../../domain/simulation/simulationResultItem';
 import { SalvarCotacao } from '../components/partials/salvarCotacao';
 import { SimulationRecorded } from '../../domain/simulation/simulationRecorded';
+import { ApagarCotacao } from '../components/partials/apagarCotacao';
+import 'twitter-bootstrap-wizard';
+import 'jquery-mask-plugin';
+import 'aurelia-validation';
 
 @autoinject
 export class Cotacao{
@@ -574,6 +575,24 @@ export class Cotacao{
 						simulationMarket.selectedSimulation = response.output;
 					}
 				}
+            });
+	}
+
+	deleteSimulation(simulationMarket : SimulationMarketInputViewModel){
+
+		var params = { Simulation : simulationMarket.selectedSimulation};
+
+        this.dialogService
+            .open({ viewModel: ApagarCotacao, model: params, lock: false })
+            .whenClosed(response => { 
+                if (response.wasCancelled) {
+                    return;
+				}
+				else{
+					simulationMarket.simulationsRecorded = simulationMarket.simulationsRecorded.filter(x => x.id != simulationMarket.selectedSimulation.id);
+					simulationMarket.selectedSimulation = null;
+					
+				}  
             });
 	}
 

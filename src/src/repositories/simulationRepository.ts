@@ -77,6 +77,25 @@ export class SimulationRepository{
                             }))
                         }); 
     }
+    
+    deleteSimulation(simulation : SimulationRecorded){
+
+        return this.api
+                    .destroy('simulationRecorded?id=' + simulation.id)
+                    .then( (result : Promise<any>) => {    
+                            if(result == null)             
+                                return Promise.resolve();
+                            return result;
+                        })
+                        .catch( (e) => {
+                            console.log(e);
+                            return Promise.resolve(e.json().then( error => {
+                                
+                                console.log(error);
+                                throw error;
+                            }))
+                        }); 
+    }
 
     getSimulations(): Promise<SimulationRecorded[]> { 
 

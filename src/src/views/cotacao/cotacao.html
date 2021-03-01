@@ -168,7 +168,7 @@
                                                                         <input type="text" class="form-control"  value.bind="market.filter"  placeholder="Pesquise por produto / marca / descrição"  change.trigger="search(market)"/>
                                                                      </div>
                                                                   </div>
-                                                                  <div class="col-lg-6">
+                                                                  <div class="col-lg-4">
                                                                      <div class="form-group">
                                                                         <label class="control-label">Cotações salvas</label>  
                                                                         <select class="form-control " value.bind="market.selectedSimulation" change.trigger="setQuantitiesFromSavedSimulation(market)">
@@ -177,12 +177,15 @@
                                                                         </select>
                                                                      </div>                                                                    
                                                                   </div> 
-                                                                  <div class="col-lg-2">
-                                                                     <div class="form-group">
-                                                                        <button type="button" class="btn btn-success btn-sm mt-5 waves-effect waves-light" click.trigger="saveSimulation(market)">
-                                                                           <span class="gradient">Salvar</span> 
-                                                                        </button>
-                                                                     </div>
+                                                                  <div class="form-inline">
+                                                                     <div> 
+                                                                           <button type="button" class="btn btn-success btn-sm mt-5 waves-effect waves-light" click.trigger="saveSimulation(market)">
+                                                                              <span class="gradient">Salvar Cotação</span> 
+                                                                           </button>  
+                                                                           <button type="button" if.bind="market.selectedSimulation" class="btn btn-danger btn-sm mt-5 waves-effect waves-light" click.trigger="deleteSimulation(market)">
+                                                                              <span class="gradient">Apagar Cotação</span> 
+                                                                           </button> 
+                                                                     </div> 
                                                                   </div> 
                                                                </div>                                                               
                                                                <table if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null" 
@@ -253,6 +256,15 @@
                                                             </div>
                                                          </div>
                                                       </div>
+                                                   </div>
+                                                   <div class="row" if.bind="(market.suppliersInvalid < market.suppliers.length) && market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null">
+                                                      <div class="col-lg-12 mx-auto text-center">
+                                                         <div class="form-group">
+                                                            <button type="button" class="btn btn-success mt-5 waves-effect waves-light" click.trigger="saveSimulation(market)">
+                                                               <span class="gradient">Salvar Cotação</span> 
+                                                            </button>
+                                                         </div>                                                                   
+                                                      </div> 
                                                    </div>
                                                 </div>
                                              </div>
@@ -568,7 +580,7 @@
                            </li>
                            <li class="next" if.bind="isOrderValid && currentStep < totalSteps && ( (currentStep != 2) || (currentStep == 2 && simulations.length > 0) ) " click.trigger="advance()">
                               <a href="#" id="next" class=" ${ ! isOrderValid ? 'disabled' : '' } waves-effect waves-light" click.trigger="advance()">Avançar</a>
-                           </li>
+                           </li> 
                            <li class="finish float-right" if.bind="currentStep == totalSteps">
                               <button type="button" class="btn btn-success waves-effect waves-light" if.bind="! isProcessing && ! orderWasGenerated" click.trigger="generateOrder()">
                                  <span class="gradient">Gerar pedido</span>
