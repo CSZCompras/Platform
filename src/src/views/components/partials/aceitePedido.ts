@@ -9,7 +9,7 @@ import { Order } from '../../../domain/order';
 import { OrderStatus } from '../../../domain/orderStatus';
 import { FoodServiceConnectionRepository } from '../../../repositories/foodServiceConnectionRepository';
 import { FoodServiceSupplier } from '../../../domain/foodServiceSupplier';
-import { FoodServiceConnectionViewModel } from '../../../domain/foodServiceViewModel';
+import { FoodServiceConnectionViewModel } from '../../../domain/foodServiceConnectionViewModel';
 import { FoodService } from '../../../domain/foodService';
 
 @autoinject

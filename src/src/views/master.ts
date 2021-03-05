@@ -5,7 +5,7 @@ import { autoinject } from 'aurelia-dependency-injection';
 import { Identity } from '../domain/identity';
 import { IdentityService } from '../services/identityService';
 import { ScriptRunner } from '../services/scriptRunner';
-import { FoodServiceConnectionViewModel } from '../domain/foodServiceViewModel';
+import { FoodServiceConnectionViewModel } from '../domain/foodServiceConnectionViewModel';
 import { UserType } from '../domain/userType';
 import { Notification } from '../domain/notification';
 import { FoodServiceConnectionRepository } from '../repositories/foodServiceConnectionRepository';

@@ -66,133 +66,197 @@
                         </table>  
                     </div>              
                 </div>
-                <div if.bind="isEditing">
-                    <div class="row">
-                           <div class="col-md-4">
-                              <div class="form-group">
-                                 <label class="control-label active">Nome<span class="text-danger  ml-1 bold">*</span></label>
-                                 <input type="text" class="form-control" value.bind="product.name & validate"  />
-                              </div> 
-                           </div>
-                           <div class="col-md-4">
-                                <div class="form-group mt-4">
-                                    <button type="button" if.bind="! product.isActive" class="btn btn-success   waves-effect waves-light"   click.trigger="changeProductBaseStatus()">Ativar</button>
-                                    <button type="button" if.bind="product.isActive" class="btn btn-danger   waves-effect waves-light"   click.trigger="changeProductBaseStatus()">Inativar</button>                                   
-                                </div>     
-                           </div>
-                    </div> 
-                    <div class="row mt-4">
-                            <div class="col-md-4">
-                                       <div class="form-group">
-                                          <label class="control-label">Mercado</label>            
-                                          <select class="form-control"  value.bind="selectedClassProduct & validate">
-                                             <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
-                                          </select>
-                                       </div>
-                            </div>
-                           <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label">Categoria</label>            
-                                    <select class="form-control "    value.bind="product.category & validate">
-                                        <option  value=""></option>
-                                        <option  repeat.for="category of selectedClassProduct.categories" model.bind="category">${category.name}</option>
-                                    </select>
+                <div if.bind="isEditing"> 
+                    <ul class="nav nav-tabs" id="myTab-1" role="tablist">
+                        <li class="nav-item waves-effect waves-light">
+                           <a class="nav-link active" href="#tab-1-1" data-toggle="tab" role="tab" aria-controls="tab-1-1" aria-selected="true" aria-expanded="true">
+                                <i class="batch-icon batch-icon-list-alt mr-2"></i>
+                                Cadastro
+                            </a>
+                        </li>
+                        <li class="nav-item waves-effect waves-light">                            
+                            <a class="nav-link" href="#tab-1-2" data-toggle="tab" role="tab" aria-controls="tab-1-2" aria-selected="false" aria-expanded="false">
+                                <i class="batch-icon batch-icon-pencil mr-2"></i>
+                                Associação 
+                            </a>
+                        </li> 
+                    </ul>
+                    <div class="tab-content" id="myTabContent-1">
+                        <div class="tab-pane fade active show" id="tab-1-1" role="tabpanel" aria-labelledby="tab-1-1" aria-expanded="true">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label active">Nome<span class="text-danger  ml-1 bold">*</span></label>
+                                        <input type="text" class="form-control" value.bind="product.name & validate"  />
+                                    </div> 
                                 </div>
-                           </div>
-                    </div>
-                    <div class="mt-3">
-                        <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addProduct()">
-                            <i class="fa fa-plus"></i>
-                            Adicionar linha de produto
-                        </button>
-                    </div>
-                    <div class="row mt-5" repeat.for="p of product.products">
-                        <span if.bind="p.isNew" class="badge badge-warning ml-3">Novo!</span>
-                        <div class="row col-md-12">
-                            <div class="col-md-3">
-                                <div class="form-group">                                     
-                                    <label class="control-label">Descrição</label>
-                                    <input type="text" class="form-control "   value.bind="p.description & validate" />
-                                </div> 
+                                <div class="col-md-4">
+                                        <div class="form-group mt-4">
+                                            <button type="button" if.bind="! product.isActive" class="btn btn-success   waves-effect waves-light"   click.trigger="changeProductBaseStatus()">Ativar</button>
+                                            <button type="button" if.bind="product.isActive" class="btn btn-danger   waves-effect waves-light"   click.trigger="changeProductBaseStatus()">Inativar</button>                                   
+                                        </div>     
+                                </div>
+                            </div> 
+                            <div class="row mt-4">
+                                    <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Mercado</label>            
+                                                <select class="form-control"  value.bind="selectedClassProduct & validate">
+                                                    <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Categoria</label>            
+                                            <select class="form-control "    value.bind="product.category & validate">
+                                                <option  value=""></option>
+                                                <option  repeat.for="category of selectedClassProduct.categories" model.bind="category">${category.name}</option>
+                                            </select>
+                                        </div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group"> 
-                                        <label class="control-label">GTIN</label>
-                                    <input type="text" class="form-control "   value.bind="p.gtin" />
-                                </div> 
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addProduct()">
+                                    <i class="fa fa-plus"></i>
+                                    Adicionar linha de produto
+                                </button>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                        <label class="control-label">Marca</label>            
-                                        <select class="form-control "    value.bind="p.brand.id & validate">
-                                            <option  value=""></option> 
-                                            <option  repeat.for="brand of brands" model.bind="brand.id">${brand.name}</option>
+                            <div class="row mt-5" repeat.for="p of product.products">
+                                <span if.bind="p.isNew" class="badge badge-warning ml-3">Novo!</span>
+                                <div class="row col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group">                                     
+                                            <label class="control-label">Descrição</label>
+                                            <input type="text" class="form-control "   value.bind="p.description & validate" />
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group"> 
+                                                <label class="control-label">GTIN</label>
+                                            <input type="text" class="form-control "   value.bind="p.gtin" />
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <label class="control-label">Marca</label>            
+                                                <select class="form-control "    value.bind="p.brand.id & validate">
+                                                    <option  value=""></option> 
+                                                    <option  repeat.for="brand of brands" model.bind="brand.id">${brand.name}</option>
+                                                </select>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group mt-4">
+                                            <button type="button" if.bind="! p.isActive" class="btn btn-success   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Ativar</button>
+                                            <button type="button" if.bind="p.isActive" class="btn btn-danger   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Inativar</button> 
+                                            <button type="button" if.bind="p.isNew" class="btn btn-danger   waves-effect waves-light"   click.trigger="removeProduct(p)">Remover</button>                                                                        
+                                        </div>     
+                                    </div>    
+                                </div>
+                                <div class="row col-md-12">
+                                <div class="col-md-3">
+                                        <label class="control-label">UM<span class="text-danger  ml-1 bold">*</span></label>            
+                                        <select class="form-control "    value.bind="p.unit & validate" change.trigger="updateUnit(p)">
+                                            <option  value=""></option>
+                                            <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
                                         </select>
-                                </div> 
+                                    </div> 
+                                    <div class="col-md-3 ${p.unit.mustInformQuantity ? '' : 'invisible' }">
+                                    <div class="form-group">
+                                            <label class="control-label" if.bind="p.unit.name == 'CX'">A UM interna da caixa é</label>    
+                                            <label class="control-label" if.bind="p.unit.name == 'PCT'">A UM interna do pacote é</label>  
+                                            <label class="control-label" if.bind="p.unit.name == 'UN'">A UM interna da unidade é</label>
+                                            <label class="control-label" if.bind="p.unit.name == 'BLD'">A UM interna do balde é</label>  
+                                            <label class="control-label" if.bind="p.unit.name == 'SC'">A UM interna do saco é</label>  
+                                            <label class="control-label" if.bind="p.unit.name == 'BJ'">A UM interna da bandeja é</label>  
+                                            <label class="control-label" if.bind="p.unit.name == 'PÇ'">A UM interna da peça é </label>  
+                                            <select class="form-control "    value.bind="p.unitInternal" change.trigger="updateUnitInternal(p)">
+                                                <option  value=""></option>
+                                                <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
+                                            </select>
+                                    </div> 
+                                    </div>  
+                                    <div class="col-md-3 ${p.unit.mustInformQuantity && p.unitInternal.id ? '' : 'invisible' }">
+                                        <div class="form-group"> 
+                                            <label class="control-label" if.bind="p.unit.name == 'CX'">Quantos ${p.unitInternal.name}s tem a caixa?</label> 
+                                            <label class="control-label" if.bind="p.unit.name == 'PCT'">Quantos ${p.unitInternal.name}s tem o pacote?</label>
+                                            <label class="control-label" if.bind="p.unit.name == 'UN'">Quantos ${p.unitInternal.name}s tem a unidade?</label>
+                                            <label class="control-label" if.bind="p.unit.name == 'BLD'">Quantos ${p.unitInternal.name}s tem o balde?</label>
+                                            <label class="control-label" if.bind="p.unit.name == 'SC'">Quantos ${p.unitInternal.name}s tem o saco?</label>
+                                            <label class="control-label" if.bind="p.unit.name == 'BJ'">Quantos ${p.unitInternal.name}s tem a bandeja?</label>
+                                            <label class="control-label" if.bind="p.unit.name == 'PÇ'">Quantos ${p.unitInternal.name}s tem o peça?</label>
+                                            <input type="text" class="form-control money"   value.bind="p.multiplier | money" money placeholder="00" change.trigger="updateMultiplier(p)" />
+                                        </div> 
+                                    </div> 
+                                    <div class="col-md-2 ${p.unit.mustInformQuantity && p.unitInternal.id && p.multiplier > 0 ? '' : 'invisible' }">
+                                        <div class="form-group mt-5">
+                                            <label class="custom-control custom-checkbox">
+                                                <span class="ml-2 mt-1">Preço é informado por ${p.unit.name}?</span>
+                                                <input type="checkbox" class="custom-control-input" checked.bind="p.priceIsByUnitPrincipal">
+                                                <span class="custom-control-indicator"></span> 
+                                            </label>
+                                        </div>     
+                                    </div>    
+                                </div>
+                                <div class="row">
+                                    <hr>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                 <div class="form-group mt-4">
-                                     <button type="button" if.bind="! p.isActive" class="btn btn-success   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Ativar</button>
-                                     <button type="button" if.bind="p.isActive" class="btn btn-danger   waves-effect waves-light"   click.trigger="changeProductStatus(p)">Inativar</button> 
-                                     <button type="button" if.bind="p.isNew" class="btn btn-danger   waves-effect waves-light"   click.trigger="removeProduct(p)">Remover</button>                                                                        
-                                 </div>     
-                            </div>    
+                            <div class="text-center mt-4" if.bind="! isLoading">                        
+                                <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>
+                                <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>                            
+                            </div>
+                            <div class="fa-2x text-center mx-auto" if.bind="isLoading && isEditing">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
                         </div>
-                        <div class="row col-md-12">
-                           <div class="col-md-3">
-                                <label class="control-label">UM<span class="text-danger  ml-1 bold">*</span></label>            
-                                <select class="form-control "    value.bind="p.unit & validate" change.trigger="updateUnit(p)">
-                                    <option  value=""></option>
-                                    <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
-                                </select>
-                            </div> 
-                            <div class="col-md-3 ${p.unit.mustInformQuantity ? '' : 'invisible' }">
-                              <div class="form-group">
-                                    <label class="control-label" if.bind="p.unit.name == 'CX'">A UM interna da caixa é</label>    
-                                    <label class="control-label" if.bind="p.unit.name == 'PCT'">A UM interna do pacote é</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'UN'">A UM interna da unidade é</label>
-                                    <label class="control-label" if.bind="p.unit.name == 'BLD'">A UM interna do balde é</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'SC'">A UM interna do saco é</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'BJ'">A UM interna da bandeja é</label>  
-                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">A UM interna da peça é </label>  
-                                    <select class="form-control "    value.bind="p.unitInternal" change.trigger="updateUnitInternal(p)">
-                                        <option  value=""></option>
-                                        <option  repeat.for="unit of units" model.bind="unit">${unit.name}</option>
-                                    </select>
-                              </div> 
-                            </div>  
-                            <div class="col-md-3 ${p.unit.mustInformQuantity && p.unitInternal.id ? '' : 'invisible' }">
-                                 <div class="form-group"> 
-                                       <label class="control-label" if.bind="p.unit.name == 'CX'">Quantos ${p.unitInternal.name}s tem a caixa?</label> 
-                                       <label class="control-label" if.bind="p.unit.name == 'PCT'">Quantos ${p.unitInternal.name}s tem o pacote?</label>
-                                       <label class="control-label" if.bind="p.unit.name == 'UN'">Quantos ${p.unitInternal.name}s tem a unidade?</label>
-                                    <label class="control-label" if.bind="p.unit.name == 'BLD'">Quantos ${p.unitInternal.name}s tem o balde?</label>
-                                    <label class="control-label" if.bind="p.unit.name == 'SC'">Quantos ${p.unitInternal.name}s tem o saco?</label>
-                                    <label class="control-label" if.bind="p.unit.name == 'BJ'">Quantos ${p.unitInternal.name}s tem a bandeja?</label>
-                                    <label class="control-label" if.bind="p.unit.name == 'PÇ'">Quantos ${p.unitInternal.name}s tem o peça?</label>
-                                    <input type="text" class="form-control money"   value.bind="p.multiplier | money" money placeholder="00" change.trigger="updateMultiplier(p)" />
-                                 </div> 
-                            </div> 
-                            <div class="col-md-2 ${p.unit.mustInformQuantity && p.unitInternal.id && p.multiplier > 0 ? '' : 'invisible' }">
-                                 <div class="form-group mt-5">
-                                     <label class="custom-control custom-checkbox">
-                                         <span class="ml-2 mt-1">Preço é informado por ${p.unit.name}?</span>
-                                         <input type="checkbox" class="custom-control-input" checked.bind="p.priceIsByUnitPrincipal">
-                                         <span class="custom-control-indicator"></span> 
-                                     </label>
-                                 </div>     
-                            </div>    
+                        <div class="tab-pane fade active show" id="tab-1-2" role="tabpanel" aria-labelledby="tab-1-1" aria-expanded="true">
+                            <div class="row">
+                                <div class="col-md-12"> 
+                                    <div class="row mt-3">
+                                        <table class="table table-hover" if.bind="! isLoading">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nome</th>
+                                                    <th>Descrição</th>
+                                                    <td>Marca</td>
+                                                    <th>UM</th>
+                                                    <th>UM Interna</th>
+                                                    <th>GTIN</th> 
+                                                    <th>FoodServices</th>
+                                                    <th>Fornecedores</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr repeat.for="x of associations">
+                                                    <td>${x.name}</td> 
+                                                    <td>${x.description}</td>  
+                                                    <td>${x.brand}</td>  
+                                                    <td>${x.unit}</td> 
+                                                    <td>${x.unitInternal}</td> 
+                                                    <td>${x.gtin}</td>
+                                                    <td>
+                                                        <ul>
+                                                            <li repeat.for="fs of x.foodServices">${fs.name}</li>
+                                                        </ul>
+                                                    </td> 
+                                                    <td>
+                                                        <ul>
+                                                            <li repeat.for="s of x.suppliers">${s.name}</li>
+                                                        </ul>
+                                                    </td> 
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table> 
+                                        <div class="text-center mt-4" if.bind="! isLoading">
+                                            <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>                            
+                                        </div> 
+                                    </div> 
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                            <hr>
-                        </div>
-                    </div>
-                    <div class="text-center mt-4" if.bind="! isLoading">                        
-                        <button type="button" class="btn btn-primary   waves-effect waves-light"   click.trigger="addOrUpdate()">Salvar</button>
-                        <button type="button" class="btn btn-secondary   waves-effect waves-light"   click.trigger="cancel()">Cancelar</button>                            
-                    </div>
-                    <div class="fa-2x text-center mx-auto" if.bind="isLoading && isEditing">
-                        <i class="fa fa-refresh fa-spin"></i>
                     </div>
                 </div>
              </div>

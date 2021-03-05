@@ -1,13 +1,7 @@
-import { Supplier } from '../domain/supplier';
-import { autoinject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
-import { Rest, Config } from 'aurelia-api';
-import { Identity } from '../domain/identity';
-import { Credential } from "../domain/credential";
-import { FoodServiceSupplier } from '../domain/foodServiceSupplier';
-import { SupplierViewModel } from '../domain/supplierViewModel';
-import { FoodServiceConnectionViewModel } from '../domain/foodServiceViewModel';
-import { FoodService } from '../domain/foodService';
+import { autoinject } from 'aurelia-framework'; 
+import { Rest, Config } from 'aurelia-api'; 
+import { FoodServiceSupplier } from '../domain/foodServiceSupplier'; 
+import { FoodServiceConnectionViewModel } from '../domain/foodServiceConnectionViewModel'; 
 
 @autoinject
 export class FoodServiceConnectionRepository { 

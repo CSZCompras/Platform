@@ -1,18 +1,12 @@
 import { ScriptRunner } from './services/scriptRunner';
-import { Identity } from './domain/identity';
-import { isNullOrUndefined } from 'util';
+import { Identity } from './domain/identity'; 
 import { IdentityService } from './services/identityService';
 import { autoinject, Aurelia } from 'aurelia-framework';
-import { Router, RouterConfiguration, NavigationInstruction } from 'aurelia-router';
+import { Router, RouterConfiguration } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
-import { Rest, Config } from 'aurelia-api';
-import { configure } from './resources';
+import { Rest, Config } from 'aurelia-api'; 
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { NotificationService } from './services/notificationService';
-import { MessageService } from './services/messageService';
-import { NotificationRepository } from './repositories/notificationRepository';
-import { Notification } from './domain/notification';
-
+import { NotificationService } from './services/notificationService'; 
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -21,11 +15,7 @@ import 'velocity-animate';
 import 'velocity';
 import 'custom-scrollbar';
 import 'jquery-visible';
-import 'ie10-viewport';  
-import { OrderRepository } from './repositories/orderRepository';
-import { UserType } from './domain/userType';
-import { FoodServiceConnectionRepository } from './repositories/foodServiceConnectionRepository';
-import { FoodServiceConnectionViewModel } from './domain/foodServiceViewModel';
+import 'ie10-viewport';   
 
 
 @autoinject

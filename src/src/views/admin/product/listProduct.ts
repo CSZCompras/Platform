@@ -16,6 +16,7 @@ import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { Brand } from '../../../domain/brand';
 import { BrandRepository } from '../../../repositories/brandRepository';
+import { ProductAssociationViewModel } from '../../../domain/productAssociationViewModel';
 
 @autoinject
 export class ListProduct{
@@ -36,6 +37,7 @@ export class ListProduct{
     selectedUnit                : UnitOfMeasurement;
     isLoading                   : boolean;
 	validationController        : ValidationController;
+    associations                : ProductAssociationViewModel[];
 
 
     constructor(		 
@@ -214,6 +216,15 @@ export class ListProduct{
         });
         
         this.applyRules();
+        this.loadAssociations(product.id)
+    }
+
+    loadAssociations(productId : string){
+        this.productRepository
+            .getProductAssociations(productId) 
+            .then( (data : ProductAssociationViewModel[]) =>  this.associations = data)
+            .catch( e => this.nService.presentError(e));   
+
     }
 
     updateUnit(p : Product){

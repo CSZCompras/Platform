@@ -3,7 +3,7 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { FoodServiceConnectionRepository } from '../../repositories/foodServiceConnectionRepository';
-import { FoodServiceConnectionViewModel } from '../../domain/foodServiceViewModel'; 
+import { FoodServiceConnectionViewModel } from '../../domain/foodServiceConnectionViewModel'; 
 import { DialogService } from 'aurelia-dialog';
 import { AprovacaoCliente } from '../components/partials/aprovacaoCliente';
 import { RejeicaoCadastroFoodService } from '../components/partials/rejeicaoCadastroFoodService'; 

@@ -9,6 +9,7 @@ import { Product } from "../domain/product";
 import { HttpClient } from 'aurelia-fetch-client';
 import { Brand } from '../domain/brand';
 import { PriceListItem } from '../domain/priceListItem';
+import { ProductAssociationViewModel } from '../domain/productAssociationViewModel';
 
 
 @autoinject
@@ -295,4 +296,22 @@ export class ProductRepository{
                     })); 
                 }); 
     } 
+
+    getProductAssociations(productId : string) : Promise<ProductAssociationViewModel[]> {
+
+        return this.api
+                    .find('productAssociation?productId=' + productId)
+                    .then( (result : Promise<any>) => {    
+                        if(result == null)             
+                            return Promise.resolve();
+                        return result;
+                    })
+                    .catch( (e) => {
+                        console.log(e);
+                        return Promise.resolve(e.json().then( error => {
+                            throw error;
+                        }));
+                    });
+
+    }
 }
