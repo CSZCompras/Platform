@@ -202,22 +202,33 @@ export class Cotacao{
         this.simulationRepository
             .simulate(this.selectedQuote)
             .then(  x => { 
-                
-				this.simulations = x;
-				
-				this.simulations.forEach( y => { 
-					if(y.bestResult != null){
-						this.results.push(y.bestResult);
+                try{
+
+					this.simulations = x;
+					
+					this.simulations.forEach( y => { 
+						if(y.bestResult != null){
+							this.results.push(y.bestResult);
+						}
+					});
+					this.isProcessing = false;
+					this.runScript(); 
+					
+					this.ea.publish('dataLoaded'); 
+
+					if(this.simulations.length > 0){
+
+						try {
+							this.showHideSimulationResultMarket(this.simulations[0]);
+							this.renderSimulationResults();
+							
+						} catch (error) {
+							console.log(error);
+						}
 					}
-				});
-				this.isProcessing = false;
-				this.runScript();
-				this.ea.publish('dataLoaded'); 
 
-				if(this.simulations.length > 0){
-
-					this.showHideSimulationResultMarket(this.simulations[0]);
-					this.renderSimulationResults();
+				} catch (error) {
+					this.ea.publish('dataLoaded');
 				}
             })
             .catch( e => {
