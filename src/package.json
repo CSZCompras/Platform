@@ -20,7 +20,7 @@
     "aurelia-validation": "^1.1.2",
     "bluebird": "^3.4.1",
     "bootstrap": "^4.0.0",
-    "chart.js": "^2.7.2",
+    "chart.js": "^2.9.4",
     "extend": "^3.0.1",
     "hamburgers": "^0.9.3",
     "ie10-viewport-bug-workaround.js": "^1.0.0",
