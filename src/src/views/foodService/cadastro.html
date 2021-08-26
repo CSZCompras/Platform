@@ -1,162 +1,242 @@
-<template> 
+<template>
 	<require from="../components/attributes/cnpjMask"></require>
 	<require from="../components/attributes/cepMask"></require>
-   	<require from="../components/attributes/phoneWithDDDMask"></require>
-	<require from="../components/attributes/cellPhoneWithDDDMask"></require>     
-	<require from="../components/attributes/inscricaoEstadualMask"></require> 
+	<require from="../components/attributes/phoneWithDDDMask"></require>
+	<require from="../components/attributes/cellPhoneWithDDDMask"></require>
+	<require from="../components/attributes/inscricaoEstadualMask"></require>
 	<require from="../components/valueConverters/cnpjValueConverter"></require>
 	<require from="../components/valueConverters/cepValueConverter"></require>
 	<require from="../components/valueConverters/phoneWithDDDValueConverter"></require>
 	<require from="../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
 	<require from="../components/valueConverters/inscricaoEstadualValueConverter"></require>
 
-   <div class="row mb-5 au-animate">
-      <div class="col-md-12">
-         <div class="card">
-            <div class="card-header">
-               Cadastro de Cliente
-               <div class="progress">
-                  <div class="progress-bar progress-bar-sm bg-gradient" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-               </div>
-            </div>
-            <div class="card-form-wizard">
-               <div class="row">
-                  <div class="col-lg-12">
-                     <div id="rootwizard-1">
-                        <ul class="nav nav-pills">
-                           <li>
-                              <a href="#tab1" data-toggle="tab">
-                              <span class="main-text">
-                              <span class="h3">1. Dados Básicos</span>
-                              </span>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="#tab2" data-toggle="tab">
-                              <span class="main-text">
-                              <span class="h3">2. Endereço</span>
-                              <small>No validation required</small>
-                              </span>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="#tab3" data-toggle="tab">
-                              <span class="main-text">
-                              <span class="h3">3. Contatos</span>
-                              </span>
-                              </a>
-                           </li>
-                        </ul>
-                        <div class="tab-content clearfix">
-                           <div class="tab-pane" id="tab1">
-                              <div class="row">
-                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                       <label class="control-label">Razão Social <span class="text-danger">*</span></label>
-                                       <input type="text" class="form-control"  value.bind="foodService.name"  />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">CNPJ <span class="text-danger">*</span></label>
-                                       <span class="ml-2 fa-1x text-center" if.bind="isCNPJLoading"><i class="fa fa-refresh fa-spin"></i></span>
-                                       <input type="text" class="form-control" cnpj value.bind="foodService.cnpj | cnpj "  change.delegate="consultaCNPJ()"/>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                       <label class="control-label">Nome Fantasia <span class="text-danger">*</span></label>
-                                       <input type="text" class="form-control" value.bind="foodService.fantasyName" />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">Inscrição Estadual <span class="text-danger">*</span></label>
-                                       <input type="text" class="form-control" inscricaoEstadual  value.bind="foodService.inscricaoEstadual | inscricaoEstadual" />
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="tab-pane" id="tab2">
-                              <div class="row">
-                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                       <label class="control-label">CEP</label>
-                                       <input type="text" class="form-control ${validator.addressValidator.isCepInvalid  ? 'border-danger' : '' } " cep value.bind="foodService.address.cep | cep"  change.delegate="consultaCEP()"/>
-                                    </div>
-                                 </div>
-                              </div>                                     
-                              <div class="row">
-                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                       <label class="control-label">Logradouro</label>
-                                       <input type="text" class="form-control ${validator.addressValidator.isLogradouroInvalid  ? 'border-danger' : '' } "  value.bind="foodService.address.logradouro" change.delegate="validator.addressValidator.validateLogradouro()" />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">Bairro</label>
-                                       <input type="text" class="form-control ${validator.addressValidator.isNeighborhoodInvalid  ? 'border-danger' : '' } " value.bind="foodService.address.neighborhood" change.delegate="validator.addressValidator.validateNeighborhood()" />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">Estado</label>
-                                       <input type="text"  class="form-control ${validator.addressValidator.isStateInvalid  ? 'border-danger' : '' } "  value.bind="foodService.address.state"  change.delegate="validator.addressValidator.validateState()" />
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                       <label class="control-label">Número</label>
-                                       <input type="number" class="form-control ${validator.addressValidator.isNumberInvalid  ? 'border-danger' : '' }"  value.bind="foodService.address.number"   change.delegate="validator.addressValidator.validateNumber()" />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">Cidade</label>
-                                       <input type="text" class="form-control ${validator.addressValidator.isCityInvalid  ? 'border-danger' : '' }"  value.bind="foodService.address.city"    change.delegate="validator.addressValidator.validateCity()" />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">Complemento</label>
-                                       <input type="text"  class="form-control "  value.bind="foodService.address.complement" />
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="tab-pane" id="tab3">
-                              <div class="row">
-                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                       <label class="control-label">Nome</label>
-                                       <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" value.bind="foodService.contact.name"  change.delegate="validator.contactValidator.validateName()" />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">Telefone Comercial </label>
-                                       <input type="text" class="form-control " phone-with-ddd value.bind="foodService.contact.commercialPhone | phoneWithDDD"  placeholder="(01) 1234-5678"/>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">E-mail</label>
-                                       <input type="text" class="form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' }  "  value.bind="foodService.contact.email" change.delegate="validator.contactValidator.validateEmail()" />
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                       <label class="control-label">Telefone</label>
-                                       <input type="text" class="form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } " phone-with-ddd value.bind="foodService.contact.phone | phoneWithDDD"  change.delegate="validator.contactValidator.validatePhone()"  />
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="control-label">Telefone Celular</label>
-                                       <input type="text" class="form-control "  cell-phone-with-ddd value.bind="foodService.contact.personalPhone | cellPhoneWithDDD" placeholder="(01) 01234-5678"/>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <ul class="pager wizard">
-                              <li class="previous "><a href="#"  class="waves-effect waves-light" click.trigger="back()">Voltar</a></li>
-                              <li class="next" if.bind="currentStep < totalSteps"><a href="#" class="waves-effect waves-light" click.trigger="advance()">Avançar</a></li>
-                              <li class="finish float-right" if.bind="currentStep == totalSteps" > 
-                                    <button type="button"   if.bind="! isLoading"  class="btn btn-primary btn-gradient assign-task waves-effect waves-light" click.trigger="save()"><span class="gradient">Salvar</span></button>
-                                    <div class="fa-2x text-center" if.bind="isLoading" >
-                                            <i class="fa fa-refresh fa-spin"></i>
-                                    </div> 
-                                </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+	<div class="row mb-5 au-animate">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					Cadastro de Cliente
+					<div class="progress">
+						<div class="progress-bar progress-bar-sm bg-gradient" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+						 style="width: 0%"></div>
+					</div>
+				</div>
+				<div class="card-form-wizard">
+					<div class="row">
+						<div class="col-lg-12">
+							<div id="rootwizard-1">
+								<ul class="nav nav-pills">
+									<li>
+										<a href="#tab1" data-toggle="tab">
+											<span class="main-text">
+												<span class="h3">1. Dados Básicos</span>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#tab2" data-toggle="tab">
+											<span class="main-text">
+												<span class="h3">2. Endereço</span>
+												<small>No validation required</small>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#tab3" data-toggle="tab">
+											<span class="main-text">
+												<span class="h3">3. Contatos</span>
+											</span>
+										</a>
+									</li>
+								</ul>
+								<div class="tab-content clearfix">
+									<div class="tab-pane" id="tab1">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Razão Social
+														<span class="text-danger">*</span>
+													</label>
+													<input type="text" class="form-control" value.bind="foodService.name" />
+												</div>
+												<div class="form-group">
+													<label class="control-label">CNPJ
+														<span class="text-danger">*</span>
+													</label>
+													<span class="ml-2 fa-1x text-center" if.bind="isCNPJLoading">
+														<i class="fa fa-refresh fa-spin"></i>
+													</span>
+													<input type="text" class="form-control" cnpj value.bind="foodService.cnpj | cnpj " change.delegate="consultaCNPJ()" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Nome Fantasia
+														<span class="text-danger">*</span>
+													</label>
+													<input type="text" class="form-control" value.bind="foodService.fantasyName" />
+												</div>
+												<div class="form-group">
+													<label class="control-label">Inscrição Estadual
+														<span class="text-danger">*</span>
+													</label>
+													<input type="text" class="form-control" inscricaoEstadual value.bind="foodService.inscricaoEstadual | inscricaoEstadual"
+													/>
+												</div>
+											</div>
+										</div>
+
+										<hr class="hr">
+
+										<div class="row">
+											<div class="col-sm-12 col-md-9 col-lg-6">
+												<label class="control-label">
+													Contrato Social
+													<span class="text-danger">*</span>
+												</label>
+												<div if.bind="!foodService.socialContract || uploadNewSocialContract">
+													<div class="row">
+														<div class="col-12">
+															<form submit.delegate="uploadSocialContract()">
+																<input id="files" ref="files" type="file" accept=".pdf" files.bind="selectedFiles" class="form-control-file">
+															</form>
+														</div>
+													</div>
+													<br />
+													<div class="row">
+														<div class="col-6">
+															<button type="button" class="btn btn-secondary waves-effect waves-light btn-block" if.bind="foodService.socialContract" click.delegate="cancelNewUpload()">
+																Cancelar
+															</button>
+														</div>
+													</div>
+												</div>
+												<div if.bind="foodService.socialContract && !uploadNewSocialContract">
+													<p class="text-success font-weight-bold">
+														Contrato social registrado
+														<i class="fa fa-check"></i>
+													</p>
+													<div class="row">
+														<div class="col-6">
+															<button type="button" class="btn btn-primary waves-effect waves-light btn-block" click.trigger="downloadSocialContract()">
+																<i class="batch-icon batch-icon-cloud-download"></i>
+																Download
+															</button>
+														</div>
+														<div class="col-6">
+															<button type="button" click.delegate="uploadNewSocialContract = true" class="btn btn-primary waves-effect waves-light btn-block">
+																<i class="batch-icon batch-icon-cloud-upload"></i>
+																Upload novo contrato social
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="tab-pane" id="tab2">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">CEP</label>
+													<input type="text" class="form-control ${validator.addressValidator.isCepInvalid  ? 'border-danger' : '' } " cep value.bind="foodService.address.cep | cep"
+													 change.delegate="consultaCEP()" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Logradouro</label>
+													<input type="text" class="form-control ${validator.addressValidator.isLogradouroInvalid  ? 'border-danger' : '' } " value.bind="foodService.address.logradouro"
+													 change.delegate="validator.addressValidator.validateLogradouro()" />
+												</div>
+												<div class="form-group">
+													<label class="control-label">Bairro</label>
+													<input type="text" class="form-control ${validator.addressValidator.isNeighborhoodInvalid  ? 'border-danger' : '' } " value.bind="foodService.address.neighborhood"
+													 change.delegate="validator.addressValidator.validateNeighborhood()" />
+												</div>
+												<div class="form-group">
+													<label class="control-label">Estado</label>
+													<input type="text" class="form-control ${validator.addressValidator.isStateInvalid  ? 'border-danger' : '' } " value.bind="foodService.address.state"
+													 change.delegate="validator.addressValidator.validateState()" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Número</label>
+													<input type="number" class="form-control ${validator.addressValidator.isNumberInvalid  ? 'border-danger' : '' }" value.bind="foodService.address.number"
+													 change.delegate="validator.addressValidator.validateNumber()" />
+												</div>
+												<div class="form-group">
+													<label class="control-label">Cidade</label>
+													<input type="text" class="form-control ${validator.addressValidator.isCityInvalid  ? 'border-danger' : '' }" value.bind="foodService.address.city"
+													 change.delegate="validator.addressValidator.validateCity()" />
+												</div>
+												<div class="form-group">
+													<label class="control-label">Complemento</label>
+													<input type="text" class="form-control " value.bind="foodService.address.complement" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane" id="tab3">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Nome</label>
+													<input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" value.bind="foodService.contact.name"
+													 change.delegate="validator.contactValidator.validateName()" />
+												</div>
+												<div class="form-group">
+													<label class="control-label">Telefone Comercial
+													</label>
+													<input type="text" class="form-control " phone-with-ddd value.bind="foodService.contact.commercialPhone | phoneWithDDD" placeholder="(01) 1234-5678"
+													/>
+												</div>
+												<div class="form-group">
+													<label class="control-label">E-mail</label>
+													<input type="text" class="form-control ${validator.contactValidator.isEmailInvalid  ? 'border-danger' : '' }  " value.bind="foodService.contact.email"
+													 change.delegate="validator.contactValidator.validateEmail()" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Telefone</label>
+													<input type="text" class="form-control ${validator.contactValidator.isPhoneInvalid  ? 'border-danger' : '' } " phone-with-ddd
+													 value.bind="foodService.contact.phone | phoneWithDDD" change.delegate="validator.contactValidator.validatePhone()"
+													/>
+												</div>
+												<div class="form-group">
+													<label class="control-label">Telefone Celular</label>
+													<input type="text" class="form-control " cell-phone-with-ddd value.bind="foodService.contact.personalPhone | cellPhoneWithDDD"
+													 placeholder="(01) 01234-5678" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<ul class="pager wizard">
+										<li class="previous ">
+											<a href="#" class="waves-effect waves-light" click.trigger="back()">Voltar</a>
+										</li>
+										<li class="next" if.bind="currentStep < totalSteps">
+											<a href="#" class="waves-effect waves-light" click.trigger="advance()">Avançar</a>
+										</li>
+										<li class="finish float-right" if.bind="currentStep == totalSteps">
+											<button type="button" if.bind="! isLoading" class="btn btn-primary btn-gradient assign-task waves-effect waves-light" click.trigger="save()">
+												<span class="gradient">Salvar</span>
+											</button>
+											<div class="fa-2x text-center" if.bind="isLoading">
+												<i class="fa fa-refresh fa-spin"></i>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
