@@ -113,7 +113,6 @@ export class Cadastro {
 			.then((foodService: FoodService) => {
 
 				this.foodService = foodService;
-				console.log(foodService);
 
 				if (this.foodService.address == null) {
 
