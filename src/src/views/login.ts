@@ -23,44 +23,44 @@ import 'ie10-viewport';
 @autoinject
 export class Login {
 
-    credential: Credential; 
+    credential: Credential;
     processing = false;
 
-     
+
     constructor(
-        private router          : Router, 
-        private loginRepository : LoginRepository, 
-        private service         : IdentityService, 
-        private ea              : EventAggregator ,
-        private nService        : NotificationService ) {
+        private router: Router,
+        private loginRepository: LoginRepository,
+        private service: IdentityService,
+        private ea: EventAggregator,
+        private nService: NotificationService) {
     }
 
-    doLogin() : void {
+    doLogin(): void {
         this.processing = true;
 
         this.loginRepository
             .login(this.credential)
-            .then( (identity : Identity) =>{ 
-                this.service.setIdentity(identity); 
-                this.ea.publish('loginDone'); 
+            .then((identity: Identity) => {
+                debugger;
+                this.service.setIdentity(identity);
+                this.ea.publish('loginDone');
                 this.router.navigateToRoute('econocompras');
-                
-            }).catch( e => 
-            {
+
+            }).catch(e => {
                 this.nService.error(e);
                 this.processing = false;
             });
     }
 
-    
-	  
-   	attached(): void { 
-        ScriptRunner.runScript();   
+
+
+    attached(): void {
+        ScriptRunner.runScript();
 
         if (IdentityService.identity) {
             this.ea.publish('loginDone');
             this.router.navigateToRoute('econocompras');
-        }      
-	}
+        }
+    }
 
 }

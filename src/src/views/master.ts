@@ -38,6 +38,8 @@ export class Master {
 	waitingFoodServices: FoodServiceConnectionViewModel[];
 	message: string;
 
+	infoOpen: false;
+
 	constructor(
 		private service: IdentityService,
 		private nService: NotificationService,

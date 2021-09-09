@@ -93,7 +93,7 @@
 													Contrato Social
 													<span class="text-danger">*</span>
 												</label>
-												<div if.bind="!foodService.socialContract || uploadNewSocialContract">
+												<div if.bind="!foodService.hasSocialContract || uploadNewSocialContract">
 													<div class="row">
 														<div class="col-12">
 															<form submit.delegate="uploadSocialContract()">
@@ -104,13 +104,14 @@
 													<br />
 													<div class="row">
 														<div class="col-6">
-															<button type="button" class="btn btn-secondary waves-effect waves-light btn-block" if.bind="foodService.socialContract" click.delegate="cancelNewUpload()">
+															<button type="button" class="btn btn-secondary waves-effect waves-light btn-block" if.bind="foodService.hasSocialContract"
+															 click.delegate="cancelNewUpload()">
 																Cancelar
 															</button>
 														</div>
 													</div>
 												</div>
-												<div if.bind="foodService.socialContract && !uploadNewSocialContract">
+												<div if.bind="foodService.hasSocialContract && !uploadNewSocialContract">
 													<p class="text-success font-weight-bold">
 														Contrato social registrado
 														<i class="fa fa-check"></i>

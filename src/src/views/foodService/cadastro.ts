@@ -214,7 +214,7 @@ export class Cadastro {
 
 		var errors = this.validator.validate();
 
-		if (!this.foodService.socialContract && (!this.selectedFiles || !(this.selectedFiles.length > 0))) {
+		if (!this.foodService.hasSocialContract && (!this.selectedFiles || !(this.selectedFiles.length > 0))) {
 			errors.push('O contrato social é obrigatório');
 		}
 
