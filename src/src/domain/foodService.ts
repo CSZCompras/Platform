@@ -19,7 +19,7 @@ export class FoodService {
     registerStatus: RegisterStatus;
     foodServiceSuppliers: FoodServiceSupplier[];
     isTrainingAccount: boolean;
-    socialContract: any;
+    hasSocialContract: boolean;
 
     constructor() {
     }

@@ -26,199 +26,199 @@ import { FoodServiceSupplier } from '../../../domain/foodServiceSupplier';
 import { FoodServiceConnectionRepository } from '../../../repositories/foodServiceConnectionRepository';
 
 @autoinject
-export class EditFoodService{
+export class EditFoodService {
 
-    foodService         : FoodService;
-    foodId              : string;
-    selectedFiles       : any;
-    isUploading         : boolean;
-    stateRegistrations  : StateRegistration[];
-    users               : User[];    
-    user                : User;   
-    userEditing         : User;     
-    validator 			: FoodServiceValidator;
-    edit                : boolean;
-    loadConnection      : boolean;
-    connection          : FoodServiceSupplier;
+    foodService: FoodService;
+    foodId: string;
+    selectedFiles: any;
+    isUploading: boolean;
+    stateRegistrations: StateRegistration[];
+    users: User[];
+    user: User;
+    userEditing: User;
+    validator: FoodServiceValidator;
+    edit: boolean;
+    loadConnection: boolean;
+    connection: FoodServiceSupplier;
 
     constructor(
-        private router                  : Router, 
-        private ea                      : EventAggregator,
-        private dialogService           : DialogService,
-        private nService                : NotificationService,
-        private stateRepo               : StateRegistrationRepository, 
-        private userRepository          : UserRepository,
-        private config                  : Config,
-        private connectionRepository    : FoodServiceConnectionRepository,
-        private repository              : FoodServiceRepository, 
-		private consultaCepService      : ConsultaCEPService) { 
+        private router: Router,
+        private ea: EventAggregator,
+        private dialogService: DialogService,
+        private nService: NotificationService,
+        private stateRepo: StateRegistrationRepository,
+        private userRepository: UserRepository,
+        private config: Config,
+        private connectionRepository: FoodServiceConnectionRepository,
+        private repository: FoodServiceRepository,
+        private consultaCepService: ConsultaCEPService) {
 
-            this.foodService = new FoodService();
-            this.foodService.address = new Address();
-            this.user = new User();
-            this.edit = true;
+        this.foodService = new FoodService();
+        this.foodService.address = new Address();
+        this.user = new User();
+        this.edit = true;
 
-            this.ea.subscribe('showFoodServiceDetails', (event) => {
+        this.ea.subscribe('showFoodServiceDetails', (event) => {
 
-                this.foodId = event.foodId;
-                this.edit = event.edit
-                this.loadConnection = event.loadConnection;
+            this.foodId = event.foodId;
+            this.edit = event.edit
+            this.loadConnection = event.loadConnection;
 
-                if(! this.loadConnection){
-                    this.connection = null;
-                }
+            if (!this.loadConnection) {
+                this.connection = null;
+            }
 
-                this.loadData();
-            });
-            this.connection = null;
-            this.loadConnection= null;
+            this.loadData();
+        });
+        this.connection = null;
+        this.loadConnection = null;
     }
 
-    attached(){ 
-       
+    attached() {
+
         this.loadData();
     }
 
-    
-    activate(params){ 
 
-        if(params != null && params.foodId){ 
+    activate(params) {
+
+        if (params != null && params.foodId) {
 
             this.foodId = params.foodId;
-        } 
+        }
     }
 
 
-    loadData(){
+    loadData() {
 
-        if(this.foodId != null &&  this.foodId != ''){
+        if (this.foodId != null && this.foodId != '') {
 
-            this.ea.publish('loadingData'); 
+            this.ea.publish('loadingData');
 
-            var p1 =    this.repository
-                            .get(this.foodId)
-                            .then(x => this.foodService = x)
-                            .catch( e => this.nService.presentError(e)); 
+            var p1 = this.repository
+                .get(this.foodId)
+                .then(x => this.foodService = x)
+                .catch(e => this.nService.presentError(e));
 
-            var p2 =    this.stateRepo
-                            .getAll()
-                            .then( (data : StateRegistration[]) => this.stateRegistrations = data)
-                            .catch( e => this.nService.presentError(e)); 
+            var p2 = this.stateRepo
+                .getAll()
+                .then((data: StateRegistration[]) => this.stateRegistrations = data)
+                .catch(e => this.nService.presentError(e));
 
-            var p3  =   this.userRepository
-                        .getUsersFromFoodService(this.foodId)
-                        .then( (data : User[]) => this.users = data)
-                        .catch( e => this.nService.presentError(e)); 
-                        
+            var p3 = this.userRepository
+                .getUsersFromFoodService(this.foodId)
+                .then((data: User[]) => this.users = data)
+                .catch(e => this.nService.presentError(e));
+
             Promise.all([p1, p2, p3]).then(() => {
 
-                this.ea.publish('dataLoaded'); 
+                this.ea.publish('dataLoaded');
 
-                if(this.foodService.address == null){
+                if (this.foodService.address == null) {
                     this.foodService.address = new Address();
-                } 
-                this.validator = new FoodServiceValidator(this.foodService);				
+                }
+                this.validator = new FoodServiceValidator(this.foodService);
             });
 
-            
 
-            if(this.loadConnection){
+
+            if (this.loadConnection) {
                 this.connectionRepository
                     .getSupplierConnection(this.foodId)
-                    .then( (x : FoodServiceSupplier) => this.connection = x)
-                    .catch( e => this.nService.presentError(e)); 
+                    .then((x: FoodServiceSupplier) => this.connection = x)
+                    .catch(e => this.nService.presentError(e));
 
             }
 
         }
-    } 
+    }
 
-    save(){
+    save() {
 
         this.repository
             .save(this.foodService)
-            .then( () =>{     
+            .then(() => {
                 this.nService.presentSuccess('Cadastro atualizado com sucesso!');
 
-            }).catch( e => {
-                this.nService.error(e);                
+            }).catch(e => {
+                this.nService.error(e);
             });
 
     }
 
-    cancel(){
+    cancel() {
         this.router.navigateToRoute('foodServicesAdmin');
     }
 
-    editUser(x : User){
+    editUser(x: User) {
 
-        (<any> x).isEditing = true;
-        (<any> x)._name = x.name;
-        (<any> x)._email = x.email;
+        (<any>x).isEditing = true;
+        (<any>x)._name = x.name;
+        (<any>x)._email = x.email;
     }
 
-    cancelEditUser(x : User){
+    cancelEditUser(x: User) {
 
-        (<any> x).isEditing = false;
-        x.name = (<any> x)._name;
-        x.email = (<any> x)._email;
+        (<any>x).isEditing = false;
+        x.name = (<any>x)._name;
+        x.email = (<any>x)._email;
     }
 
-    editUserStatus(x : User, status : UserStatus){
+    editUserStatus(x: User, status: UserStatus) {
 
-        ( <any>x)._status = status;
+        (<any>x)._status = status;
         x.status = status;
 
         this.userRepository
-        .save(x)
-        .then( (x) =>{     
-            this.nService.presentSuccess('Usuário atualizado com sucesso!');
+            .save(x)
+            .then((x) => {
+                this.nService.presentSuccess('Usuário atualizado com sucesso!');
 
-        }).catch( e => {
-            x.status = ( <any>x)._status;
-            this.nService.error(e);                
-        }); 
+            }).catch(e => {
+                x.status = (<any>x)._status;
+                this.nService.error(e);
+            });
     }
 
-    saveEditUser(x : User){
-        
+    saveEditUser(x: User) {
+
         this.userRepository
             .save(x)
-            .then( () =>{     
+            .then(() => {
                 this.nService.presentSuccess('Usuário atualizado com sucesso!');
-                ( <any>x).isEditing = false;
+                (<any>x).isEditing = false;
 
-            }).catch( e => {
-                this.nService.error(e);                
-            }); 
+            }).catch(e => {
+                this.nService.error(e);
+            });
     }
 
-    createUser(){
+    createUser() {
         this.user.foodService = this.foodService;
         this.user.type = UserType.FoodService;
-        
+
         this.userRepository
             .save(this.user)
-            .then( (x) =>{     
+            .then((x) => {
                 this.nService.presentSuccess('Usuário atualizado com sucesso!');
                 this.users.unshift(x);
-                this.user = new  User();
+                this.user = new User();
 
-            }).catch( e => {
-                this.nService.error(e);                
-            }); 
+            }).catch(e => {
+                this.nService.error(e);
+            });
     }
 
-    cancelCreateUser(){
+    cancelCreateUser() {
 
         this.user = new User();
     }
 
-    resendInvite(user : User){
+    resendInvite(user: User) {
 
         this.userRepository
             .resendInvite(user.id)
-            .then( () => {
+            .then(() => {
                 this.nService.presentSuccess('Invite enviado com sucesso!');
             })
             .catch(e => this.nService.presentError(e));
@@ -226,31 +226,31 @@ export class EditFoodService{
 
     }
 
-    editStatus( status : FoodServiceStatus){
-        
+    editStatus(status: FoodServiceStatus) {
+
         this.repository
             .updateStatus(this.foodService.id, status)
-            .then( () => {
+            .then(() => {
                 this.foodService.status = status;
                 this.nService.presentSuccess('Status atualizado com sucesso!');
             })
             .catch(e => this.nService.presentError(e));
     }
 
-    
 
-    cancelUpload(){
+
+    cancelUpload() {
         this.selectedFiles = [];
-        ( <any> document.getElementById("files")).value = "";
+        (<any>document.getElementById("files")).value = "";
     }
-    
-    downloadSocialContract(){         
+
+    downloadSocialContract() {
         var api = this.config.getEndpoint('apiAddress');
         window.open(api.client.baseUrl + 'downloadFoodServiceContractSocial?foodServiceId=' + this.foodService.id, '_blank');
     }
 
-    uploadSocialContract(){ 
-        
+    uploadSocialContract() {
+
         this.isUploading = true;
 
         let formData = new FormData();
@@ -259,65 +259,64 @@ export class EditFoodService{
             formData.append('file', this.selectedFiles[i]);
         }
 
-        
-        this.repository
-            .uploadSocialContract(formData, this.foodService.id) 
-            .then( () =>{    
 
-                this.isUploading = false;  
-                ( <any> document.getElementById("files")).value = "";
+        this.repository
+            .uploadSocialContract(formData, this.foodService.id)
+            .then(() => {
+
+                this.isUploading = false;
+                (<any>document.getElementById("files")).value = "";
                 this.nService.presentSuccess('Contrato atualizado com sucesso!');
 
-            }).catch( e => {
+            }).catch(e => {
                 this.selectedFiles = [];
                 this.nService.error(e);
                 this.isUploading = false;
             });
     }
 
-    
 
-	consultaCEP(){
 
-		this.validator.addressValidator.validateCep();
+    consultaCEP() {
 
-		if(this.foodService.address.cep.length >= 8){
+        this.validator.addressValidator.validateCep();
 
-			this.consultaCepService
-				.findCEP(this.foodService.address.cep)
-				.then( (result : ConsultaCepResult) => {
+        if (this.foodService.address.cep.length >= 8) {
 
-					if(result != null){
-						
-						this.foodService.address.city = result.localidade;
-						this.foodService.address.neighborhood = result.bairro;
-						this.foodService.address.number = null;
-						this.foodService.address.logradouro = result.logradouro;
-						this.foodService.address.complement = result.complemento;
-						this.foodService.address.state = result.uf;
-						this.validator.validate();
-					}
-				}).catch( e => 
-				{
-					this.nService.presentError(e);
-				});
-		}
-	}
+            this.consultaCepService
+                .findCEP(this.foodService.address.cep)
+                .then((result: ConsultaCepResult) => {
 
-    cancelShowDetails(){ 
+                    if (result != null) {
+
+                        this.foodService.address.city = result.localidade;
+                        this.foodService.address.neighborhood = result.bairro;
+                        this.foodService.address.number = null;
+                        this.foodService.address.logradouro = result.logradouro;
+                        this.foodService.address.complement = result.complemento;
+                        this.foodService.address.state = result.uf;
+                        this.validator.validate();
+                    }
+                }).catch(e => {
+                    this.nService.presentError(e);
+                });
+        }
+    }
+
+    cancelShowDetails() {
         this.ea.publish('showFoodServiceDetailsCanceled');
     }
 
-    
 
-    showDeliveryRule(){
 
-        var params = { CanEdit : false, FoodServiceId : this.foodId};
+    showDeliveryRule() {
+
+        var params = { CanEdit: false, FoodServiceId: this.foodId };
 
         this.dialogService
             .open({ viewModel: RegraDeEntrega, model: params, lock: false })
             .whenClosed(response => {
                 return;
             });
-    }  
+    }
 }

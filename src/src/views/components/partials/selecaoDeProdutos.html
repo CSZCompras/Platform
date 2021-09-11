@@ -1,133 +1,146 @@
 <template>
       <require from="../attributes/moneyMask"></require>
-      <require from="../valueConverters/moneyValueConverter"></require>  
+      <require from="../valueConverters/moneyValueConverter"></require>
       <div class="col-md-12">
-         <div id="accordion" role="tablist" aria-multiselectable="true">            
-            <div class="">
-               <div class="card-header ml-0" role="tab" id="headingTwo">
-                  <h5 class="mb-0">
-                     <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <i class="batch-icon batch-icon-layout-content-left"></i> Produtos
-                     </a>
-                  </h5>
-               </div> 
-               <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" style="">
-                  <div class="row mt-2">
-                     <div class="col-lg-4">
-                        <div class="form-group">
-                           <label class="control-label">Mercado</label>            
-                           <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedClass" change.delegate="loadProducts()">
-                              <option  repeat.for="class of classes" model.bind="class">${class.name}</option>
-                           </select>
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                  <div class="">
+                        <div class="card-header ml-0" role="tab" id="headingTwo">
+                              <h5 class="mb-0">
+                                    <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                          <i class="batch-icon batch-icon-layout-content-left"></i> Produtos
+                                    </a>
+                              </h5>
                         </div>
-                     </div>
-                     <div class="col-lg-4">
-                        <div class="form-group">
-                           <label class="control-label">Categoria</label>            
-                           <select class="form-control ${ isLoaded ? '' : 'disabled' }"   disabled.bind="! isLoaded" value.bind="selectedCategory" change.delegate="search()">
-                              <option  value="-1">Todos</option>
-                              <option  repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
-                           </select>
+                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" style="">
+                              <div class="row mt-2">
+                                    <div class="col-lg-4">
+                                          <div class="form-group">
+                                                <label class="control-label">Mercado</label>
+                                                <select class="form-control ${ isLoaded ? '' : 'disabled' }" disabled.bind="! isLoaded" value.bind="selectedClass" change.delegate="loadProducts()">
+                                                      <option repeat.for="class of classes" model.bind="class">${class.name}</option>
+                                                </select>
+                                          </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                          <div class="form-group">
+                                                <label class="control-label">Categoria</label>
+                                                <select class="form-control ${ isLoaded ? '' : 'disabled' }" disabled.bind="! isLoaded" value.bind="selectedCategory" change.delegate="search()">
+                                                      <option value="-1">Todos</option>
+                                                      <option repeat.for="category of selectedClass.categories" model.bind="category">${category.name}</option>
+                                                </select>
+                                          </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                          <div class="form-group">
+                                                <label class="control-label">Filtro</label>
+                                                <input type="text" class="form-control  ${ isLoaded ? '' : 'disabled' }" disabled.bind="! isLoaded" value.bind="filter" placeholder="Pesquise por Produto / Descrição"
+                                                      change.trigger="search()" />
+                                          </div>
+                                    </div>
+                              </div>
+                              <div class="row" if.bind="isFiltered">
+                                    <div class="col-md-12 pb-5 mt-5">
+                                          <table class="table table-hover table-sm">
+                                                <thead>
+                                                      <tr>
+                                                            <th class="text-left">Nome</th>
+                                                            <th>Categoria</th>
+                                                            <th>Marca</th>
+                                                            <th class="text-center">Descrição</th>
+                                                            <th class="text-center">UM</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                      </tr>
+                                                </thead>
+                                                <tbody repeat.for="base of filteredProducts" if.bind="base.products.length > 0">
+                                                      <tr repeat.for="product of base.products">
+                                                            <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">
+                                                                  <span if.bind="$index == 0">${base.name}</span>
+                                                            </td>
+                                                            <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">${base.category.name}</td>
+                                                            <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">${product.brand.name}</td>
+                                                            <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
+                                                            <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">
+                                                                  ${product.unit.name}
+                                                                  <span if.bind="product.unitInternal != null && product.multiplier > 0"> com ${product.multiplier} ${product.unitInternal.name}(s)</span>
+                                                            </td>
+                                                            <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">
+                                                                  <span class="badge badge-warning float-left" if.bind="!product.priceIsByUnitPrincipal && product.unitInternal != null">
+                                                                        / ${product.unitInternal.name}
+                                                                  </span>
+                                                            </td>
+                                                            <td class="align-middle  ${ $index > 0 ? 'border-0' : ''}">
+                                                                  <div class="fa-2x text-center mx-auto" if.bind="product.isLoading">
+                                                                        <i class="fa fa-refresh fa-spin"></i>
+                                                                  </div>
+                                                                  <button if.bind="! product.supplierProduct && ! product.isLoading" type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                                                        click.trigger="includeProduct(product)">Incluir</button>
+                                                                  <button if.bind="product.supplierProduct && ! product.isLoading" type="button" class="btn btn-success btn-sm waves-effect waves-light"
+                                                                        click.trigger="saveProduct(product)">Salvar</button>
+                                                                  <button if.bind="product.supplierProduct && ! product.isLoading" type="button" class="btn  btn-secondary  btn-sm waves-effect waves-light"
+                                                                        click.trigger="product.supplierProduct = null">Cancelar</button>
+                                                            </td>
+                                                      </tr>
+                                                </tbody>
+                                          </table>
+                                          <div class="row mt-2 mb-4">
+                                                <button type="button" class="btn btn-primary mx-auto waves-effect waves-light" if.bind="alteredProducts.length > 0 && ! isLoading"
+                                                      click.trigger="saveAll()"> Salvar </button>
+                                                <div class="fa-2x text-center mx-auto" if.bind="! isLoaded && selectedClass != null">
+                                                      <i class="fa fa-refresh fa-spin"></i>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
                         </div>
-                     </div>         
-                     <div class="col-lg-4">
-                        <div class="form-group">
-                           <label class="control-label">Filtro</label> 
-                           <input type="text" class="form-control  ${ isLoaded ? '' : 'disabled' }"  disabled.bind="! isLoaded"  value.bind="filter"  placeholder="Pesquise por Produto / Descrição"  change.trigger="search()"/>
-                        </div>
-                     </div>
                   </div>
-                  <div class="row" if.bind="isFiltered">
-                     <div class="col-md-12 pb-5 mt-5"> 
-                        <table class="table table-hover table-sm">
-                           <thead>
-                              <tr>
-                                 <th class="text-left">Nome</th>
-                                 <th>Categoria</th>
-                                 <th>Marca</th> 
-                                 <th class="text-center">Descrição</th>
-                                 <th class="text-center">UM</th>  
-                                 <th></th>
-                              </tr>
-                           </thead>
-                           <tbody repeat.for="base of filteredProducts" if.bind="base.products.length > 0">
-                              <tr repeat.for="product of base.products">
-                                 <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">
-                                    <span if.bind="$index == 0">${base.name}</span> 
-                                 </td> 
-                                 <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">${base.category.name}</td>
-                                 <td class="align-middle ${ $index > 0 ? 'border-0' : ''}">${product.brand.name}</td>
-                                 <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">${product.description}</td>
-                                 <td class="text-center align-middle ${ $index > 0 ? 'border-0' : ''}">
-                                    ${product.unit.name}
-                                    <span if.bind="product.unitInternal != null && product.multiplier > 0"> com ${product.multiplier} ${product.unitInternal.name}(s)</span>
-                                 </td> 
-                                 <td class="align-middle  ${ $index > 0 ? 'border-0' : ''}"><div class="fa-2x text-center mx-auto" if.bind="product.isLoading" >
-                                          <i class="fa fa-refresh fa-spin"></i>
-                                       </div> 
-                                       <button  if.bind="! product.supplierProduct && ! product.isLoading"    type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="includeProduct(product)">Incluir</button>
-                                       <button  if.bind="product.supplierProduct && ! product.isLoading"      type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="saveProduct(product)">Salvar</button>
-                                       <button  if.bind="product.supplierProduct && ! product.isLoading"      type="button" class="btn  btn-secondary  btn-sm waves-effect waves-light" click.trigger="product.supplierProduct = null">Cancelar</button>
-                                 </td>   
-                              </tr>
-                           </tbody>
-                        </table>
-                        <div class="row mt-2 mb-4">
-                              <button type="button" class="btn btn-primary mx-auto waves-effect waves-light" if.bind="alteredProducts.length > 0 && ! isLoading" click.trigger="saveAll()">  Salvar  </button>                                                       
-                              <div class="fa-2x text-center mx-auto" if.bind="! isLoaded && selectedClass != null" >
-                                 <i class="fa fa-refresh fa-spin"></i>
-                              </div> 
+                  <div class="">
+                        <div class="card-header ml-0" role="tab" id="headingDownload">
+                              <h5 class="mb-0">
+                                    <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseDownload" aria-expanded="false" aria-controls="collapseDownload">
+                                          <i class="batch-icon batch-icon-cloud-download"></i> Download
+                                    </a>
+                              </h5>
                         </div>
-                     </div>
+                        <div id="collapseDownload" class="collapse" role="tabpanel" aria-labelledby="collapseDownload" style="">
+                              <div class="card-body">
+                                    <p class="text-left">Faça o download da nossa base de dados de produtos disponíveis</p>
+                                    <button type="button" class="btn btn-primary waves-effect waves-light col-md-3" click.trigger="downloadProductsFile()">
+                                          <i class="batch-icon batch-icon-cloud-download"></i>
+                                          Download
+                                    </button>
+                              </div>
+                        </div>
                   </div>
-               </div>
-            </div> 
-            <div class="">
-               <div class="card-header ml-0" role="tab" id="headingDownload">
-                  <h5 class="mb-0">
-                     <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseDownload" aria-expanded="false" aria-controls="collapseDownload">
-                        <i class="batch-icon batch-icon-cloud-download"></i> Download
-                     </a>
-                  </h5>
-               </div> 
-               <div id="collapseDownload" class="collapse" role="tabpanel" aria-labelledby="collapseDownload" style="">
-                  <div class="card-body"> 
-                     <p class="text-left">Faça o download da nossa base de dados de produtos disponíveis</p>
-                        <button type="button" class="btn btn-primary waves-effect waves-light col-md-3" click.trigger="downloadProductsFile()">
-                           <i class="batch-icon batch-icon-cloud-download"></i>
-                           Download
-                        </button>   
-                  </div>
-               </div>
-            </div> 
-            <div class="">
-               <div class="card-header ml-0" role="tab" id="headingUpload">
-                  <h5 class="mb-0">
-                     <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseUpload" aria-expanded="false" aria-controls="collapseUpload">
-                        <i class="batch-icon batch-icon-cloud-upload"></i>
-                        Upload
-                     </a>
-                  </h5> 
-               </div>
-               <div id="collapseUpload" class="collapse" role="tabpanel" aria-labelledby="headingFour" style="">
-                  <div class="card-body" > 
-                        <p class="text-left"></p>
-                        <br />
-                           <form submit.delegate="uploadFile()">
-                                 <button type="submit" if.bind="selectedFiles.length > 0" class="btn ${ ! isUploading ? 'btn-primary' : 'btn-warning'} waves-effect waves-light col-md-3" disable.bind="isUploading">
-                                       <span if.bind="! isUploading">
+                  <div class="">
+                        <div class="card-header ml-0" role="tab" id="headingUpload">
+                              <h5 class="mb-0">
+                                    <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseUpload" aria-expanded="false" aria-controls="collapseUpload">
                                           <i class="batch-icon batch-icon-cloud-upload"></i>
                                           Upload
-                                       </span>
-                                       <span  if.bind="isUploading">
-                                             <i class="fa fa-circle-o-notch fa-spin"></i> Processando arquivo
-                                       </span>
-                                 </button>
-                                 <input id="filesSelectProduts" type="file" accept=".xlsx" files.bind="selectedFiles" class="${ isUploading ? 'invisible' : ''}"> 
-                           </form> 
+                                    </a>
+                              </h5>
+                        </div>
+                        <div id="collapseUpload" class="collapse" role="tabpanel" aria-labelledby="headingFour" style="">
+                              <div class="card-body">
+                                    <p class="text-left"></p>
+                                    <br />
+                                    <form submit.delegate="uploadFile()">
+                                          <button type="submit" if.bind="selectedFiles.length > 0" class="btn ${ ! isUploading ? 'btn-primary' : 'btn-warning'} waves-effect waves-light col-md-3"
+                                                disable.bind="isUploading">
+                                                <span if.bind="! isUploading">
+                                                      <i class="batch-icon batch-icon-cloud-upload"></i>
+                                                      Upload
+                                                </span>
+                                                <span if.bind="isUploading">
+                                                      <i class="fa fa-circle-o-notch fa-spin"></i> Processando arquivo
+                                                </span>
+                                          </button>
+                                          <input id="filesSelectProduts" type="file" accept=".xlsx" files.bind="selectedFiles" class="${ isUploading ? 'invisible' : ''}">
+                                    </form>
+                              </div>
+                        </div>
                   </div>
-               </div>
             </div>
-         </div>
       </div>
 </template>

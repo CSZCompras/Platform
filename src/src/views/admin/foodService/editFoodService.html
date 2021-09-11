@@ -258,13 +258,13 @@
 					<div class="tab-pane">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="form-group" if.bind="foodService.socialContract">
+								<div class="form-group" if.bind="foodService.hasSocialContract">
 									<button type="button" class="btn btn-primary ml-2 waves-effect waves-light" click.trigger="downloadSocialContract()">
 										<i class="batch-icon batch-icon-cloud-download"></i>
 										Download
 									</button>
 								</div>
-								<div if.bind="!foodService.socialContract">
+								<div if.bind="!foodService.hasSocialContract">
 									<p class="text-danger font-weight-bold">
 										Contrato social não registrado
 										<i class="fa fa-exclamation-triangle"></i>
