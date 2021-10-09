@@ -10,11 +10,14 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowJs": true,
-        "moduleResolution": "node", 
-        "lib": ["es2017", "dom"]
+        "moduleResolution": "node",
+        "lib": [
+            "es2017",
+            "dom"
+        ]
     },
     "exclude": [
-        "node_modules",        
+        "node_modules",
         "!node_modules/@types",
         "!node_modules/@aspnet/signalr/src",
         "aurelia_project",
@@ -23,7 +26,7 @@
         "./src/**/*.ts",
         "./test/**/*.ts",
         "./custom_typings/**/*.d.ts"
-    ], 
+    ],
     "atom": {
         "rewriteTsconfig": false
     }

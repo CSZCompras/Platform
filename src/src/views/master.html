@@ -1,12 +1,5 @@
 <template>
-    <style>
-        .account-status {
-            position: fixed;
-            right: 30px;
-            bottom: 20px;
-            z-index: 1000;
-        }
-    </style>
+    <require from="../views/components/partials/accountStatusAlert"></require>
 
     <div>
         <div class="row">
@@ -77,67 +70,69 @@
                         <a class="navbar-brand">
                             <img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro" class="mCS_img_loaded" style="width: 150px;height: 85px; margin-left: 5px;">
                         </a>
-
                     </li>
                     <li class="mt-3">
                         <h6 class="nav-header"></h6>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${prefix}/#/econocompras/guiaRapidoFoodService">
-                            <i class="batch-icon batch-icon-browser-alt"></i> Guia rápido
+                            <i class="batch-icon batch-icon-browser-alt"></i> Quer ajuda?
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/dashboardFoodService">
+                        <a class="nav-link" href="${prefix}/#/econocompras/dashboardFoodService">
                             <i class="batch-icon batch-icon-browser-alt"></i> Dashboard
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${prefix}/#/econocompras/servicosAdmin">
-                            <i class="batch-icon batch-icon-document-add"></i>Serviços
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="${prefix}/#/econocompras/cadastroFoodService">
                             <i class="batch-icon batch-icon-list-alt"></i>Cadastro
+                            <i class="fa fa-exclamation-triangle text-warning" if.bind="!foodServiceAccountStatus.isRegistered"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/regraDeEntrega">
+                    <li class="nav-item" if.bind="foodServiceAccountStatus.isRegistered">
+                        <a class="nav-link" href="${prefix}/#/econocompras/regraDeEntrega">
                             <i class="batch-icon batch-icon-grid"></i> Regras de entrega
+                            <i class="fa fa-exclamation-triangle text-warning" if.bind="!foodServiceAccountStatus.hasDeliveryRules"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/Fornecedores">
+                    <li class="nav-item" if.bind="foodServiceAccountStatus.hasDeliveryRules">
+                        <a class="nav-link" href="${prefix}/#/econocompras/Fornecedores">
                             <i class="batch-icon batch-icon-users"></i>Fornecedores
+                            <i class="fa fa-exclamation-triangle text-warning" if.bind="!foodServiceAccountStatus.hasSuppliers"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/meusProdutos">
+                    <li class="nav-item" if.bind="foodServiceAccountStatus.hasSuppliers">
+                        <a class="nav-link" href="${prefix}/#/econocompras/meusProdutos">
                             <i class="batch-icon batch-icon-layout-center-column"></i>Produtos
+                            <i class="fa fa-exclamation-triangle text-warning" if.bind="!foodServiceAccountStatus.hasProducts"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/cotacao">
+                    <li class="nav-item" if.bind="foodServiceAccountStatus.isActive && foodServiceAccountStatus.hasProducts">
+                        <a class="nav-link" href="${prefix}/#/econocompras/cotacao">
                             <i class="batch-icon batch-icon-layout-center-column"></i>Cotação
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/pedidosFoodService">
+                    <li class="nav-item" if.bind="foodServiceAccountStatus.isActive && foodServiceAccountStatus.hasProducts">
+                        <a class="nav-link" href="${prefix}/#/econocompras/pedidosFoodService">
                             <i class="batch-icon batch-icon-layout-center-column"></i>Pedidos
                             <span class="badge badge-warning float-right ml-2 mr-2" if.bind="acceptedOrdersCount > 0 && ! isLoadingOrders">${acceptedOrdersCount}</span>
                             <span class="badge badge-success float-right ml-2 mr-2" if.bind="newOrdersCount > 0  && ! isLoadingOrders">${newOrdersCount}</span>
                             <span class="float-right" if.bind="isLoadingOrders">
                                 <i class="fa fa-refresh fa-spin"></i>
                             </span>
-
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " if.bind="identity.registerStatus == 0" href="${prefix}/#/econocompras/avaliacoesFoodService">
+                    <li class="nav-item" if.bind="foodServiceAccountStatus.isActive && foodServiceAccountStatus.hasProducts">
+                        <a class="nav-link" href="${prefix}/#/econocompras/avaliacoesFoodService">
                             <i class="batch-icon batch-icon-star "></i> Avaliações
+                        </a>
+                    </li>
+                    <li class="nav-item" if.bind="foodServiceAccountStatus.isActive && foodServiceAccountStatus.hasProducts">
+                        <a class="nav-link" href="${prefix}/#/econocompras/servicosAdmin">
+                            <i class="batch-icon batch-icon-document-add"></i>Serviços
                         </a>
                     </li>
                 </ul>
@@ -279,7 +274,6 @@
                 </nav>
                 <div class="${ isLoading ? 'invisible' : '' }">
                     <main class="main-content p-5" role="main">
-
                         <router-view containerless></router-view>
                     </main>
                 </div>
@@ -287,117 +281,17 @@
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
                 <div class="row" if.bind="message" style="position: fixed;top: 60%;left: 35%;">
-                    <h4>${message}</h4>
+                    <div class="col">
+                        <h4>${message}</h4>
+                        <br />
+                        <p>
+                            ${subMessage}
+                        </p>
+                    </div>
                 </div>
-
-                <!-- <div class="jumbotron account-status">
-                    <div class="container" if.bind="!infoOpen" style="cursor: pointer" click.delegate="infoOpen = true">
-                        <div class="row">
-                            <div class="col-3">
-                                <div class="fa-5x" style="color: #122f3b">
-                                    <i class="fa fa-info-circle"></i>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="lead mt-5 text-nowrap font-weight-bold">
-                                    Sua conta possui pendências
-                                </div>
-                                <div class="mt-2  text-nowrap">
-                                    Clique aqui para ver seu progresso
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-11" style="margin-top: 23px;">
-                                <div class="row" style="height: 12px">
-                                    <div class="col m-1 bg-success"></div>
-                                    <div class="col m-1 bg-success"></div>
-                                    <div class="col m-1 bg-success"></div>
-                                    <div class="col m-1 bg-secondary"></div>
-                                </div>
-                            </div>
-                            <div class="col-1 fa-3x" style="padding:0px">
-                                <i class="fa fa-check-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container" if.bind="infoOpen">
-                        <span class=" float-right">
-                            <button class="btn btn-sm btn-link" click.delegate="infoOpen = false">
-                                <i class="fa fa-chevron-down" style="color: #BBB"></i>
-                            </button>
-                        </span>
-                        <div class="row">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div class="fa-5x" style="color: #122f3b">
-                                            <i class="fa fa-info-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="lead mt-5 text-nowrap font-weight-bold">
-                                            Siga os passos
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <table class="table" style="margin-left: 20px;">
-                                            <tr>
-                                                <td class="bg-success" style="width: 10px; padding: 0px;border: 5px solid white">
-                                                </td>
-                                                <td style="border: 5px solid white">
-                                                    Cadastro
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bg-success" style="width: 10px; padding: 0px;border: 5px solid white">
-                                                </td>
-                                                <td style="border: 5px solid white">
-                                                    Regras de Mercado
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bg-success" style="width: 10px; padding: 0px;border: 5px solid white">
-                                                </td>
-                                                <td style="border: 5px solid white">
-                                                    Fornecedores
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bg-secondary" style="width: 10px; padding: 0px;border: 5px solid white">
-                                                </td>
-                                                <td style="border: 5px solid white">
-                                                    Produtos
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div class="fa-3x" style="position: relative; top: -28px; left: 12px;">
-                                            <i class="fa fa-check-circle"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col" style="margin-top: 100px">
-                                <p class="lead">
-                                    Texto explicativo
-                                </p>
-                                <p>
-                                    blá blá blá
-                                </p>
-                                <p class="text-nowrap mt-5">
-                                    <a href="#/econocompras/cadastroFoodService">
-                                        <i class="fa fa-arrow-right"></i>
-                                        Clique aqui para seguir para o próximo passo
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
-    </div>
+
+    <account-status-alert></account-status-alert>
 </template>

@@ -5,326 +5,342 @@ import { ProductClass } from '../../../domain/productClass';
 import { autoinject } from 'aurelia-framework';
 import { DialogService } from 'aurelia-dialog';
 import { Product } from "../../../domain/product";
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { FoodServiceProduct } from '../../../domain/foodServiceProduct';
 import { FoodServiceRepository } from '../../../repositories/foodServiceRepository';
 import { BuyList } from '../../../domain/buyList';
 import { BuyListProduct } from '../../../domain/buyListProduct';
 import { AlterBuyListProductViewModel } from '../../../domain/alterBuyListProductViewModel';
-import { DeleteBuyList} from '../../components/partials/deleteBuyList';
+import { DeleteBuyList } from '../../components/partials/deleteBuyList';
 import { BuyListStatus } from '../../../domain/buyListStatus';
+import { FoodServiceAccountStatusService } from '../../../services/foodServiceAccountStatusService';
 
 @autoinject
-export class ProdutosSelecionados{
+export class ProdutosSelecionados {
 
-    classes             : ProductClass[]; 
-    selectedClass       : ProductClass;
-    selectedCategory    : ProductCategory; 
-    allProducts         : FoodServiceProduct[];
-    filteredProducts    : FoodServiceProduct[];
-    isFiltered          : boolean;
-    filter              : string;
-    isCreatingList      : boolean;
-    newListName         : string;
-    allLists            : BuyList[];
-    lists               : BuyList[];
-    isProcessing        : boolean;
+    classes: ProductClass[];
+    selectedClass: ProductClass;
+    selectedCategory: ProductCategory;
+    allProducts: FoodServiceProduct[];
+    filteredProducts: FoodServiceProduct[];
+    isFiltered: boolean;
+    filter: string;
+    isCreatingList: boolean;
+    newListName: string;
+    allLists: BuyList[];
+    lists: BuyList[];
+    isProcessing: boolean;
 
-    constructor(		
-        private dialogService       : DialogService,
-		private nService            : NotificationService, 
-        private ea                  : EventAggregator ,
-        private productRepository   : ProductRepository,
-        private repository          : FoodServiceRepository) {
-        
+    subscriptions: Array<Subscription> = [];
+
+    constructor(
+        private dialogService: DialogService,
+        private nService: NotificationService,
+        private ea: EventAggregator,
+        private productRepository: ProductRepository,
+        private repository: FoodServiceRepository,
+        private foodServiceAccountStatusService: FoodServiceAccountStatusService
+    ) {
+
         this.isFiltered = false;
         this.isCreatingList = false;
         this.filteredProducts = [];
         this.lists = [];
-    } 
-    
-    attached() : void{ 
+    }
 
-        this.loadData(); 
-        
-        this.ea.subscribe('productAdded', (product : FoodServiceProduct) => { 
-            var productClass = product.product.base.category.productClass;
+    attached(): void {
+        this.loadData();
 
-            if(this.classes.filter(x => x.id == productClass.id).length == 0){
-                
-                if(productClass.categories == null ){
-                    productClass.categories = [];
+        this.subscriptions.push(
+            this.ea.subscribe('productAdded', (product: FoodServiceProduct) => {
+                var productClass = product.product.base.category.productClass;
+
+                if (this.classes.filter(x => x.id == productClass.id).length == 0) {
+
+                    if (productClass.categories == null) {
+                        productClass.categories = [];
+                    }
+                    this.classes.unshift(productClass);
                 }
-                this.classes.unshift(productClass);
+                this.loadProducts();
+            })
+        );
+    }
+
+    detached() {
+        if (this.subscriptions && this.subscriptions.length > 0) {
+            for (let s of this.subscriptions) {
+                s.dispose();
             }
-            this.loadProducts();
-        });
-        
-    } 
+        }
+    }
 
-    getDefaultList() : BuyList{
-        var defaultList = this.allLists.filter( (x : BuyList) => x.isDefaultList);
+    getDefaultList(): BuyList {
+        var defaultList = this.allLists.filter((x: BuyList) => x.isDefaultList);
 
-        if(defaultList != null && defaultList.length > 0){
+        if (defaultList != null && defaultList.length > 0) {
             return defaultList[0];
         }
         return null;
     }
 
-    addProductToDefaultList(product : FoodServiceProduct){
+    addProductToDefaultList(product: FoodServiceProduct) {
         this.addProductToList(this.getDefaultList(), product);
     }
 
-    addProductToList(x : BuyList, product : FoodServiceProduct){
+    addProductToList(x: BuyList, product: FoodServiceProduct) {
 
-        var foodProduct = x.products.filter( x => x.foodServiceProduct.productId == product.productId);
+        var foodProduct = x.products.filter(x => x.foodServiceProduct.productId == product.productId);
 
-        if(foodProduct == null || foodProduct.length == 0){
-            
+        if (foodProduct == null || foodProduct.length == 0) {
+
             var item = new BuyListProduct();
-            item.foodServiceProduct = product; 
+            item.foodServiceProduct = product;
             item.isInList = x.isDefaultList;
-            x.products.unshift(item); 
+            x.products.unshift(item);
         }
-        else{
+        else {
             foodProduct[0].foodServiceProduct.isActive = true;
             foodProduct[0].isInList = x.isDefaultList;
         }
 
     }
 
-    updateCategories(){ 
+    updateCategories() {
         this.defineCurrentLists();
         this.defineProductsInList();
         this.search();
     }
 
-    loadData(){
+    loadData() {
 
-                    this.productRepository
-                        .getProductClassesBySelectedProducts()
-                        .then( (data : ProductClass[]) => { 
+        this.productRepository
+            .getProductClassesBySelectedProducts()
+            .then((data: ProductClass[]) => {
 
-                            this.classes = data;
+                this.classes = data;
 
-                            data.forEach(x =>{
+                data.forEach(x => {
 
-                                if(x.categories == null ){
-                                    x.categories = [];
-                                } 
-                            });
+                    if (x.categories == null) {
+                        x.categories = [];
+                    }
+                });
 
-                            this.ea.publish('dataLoaded');
-                            this.loadProducts();
+                this.ea.publish('dataLoaded');
+                this.loadProducts();
 
-                        }).catch( e => {
-                            this.nService.presentError(e);
-                        });
+            }).catch(e => {
+                this.nService.presentError(e);
+            });
 
-         
+
     }
 
-    loadProducts(){
-
-         this.repository
+    loadProducts() {
+        this.repository
             .getProducts()
-            .then( (data : FoodServiceProduct[]) => { 
+            .then((data: FoodServiceProduct[]) => {
 
-                this.allProducts = data; 
+                this.allProducts = data;
                 this.filteredProducts = data;
                 this.loadBuyLists();
-            }).catch( e => {
+            }).catch(e => {
                 this.nService.presentError(e);
             });
     }
 
-    loadBuyLists(){
-                                
+    loadBuyLists() {
+
         this.repository
             .getLists()
-            .then( (data : BuyList[]) => { 
+            .then((data: BuyList[]) => {
 
-                this.allLists = data; 
+                this.allLists = data;
                 this.defineCurrentLists();
                 this.defineProductsInList();
                 this.search();
-            }).catch( e => {
-            //    this.nService.presentError(e);
+            }).catch(e => {
+                //    this.nService.presentError(e);
             });
     }
 
-    defineCurrentLists(){
+    defineCurrentLists() {
 
         var defaultList = this.getDefaultList();
-        this.lists = this.allLists.filter( (x : BuyList) => ! x.isDefaultList && ( x.productClass == null || x.productClass.id == this.selectedClass.id) );
+        this.lists = this.allLists.filter((x: BuyList) => !x.isDefaultList && (x.productClass == null || x.productClass.id == this.selectedClass.id));
 
-        if(defaultList != null){
+        if (defaultList != null) {
             this.lists.unshift(defaultList);
         }
     }
 
-    defineProductsInList(){
+    defineProductsInList() {
 
-        this.lists.forEach( (y : BuyList) =>{
+        this.lists.forEach((y: BuyList) => {
 
-            y.products.forEach( (z : BuyListProduct) => {
-                
-                if(z.foodServiceProduct != null){
-                    y[z.foodServiceProduct.productId] =  z.isInList;
+            y.products.forEach((z: BuyListProduct) => {
+
+                if (z.foodServiceProduct != null) {
+                    y[z.foodServiceProduct.productId] = z.isInList;
                 }
-                
+
             });
         })
     }
 
-    search(){ 
-            
-            this.isFiltered = true;
+    search() {
 
-                this.filteredProducts = this.allProducts.filter( (x : FoodServiceProduct) =>{
+        this.isFiltered = true;
 
-                        var isFound = true; 
+        this.filteredProducts = this.allProducts.filter((x: FoodServiceProduct) => {
 
-                        if( (<any> this.selectedClass) == '-1'){
+            var isFound = true;
+
+            if ((<any>this.selectedClass) == '-1') {
+                isFound = true;
+            }
+            else if ((this.selectedClass != null && this.selectedClass.id != null)) {
+
+                if (x.product.base.category.productClass.id == this.selectedClass.id) {
+                    isFound = true;
+                }
+                else {
+                    isFound = false;
+                }
+            }
+
+            if (isFound) {
+
+                if ((<any>this.selectedCategory) == '-1') {
+                    isFound = true;
+                }
+                else if ((this.selectedCategory != null && this.selectedCategory.id != null)) {
+
+                    if (x.product.base.category.id == this.selectedCategory.id) {
+                        isFound = true;
+                    }
+                    else {
+                        isFound = false;
+                    }
+                }
+
+                if (isFound) {
+
+                    if ((this.filter != null && this.filter != '')) {
+                        if (x.product.base.name.toUpperCase().includes(this.filter.toUpperCase())) {
                             isFound = true;
-                        } 
-                        else if( (this.selectedClass != null && this.selectedClass.id != null)){ 
-                                
-                            if(x.product.base.category.productClass.id == this.selectedClass.id){
-                                isFound = true;
-                            }
-                            else {
-                                isFound= false;
-                            }
-                        } 
-                        
-                        if(isFound){
-
-                            if( (<any> this.selectedCategory) == '-1'){
-                                isFound = true;
-                            } 
-                            else if( (this.selectedCategory != null && this.selectedCategory.id != null)){ 
-                                    
-                                if(x.product.base.category.id == this.selectedCategory.id){
-                                    isFound = true;
-                                }
-                                else {
-                                    isFound= false;
-                                }
-                            } 
-                                
-                            if(isFound){
-
-                                    if( (this.filter != null && this.filter != '')){ 
-                                        if( x.product.base.name.toUpperCase().includes(this.filter.toUpperCase()) ){
-                                            isFound = true;
-                                        }
-                                        else {
-                                            isFound= false;
-                                        }
-                                    }
-                            }
                         }
-                            if(isFound){
-                                return x;
-                            } 
-                    });  
+                        else {
+                            isFound = false;
+                        }
+                    }
+                }
+            }
+            if (isFound) {
+                return x;
+            }
+        });
     }
 
-    addProduct(product : Product){
-        
-        this.allProducts = this.allProducts.filter( (x : FoodServiceProduct) => {
-            if(x.product.id != product.id)
+    addProduct(product: Product) {
+
+        this.allProducts = this.allProducts.filter((x: FoodServiceProduct) => {
+            if (x.product.id != product.id)
                 return x;
         });
 
-        this.filteredProducts = this.filteredProducts.filter( (x : FoodServiceProduct) => {
-            if(x.product.id != product.id)
+        this.filteredProducts = this.filteredProducts.filter((x: FoodServiceProduct) => {
+            if (x.product.id != product.id)
                 return x;
         });
 
         this.ea.publish('productAdded', product);
     }
 
-    createList() : void{      
+    createList(): void {
 
-        if(this.newListName != null && this.newListName != '' ){
-            
+        if (this.newListName != null && this.newListName != '') {
+
             var buyList = new BuyList();
             buyList.name = this.newListName;
 
             this.repository
                 .addBuyList(buyList)
-                .then( (data : BuyList) => { 
+                .then((data: BuyList) => {
 
-                    this.lists.unshift(data);         
+                    this.lists.unshift(data);
                     this.newListName = '';
                     this.nService.presentSuccess('Lista criada com sucesso!');
-                }).catch( e => {
+                }).catch(e => {
                     this.nService.presentError(e);
                 });
         }
     }
 
-    changeList(list : BuyList, product : FoodServiceProduct){
+    changeList(list: BuyList, product: FoodServiceProduct) {
 
         var viewModel = new AlterBuyListProductViewModel();
         viewModel.isInList = list[product.product.id];
         viewModel.foodServiceProductId = product.productId;
         viewModel.buyListId = list.id;
- 
-         this.repository
-                .alterBuyList(viewModel)
-                .then( (data : any) => { 
-                    this.nService.presentSuccess('Lista atualizada com sucesso!');
-                }).catch( e => {
-                    this.nService.presentError(e);
-                });
+
+        this.repository
+            .alterBuyList(viewModel)
+            .then((data: any) => {
+                this.nService.presentSuccess('Lista atualizada com sucesso!');
+            }).catch(e => {
+                this.nService.presentError(e);
+            });
     }
 
-    removeProduct(product : FoodServiceProduct){
+    removeProduct(product: FoodServiceProduct) {
 
-        ( <any> product).isLoading = true;
+        (<any>product).isLoading = true;
 
         this.isProcessing = true;
 
         this.repository
             .inativateProduct(product)
-            .then( (data : any) => { 
+            .then((data: any) => {
 
-                this.allProducts = this.allProducts.filter( x=> x.productId != product.productId);
-                this.filteredProducts = this.filteredProducts.filter( x=> x.productId != product.productId);
+                this.allProducts = this.allProducts.filter(x => x.productId != product.productId);
+                this.filteredProducts = this.filteredProducts.filter(x => x.productId != product.productId);
 
                 product.isActive = false;
                 this.ea.publish('productRemoved', product);
-                this.nService.presentSuccess('Produto removido  com sucesso!');                
-                this.isProcessing = false;
-                ( <any> product).isLoading = true;
+                this.nService.presentSuccess('Produto removido  com sucesso!');
 
-            }).catch( e => {
+                this.foodServiceAccountStatusService.refresh()
+                    .then(() => this.ea.publish('foodServiceAccountStatusChanged'));
+
+                this.isProcessing = false;
+                (<any>product).isLoading = true;
+
+            }).catch(e => {
 
                 this.nService.presentError(e);
                 this.isProcessing = false;
-                ( <any> product).isLoading = true;
+                (<any>product).isLoading = true;
             });
-    } 
+    }
 
-    deleteList(list : BuyList){
+    deleteList(list: BuyList) {
 
 
-        if(! list.isDefaultList){
+        if (!list.isDefaultList) {
 
-            var params = { List : list};
+            var params = { List: list };
 
             this.dialogService
                 .open({ viewModel: DeleteBuyList, model: params, lock: false })
                 .whenClosed(response => {
                     if (response.wasCancelled) {
                         return;
-                    } 
-                list.status = BuyListStatus.Inactive; 
+                    }
+                    list.status = BuyListStatus.Inactive;
                 });
 
         }
-    }  
+    }
 }

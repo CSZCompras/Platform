@@ -1,4 +1,4 @@
-import {Aurelia} from 'aurelia-framework'
+import { Aurelia } from 'aurelia-framework'
 import { PLATFORM } from 'aurelia-pal';
 import environment from './environment';
 import 'whatwg-fetch';
@@ -14,13 +14,13 @@ import 'ie10-viewport';
 
 export function configure(aurelia: Aurelia) {
   aurelia.use
-    .standardConfiguration()    
+    .standardConfiguration()
     .feature('resources')
     /* .plugin('aurelia-autocomplete')*/
     .plugin('aurelia-dialog')
     .plugin('aurelia-validation')
     .plugin("aurelia-animator-css")
-    .feature('resources')      
+    .feature('resources')
     .plugin('aurelia-api', config => {
       config.registerEndpoint('apiAddress', environment.apiAddress);
       config.registerEndpoint('viacep', environment.viacepAddress);
@@ -34,5 +34,5 @@ export function configure(aurelia: Aurelia) {
     aurelia.use.plugin('aurelia-testing');
   }
 
-   aurelia.start().then(() => aurelia.setRoot());
+  aurelia.start().then(() => aurelia.setRoot());
 }

@@ -1,0 +1,230 @@
+<template>
+
+    <style>
+        .animate-slide-in-right.au-enter {
+            transform: translateX(100%);
+        }
+
+        .animate-slide-in-right.au-enter-active {
+            animation: SlideInRight 0.5s;
+        }
+
+        @keyframes SlideInRight {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slide-out-right.au-leave-active {
+            animation: SlideOutRight 0.2s;
+        }
+
+        @keyframes SlideOutRight {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .animate-slide-in-left.au-enter {
+            transform: translateX(-100%);
+        }
+
+        .animate-slide-in-left.au-enter-active {
+            animation: SlideInLeft 1s;
+        }
+
+        @keyframes SlideInLeft {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slide-out-left.au-leave-active {
+            animation: SlideOutLeft 1s;
+        }
+
+        @keyframes SlideOutLeft {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .account-status {
+            position: fixed;
+            right: 30px;
+            bottom: 20px;
+            z-index: 1000;
+        }
+
+        .alert-button {
+            position: relative;
+            top: -20px;
+            right: -20px;
+        }
+    </style>
+
+    <div class="jumbotron account-status au-animate  animate-slide-in-right animate-slide-out-right" if.bind="visible">
+        <div if.bind="!detailsVisible">
+            <span class="alert-button float-right">
+                <button class="btn btn-sm btn-link" click.delegate="visible = false">
+                    <i class="fa fa-close" style="color: #BBB"></i>
+                </button>
+            </span>
+            <div class="container clickable" click.delegate="detailsVisible = true">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="fa-5x" style="color: #122f3b">
+                            <i class="fa fa-info-circle"></i>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="lead mt-5 text-nowrap font-weight-bold">
+                            Status da sua conta
+                        </div>
+                        <div class="mt-2  text-nowrap">
+                            Clique aqui para ver seu progresso
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-11" style="margin-top: 23px;">
+                        <div class="row" style="height: 12px">
+                            <div class="col m-1 ${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.isRegistered ? 'bg-success' : 'bg-danger'}"></div>
+                            <div class="col m-1 ${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.hasDeliveryRules ? 'bg-success' : 'bg-danger'}"></div>
+                            <div class="col m-1 ${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.hasSuppliers ? 'bg-success' : 'bg-danger'}"></div>
+                            <div class="col m-1 ${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.hasProducts ? 'bg-success' : 'bg-danger'}"></div>
+                        </div>
+                    </div>
+                    <div class="col-1 fa-3x ${!foodServiceAccountStatus ? 'text-secondary' : foodServiceAccountStatus.isActive && foodServiceAccountStatus.hasProducts ? 'text-success' : 'text-danger'}"
+                        style="padding:0px">
+                        <i class="fa fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div if.bind="detailsVisible">
+            <span class="alert-button float-right">
+                <button class="btn btn-sm btn-link" click.delegate="detailsVisible = false">
+                    <i class="fa fa-chevron-down" style="color: #BBB"></i>
+                </button>
+            </span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="fa-5x" style="color: #122f3b">
+                                    <i class="fa fa-info-circle"></i>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="lead mt-5 text-nowrap font-weight-bold">
+                                    Siga os passos
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table" style="margin-left: 20px;">
+                                    <tr>
+                                        <td class="${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.isRegistered ? 'bg-success' : 'bg-danger'}"
+                                            style="width: 10px; padding: 0px;border: 5px solid white">
+                                        </td>
+                                        <td style="border: 5px solid white">
+                                            <a href="#/econocompras/cadastroFoodService">Cadastro</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.hasDeliveryRules ? 'bg-success' : 'bg-danger'}"
+                                            style="width: 10px; padding: 0px;border: 5px solid white">
+                                        </td>
+                                        <td style="border: 5px solid white">
+                                            <a href="#/econocompras/regraDeEntrega" if.bind="foodServiceAccountStatus.isRegistered">Regras de entrega</a>
+                                            <span if.bind="!foodServiceAccountStatus.isRegistered">Regras de entrega</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.hasSuppliers ? 'bg-success' : 'bg-danger'}"
+                                            style="width: 10px; padding: 0px;border: 5px solid white">
+                                        </td>
+                                        <td style="border: 5px solid white">
+                                            <a href="#/econocompras/Fornecedores" if.bind="foodServiceAccountStatus.hasDeliveryRules">Fornecedores</a>
+                                            <span if.bind="!foodServiceAccountStatus.hasDeliveryRules">Fornecedores</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${!foodServiceAccountStatus ? 'bg-secondary' : foodServiceAccountStatus.hasProducts ? 'bg-success' : 'bg-danger'}"
+                                            style="width: 10px; padding: 0px;border: 5px solid white">
+                                        </td>
+                                        <td style="border: 5px solid white">
+                                            <a href="#/econocompras/meusProdutos" if.bind="foodServiceAccountStatus.hasSuppliers">Produtos</a>
+                                            <span if.bind="!foodServiceAccountStatus.hasSuppliers">Produtos</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="fa-3x ${!foodServiceAccountStatus ? 'text-secondary' : foodServiceAccountStatus.isActive && foodServiceAccountStatus.hasProducts ? 'text-success' : 'text-danger'}"
+                                    style="position: relative; top: -28px; left: 12px;">
+                                    <i class="fa fa-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" style="margin-top: 100px; width: 600px">
+                        <p class="lead" if.bind="!foodServiceAccountStatus.isRegistered">
+                            O 1º passo é finalizar o seu
+                            <a href="#/econocompras/cadastroFoodService">cadastro</a> no menu ao lado!
+                            <br />
+                            <br /> Preencha os dados solicitados e avance até o botão salvar.
+                        </p>
+                        <p class="lead" if.bind="foodServiceAccountStatus.isRegistered && !foodServiceAccountStatus.hasDeliveryRules">
+                            Agora vamos configurar suas regras de entrega!
+                            <br />
+                            <br /> Favor selecionar o menu
+                            <a href="#/econocompras/regraDeEntrega">Regras de entrega</a> ao lado e definir quais dias e horários você recebe seus produtos.
+                        </p>
+                        <p class="lead" if.bind="foodServiceAccountStatus.hasDeliveryRules && !foodServiceAccountStatus.hasSuppliers">
+                            Falta Pouco!
+                            <br />
+                            <br /> Antes de fazermos nossas cotações, precisamos nos cadastrar com os fornecedores.
+                            <br /> Para se cadastrar com os fornecedores, basta acessar o menu
+                            <a href="#/econocompras/Fornecedores">Fornecedores</a> e clicar no botão "Enviar Cadastro" ao lado de cada fornecedor desejado.
+                        </p>
+                        <p class="lead" if.bind="foodServiceAccountStatus.hasSuppliers && !foodServiceAccountStatus.hasApprovedSuppliers">
+                            Agora temos que aguardar os fornecedores aprovarem o seu cadastro!
+                            <br />
+                            <br/> Após aprovação, os produtos serão liberados para você montar a sua lista de compras através
+                            do menu
+                            <a href="#/econocompras/meusProdutos">Produtos</a>.
+                            <br /> Conforme os fornecedores forem aprovando, você será notificado por e-mail.
+                        </p>
+                        <p class="lead" if.bind="foodServiceAccountStatus.hasApprovedSuppliers && !foodServiceAccountStatus.hasProducts">
+                            Para iniciar a sua cotação é necessário montar sua lista de compras.
+                            <br />
+                            <br/> Para isso, selecione o menu
+                            <a href="#/econocompras/meusProdutos">Produtos</a> e inclua os produtos desejados. Os produtos inseridos serão listados na aba ao lado
+                            "Meus Produtos".
+                            <br/> Lá você pode acompanhar e remover produtos da sua lista.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
