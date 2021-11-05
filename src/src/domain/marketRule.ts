@@ -1,69 +1,72 @@
 
 export class MarketRule {
 
-    id                              : string;
-    minimumOrderValue               : number;
-    numberOfDaysToAccept            : number;
+    id: string;
+    minimumOrderValue: number;
+    numberOfDaysToAccept: number;
 
-    acceptOrderOnMonday                : boolean;
-    acceptOrderOnMondayStart           : number;
-    acceptOrderOnMondayEnd             : number;
+    acceptOrderOnMonday: boolean;
+    acceptOrderOnMondayStart: number;
+    acceptOrderOnMondayEnd: number;
 
-    acceptOrderOnTuesday               : boolean;
-    acceptOrderOnTuesdayStart          : number;
-    acceptOrderOnTuesdayEnd            : number; 
+    acceptOrderOnTuesday: boolean;
+    acceptOrderOnTuesdayStart: number;
+    acceptOrderOnTuesdayEnd: number;
 
-    acceptOrderOnWednesday             : boolean;
-    acceptOrderOnWednesdayStart        : number;
-    acceptOrderOnWednesdayEnd          : number; 
+    acceptOrderOnWednesday: boolean;
+    acceptOrderOnWednesdayStart: number;
+    acceptOrderOnWednesdayEnd: number;
 
-    acceptOrderOnThursday              : boolean;
-    acceptOrderOnThursdayStart         : number;
-    acceptOrderOnThursdayEnd           : number; 
+    acceptOrderOnThursday: boolean;
+    acceptOrderOnThursdayStart: number;
+    acceptOrderOnThursdayEnd: number;
 
-    acceptOrderOnFriday                : boolean;
-    acceptOrderOnFridayStart           : number;
-    acceptOrderOnFridayEnd             : number; 
+    acceptOrderOnFriday: boolean;
+    acceptOrderOnFridayStart: number;
+    acceptOrderOnFridayEnd: number;
 
-    acceptOrderOnSaturday              : boolean;
-    acceptOrderOnSaturdayStart         : number;
-    acceptOrderOnSaturdayEnd           : number;
+    acceptOrderOnSaturday: boolean;
+    acceptOrderOnSaturdayStart: number;
+    acceptOrderOnSaturdayEnd: number;
 
-    acceptOrderOnSunday                : boolean;
-    acceptOrderOnSundayStart           : number;
-    acceptOrderOnSundayEnd             : number; 
+    acceptOrderOnSunday: boolean;
+    acceptOrderOnSundayStart: number;
+    acceptOrderOnSundayEnd: number;
 
-    
-    deliveryOnMonday                : boolean;
-    deliveryOnMondayStart           : number;
-    deliveryOnMondayEnd             : number;
+    acceptOrderOnHolidays: boolean;
 
-    deliveryOnTuesday               : boolean;
-    deliveryOnTuesdayStart          : number;
-    deliveryOnTuesdayEnd            : number; 
+    deliveryOnMonday: boolean;
+    deliveryOnMondayStart: number;
+    deliveryOnMondayEnd: number;
 
-    deliveryOnWednesday             : boolean;
-    deliveryOnWednesdayStart        : number;
-    deliveryOnWednesdayEnd          : number; 
+    deliveryOnTuesday: boolean;
+    deliveryOnTuesdayStart: number;
+    deliveryOnTuesdayEnd: number;
 
-    deliveryOnThursday              : boolean;
-    deliveryOnThursdayStart         : number;
-    deliveryOnThursdayEnd           : number; 
+    deliveryOnWednesday: boolean;
+    deliveryOnWednesdayStart: number;
+    deliveryOnWednesdayEnd: number;
 
-    deliveryOnFriday                : boolean;
-    deliveryOnFridayStart           : number;
-    deliveryOnFridayEnd             : number; 
+    deliveryOnThursday: boolean;
+    deliveryOnThursdayStart: number;
+    deliveryOnThursdayEnd: number;
 
-    deliveryOnSaturday              : boolean;
-    deliveryOnSaturdayStart         : number;
-    deliveryOnSaturdayEnd           : number;
+    deliveryOnFriday: boolean;
+    deliveryOnFridayStart: number;
+    deliveryOnFridayEnd: number;
 
-    deliveryOnSunday                : boolean;
-    deliveryOnSundayStart           : number;
-    deliveryOnSundayEnd             : number; 
- 
-    sendNotificationToNewClient     : boolean;
-    sendNotificationToNewOrder      : boolean;
-    receiverNewClient               : string;
-    receiverNewOrder                : string;
+    deliveryOnSaturday: boolean;
+    deliveryOnSaturdayStart: number;
+    deliveryOnSaturdayEnd: number;
+
+    deliveryOnSunday: boolean;
+    deliveryOnSundayStart: number;
+    deliveryOnSundayEnd: number;
+
+    deliveryOrderOnHolidays: boolean;
+
+    sendNotificationToNewClient: boolean;
+    sendNotificationToNewOrder: boolean;
+    receiverNewClient: string;
+    receiverNewOrder: string;
 }

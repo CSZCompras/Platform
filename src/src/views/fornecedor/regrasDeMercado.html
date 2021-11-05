@@ -54,6 +54,15 @@
 							<div class="row mt-5">
 								<div class="form-check form-check-inline ml-5 col-md-8 mt-3">
 									<div class="input-group mt-4">
+										<label class="custom-control custom-checkbox col-md-3 mt-2">
+											<input type="checkbox" class="custom-control-input" value="7" checked.bind="rule.acceptOrderOnHolidays">
+											<span class="ml-1 mt-1">Aceita pedido em feriados</span>
+											<span class="custom-control-indicator"></span>
+										</label>
+									</div>
+									<br />
+									<br />
+									<div class="input-group">
 										<label class="custom-control custom-checkbox col-md-3  mt-2">
 											<input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.acceptOrderOnMonday" change.trigger="acceptOrderOnMondayChanged()">
 											<span class="ml-1 mt-1">Segunda-feira</span>
@@ -174,6 +183,15 @@
 							</h2>
 							<div class="row mt-5">
 								<div class="form-check form-check-inline ml-5 col-md-8">
+									<div class="input-group">
+										<label class="custom-control custom-checkbox col-md-3 mt-2">
+											<input type="checkbox" class="custom-control-input" value="7" checked.bind="rule.deliveryOrderOnHolidays">
+											<span class="ml-1 mt-1">Entrega em feriados</span>
+											<span class="custom-control-indicator"></span>
+										</label>
+									</div>
+									<br />
+									<br />
 									<div class="input-group">
 										<label class="custom-control custom-checkbox col-md-3  mt-2">
 											<input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.deliveryOnMonday" change.trigger="deliveryOnMondayChanged()">

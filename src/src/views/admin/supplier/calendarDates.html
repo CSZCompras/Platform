@@ -1,0 +1,72 @@
+<template>
+    <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+    <require from="../../components/attributes/datepicker"></require>
+    <require from="../../components/valueConverters/dateFormatValueConverter"></require>
+
+    <div class="row au-animate">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    ${calendar.name}
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-hover" if.bind="! isLoading">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Data</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="calendarDate of calendar.calendarDates">
+                                <td>${calendarDate.name}</td>
+                                <td>${calendarDate.date | dateFormat}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger" style="float: right;" click.delegate="deleteCalendarDateClick(calendarDate)" disabled.bind="isRemoving">
+                                        <i class="fa fa-close" if.bind="!isRemoving"></i>
+                                        <i class="fa fa fa-refresh fa-spin" if.bind="isRemoving"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr if.bind="showNewCalendarDateForm">
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Nome" value.bind="newCalendarDate.name & validate" />
+                                        <input type="text" datepicker class="form-control" autocomplete="off" placeholder="00/00/0000" value.bind="newCalendarDate.date | dateFormat & validate"
+                                        />
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <button class="btn btn-secondary btn-sm waves-effect waves-light" style="float:right" click.delegate="cancelNewCalendarDateClick()">
+                                        calcelar
+                                    </button>
+                                    <button class="btn btn-primary btn-sm waves-effect waves-light" style="float:right" click.delegate="saveNewCalendarDateClick()"
+                                        disabled.bind="isSaving">
+                                        Salvar
+                                        <i class="fa fa-save" if.bind="!isSaving"></i>
+                                        <i class="fa fa fa-refresh fa-spin" if.bind="isSaving"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-secondary ml-2 waves-effect waves-light" style="float:left" click.delegate="returnClick()">
+                                <i class="fa fa-undo mr-2"></i>Voltar
+                            </button>
+                            <button class="btn btn-primary btn-gradient waves-effect waves-light" style="float:right" click.delegate="newCalendarDateClick()"
+                                if.bind="!showNewCalendarDateForm">
+                                Novo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>

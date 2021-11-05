@@ -350,6 +350,8 @@ export class Master {
 			{ route: 'servicosAdmin', name: 'servicosAdmin', moduleId: PLATFORM.moduleName('./admin/services/listServices') },
 			{ route: 'editServiceAdmin', name: 'editServiceAdmin', moduleId: PLATFORM.moduleName('./admin/services/editService') },
 
+			{ route: 'calendarios', name: 'calendarsAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/calendars') },
+			{ route: 'calendarios/:id', name: 'calendarDatesAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/calendarDates') },
 
 			{ route: 'guiaRapidoFoodService', name: 'guiaRapido', moduleId: PLATFORM.moduleName('./foodService/guiaRapido') },
 			{ route: 'guiaRapidoFoodServiceCadastro', name: 'guiaRapidoFoodServiceCadastro', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/cadastro') },
