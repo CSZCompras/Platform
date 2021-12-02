@@ -1,3 +1,5 @@
+import { FoodServiceAccountStatus } from '../domain/foodServiceAccountStatus';
+import { FoodServiceAccountStatusService } from './../services/foodServiceAccountStatusService';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -14,6 +16,7 @@ import { NotificationRepository } from '../repositories/notificationRepository';
 import { OrderRepository } from '../repositories/orderRepository';
 import { MessageService } from '../services/messageService';
 import { RegisterStatus } from '../domain/registerStatus';
+import environment from '../environment';
 import 'jquery-visible';
 import 'popper.js';
 import 'bootstrap';
@@ -37,8 +40,8 @@ export class Master {
 	novoFoodServices: FoodServiceConnectionViewModel[];
 	waitingFoodServices: FoodServiceConnectionViewModel[];
 	message: string;
-
-	infoOpen: false;
+	subMessage: string;
+	foodServiceAccountStatus: FoodServiceAccountStatus;
 
 	constructor(
 		private service: IdentityService,
@@ -48,9 +51,10 @@ export class Master {
 		private orderRepo: OrderRepository,
 		private messageService: MessageService,
 		private connRepository: FoodServiceConnectionRepository,
-		private ea: EventAggregator) {
-
-		// this.prefix = '/cszhomologacao';
+		private foodServiceAccountStatusService: FoodServiceAccountStatusService,
+		private ea: EventAggregator
+	) {
+		this.prefix = environment.routePrefix;
 		this.isLoadingOrders = true;
 		this.isloadingFoodServices = true;
 		this.ea.subscribe('loadingData', (param) => {
@@ -58,18 +62,21 @@ export class Master {
 			if (param && param.message) {
 				this.message = param.message;
 			}
+			if (param && param.subMessage) {
+				this.subMessage = param.subMessage;
+			}
 		});
 		this.ea.subscribe('dataLoaded', () => {
-
-
 			window.setTimeout(() => {
 				this.isLoading = false;
 				this.message = null;
+				this.subMessage = null;
 			}, 500);
 		});
 	}
 
 	attached() {
+		this.foodServiceAccountStatus = this.foodServiceAccountStatusService.get();
 		ScriptRunner.runScript();
 		this.isLogged = this.service.isLogged();
 		this.identity = this.service.getIdentity();
@@ -150,7 +157,6 @@ export class Master {
 			}
 
 			if (this.identity.type == UserType.FoodService) {
-
 				this.ea.subscribe('registrationSent', () => this.loadFoodServiceConnections());
 			}
 
@@ -287,8 +293,6 @@ export class Master {
 		}
 	}
 
-
-
 	addRoutes(config: RouterConfiguration, router: Router): void {
 
 		this.identity = this.service.getIdentity();
@@ -346,6 +350,8 @@ export class Master {
 			{ route: 'servicosAdmin', name: 'servicosAdmin', moduleId: PLATFORM.moduleName('./admin/services/listServices') },
 			{ route: 'editServiceAdmin', name: 'editServiceAdmin', moduleId: PLATFORM.moduleName('./admin/services/editService') },
 
+			{ route: 'calendarios', name: 'calendarsAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/calendars') },
+			{ route: 'calendarios/:id', name: 'calendarDatesAdmin', moduleId: PLATFORM.moduleName('./admin/supplier/calendarDates') },
 
 			{ route: 'guiaRapidoFoodService', name: 'guiaRapido', moduleId: PLATFORM.moduleName('./foodService/guiaRapido') },
 			{ route: 'guiaRapidoFoodServiceCadastro', name: 'guiaRapidoFoodServiceCadastro', moduleId: PLATFORM.moduleName('./foodService/guiaRapido/cadastro') },
@@ -362,7 +368,6 @@ export class Master {
 	}
 
 	logout(): void {
-		debugger;
 		this.identityService.resetIdentity();
 
 		if (this.prefix != null && this.prefix != '') {

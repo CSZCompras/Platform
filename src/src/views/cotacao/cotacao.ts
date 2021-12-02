@@ -1,11 +1,11 @@
-import { NotificationService } from '../../services/notificationService'; 
+import { NotificationService } from '../../services/notificationService';
 import { autoinject } from 'aurelia-framework';
-import { Router } from 'aurelia-router'; 
-import { FoodServiceRepository } from '../../repositories/foodServiceRepository'; 
+import { Router } from 'aurelia-router';
+import { FoodServiceRepository } from '../../repositories/foodServiceRepository';
 import { SimulationRepository } from '../../repositories/simulationRepository';
 import { OrderRepository } from '../../repositories/orderRepository';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { SupplierViewModel } from '../../domain/supplierViewModel'; 
+import { SupplierViewModel } from '../../domain/supplierViewModel';
 import { ValidationControllerFactory, ValidationController, validateTrigger } from 'aurelia-validation';
 import { FormValidationRenderer } from '../formValidationRenderer';
 import { DeliveryRuleRepository } from '../../repositories/deliveryRuleRepository';
@@ -13,9 +13,9 @@ import { DeliveryRule } from '../../domain/deliveryRule';
 import { CheckDeliveryViewModel } from '../../domain/checkDeliveryViewModel';
 import { CheckDeliveryResult } from '../../domain/checkDeliveryResult';
 import { CheckDeliveryResultItem } from '../../domain/CheckDeliveryResultItem';
-import { SimulationInput } from '../../domain/simulation/simulationInput'; 
+import { SimulationInput } from '../../domain/simulation/simulationInput';
 import { SimulationResult } from '../../domain/simulation/simulationResult';
-import { SimulationSummaryItem } from '../../domain/simulation/simulationSummaryItem'; 
+import { SimulationSummaryItem } from '../../domain/simulation/simulationSummaryItem';
 import { Simulation } from '../../domain/simulation/simulation';
 import { SimulationMarketInputViewModel } from '../../domain/simulation/simulationMarketInputViewModel';
 import { DetalhesProduto } from '../components/partials/detalhesProduto';
@@ -30,198 +30,195 @@ import 'jquery-mask-plugin';
 import 'aurelia-validation';
 
 @autoinject
-export class Cotacao{
+export class Cotacao {
 
-	$               				: any;
-	orderId							: string;
-	currentStep     				: number;
-	totalSteps      				: number;
-    quotes          				: SimulationInput[];
-    selectedQuote   				: SimulationInput ;
-    isProcessing    				: boolean;
-	simulations      				: Simulation[];	
-	orderWasGenerated				: boolean;
-	validationController            : ValidationController;
-	deliveryWasChecked				: boolean;
-	isOrderValid					: boolean; 
-	isLoadingQuotes					: boolean; 
-	results 						: SimulationResult[]; 
-	simulationsRecorded				: SimulationRecorded[];
-	
-    constructor(		
-        private router                  	: Router, 	 
-        private dialogService           	: DialogService,
-		private repository              	: FoodServiceRepository,	
-		private ea 							: EventAggregator, 
-		private simulationRepository    	: SimulationRepository,
-		private orderRepository    			: OrderRepository, 
-		private nService                	: NotificationService,
-        private deliveryRepository      	: DeliveryRuleRepository, 
-        private validationControllerFactory : ValidationControllerFactory) {
+	$: any;
+	orderId: string;
+	currentStep: number;
+	totalSteps: number;
+	quotes: SimulationInput[];
+	selectedQuote: SimulationInput;
+	isProcessing: boolean;
+	simulations: Simulation[];
+	orderWasGenerated: boolean;
+	validationController: ValidationController;
+	deliveryWasChecked: boolean;
+	isOrderValid: boolean;
+	isLoadingQuotes: boolean;
+	results: SimulationResult[];
+	simulationsRecorded: SimulationRecorded[];
+
+	constructor(
+		private router: Router,
+		private dialogService: DialogService,
+		private repository: FoodServiceRepository,
+		private ea: EventAggregator,
+		private simulationRepository: SimulationRepository,
+		private orderRepository: OrderRepository,
+		private nService: NotificationService,
+		private deliveryRepository: DeliveryRuleRepository,
+		private validationControllerFactory: ValidationControllerFactory) {
 
 		this.currentStep = 1;
-        this.totalSteps = 3;		
+		this.totalSteps = 3;
 		this.isProcessing = false;
-		this.orderWasGenerated = false; 
+		this.orderWasGenerated = false;
 		this.isLoadingQuotes = true;
 
 		// Validation.
 		this.validationController = this.validationControllerFactory.createForCurrentScope();
 		this.validationController.addRenderer(new FormValidationRenderer());
 		this.validationController.validateTrigger = validateTrigger.blur;
-		this.deliveryWasChecked  = false;   
+		this.deliveryWasChecked = false;
 		this.isOrderValid = true;
-		this.results = []; 
+		this.results = [];
 		this.simulationsRecorded = [];
-    } 
- 
+	}
 
-	runScript() : void{
+	runScript(): void {
 
 		var thisForm = '#rootwizard-1';
 
 		var outher = this;
 
-		if( $(thisForm).length) {
+		if ($(thisForm).length) {
 
 			// Prevent page from jumping when +
-			$('.pager li a, .pager li span').on('click', function(e){
+			$('.pager li a, .pager li span').on('click', function (e) {
 				e.preventDefault();
 			});
 
 			var wizardStagesTotal = $(thisForm + ' .tab-pane').length;
-			
-			( <any> $)(thisForm).bootstrapWizard({onNext: function(tab, navigation, index) { 
 
-				if(index <= wizardStagesTotal){
-					$(thisForm + ' .tab-pane').eq(index).addClass('active');
-					$(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
+			(<any>$)(thisForm).bootstrapWizard({
+				onNext: function (tab, navigation, index) {
+
+					if (index <= wizardStagesTotal) {
+						$(thisForm + ' .tab-pane').eq(index).addClass('active');
+						$(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
+					}
+
+				}, onPrevious: function (tab, navigation, index) {
+					// Note: index is the previous frame not the current one
+					if (index !== -1) {
+						$(thisForm + ' .tab-pane').eq(index).addClass('active');
+						$(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
+					}
+				}, onTabShow: function (tab, navigation, index) {
+					// Update Progress Bar
+					var total = navigation.find('li').length;
+					var current = index + 1;
+					var completionPercentage = (current / total) * 100;
+
+					var progressBar = $(thisForm).closest('.card').find(".card-header .progress-bar");
+
+					progressBar.css({ "width": completionPercentage + "%" }).attr("aria-valuenow", completionPercentage);
+				}, onTabClick: function (tab, navigation, index) {
+					return false;
 				}
-
-			}, onPrevious: function(tab, navigation, index) {
-				// Note: index is the previous frame not the current one
-				if(index !== -1){
-					$(thisForm + ' .tab-pane').eq(index).addClass('active');
-					$(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
-				}
-			}, onTabShow: function(tab, navigation, index) {
-				// Update Progress Bar
-				var total = navigation.find('li').length;
-				var current = index + 1;
-				var completionPercentage = (current / total) * 100;
-
-				var progressBar = $(thisForm).closest('.card').find(".card-header .progress-bar");
-
-				progressBar.css({"width": completionPercentage + "%"}).attr("aria-valuenow", completionPercentage);
-			}, onTabClick: function(tab, navigation, index){
-				return false;
-			}});
+			});
 		}
 	}
 
+	activate(params) {
+		if (params.orderId != null && params.orderId != '') {
+			this.orderId = params.orderId;
+		}
+	}
 
-    activate(params){  
-        if(params.orderId != null && params.orderId != ''){ 
-			this.orderId = params.orderId;	
-        }
-    }
+	advance() {
 
-	advance(){   
+		this.currentStep++;
 
-        this.currentStep++;
-
-        if(this.currentStep == 2){
-            this.simulate();
+		if (this.currentStep == 2) {
+			this.simulate();
 		}
 
-		if(this.currentStep == 3){
+		if (this.currentStep == 3) {
 			window.scrollTo(0, 0);
 		}
 	}
-	
-	showHideMarket(market : SimulationMarketInputViewModel){
-		this.selectedQuote.markets.forEach( x => ( <any> x).show = false );
-		(<any> market).show = true;
+
+	showHideMarket(market: SimulationMarketInputViewModel) {
+		this.selectedQuote.markets.forEach(x => (<any>x).show = false);
+		(<any>market).show = true;
 	}
 
-	showHideSimulationResultMarket(result : Simulation){
-		this.results.forEach( x => ( <any> x).show = false );
-		(<any> result).show = true;
+	showHideSimulationResultMarket(result: Simulation) {
+		this.results.forEach(x => (<any>x).show = false);
+		(<any>result).show = true;
 
 	}
 
-	renderSimulationResults(){
+	renderSimulationResults() {
 
-		window.setTimeout(()=>{
+		window.setTimeout(() => {
 			$('#tabSimulationResult-' + this.simulations[0].market.id).addClass('active show');
 			$('#simulationResult-' + this.simulations[0].market.id).removeClass('fade');
 			$('#simulationResult-' + this.simulations[0].market.id).addClass('active');
-		}, 500);					
-	} 
-	
-	
-	
+		}, 500);
+	}
 
-    search(market : SimulationMarketInputViewModel){  
+	search(market: SimulationMarketInputViewModel) {
 
-		if(market.filter == null || market.filter == ''){
-			market.filteredItems =  market.items;
+		if (market.filter == null || market.filter == '') {
+			market.filteredItems = market.items;
 		}
-		else{
-			market.filteredItems = market.items.filter( (item : SimulationInputBaseItem) => {
-				
+		else {
+			market.filteredItems = market.items.filter((item: SimulationInputBaseItem) => {
+
 				let isFound = true;
 
-				if(		 item.name.toUpperCase().includes(market.filter.toUpperCase()) 
-					||	(item.items.length == 1 && item.items[0].description != null && item.items[0].description.toUpperCase().includes(market.filter.toUpperCase()))
-					||	(item.items.length == 1 && item.items[0].brand != null && item.items[0].brand.name.toUpperCase().includes(market.filter.toUpperCase()))
-				){
+				if (item.name.toUpperCase().includes(market.filter.toUpperCase())
+					|| (item.items.length == 1 && item.items[0].description != null && item.items[0].description.toUpperCase().includes(market.filter.toUpperCase()))
+					|| (item.items.length == 1 && item.items[0].brand != null && item.items[0].brand.name.toUpperCase().includes(market.filter.toUpperCase()))
+				) {
 
 					isFound = true;
 				}
 				else {
-					isFound= false;
+					isFound = false;
 				}
 
-				if(isFound){
+				if (isFound) {
 					return item;
-				} 
-			});  
+				}
+			});
 		}
-    }
+	}
 
-    simulate(){
+	simulate() {
 
-		this.ea.publish('loadingData', 
-			{ message : 'Estamos calculando a melhor cotação para você!'});  
-		this.isProcessing = true;  
+		this.ea.publish('loadingData',
+			{ message: 'Estamos calculando a melhor cotação para você!', subMessage: 'Isso pode levar até 4 minutos.' });
+		this.isProcessing = true;
 
-		this.simulations 	= [];
-		this.results 		= [];
+		this.simulations = [];
+		this.results = [];
 
-        this.simulationRepository
-            .simulate(this.selectedQuote)
-            .then(  x => { 
-                try{
+		this.simulationRepository
+			.simulate(this.selectedQuote)
+			.then(x => {
+				try {
 
 					this.simulations = x;
-					
-					this.simulations.forEach( y => { 
-						if(y.bestResult != null){
+
+					this.simulations.forEach(y => {
+						if (y.bestResult != null) {
 							this.results.push(y.bestResult);
 						}
 					});
 					this.isProcessing = false;
-					this.runScript(); 
-					
-					this.ea.publish('dataLoaded'); 
+					this.runScript();
 
-					if(this.simulations.length > 0){
+					this.ea.publish('dataLoaded');
+
+					if (this.simulations.length > 0) {
 
 						try {
 							this.showHideSimulationResultMarket(this.simulations[0]);
 							this.renderSimulationResults();
-							
+
 						} catch (error) {
 							console.log(error);
 						}
@@ -230,110 +227,110 @@ export class Cotacao{
 				} catch (error) {
 					this.ea.publish('dataLoaded');
 				}
-            })
-            .catch( e => {
+			})
+			.catch(e => {
 				this.simulations = [];
-                this.nService.presentError(e);
+				this.nService.presentError(e);
 				this.isProcessing = false;
 				this.ea.publish('dataLoaded');
-            });
+			});
 	}
 
-	addMoreOne(item : SimulationResultItem, result: SimulationResult){
+	addMoreOne(item: SimulationResultItem, result: SimulationResult) {
 		item.message = '';
-		( <any> item).allowAdding = true;
+		(<any>item).allowAdding = true;
 		item.quantity++;
 		item.total += item.price;
 		result.total += item.price;
 
 		let summary = result.summaryItems.filter(r => r.supplier.id == item.supplier.id);
-		if(summary != null && summary.length > 0){
-			summary[0].total += item.price; 
+		if (summary != null && summary.length > 0) {
+			summary[0].total += item.price;
 
 			let summaryItem = summary[0].items.filter(s => s.product.id == item.product.id);
 			summaryItem[0].quantity++;
 			summaryItem[0].total += item.price;
 		}
 	}
-	
-	showDetails(simulationInputItem : SimulationInputBaseItem){
-		
 
-        var params = { SimulationInputBaseItem : simulationInputItem};
+	showDetails(simulationInputItem: SimulationInputBaseItem) {
 
-        this.dialogService
-            .open({ viewModel: DetalhesProduto, model: params, lock: false })
-            .whenClosed(response => {
-                if (response.wasCancelled) {
-                    return;
+
+		var params = { SimulationInputBaseItem: simulationInputItem };
+
+		this.dialogService
+			.open({ viewModel: DetalhesProduto, model: params, lock: false })
+			.whenClosed(response => {
+				if (response.wasCancelled) {
+					return;
 				}
 
-				if(response.output != null){
+				if (response.output != null) {
 					simulationInputItem = response.output;
 				}
-            });
+			});
 	}
 
-	back(){
+	back() {
 		this.currentStep--;
 
-		if(this.currentStep == 1){
+		if (this.currentStep == 1) {
 			var market = this.selectedQuote.markets[0];
-			this.showHideMarket(market); 
-			this.selectedQuote.markets.forEach( market => { 
+			this.showHideMarket(market);
+			this.selectedQuote.markets.forEach(market => {
 				market.filteredItems = market.items;
 				market.filter = '';
 			});
-			window.setTimeout(()=>{
+			window.setTimeout(() => {
 				$('#' + market.id).removeClass('fade');
 				$('#' + market.id).addClass('active');
 			}, 500);
 		}
-		else if(this.currentStep == 2){
+		else if (this.currentStep == 2) {
 			this.renderSimulationResults();
 		}
 	}
 
-    attached() : void {		 
+	attached(): void {
 
-		this.ea.publish('loadingData'); 
+		this.ea.publish('loadingData');
 		this.runScript();
-		this.loadData(); 
-	}  
+		this.loadData();
+	}
 
-	addRemoveSupplier (market : SimulationMarketInputViewModel, supplier : SupplierViewModel){ 
+	addRemoveSupplier(market: SimulationMarketInputViewModel, supplier: SupplierViewModel) {
 
-		if(( <any> supplier).wasRemoved && ! (<any> supplier).isInvalid){
+		if ((<any>supplier).wasRemoved && !(<any>supplier).isInvalid) {
 
 			market.suppliers.forEach(x => {
-				
-				if( x.id  == supplier.id){
-					( <any> x).isInvalid = false;
-					( <any> x).wasRemoved = false;
+
+				if (x.id == supplier.id) {
+					(<any>x).isInvalid = false;
+					(<any>x).wasRemoved = false;
 				}
 			});
 
 			market.items.forEach(x => {
 
-				x.suppliers.forEach(y =>{
+				x.suppliers.forEach(y => {
 
-					if( y.id  == supplier.id){
-						( <any> y).isInvalid = false; 
-						( <any> y).wasRemoved = false;
+					if (y.id == supplier.id) {
+						(<any>y).isInvalid = false;
+						(<any>y).wasRemoved = false;
 					}
 				});
 			});
 
 			market.supplierBlackList = market.supplierBlackList.filter(x => x.id != supplier.id);
 		}
-		else if( ! (<any> supplier).isInvalid){ 
+		else if (!(<any>supplier).isInvalid) {
 
 			market.suppliers.forEach(x => {
-				
-				if( x.id  == supplier.id){
 
-					( <any> x).isInvalid = false; 
-					( <any> x).wasRemoved = true;
+				if (x.id == supplier.id) {
+
+					(<any>x).isInvalid = false;
+					(<any>x).wasRemoved = true;
 				}
 			});
 
@@ -343,107 +340,107 @@ export class Cotacao{
 		this.checkIfOrderIsvalid(market);
 	}
 
-	verifyAvailableProducts(market : SimulationMarketInputViewModel){
+	verifyAvailableProducts(market: SimulationMarketInputViewModel) {
 
 		market
 			.items
-			.forEach( (item : SimulationInputBaseItem) => {
+			.forEach((item: SimulationInputBaseItem) => {
 
 				var countInvalidSuppliers = 0;
 				var suppliersProduct = item.suppliers;
 				item.suppliersBlackList = [];
 
 				suppliersProduct
-					.forEach( supplierProduct => {
+					.forEach(supplierProduct => {
 
 						var supplierBlackList = market.supplierBlackList.filter(x => x.id == supplierProduct.id);
 
-						if(supplierBlackList != null && supplierBlackList.length > 0){
+						if (supplierBlackList != null && supplierBlackList.length > 0) {
 							item.suppliersBlackList.push(supplierBlackList[0]);
 							countInvalidSuppliers++;
 						}
 					});
 
-				if(countInvalidSuppliers == suppliersProduct.length){
+				if (countInvalidSuppliers == suppliersProduct.length) {
 
 					item.noSuppliers = true;
-					if(item.quantity > 0){
-						( <any> item).oldQuantity = item.quantity;
+					if (item.quantity > 0) {
+						(<any>item).oldQuantity = item.quantity;
 						item.quantity = 0;
 					}
 				}
-				else{
-					if(item.noSuppliers && ( <any> item).oldQuantity != null){
+				else {
+					if (item.noSuppliers && (<any>item).oldQuantity != null) {
 
-						item.quantity = ( <any> item).oldQuantity;
-						( <any> item).oldQuantity = null;
+						item.quantity = (<any>item).oldQuantity;
+						(<any>item).oldQuantity = null;
 					}
 					item.noSuppliers = false;
 				}
-		});
+			});
 	}
 
-    loadData(){
+	loadData() {
 
-		if(this.orderId != null && this.orderId != ''){
+		if (this.orderId != null && this.orderId != '') {
 
-		/*	this.simulationRepository
-				.getCotacaoFromOrder(this.orderId)
-				.then(x =>  {
-
-					this.selectedQuote = x;
-
-					if(x.blackListSupplier != null){
-
-						this.addRemoveSupplier(x.blackListSupplier);
-					}					
-				}) 
-				.then( () => this.ea.publish('dataLoaded'))
-				.catch( e =>  this.nService.presentError(e));
-				this.loadDeliveryRule(); */
+			/*	this.simulationRepository
+					.getCotacaoFromOrder(this.orderId)
+					.then(x =>  {
+	
+						this.selectedQuote = x;
+	
+						if(x.blackListSupplier != null){
+	
+							this.addRemoveSupplier(x.blackListSupplier);
+						}					
+					}) 
+					.then( () => this.ea.publish('dataLoaded'))
+					.catch( e =>  this.nService.presentError(e));
+					this.loadDeliveryRule(); */
 		}
-		else{
- 
+		else {
+
 			this.repository
 				.getBuyListsParaCotacao()
-				.then(x =>  {
-					this.quotes = x; 
+				.then(x => {
+					this.quotes = x;
 					this.loadSimulations();
 					this.ea.publish('dataLoaded');
 					this.isLoadingQuotes = false;
-				}) 
-				.catch( e => {
+				})
+				.catch(e => {
 					this.nService.presentError(e);
 					this.isLoadingQuotes = false;
-				}); 
-		} 
+				});
+		}
 	}
 
-	loadDeliveryRule(){
+	loadDeliveryRule() {
 
-		if(this.selectedQuote != null){ 
-			( <any> this.selectedQuote.markets[0]).show = true;  
-			this.selectedQuote.markets.forEach( market => { 
+		if (this.selectedQuote != null) {
+			(<any>this.selectedQuote.markets[0]).show = true;
+			this.selectedQuote.markets.forEach(market => {
 				market.filteredItems = market.items;
 				market.filter = '';
 			});
 		}
-	
+
 		this.selectedQuote
 			.markets
-			.forEach(market  => {
+			.forEach(market => {
 
-				if(market.id != null){
+				if (market.id != null) {
 
 					this.deliveryRepository
 						.getRule(market.id)
-						.then( (deliveryRule : DeliveryRule) => { 
+						.then((deliveryRule: DeliveryRule) => {
 
-							if(deliveryRule != null){
+							if (deliveryRule != null) {
 
-								market.deliveryRule = <DeliveryRule> deliveryRule;
+								market.deliveryRule = <DeliveryRule>deliveryRule;
 
-								if(market.checkDeliveryViewModel == null){
+								if (market.checkDeliveryViewModel == null) {
 									market.checkDeliveryViewModel = new CheckDeliveryViewModel();
 								}
 								market.checkDeliveryViewModel.deliveryScheduleStart = deliveryRule.deliveryScheduleInitial;
@@ -451,181 +448,182 @@ export class Cotacao{
 								market.checkDeliveryViewModel.deliveryDate = DeliveryRule.getNextDeliveryDate(market.deliveryRule);
 								this.checkDeliveryDate(market);
 							}
-						}) 
-						.catch( e => this.nService.presentError(e)); 
+						})
+						.catch(e => this.nService.presentError(e));
 				}
-				else{
+				else {
 					market.deliveryRule = null;
 					this.checkDeliveryDate(market);
-		
-				} 
-		}); 
+
+				}
+			});
 	}
 
-	checkDeliveryDate(market : SimulationMarketInputViewModel){
+	checkDeliveryDate(market: SimulationMarketInputViewModel) {
 
 		this.deliveryWasChecked = false;
 		market.checkDeliveryViewModel.suppliers = [];
-		
-		if(market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null){
-		
+
+		console.log(market.checkDeliveryViewModel.deliveryScheduleStart);
+
+		if (market.checkDeliveryViewModel.deliveryDate != null && market.checkDeliveryViewModel.deliveryScheduleStart != null && market.checkDeliveryViewModel.deliveryScheduleEnd != null) {
+
 			market.suppliers.forEach(x => {
 				market.checkDeliveryViewModel.suppliers.push(x.id);
-			});		
+			});
 
 			this.deliveryRepository
 				.checkDeliveryRule(market.checkDeliveryViewModel)
-				.then( (deliveryResult : CheckDeliveryResult) => {
-					
+				.then((deliveryResult: CheckDeliveryResult) => {
+
 					market.checkDeliveryResult = deliveryResult;
-					( <any> market).suppliersInvalid = 0;
+					(<any>market).suppliersInvalid = 0;
 
-					deliveryResult.items.forEach( (item : CheckDeliveryResultItem) => {
-						
-							market.suppliers.forEach(y => {
+					deliveryResult.items.forEach((item: CheckDeliveryResultItem) => {
 
-								if(y.id == item.supplierId){
-									
-									if(( <any> y).wasRemoved){
-										if(! item.isValid){
-											( <any> y).isInvalid = true;
-										}
+						market.suppliers.forEach(y => {
+
+							if (y.id == item.supplierId) {
+
+								if ((<any>y).wasRemoved) {
+									if (!item.isValid) {
+										(<any>y).isInvalid = true;
 									}
-									else if(! item.isValid){
-										( <any> y).isInvalid = true; 
-										market.supplierBlackList.push(y);
-										( <any> market).suppliersInvalid++;
-									}
-									else{
-										( <any> y).isInvalid = false;
-										market.supplierBlackList = market.supplierBlackList.filter(x => x.id != y.id);
-									} 
 								}
-							});
+								else if (!item.isValid) {
+									(<any>y).isInvalid = true;
+									market.supplierBlackList.push(y);
+									(<any>market).suppliersInvalid++;
+								}
+								else {
+									(<any>y).isInvalid = false;
+									market.supplierBlackList = market.supplierBlackList.filter(x => x.id != y.id);
+								}
+							}
+						});
 					});
 
 					this.deliveryWasChecked = true;
 					this.verifyAvailableProducts(market);
 					this.checkIfOrderIsvalid(market);
-			}).catch( e => this.nService.presentError(e));   
+				}).catch(e => this.nService.presentError(e));
 		}
 	}
 
+	checkIfOrderIsvalid(market: SimulationMarketInputViewModel) {
 
-	checkIfOrderIsvalid(market : SimulationMarketInputViewModel){
-		
 		market.isValid = true;
 
-		if(market.checkDeliveryViewModel.deliveryDate < new Date()){
+		if (market.checkDeliveryViewModel.deliveryDate < new Date()) {
 			market.isValid = false;
 		}
 
-		if(market.checkDeliveryViewModel.deliveryScheduleStart >= market.checkDeliveryViewModel.deliveryScheduleEnd){
+		if (market.checkDeliveryViewModel.deliveryScheduleStart >= market.checkDeliveryViewModel.deliveryScheduleEnd) {
 			market.isValid = false;
 		}
 
-		if(market.supplierBlackList.length == market.suppliers.length){
+		if (market.supplierBlackList.length == market.suppliers.length) {
 			market.isValid = false;
 		}
-	} 
-	
-	generateOrder(){
- 
-		this.isProcessing = true; 
-						
+	}
+
+	generateOrder() {
+
+		this.isProcessing = true;
+
 		this.orderRepository
-					.createOrder(this.results)
-					.then( (result : any) =>{   
-						this.nService.success('Pedido realizado!');
-						this.router.navigateToRoute('pedidosFoodService');
-						this.isProcessing = false;
-						this.orderWasGenerated = true;
-					}).catch( e => {								
-						this.isProcessing = false; 
-						if(Array.isArray(e)){
-							
-							this.back();
-							this.back();
+			.createOrder(this.results)
+			.then((result: any) => {
+				this.nService.success('Pedido realizado!');
+				this.router.navigateToRoute('pedidosFoodService');
+				this.isProcessing = false;
+				this.orderWasGenerated = true;
+			}).catch(e => {
+				this.isProcessing = false;
+				if (Array.isArray(e)) {
 
-							for (let i = 0; i < e.length; i++) {
-								this.nService.error(e[i].items); 
-							}
-							this.loadDeliveryRule();
-						}else{
-							this.nService.error(e);
-						}
-			});   
+					this.back();
+					this.back();
+
+					for (let i = 0; i < e.length; i++) {
+						this.nService.error(e[i].items);
+					}
+					this.loadDeliveryRule();
+				} else {
+					this.nService.error(e);
+				}
+			});
 
 	}
 
-	changeSelectedCotacao(result : SimulationResult){
-		this.simulations = []; 
+	changeSelectedCotacao(result: SimulationResult) {
+		this.simulations = [];
 	}
 
-	validateLengthObs(summary : SimulationSummaryItem){
+	validateLengthObs(summary: SimulationSummaryItem) {
 
-		if(summary.observation != null && summary.observation.length >= 250){
+		if (summary.observation != null && summary.observation.length >= 250) {
 			summary.observation = summary.observation.substr(0, 249);
 		}
 		return true;
 	}
 
-	saveSimulation(simulationMarket : SimulationMarketInputViewModel){
+	saveSimulation(simulationMarket: SimulationMarketInputViewModel) {
 
-		var params = { SimulationMarket : simulationMarket};
+		var params = { SimulationMarket: simulationMarket };
 
-        this.dialogService
-            .open({ viewModel: SalvarCotacao, model: params, lock: false })
-            .whenClosed(response => { 
-                if (response.wasCancelled) {
-                    return;
-				}   
-				if(response.output != null){
-					if(simulationMarket.selectedSimulation == null || ( <any> simulationMarket.selectedSimulation) == ""){
+		this.dialogService
+			.open({ viewModel: SalvarCotacao, model: params, lock: false })
+			.whenClosed(response => {
+				if (response.wasCancelled) {
+					return;
+				}
+				if (response.output != null) {
+					if (simulationMarket.selectedSimulation == null || (<any>simulationMarket.selectedSimulation) == "") {
 						simulationMarket.simulationsRecorded.unshift(response.output);
 						simulationMarket.selectedSimulation = response.output;
 					}
 				}
-            });
+			});
 	}
 
-	deleteSimulation(simulationMarket : SimulationMarketInputViewModel){
+	deleteSimulation(simulationMarket: SimulationMarketInputViewModel) {
 
-		var params = { Simulation : simulationMarket.selectedSimulation};
+		var params = { Simulation: simulationMarket.selectedSimulation };
 
-        this.dialogService
-            .open({ viewModel: ApagarCotacao, model: params, lock: false })
-            .whenClosed(response => { 
-                if (response.wasCancelled) {
-                    return;
+		this.dialogService
+			.open({ viewModel: ApagarCotacao, model: params, lock: false })
+			.whenClosed(response => {
+				if (response.wasCancelled) {
+					return;
 				}
-				else{
+				else {
 					simulationMarket.simulationsRecorded = simulationMarket.simulationsRecorded.filter(x => x.id != simulationMarket.selectedSimulation.id);
 					simulationMarket.selectedSimulation = null;
-					
-				}  
-            });
+
+				}
+			});
 	}
 
-	loadSimulations(){
+	loadSimulations() {
 
 		this.simulationRepository
 			.getSimulations()
-			.then(x =>  {
-				
+			.then(x => {
+
 				this.simulationsRecorded = x;
 				this.setSimulationsToMarkets();
 
-			}) 
-			.catch( e => {
+			})
+			.catch(e => {
 				this.nService.presentError(e);
-			}); 
+			});
 	}
 
-	setSimulationsToMarkets(){
+	setSimulationsToMarkets() {
 
-		if(this.simulationsRecorded != null && this.simulationsRecorded.length > 0){
-			this.quotes.forEach(quote =>{
+		if (this.simulationsRecorded != null && this.simulationsRecorded.length > 0) {
+			this.quotes.forEach(quote => {
 				quote.markets.forEach(market => {
 					market.simulationsRecorded = this.simulationsRecorded.filter(s => s.productClass.id == market.id);
 				});
@@ -633,24 +631,24 @@ export class Cotacao{
 		}
 	}
 
-	setQuantitiesFromSavedSimulation(simulationMarket : SimulationMarketInputViewModel){
+	setQuantitiesFromSavedSimulation(simulationMarket: SimulationMarketInputViewModel) {
 
 		simulationMarket.items.filter(x => x.quantity > 0).forEach(x => x.quantity = 0);
 
-		if(simulationMarket.selectedSimulation != null && simulationMarket.selectedSimulation.id != null){
+		if (simulationMarket.selectedSimulation != null && simulationMarket.selectedSimulation.id != null) {
 
 			simulationMarket.selectedSimulation
-							.items
-							.forEach(item =>{
-								if(item.quantity > 0){
-	
-									let simulationItem = simulationMarket.items.filter(x => x.productBaseId == item.productBase.id);
-	
-									if(simulationItem != null && simulationItem.length > 0){
-										simulationItem[0].quantity = item.quantity;
-									}
-								}
-							});
+				.items
+				.forEach(item => {
+					if (item.quantity > 0) {
+
+						let simulationItem = simulationMarket.items.filter(x => x.productBaseId == item.productBase.id);
+
+						if (simulationItem != null && simulationItem.length > 0) {
+							simulationItem[0].quantity = item.quantity;
+						}
+					}
+				});
 
 		}
 	}

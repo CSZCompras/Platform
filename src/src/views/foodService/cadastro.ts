@@ -19,6 +19,7 @@ import 'jquery-mask-plugin';
 import 'aurelia-validation';
 import { RegisterStatus } from '../../domain/registerStatus';
 import { Config } from 'aurelia-api';
+import { FoodServiceAccountStatusService } from '../../services/foodServiceAccountStatusService';
 
 @autoinject
 export class Cadastro {
@@ -47,7 +48,9 @@ export class Cadastro {
 		private stateRepo: StateRegistrationRepository,
 		private consultaCNPJService: ConsultaCNPJService,
 		private consultaCepService: ConsultaCEPService,
-		private config: Config) {
+		private foodServiceAccountStatusService: FoodServiceAccountStatusService,
+		private config: Config
+	) {
 
 		this.currentStep = 1;
 		this.totalSteps = 3;
@@ -107,7 +110,6 @@ export class Cadastro {
 	}
 
 	loadData(): void {
-
 		var foodServicePromisse = this.repository
 			.getByUser(this.identity.id)
 			.then((foodService: FoodService) => {
@@ -115,7 +117,6 @@ export class Cadastro {
 				this.foodService = foodService;
 
 				if (this.foodService.address == null) {
-
 					this.foodService.address = new Address();
 				}
 
@@ -137,7 +138,6 @@ export class Cadastro {
 			});
 
 		Promise.all([foodServicePromisse, stateRegistrationsPromisse]).then(() => {
-
 			if (this.identity.registerStatus != RegisterStatus.Valid && this.foodService.cnpj != null && this.foodService.cnpj != '') {
 				this.consultaCNPJ();
 			}
@@ -154,8 +154,7 @@ export class Cadastro {
 			this.consultaCNPJService
 				.findCNPJ(this.foodService.cnpj)
 				.then((result: ConsultaCNPJResult) => {
-
-					if (result != null) {
+					if (result && result.status && result.status === "OK") {
 						this.foodService.name = result.nome;
 						this.foodService.fantasyName = result.fantasia;
 						this.foodService.address.cep = result.cep.split(".").join("").replace("-", "");
@@ -208,7 +207,7 @@ export class Cadastro {
 		this.currentStep--;
 	}
 
-	save() {
+	async save() {
 
 		this.isLoading = true;
 
@@ -226,16 +225,20 @@ export class Cadastro {
 
 			this.repository
 				.save(this.foodService)
-				.then((foodService: FoodService) => {
+				.then(async (foodService: FoodService) => {
 
 					if (this.foodService.registerStatus != foodService.registerStatus) {
 						this.ea.publish('registerStatusModified', foodService.registerStatus);
 						this.foodService.registerStatus = foodService.registerStatus;
+						this.identity.registerStatus = foodService.registerStatus;
 					}
 
 					if (this.selectedFiles && this.selectedFiles.length > 0) {
-						this.uploadSocialContract();
+						await this.uploadSocialContract();
 					}
+
+					this.foodServiceAccountStatusService.refresh()
+						.then(() => this.ea.publish('foodServiceAccountStatusChanged'));
 
 					this.nService.success('Cadastro realizado!')
 					this.isLoading = false;
@@ -255,7 +258,7 @@ export class Cadastro {
 		}
 	}
 
-	uploadSocialContract() {
+	async uploadSocialContract(): Promise<any> {
 
 		this.isUploading = true;
 
@@ -265,7 +268,7 @@ export class Cadastro {
 			formData.append('file', this.selectedFiles[i]);
 		}
 
-		this.repository
+		return this.repository
 			.uploadSocialContract(formData, this.foodService.id)
 			.then(() => {
 				this.isUploading = false;

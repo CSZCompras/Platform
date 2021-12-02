@@ -10,10 +10,10 @@ import { SupplierViewModel } from '../../domain/supplierViewModel';
 import { BlockSupplierConnectionViewModel } from '../../domain/blockSupplierConnectionViewModel';
 import { ProductClass } from '../../domain/productClass';
 import { ConnectionStatus } from '../../domain/connectionStatus';
+import { FoodServiceAccountStatusService } from '../../services/foodServiceAccountStatusService';
 
 @autoinject
 export class Fornecedores {
-
 
 	filteredSuppliers: SupplierViewModel[];
 	suppliers: SupplierViewModel[];
@@ -32,7 +32,9 @@ export class Fornecedores {
 		private repository: SupplierConnectionRepository,
 		private productRepository: ProductRepository,
 		private nService: NotificationService,
-		private ea: EventAggregator) {
+		private ea: EventAggregator,
+		private foodServiceAccountStatusService: FoodServiceAccountStatusService
+	) {
 
 		this.tipoFiltro = '3';
 
@@ -206,6 +208,10 @@ export class Fornecedores {
 			.then((connection: FoodServiceSupplier) => {
 				viewModel.status = 1;
 				this.nService.presentSuccess('A solicitação de conexão foi realizada com sucesso!');
+
+				this.foodServiceAccountStatusService.refresh()
+					.then(() => this.ea.publish('foodServiceAccountStatusChanged'));
+
 				(<any>viewModel).isLoading = false;
 			})
 			.catch(e => {

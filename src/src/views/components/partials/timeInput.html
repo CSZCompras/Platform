@@ -1,0 +1,11 @@
+<template>
+    <require from="../attributes/timeMask"></require>
+    <require from="../../components/valueConverters/timeValueConverter"></require>
+
+    <span class="input-group-addon input-group-icon">
+        <i class="batch-icon batch-icon-clock"></i>
+    </span>
+    <input type="time" class="time form-control ${!isValid ? 'border-danger' : '' } ${ disabled ? 'disabled' : '' }" autocomplete="off"
+        placeholder="HH:mm" time disabled.bind="disabled" value.bind="timeValue | time & updateTrigger:'blur'" blur.trigger="onBlur()"
+    />
+</template>

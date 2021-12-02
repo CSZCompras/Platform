@@ -1,0 +1,62 @@
+<template>
+    <style>
+        .calendar-row {
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="row au-animate">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Feriados
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-hover" if.bind="! isLoading">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="calendar of calendars" click.delegate="calendarSelected(calendar)" class="calendar-row">
+                                <td>${calendar.name}</td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr if.bind="showNewCalendarForm">
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Nome" value.bind="newCalendar.name & validate" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-secondary btn-sm waves-effect waves-light" style="float:right" click.delegate="cancelNewCalendarClick()">
+                                        calcelar
+                                    </button>
+                                    <button class="btn btn-primary btn-sm waves-effect waves-light" style="float:right" click.delegate="saveNewCalendarClick()"
+                                        disabled.bind="isSaving">
+                                        Salvar
+                                        <i class="fa fa-save" if.bind="!isSaving"></i>
+                                        <i class="fa fa fa-refresh fa-spin" if.bind="isSaving"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-primary btn-gradient waves-effect waves-light" style="float:right" click.delegate="newCalendarClick()"
+                                if.bind="!showNewCalendarForm">
+                                Novo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>

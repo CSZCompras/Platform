@@ -1,8 +1,10 @@
 <template>
-    <div class="row mb-5 au-animate"> 
-        <div class="col-md-12" if.bind="identity.registerStatus == 0">
+    <require from="../components/partials/accountStatusCard"></require>
+
+    <div class="row mb-5 au-animate">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-body"> 
+                <div class="card-body">
                     <div class="col-md-7 order-md-2 signin-right-column px-5 ">
                         <a class="signin-logo d-sm-none d-md-block">
                             <img class="ml-5" src="assets/img/logo2T.png" style="cursor:default" width="150" height="92" alt="Econocompras">
@@ -17,21 +19,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12" if.bind="identity.registerStatus !=  0">
-            <div class="card">
-                <div class="card-body">
-                    <div class="col-md-12 order-md-2 signin-right-column px-5 ">
-                        <a class="signin-logo d-sm-none d-md-block text-center">
-                            <img class="ml-4" src="assets/img/logo2T.png" style="cursor:default" width="150" height="92" alt="Econocompras">
-                        </a>
-                        <h1 class="display-6 text-center">bem-vindo!</h1>
-                        <h2 class="mt-5 text-center">Estamos quase la!</h2>        
-                        <h5 class="mt-4 text-large text-center">
-                           Finalize seu cadastro no menu ao lado para ter acesso a todas as funcionalidades
-                        </h5>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-12 mt-5">
+            <account-status-card></account-status-card>
         </div>
     </div>
 </template>

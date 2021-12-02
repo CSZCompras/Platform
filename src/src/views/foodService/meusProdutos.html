@@ -1,52 +1,64 @@
 <template>
-        <require from="../components/attributes/moneyMask"></require>
-        <require from="../components/attributes/numberMask"></require>
-        <require from="../components/attributes/timeMask"></require>
-        <require from="../components/valueConverters/moneyValueConverter"></require>
-        <require from="../components/valueConverters/numberValueConverter"></require>
-        <require from="../components/valueConverters/timeValueConverter"></require>
-     
-        <div class="row mb-5 au-animate">
-           <div class="col-md-12">
-              <div class="card">
-                 <div class="card-header">
-                    Produtos                  
-                 </div>
-                 <div class="card-body">
-                    <div class="row">
-                       <div class="col-md-12 pb-5">
-                          <ul class="nav nav-tabs" id="myTab-1" role="tablist">
-                             <li class="nav-item waves-effect waves-light">
-                                <a class="nav-link active" href="#tab-1-1" data-toggle="tab" role="tab" aria-controls="tab-1-1" aria-selected="true" aria-expanded="true">
-                                    <i class="batch-icon batch-icon-list-alt mr-2"></i>
-                                    Seleção de Produtos
-                                </a>
-                             </li>
-                             <li class="nav-item waves-effect waves-light">                            
-                                 <a class="nav-link" href="#tab-1-2" data-toggle="tab" role="tab" aria-controls="tab-1-2" aria-selected="false" aria-expanded="false">
-                                    <i class="batch-icon batch-icon-paragraph-alt-justify mr-2"></i>
-                                     Meus Produtos
-                                 </a>
-                             </li>
-                          </ul>
-                          <div class="tab-content" id="myTabContent-1">
-                             <div class="tab-pane fade active show" id="tab-1-1" role="tabpanel" aria-labelledby="tab-1-1" aria-expanded="true">
-                                <p class="p-3">
-                                    <require from="../components/partials/selecaoDeProdutosFoodService"></require>
-                                    <selecao-de-produtos-food-service containerless></selecao-de-produtos-food-service>
-                                </p>
-                             </div>
-                             <div class="tab-pane fade" id="tab-1-2" role="tabpanel" aria-labelledby="tab-1-2" aria-expanded="false">
-                                <p class="p-3">
-                                    <require from="../components/partials/produtosSelecionados"></require>
-                                    <produtos-selecionados containerless></produtos-selecionados>
-                                </p>
-                             </div> 
-                          </div>
-                       </div>
+    <require from="../components/attributes/moneyMask"></require>
+    <require from="../components/attributes/numberMask"></require>
+    <require from="../components/attributes/timeMask"></require>
+    <require from="../components/valueConverters/moneyValueConverter"></require>
+    <require from="../components/valueConverters/numberValueConverter"></require>
+    <require from="../components/valueConverters/timeValueConverter"></require>
+
+    <div class="row mb-5 au-animate">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Produtos
+                </div>
+                <div class="card-body">
+                    <div class="row" if.bind="foodServiceAccountStatus.hasApprovedSuppliers">
+                        <div class="col-md-12 pb-5">
+                            <ul class="nav nav-tabs" id="myTab-1" role="tablist">
+                                <li class="nav-item waves-effect waves-light">
+                                    <a class="nav-link active" href="#tab-1-1" data-toggle="tab" role="tab" aria-controls="tab-1-1" aria-selected="true" aria-expanded="true">
+                                        <i class="batch-icon batch-icon-list-alt mr-2"></i>
+                                        Seleção de Produtos
+                                    </a>
+                                </li>
+                                <li class="nav-item waves-effect waves-light">
+                                    <a class="nav-link" href="#tab-1-2" data-toggle="tab" role="tab" aria-controls="tab-1-2" aria-selected="false" aria-expanded="false">
+                                        <i class="batch-icon batch-icon-paragraph-alt-justify mr-2"></i>
+                                        Meus Produtos
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent-1">
+                                <div class="tab-pane fade active show" id="tab-1-1" role="tabpanel" aria-labelledby="tab-1-1" aria-expanded="true">
+                                    <p class="p-3">
+                                        <require from="../components/partials/selecaoDeProdutosFoodService"></require>
+                                        <selecao-de-produtos-food-service containerless></selecao-de-produtos-food-service>
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="tab-1-2" role="tabpanel" aria-labelledby="tab-1-2" aria-expanded="false">
+                                    <p class="p-3">
+                                        <require from="../components/partials/produtosSelecionados"></require>
+                                        <produtos-selecionados containerless></produtos-selecionados>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                 </div>
-              </div>
-           </div>
+                    <div class="row" if.bind="!foodServiceAccountStatus.hasApprovedSuppliers">
+                        <div class="col-md-12 pb-5">
+                            <p class="lead">
+                                Agora temos que aguardar os fornecedores aprovarem o seu cadastro!
+                                <br />
+                                <br/> Após aprovação, os produtos serão liberados para você montar a sua lista de compras através
+                                do menu
+                                <a href="#/econocompras/meusProdutos">Produtos</a>.
+                                <br /> Conforme os fornecedores forem aprovando, você será notificado por e-mail.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-     </template>
+    </div>
+</template>
