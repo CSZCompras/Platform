@@ -25,7 +25,7 @@
     "hamburgers": "^0.9.3",
     "ie10-viewport-bug-workaround.js": "^1.0.0",
     "install": "^0.11.2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jquery-datetimepicker": "^2.5.20",
     "jquery-mask-plugin": "^1.14.13",
     "jquery-mousewheel": "^3.1.13",
