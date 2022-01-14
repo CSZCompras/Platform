@@ -1,18 +1,20 @@
+import { MarketRuleItem } from './marketRuleItem';
 import { Supplier } from "./supplier";
 import { FoodService } from "./foodService";
 import { PriceList } from "./priceList";
-import {ReasonToRejectFoodService} from './reasonToRejectFoodService';
+import { ReasonToRejectFoodService } from './reasonToRejectFoodService';
 
-export class FoodServiceSupplier{
+export class FoodServiceSupplier {
 
-    supplier            : Supplier[];
-    supplierId          : string;
-    foodService         : FoodService;
-    foodServiceId       : string;
-    priceList           : PriceList;
-    priceListId         : string;
-    status              : number;
-    paymentTerm         : number;
-    reasonToReject      : ReasonToRejectFoodService;
-    reasonToRejectId    : string;
+    supplier: Supplier[];
+    supplierId: string;
+    foodService: FoodService;
+    foodServiceId: string;
+    priceList: PriceList;
+    priceListId: string;
+    status: number;
+    paymentTerm: number;
+    reasonToReject: ReasonToRejectFoodService;
+    reasonToRejectId: string;
+    marketRuleItemId: string;
 }

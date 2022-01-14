@@ -110,7 +110,7 @@ export class Cadastro {
 	}
 
 	loadData(): void {
-		var foodServicePromisse = this.repository
+		var foodServicePromise = this.repository
 			.getByUser(this.identity.id)
 			.then((foodService: FoodService) => {
 
@@ -129,7 +129,7 @@ export class Cadastro {
 				this.nService.presentError(e);
 			});
 
-		var stateRegistrationsPromisse = this.stateRepo
+		var stateRegistrationsPromise = this.stateRepo
 			.getAll()
 			.then((data: StateRegistration[]) => {
 				this.stateRegistrations = data;
@@ -137,7 +137,7 @@ export class Cadastro {
 				this.nService.presentError(e);
 			});
 
-		Promise.all([foodServicePromisse, stateRegistrationsPromisse]).then(() => {
+		Promise.all([foodServicePromise, stateRegistrationsPromise]).then(() => {
 			if (this.identity.registerStatus != RegisterStatus.Valid && this.foodService.cnpj != null && this.foodService.cnpj != '') {
 				this.consultaCNPJ();
 			}

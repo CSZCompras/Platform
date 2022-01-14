@@ -3,324 +3,325 @@ import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { FoodServiceConnectionRepository } from '../../repositories/foodServiceConnectionRepository';
-import { FoodServiceConnectionViewModel } from '../../domain/foodServiceConnectionViewModel'; 
+import { FoodServiceConnectionViewModel } from '../../domain/foodServiceConnectionViewModel';
 import { DialogService } from 'aurelia-dialog';
 import { AprovacaoCliente } from '../components/partials/aprovacaoCliente';
-import { RejeicaoCadastroFoodService } from '../components/partials/rejeicaoCadastroFoodService'; 
+import { RejeicaoCadastroFoodService } from '../components/partials/rejeicaoCadastroFoodService';
 import { ConnectionStatus } from '../../domain/connectionStatus';
 import { Config } from 'aurelia-api';
 import { IdentityService } from '../../services/identityService';
 
 
 @autoinject
-export class Clientes{
+export class Clientes {
 
-        filteredFoodServices    : FoodServiceConnectionViewModel[];
-        foodServices            : FoodServiceConnectionViewModel[];                
-        selectedCategory        : string;
-        title                   : string;
-        type                    : number;
-        filter                  : string;
-        tipoFiltro              : string;
-        showDetails             : boolean;
-        processing              : boolean;                       
+	filteredFoodServices: FoodServiceConnectionViewModel[];
+	foodServices: FoodServiceConnectionViewModel[];
+	selectedCategory: string;
+	title: string;
+	type: number;
+	filter: string;
+	tipoFiltro: string;
+	showDetails: boolean;
+	processing: boolean;
 
-        constructor(  
-                private dialogService           : DialogService,
-                private repository              : FoodServiceConnectionRepository, 
-                private identityService         : IdentityService,
-                private config                  : Config,
-                private nService                : NotificationService, 
-                private ea                      : EventAggregator) {   
-                 
+	constructor(
+		private dialogService: DialogService,
+		private repository: FoodServiceConnectionRepository,
+		private identityService: IdentityService,
+		private config: Config,
+		private nService: NotificationService,
+		private ea: EventAggregator) {
 
-                this.ea.subscribe( 'showFoodServiceDetailsCanceled', () =>{
-                        this.showDetails = false;  
-                        document.body.scrollTop = 0;
-                        document.documentElement.scrollTop = 0;
-                });
 
-                
-                this.processing = false;
-                this.showDetails = false;
-        }
-        
-        attached(){
+		this.ea.subscribe('showFoodServiceDetailsCanceled', () => {
+			this.showDetails = false;
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		});
 
-                this.ea.publish('loadingData'); 
-                this.type = 0;      
-                this.tipoFiltro = '0';
-                this.alterView().then( () => this.ea.publish('dataLoaded'));        
-        }
 
-        loadData() : void {
+		this.processing = false;
+		this.showDetails = false;
+	}
 
-                this.foodServices = [];
-                this.filteredFoodServices = []; 
+	attached() {
 
-                this.loadConnections().then( () => this.ea.publish('dataLoaded')); 
-        }
+		this.ea.publish('loadingData');
+		this.type = 0;
+		this.tipoFiltro = '0';
+		this.alterView().then(() => this.ea.publish('dataLoaded'));
+	}
 
-        alterView() : Promise<any>{
-                
-                this.type = Number.parseInt(this.tipoFiltro);
+	loadData(): void {
 
-                if(this.type == 0){
-                        this.title = 'Novos Clientes'; 
-                }
-                else if(this.type == 1){
-                        this.title = 'Aguardando Aprovação'; 
-                }                
-                else if(this.type == 2){
-                        this.title = 'Meus  Clientes'; 
-                }                
-                else if(this.type == 3){
-                        this.title = 'Clientes Bloqueados'; 
-                }     
-                
-                return  this.loadConnections();
-        }
+		this.foodServices = [];
+		this.filteredFoodServices = [];
 
-        loadConnections() : Promise<any> {
+		this.loadConnections().then(() => this.ea.publish('dataLoaded'));
+	}
 
-                this.processing = true;
+	alterView(): Promise<any> {
 
-                return this.repository
-                                .getSupplierConnections(this.type)
-                                .then( (data : FoodServiceConnectionViewModel[]) =>{
-                                        this.foodServices = data;
-                                        this.search();
-                                        this.processing = false;
-                                }).catch( e => {
-                                        this.nService.presentError(e);
-                                        this.processing = false;
-                                });
-        } 
+		this.type = Number.parseInt(this.tipoFiltro);
 
-        alterConfig(x : FoodServiceConnectionViewModel){ 
-                
+		if (this.type == 0) {
+			this.title = 'Novos Clientes';
+		}
+		else if (this.type == 1) {
+			this.title = 'Aguardando Aprovação';
+		}
+		else if (this.type == 2) {
+			this.title = 'Meus  Clientes';
+		}
+		else if (this.type == 3) {
+			this.title = 'Clientes Bloqueados';
+		}
 
-                var params = { FoodServiceSupplier : x };
+		return this.loadConnections();
+	}
 
-                this.dialogService
-                        .open({ viewModel: AprovacaoCliente, model: params, lock: false })
-                        .whenClosed(response => {
+	loadConnections(): Promise<any> {
 
-                                if (response.wasCancelled) {
-                                        return;
-                                }  
-                                ( <any> x).isLoading = true;
+		this.processing = true;
 
-                                var viewModel = new FoodServiceConnectionViewModel();
-                                viewModel.priceListId = response.output.priceList.id;
-                                viewModel.paymentTerm = response.output.paymentTerm;
-                                viewModel.foodService = x.foodService; 
-                                viewModel.status = x.status;
-                        
+		return this.repository
+			.getSupplierConnections(this.type)
+			.then((data: FoodServiceConnectionViewModel[]) => {
+				this.foodServices = data;
+				this.search();
+				this.processing = false;
+			}).catch(e => {
+				this.nService.presentError(e);
+				this.processing = false;
+			});
+	}
 
-                                this.repository
-                                        .updateConnection(viewModel)
-                                        .then( () =>{
+	alterConfig(x: FoodServiceConnectionViewModel) {
 
-                                                x.priceListId =  response.output.priceList.id;
-                                                x.priceListName = response.output.priceList.name;
-                                                x.paymentTerm = response.output.paymentTerm;
-                                                this.nService.presentSuccess('Alteraçao feita com sucesso!');
-                                                ( <any> x).isLoading = false;
-                                        })
-                                        .catch( e => {
-                                                this.nService.presentError(e);
-                                                ( <any> x).isLoading = false;
-                                        });
-                        }); 
-        }
 
-        approve(x : FoodServiceConnectionViewModel){ 
+		var params = { FoodServiceSupplier: x };
 
-                var params = { FoodServiceSupplier : x };
+		this.dialogService
+			.open({ viewModel: AprovacaoCliente, model: params, lock: false })
+			.whenClosed(response => {
 
-                this.dialogService
-                        .open({ viewModel: AprovacaoCliente, model: params, lock: false })
-                        .whenClosed(response => {
+				if (response.wasCancelled) {
+					return;
+				}
+				(<any>x).isLoading = true;
 
-                                if (response.wasCancelled) {
-                                        return;
-                                }  
-                                ( <any> x).isLoading = true;
+				var viewModel = new FoodServiceConnectionViewModel();
+				viewModel.priceListId = response.output.priceList.id;
+				viewModel.marketRuleItemId = response.output.ruleItem.id;
+				viewModel.paymentTerm = response.output.paymentTerm;
+				viewModel.foodService = x.foodService;
+				viewModel.status = x.status;
 
-                                var viewModel = new FoodServiceConnectionViewModel();
-                                viewModel.priceListId = response.output.priceList.id;
-                                viewModel.paymentTerm = response.output.paymentTerm;
-                                viewModel.foodService = x.foodService;                
-                                viewModel.status = 2;
-                                viewModel.isApproving = true;
+				this.repository
+					.updateConnection(viewModel)
+					.then(() => {
 
-                                this.repository
-                                        .updateConnection(viewModel)
-                                        .then( (data : any) =>{                                
-                                                this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                                this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                                this.nService.presentSuccess('Cliente foi aprovado com sucesso!');
-                                                this.ea.publish('foodApproved');
-                                                ( <any> x).isLoading = false;
-                                        })
-                                        .catch( e => {
-                                                this.nService.presentError(e);
-                                                ( <any> x).isLoading = false;
-                                        });
-                        }); 
-        }
+						x.priceListId = response.output.priceList.id;
+						x.priceListName = response.output.priceList.name;
+						x.paymentTerm = response.output.paymentTerm;
+						this.nService.presentSuccess('Alteraçao feita com sucesso!');
+						(<any>x).isLoading = false;
+					})
+					.catch(e => {
+						this.nService.presentError(e);
+						(<any>x).isLoading = false;
+					});
+			});
+	}
 
-        registrationSent(x : FoodServiceConnectionViewModel){
+	approve(x: FoodServiceConnectionViewModel) {
 
-                ( <any> x).isLoading = true;
+		var params = { FoodServiceSupplier: x };
 
-                var viewModel = new FoodServiceConnectionViewModel();
-                viewModel.foodService = x.foodService;                
-                viewModel.status = 5;
+		this.dialogService
+			.open({ viewModel: AprovacaoCliente, model: params, lock: false })
+			.whenClosed(response => {
 
-                this.repository
-                        .updateConnection(viewModel)
-                        .then( (data : any) =>{ 
-                                
-                                ( <any> x).isLoading = true;
+				if (response.wasCancelled) {
+					return;
+				}
+				(<any>x).isLoading = true;
 
-                                this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);                                      
-                                this.nService.presentSuccess('Status atualizado com sucesso!');
-                                this.ea.publish('registrationSent');
-                                ( <any> x).isLoading = false;
-                        }).catch( e => {
+				var viewModel = new FoodServiceConnectionViewModel();
+				viewModel.priceListId = response.output.priceList.id;
+				viewModel.marketRuleItemId = response.output.ruleItem.id;
+				viewModel.paymentTerm = response.output.paymentTerm;
+				viewModel.foodService = x.foodService;
+				viewModel.status = 2;
+				viewModel.isApproving = true;
 
-                            this.nService.presentError(e);
-                            ( <any> x).isLoading = false;
-                        });
+				this.repository
+					.updateConnection(viewModel)
+					.then((data: any) => {
+						this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
+						this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
+						this.nService.presentSuccess('Cliente foi aprovado com sucesso!');
+						this.ea.publish('foodApproved');
+						(<any>x).isLoading = false;
+					})
+					.catch(e => {
+						this.nService.presentError(e);
+						(<any>x).isLoading = false;
+					});
+			});
+	}
 
-        }
+	registrationSent(x: FoodServiceConnectionViewModel) {
 
-        reject(x : FoodServiceConnectionViewModel){
+		(<any>x).isLoading = true;
 
-                var params = { FoodService : x.foodService };
+		var viewModel = new FoodServiceConnectionViewModel();
+		viewModel.foodService = x.foodService;
+		viewModel.status = 5;
 
-                this.dialogService
-                    .open({ viewModel: RejeicaoCadastroFoodService, model: params, lock: false })
-                    .whenClosed(response => {
+		this.repository
+			.updateConnection(viewModel)
+			.then((data: any) => {
 
-                        if (response.wasCancelled) {
-                            return;
-                        } 
+				(<any>x).isLoading = true;
 
-                        ( <any> x).isLoading = true;
+				this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
+				this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
+				this.nService.presentSuccess('Status atualizado com sucesso!');
+				this.ea.publish('registrationSent');
+				(<any>x).isLoading = false;
+			}).catch(e => {
 
-                        var viewModel = new FoodServiceConnectionViewModel();
-                        viewModel.foodService = x.foodService;                
-                        viewModel.reasonToRejectId = response.output.reason.id;
-                        viewModel.status = 3;
-                        viewModel.isRejecting = true;
-                        
-                        this.repository
-                                .updateConnection(viewModel)
-                                .then( (data : any) =>{
-        
-                                        ( <any> x).isLoading = false;
-                                        this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                        this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                        this.nService.presentSuccess('Status rejeitado com sucesso!');
-                                        ( <any> x).isLoading = false;
-                                })
-                                .catch( e => {
-        
-                                    this.nService.presentError(e);
-                                    ( <any> x).isLoading = false;
-                                });
-                    });  
-        }
+				this.nService.presentError(e);
+				(<any>x).isLoading = false;
+			});
 
-        block(x : FoodServiceConnectionViewModel){
+	}
 
-                ( <any> x).isLoading = true;
+	reject(x: FoodServiceConnectionViewModel) {
 
-                var viewModel = new FoodServiceConnectionViewModel();
-                viewModel.foodService = x.foodService;                
-                viewModel.status = 4;
+		var params = { FoodService: x.foodService };
 
-                this.repository
-                        .updateConnection(viewModel)
-                        .then( (data : any) =>{      
+		this.dialogService
+			.open({ viewModel: RejeicaoCadastroFoodService, model: params, lock: false })
+			.whenClosed(response => {
 
-                                ( <any> x).isLoading = false;
-                                this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                this.nService.presentSuccess('Status bloqueado com sucesso!');  
-                                ( <any> x).isLoading = false;
-                        }).catch( e => {
+				if (response.wasCancelled) {
+					return;
+				}
 
-                            this.nService.presentError(e);                                
-                            ( <any> x).isLoading = false;
-                        });
+				(<any>x).isLoading = true;
 
-        }
+				var viewModel = new FoodServiceConnectionViewModel();
+				viewModel.foodService = x.foodService;
+				viewModel.reasonToRejectId = response.output.reason.id;
+				viewModel.status = 3;
+				viewModel.isRejecting = true;
 
-        unblock(x : FoodServiceConnectionViewModel){
+				this.repository
+					.updateConnection(viewModel)
+					.then((data: any) => {
 
-                ( <any> x).isLoading = true;
+						(<any>x).isLoading = false;
+						this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
+						this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
+						this.nService.presentSuccess('Status rejeitado com sucesso!');
+						(<any>x).isLoading = false;
+					})
+					.catch(e => {
 
-                var viewModel = new FoodServiceConnectionViewModel();
-                viewModel.foodService = x.foodService;                
-                viewModel.status = 2;
+						this.nService.presentError(e);
+						(<any>x).isLoading = false;
+					});
+			});
+	}
 
-                this.repository
-                        .updateConnection(viewModel)
-                        .then( (data : any) =>{    
+	block(x: FoodServiceConnectionViewModel) {
 
-                                ( <any> x).isLoading = false;
-                                this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
-                                this.nService.presentSuccess('Status desbloqueado com sucesso!');    
-                                ( <any> x).isLoading = false;
-                        }).catch( e => {
-                            this.nService.presentError(e);                           
-                            ( <any> x).isLoading = false;
-                        });
+		(<any>x).isLoading = true;
 
-        }
+		var viewModel = new FoodServiceConnectionViewModel();
+		viewModel.foodService = x.foodService;
+		viewModel.status = 4;
 
-        search(){ 
+		this.repository
+			.updateConnection(viewModel)
+			.then((data: any) => {
 
-                this.filteredFoodServices = 
-                        this.foodServices.filter( (x : FoodServiceConnectionViewModel) =>{
+				(<any>x).isLoading = false;
+				this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
+				this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
+				this.nService.presentSuccess('Status bloqueado com sucesso!');
+				(<any>x).isLoading = false;
+			}).catch(e => {
 
-                                var isFound = true;
+				this.nService.presentError(e);
+				(<any>x).isLoading = false;
+			});
 
-                                if( (this.filter != null && this.filter != '')){ 
-                                        if( x.foodService.name.toUpperCase().includes(this.filter.toUpperCase()) ){
-                                                isFound = true;
-                                        }
-                                        else {
-                                                isFound= false;
-                                        }
-                                }
-                                else{
-                                        return isFound;
-                                }
-                                return isFound;
-                        });
-        }
+	}
 
-        showFoodServiceDetails(x : FoodServiceConnectionViewModel){
-                
-                this.showDetails = true; 
-                let loadConnectionDetails = x.status == ConnectionStatus.Rejected ? true : false;
-                this.ea.publish('showFoodServiceDetails', { foodId : x.foodService.id, edit : false ,loadConnection : loadConnectionDetails } );
-        }
+	unblock(x: FoodServiceConnectionViewModel) {
 
-        
+		(<any>x).isLoading = true;
 
-        exportFoodServices(){ 
-                
-                var user = this.identityService.getIdentity();
-                var api = this.config.getEndpoint('apiAddress');
-                window.open(api.client.baseUrl + 'downloadFoodServiceConnection?supplierId=' + user.companyId +'&queryType='+ this.tipoFiltro, '_parent');
-        }
+		var viewModel = new FoodServiceConnectionViewModel();
+		viewModel.foodService = x.foodService;
+		viewModel.status = 2;
+
+		this.repository
+			.updateConnection(viewModel)
+			.then((data: any) => {
+
+				(<any>x).isLoading = false;
+				this.foodServices = this.foodServices.filter(fs => fs.foodService.id != x.foodService.id);
+				this.filteredFoodServices = this.filteredFoodServices.filter(fs => fs.foodService.id != x.foodService.id);
+				this.nService.presentSuccess('Status desbloqueado com sucesso!');
+				(<any>x).isLoading = false;
+			}).catch(e => {
+				this.nService.presentError(e);
+				(<any>x).isLoading = false;
+			});
+
+	}
+
+	search() {
+
+		this.filteredFoodServices =
+			this.foodServices.filter((x: FoodServiceConnectionViewModel) => {
+
+				var isFound = true;
+
+				if ((this.filter != null && this.filter != '')) {
+					if (x.foodService.name.toUpperCase().includes(this.filter.toUpperCase())) {
+						isFound = true;
+					}
+					else {
+						isFound = false;
+					}
+				}
+				else {
+					return isFound;
+				}
+				return isFound;
+			});
+	}
+
+	showFoodServiceDetails(x: FoodServiceConnectionViewModel) {
+
+		this.showDetails = true;
+		let loadConnectionDetails = x.status == ConnectionStatus.Rejected ? true : false;
+		this.ea.publish('showFoodServiceDetails', { foodId: x.foodService.id, edit: false, loadConnection: loadConnectionDetails });
+	}
+
+
+
+	exportFoodServices() {
+
+		var user = this.identityService.getIdentity();
+		var api = this.config.getEndpoint('apiAddress');
+		window.open(api.client.baseUrl + 'downloadFoodServiceConnection?supplierId=' + user.companyId + '&queryType=' + this.tipoFiltro, '_parent');
+	}
 
 }

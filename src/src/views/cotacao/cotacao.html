@@ -387,9 +387,9 @@
 																			<tr>
 																				<th class="text-left">Fornecedor</th>
 																				<th class="text-center">Avaliação</th>
-																				<th class="text-center">Qtde de dias para aceite
+																				<th class="text-center">Prazo
 																				</th>
-																				<th class="text-center">Período de Aceite
+																				<th class="text-center">Valor mínimo
 																				</th>
 																				<th class="text-center">Dias de entrega
 																				</th>
@@ -409,12 +409,10 @@
 																					<i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
 																				</td>
 																				<td class="text-center">
-																					${item.rule.numberOfDaysToAccept} dias
+																					${item.paymentTerm} ${item.paymentTerm == 1 ? 'dia' : 'dias'}
 																				</td>
 																				<td class="text-center">
-																					${item.rule.periodToAcceptOrder1 | time}
-																					<label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-																					${item.rule.periodToAcceptOrder2 | time}
+																					${item.rule.minimumOrderValue | money}
 																				</td>
 																				<td class="text-center">
 																					<span if.bind="item.rule.deliveryOnMonday" class="badge ${ item.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
@@ -543,8 +541,8 @@
 															<tr>
 																<th class="text-left">Fornecedor</th>
 																<th class="text-center">Avaliação</th>
-																<th class="text-center">Qtde de dias para aceite</th>
-																<th class="text-center">Período de Aceite</th>
+																<th class="text-center">Prazo</th>
+																<th class="text-center">Valor mínimo</th>
 																<th class="text-center">Dias de entrega</th>
 																<th class="text-right">Total</th>
 															</tr>
@@ -562,12 +560,10 @@
 																	<i aria-hidden="true" class="fa fa-star" style="color: yellow;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: orange;"></i>
 																</td>
 																<td class="text-center">
-																	${summary.rule.numberOfDaysToAccept} dias
+																	${summary.paymentTerm} ${summary.paymentTerm == 1 ? 'dia' : 'dias'}
 																</td>
 																<td class="text-center">
-																	${summary.rule.periodToAcceptOrder1 | time}
-																	<label class="mr-sm-2 ml-2" for="inlineFormCustomSelect">as</label>
-																	${summary.rule.periodToAcceptOrder2 | time}
+																	${summary.rule.minimumOrderValue | money}
 																</td>
 																<td class="text-center">
 																	<span if.bind="summary.rule.deliveryOnMonday" class="badge ${ summary.rule.deliveryOnMonday ? 'badge-success' : 'badge-warning' }">Segunda-feira</span>
@@ -668,4 +664,5 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </template>
