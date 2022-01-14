@@ -1,4 +1,4 @@
-<template> 
+<template>
     <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
     <require from="../attributes/moneyMask"></require>
     <require from="../attributes/numberMask"></require>
@@ -9,38 +9,56 @@
     <div class="row mb-5">
         <div class="col-md-12">
             <div class="card">
-                  <div class="card-header">
+                <div class="card-header">
                     Aprovaçao de Clientes
-                  </div>
-                  <div class="card-body">                
-                        <div class="row mt-3">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label active">Informe o prazo para pagamento<span class="text-danger  ml-1 bold">*</span></label>                             
-                                    <input type="text" class="form-control col-md-4" autocomplete="off" value.bind="fsSupplier.paymentTerm | number & validate" number >
-                                </div>   
-                            </div> 
-                        </div>   
-                        <div class="row mt-3"> 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label">Selecione uma tabela de preço<span class="text-danger  ml-1 bold">*</span></label>                                
-                                    <select class="form-control text-center"    value.bind="selectedPriceList">
-                                        <option  repeat.for="p of priceLists" model.bind="p">${p.name}</option>
-                                    </select>
-                                </div>
-                            </div>  
-                        </div> 
-                        <div class="row mb-5 mt-5">
-                            <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5"  click.trigger="cancel()" if.bind="! processing" >
-                                <i class="fa fa-undo mr-2"></i>Cancelar
-                            </button>
-                            <button type="button" class="btn  btn-success waves-effect waves-light mx-auto ml-5 mr-5"  click.trigger="save()"  if.bind="! processing" >
-                                <i class="fa fa-check mr-2"></i>Confirmar
-                            </button>                
-                        </div>     
-                </div>     
+                </div>
+                <div class="card-body">
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label active">Informe o prazo para pagamento
+                                    <span class="text-danger  ml-1 bold">*</span>
+                                </label>
+                                <input type="text" class="form-control col-md-4" autocomplete="off" value.bind="fsSupplier.paymentTerm | number & validate"
+                                    number>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Selecione uma tabela de preço
+                                    <span class="text-danger  ml-1 bold">*</span>
+                                </label>
+                                <select class="form-control text-center" value.bind="selectedPriceList">
+                                    <option repeat.for="p of priceLists" model.bind="p">${p.name}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Selecione uma regra de mercado
+                                    <span class="text-danger  ml-1 bold">*</span>
+                                </label>
+                                <select class="form-control text-center" value.bind="selectedRuleItem">
+                                    <option model.bind="null">Selecione...</option>
+                                    <option repeat.for="r of ruleItems" model.bind="r">${r.name}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-5 mt-5">
+                        <button type="button" class="btn btn-secondary waves-effect waves-light mx-auto ml-5" click.trigger="cancel()" if.bind="! processing">
+                            <i class="fa fa-undo mr-2"></i>Cancelar
+                        </button>
+                        <button type="button" class="btn  btn-success waves-effect waves-light mx-auto ml-5 mr-5" click.trigger="save()" if.bind="! processing">
+                            <i class="fa fa-check mr-2"></i>Confirmar
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
 </template>

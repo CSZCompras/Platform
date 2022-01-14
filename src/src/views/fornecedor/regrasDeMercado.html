@@ -6,403 +6,480 @@
 	<require from="../../views/components/partials/timeInput"></require>
 
 	<div class="row mb-5 au-animate">
-		<div class="col-md-12">
+		<div class="col">
+
 			<div class="card">
 				<div class="card-header">
 					Regras de Mercado
 				</div>
 				<div class="card-body">
-					<div class="row">
-						<div class="col-md-12">
-							<h3 class="ml-2">
-								<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-								Pedido
-							</h3>
-							<div class="form-inline">
-								<div class="col-md-3">
-									<label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Valor mínimo</label>
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item waves-effect waves-light">
+							<a class="nav-link active show" href="#regras" aria-controls="regras" role="tab" data-toggle="tab">Regras</a>
+						</li>
+						<li class="nav-item waves-effect waves-light">
+							<a class="nav-link" href="#alertas" aria-controls="alertas" role="tab" data-toggle="tab">Alertas</a>
+						</li>
+					</ul>
+
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane fade active show" id="regras">
+
+							<div class="mt-5">
+								<div>
+									<h3 class="ml-2">
+										<i class="fa fa-wrench" aria-hidden="true"></i>
+										Regras
+									</h3>
+									<div class="form-inline">
+										<div class="col-md-3">
+											<label class="mr-sm-2 float-right" for="inlineFormCustomSelect">Regra</label>
+										</div>
+										<div class="col-md-4">
+											<div class="input-group" if.bind="!isNewRuleItem">
+												<select value.bind="ruleItem" class="form-control" style="border-radius: 5px" change.delegate="onRuleItemChange()">
+													<option model.bind="null">Selecione...</option>
+													<option repeat.for="r of ruleItems" model.bind="r">
+														${r.name}
+													</option>
+												</select>
+											</div>
+											<div class="input-group" if.bind="isNewRuleItem">
+												<input type="text" value.bind="ruleItem.name" class="form-control ${ruleItemValidator.isNameInvalid  ? 'border-danger' : '' }"
+												 autocomplete="off" change.delegate="ruleItemValidator.validateName()" />
+											</div>
+										</div>
+										<div class="col" if.bind="!isNewRuleItem">
+											<button type="button" class="btn btn-primary mx-auto" click.delegate="onNewRuleItemStart()" if.bind="!isLoading">
+												<span class="gradient">Nova</span>
+											</button>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-4">
-									<div class="input-group">
-										<span class="input-group-addon">$</span>
-										<input type="text" class="money form-control text-right ${validator.isMinimumOrderValueInvalid  ? 'border-danger' : '' }  "
-										 autocomplete="off" money placeholder="000,00" value.bind="rule.minimumOrderValue | money" change.delegate="validator.validateMinimumOrderValue()"
-										/>
+
+								<div class="mt-5" if.bind="ruleItem">
+									<h3 class="ml-2">
+										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+										Pedido
+									</h3>
+									<div class="form-inline">
+										<div class="col-md-3">
+											<label class="mr-sm-2 float-right" for="inlineFormCustomSelect">Valor mínimo</label>
+										</div>
+										<div class="col-md-4">
+											<div class="input-group">
+												<span class="input-group-addon">$</span>
+												<input type="text" class="money form-control text-right ${ruleItemValidator.isMinimumOrderValueInvalid  ? 'border-danger' : '' }  "
+												 autocomplete="off" money placeholder="000,00" value.bind="ruleItem.minimumOrderValue | money" change.delegate="ruleItemValidator.validateMinimumOrderValue()"
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="mt-5" if.bind="ruleItem">
+									<h2 class="ml-2">
+										<i class="fa fa-truck" aria-hidden="true"></i>
+										Aceite de Pedido
+									</h2>
+									<div class="form-inline">
+										<div class="col-md-3">
+											<label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Qtde de dias para aceite</label>
+										</div>
+										<div class="col-md-4">
+											<div class="input-group">
+												<input type="text" class="money form-control text-right ${ruleItemValidator.isnumberOfDaysToAcceptInvalid  ? 'border-danger' : '' } "
+												 autocomplete="off" number value.bind="ruleItem.numberOfDaysToAccept | number" change.delegate="ruleItemValidator.validateNumberOfDaysToAccept()"
+												/>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-5">
+										<div class="form-check form-check-inline ml-5 col-md-8 mt-3">
+											<div class="input-group mt-4">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="7" checked.bind="ruleItem.acceptOrderOnHolidays">
+													<span class="ml-1 mt-1">Aceita pedido em feriados</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3  mt-2">
+													<input type="checkbox" class="custom-control-input" value="0" checked.bind="ruleItem.acceptOrderOnMonday" change.trigger="acceptOrderOnMondayChanged()">
+													<span class="ml-1 mt-1">Segunda-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.acceptOrderOnMonday">
+													<time-input time-value.bind="ruleItem.acceptOrderOnMondayStart" blur.call="ruleItemValidator.validateAcceptOrderMondayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnMondayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect" if.bind="ruleItem.acceptOrderOnMonday">as</label>
+													<time-input time-value.bind="ruleItem.acceptOrderOnMondayEnd" blur.call="ruleItemValidator.validateAcceptOrderMondayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnMondayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3  mt-2">
+													<input type="checkbox" class="custom-control-input" value="1" checked.bind="ruleItem.acceptOrderOnTuesday" change.trigger="acceptOrderOnTuesdayChanged()">
+													<span class="ml-1 mt-1">Terça-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.acceptOrderOnTuesday">
+													<time-input time-value.bind="ruleItem.acceptOrderOnTuesdayStart" blur.call="ruleItemValidator.validateAcceptOrderTuesdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnTuesdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.acceptOrderOnTuesdayEnd" blur.call="ruleItemValidator.validateAcceptOrderTuesdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnTuesdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3  mt-2">
+													<input type="checkbox" class="custom-control-input" value="2" checked.bind="ruleItem.acceptOrderOnWednesday" change.trigger="acceptOrderOnWednesdayChanged()">
+													<span class="ml-1 mt-1">Quarta-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.acceptOrderOnWednesday">
+													<time-input time-value.bind="ruleItem.acceptOrderOnWednesdayStart" blur.call="ruleItemValidator.validateAcceptOrderWednesdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnWednesdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.acceptOrderOnWednesdayEnd" blur.call="ruleItemValidator.validateAcceptOrderWednesdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnWednesdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="3" checked.bind="ruleItem.acceptOrderOnThursday" change.trigger="acceptOrderOnThursdayChanged()">
+													<span class="ml-1 mt-1">Quinta-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.acceptOrderOnThursday">
+													<time-input time-value.bind="ruleItem.acceptOrderOnThursdayStart" blur.call="ruleItemValidator.validateAcceptOrderThursdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnThursdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.acceptOrderOnThursdayEnd" blur.call="ruleItemValidator.validateAcceptOrderThursdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnThursdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="4" checked.bind="ruleItem.acceptOrderOnFriday" change.trigger="acceptOrderOnFridayChanged()">
+													<span class="ml-1 mt-1">Sexta-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.acceptOrderOnFriday">
+													<time-input time-value.bind="ruleItem.acceptOrderOnFridayStart" blur.call="ruleItemValidator.validateAcceptOrderFridayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnFridayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.acceptOrderOnFridayEnd" blur.call="ruleItemValidator.validateAcceptOrderFridayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnFridayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="5" checked.bind="ruleItem.acceptOrderOnSaturday" change.trigger="acceptOrderOnSaturdayChanged()">
+													<span class="ml-1 mt-1">Sábado</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.acceptOrderOnSaturday">
+													<time-input time-value.bind="ruleItem.acceptOrderOnSaturdayStart" blur.call="ruleItemValidator.validateAcceptOrderSaturdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnSaturdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.acceptOrderOnSaturdayEnd" blur.call="ruleItemValidator.validateAcceptOrderSaturdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnSaturdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="6" checked.bind="ruleItem.acceptOrderOnSunday" change.trigger="acceptOrderOnSundayChanged()">
+													<span class="ml-1 mt-1">Domingo</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.acceptOrderOnSunday">
+													<time-input time-value.bind="ruleItem.acceptOrderOnSundayStart" blur.call="ruleItemValidator.validateAcceptOrderSundayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnSundayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.acceptOrderOnSundayEnd" blur.call="ruleItemValidator.validateAcceptOrderSundayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isAcceptOrderOnSundayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+										</div>
+									</div>
+									<br />
+									<br />
+								</div>
+
+								<div if.bind="ruleItem">
+									<h2 class="ml-2">
+										<i class="fa fa-truck" aria-hidden="true"></i>
+										Entrega
+									</h2>
+									<div class="row mt-5">
+										<div class="form-check form-check-inline ml-5 col-md-8">
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="7" checked.bind="ruleItem.deliveryOrderOnHolidays">
+													<span class="ml-1 mt-1">Entrega em feriados</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3  mt-2">
+													<input type="checkbox" class="custom-control-input" value="0" checked.bind="ruleItem.deliveryOnMonday" change.trigger="deliveryOnMondayChanged()">
+													<span class="ml-1 mt-1">Segunda-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.deliveryOnMonday">
+													<time-input time-value.bind="ruleItem.deliveryOnMondayStart" blur.call="ruleItemValidator.validateDeliveryMondayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnMondayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect" if.bind="ruleItem.deliveryOnMonday">as</label>
+													<time-input time-value.bind="ruleItem.deliveryOnMondayEnd" blur.call="ruleItemValidator.validateDeliveryMondayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnMondayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3  mt-2">
+													<input type="checkbox" class="custom-control-input" value="1" checked.bind="ruleItem.deliveryOnTuesday" change.trigger="deliveryOnTuesdayChanged()">
+													<span class="ml-1 mt-1">Terça-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.deliveryOnTuesday">
+													<time-input time-value.bind="ruleItem.deliveryOnTuesdayStart" blur.call="ruleItemValidator.validateDeliveryTuesdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnTuesdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.deliveryOnTuesdayEnd" blur.call="ruleItemValidator.validateDeliveryTuesdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnTuesdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3  mt-2">
+													<input type="checkbox" class="custom-control-input" value="2" checked.bind="ruleItem.deliveryOnWednesday" change.trigger="deliveryOnWednesdayChanged()">
+													<span class="ml-1 mt-1">Quarta-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.deliveryOnWednesday">
+													<time-input time-value.bind="ruleItem.deliveryOnWednesdayStart" blur.call="ruleItemValidator.validateDeliveryWednesdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnWednesdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.deliveryOnWednesdayEnd" blur.call="ruleItemValidator.validateDeliveryWednesdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnWednesdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="3" checked.bind="ruleItem.deliveryOnThursday" change.trigger="deliveryOnThursdayChanged()">
+													<span class="ml-1 mt-1">Quinta-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.deliveryOnThursday">
+													<time-input time-value.bind="ruleItem.deliveryOnThursdayStart" blur.call="ruleItemValidator.validateDeliveryThursdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnThursdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.deliveryOnThursdayEnd" blur.call="ruleItemValidator.validateDeliveryThursdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnThursdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="4" checked.bind="ruleItem.deliveryOnFriday" change.trigger="deliveryOnFridayChanged()">
+													<span class="ml-1 mt-1">Sexta-feira</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.deliveryOnFriday">
+													<time-input time-value.bind="ruleItem.deliveryOnFridayStart" blur.call="ruleItemValidator.validateDeliveryFridayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnFridayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.deliveryOnFridayEnd" blur.call="ruleItemValidator.validateDeliveryFridayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnFridayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="5" checked.bind="ruleItem.deliveryOnSaturday" change.trigger="deliveryOnSaturdayChanged()">
+													<span class="ml-1 mt-1">Sábado</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.deliveryOnSaturday">
+													<time-input time-value.bind="ruleItem.deliveryOnSaturdayStart" blur.call="ruleItemValidator.validateDeliverySaturdayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnSaturdayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.deliveryOnSaturdayEnd" blur.call="ruleItemValidator.validateDeliverySaturdayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnSaturdayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+											<div class="input-group">
+												<label class="custom-control custom-checkbox col-md-3 mt-2">
+													<input type="checkbox" class="custom-control-input" value="6" checked.bind="ruleItem.deliveryOnSunday" change.trigger="deliveryOnSundayChanged()">
+													<span class="ml-1 mt-1">Domingo</span>
+													<span class="custom-control-indicator"></span>
+												</label>
+												<div class="input-group" if.bind="ruleItem.deliveryOnSunday">
+													<time-input time-value.bind="ruleItem.deliveryOnSundayStart" blur.call="ruleItemValidator.validateDeliverySundayScheduleStart()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnSundayStartInvalid"></time-input>
+													<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
+													<time-input time-value.bind="ruleItem.deliveryOnSundayEnd" blur.call="ruleItemValidator.validateDeliverySundayScheduleEnd()"
+													 is-valid.bind="!ruleItemValidator.isDeliveryOnSundayEndInvalid"></time-input>
+												</div>
+											</div>
+											<br />
+											<br />
+										</div>
+									</div>
+									<br />
+									<br />
+								</div>
+
+								<div class="row mt-5" if.bind="ruleItem">
+									<button type="button" class="btn btn-danger mx-auto" click.delegate="onNewRuleItemCancel()" if.bind="isNewRuleItem">
+										<span class="gradient">Cancelar</span>
+									</button>
+									<button type="button" class="btn btn-primary mx-auto" click.delegate="saveRuleItem()" if.bind="! isLoading">
+										<span class="gradient">Salvar</span>
+									</button>
+									<div class="fa-2x text-center mx-auto" if.bind="isLoading">
+										<i class="fa fa-refresh fa-spin"></i>
 									</div>
 								</div>
 							</div>
+
 						</div>
 
-						<div class="col-md-12 mt-5">
-							<h2 class="ml-2">
-								<i class="fa fa-truck" aria-hidden="true"></i>
-								Aceite de Pedido
-							</h2>
-							<div class="form-inline">
-								<div class="col-md-3">
-									<label class="mr-sm-2   float-right" for="inlineFormCustomSelect">Qtde de dias para aceite</label>
-								</div>
-								<div class="col-md-4">
-									<div class="input-group">
-										<span class="input-group-addon"></span>
-										<input type="text" class="money form-control text-right ${validator.isnumberOfDaysToAcceptInvalid  ? 'border-danger' : '' } "
-										 autocomplete="off" number value.bind="rule.numberOfDaysToAccept | number" change.delegate="validator.validateNumberOfDaysToAccept()"
-										/>
-									</div>
-								</div>
-							</div>
-							<div class="row mt-5">
-								<div class="form-check form-check-inline ml-5 col-md-8 mt-3">
-									<div class="input-group mt-4">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="7" checked.bind="rule.acceptOrderOnHolidays">
-											<span class="ml-1 mt-1">Aceita pedido em feriados</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3  mt-2">
-											<input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.acceptOrderOnMonday" change.trigger="acceptOrderOnMondayChanged()">
-											<span class="ml-1 mt-1">Segunda-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.acceptOrderOnMonday">
-											<time-input time-value.bind="rule.acceptOrderOnMondayStart" blur.call="validator.validateAcceptOrderMondayScheduleStart()"
-											 is-valid.bind="!validator.isAcceptOrderOnMondayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect" if.bind="rule.acceptOrderOnMonday">as</label>
-											<time-input time-value.bind="rule.acceptOrderOnMondayEnd" blur.call="validator.validateAcceptOrderMondayScheduleEnd()" is-valid.bind="!validator.isAcceptOrderOnMondayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3  mt-2">
-											<input type="checkbox" class="custom-control-input" value="1" checked.bind="rule.acceptOrderOnTuesday" change.trigger="acceptOrderOnTuesdayChanged()">
-											<span class="ml-1 mt-1">Terça-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.acceptOrderOnTuesday">
-											<time-input time-value.bind="rule.acceptOrderOnTuesdayStart" blur.call="validator.validateAcceptOrderTuesdayScheduleStart()"
-											 is-valid.bind="!validator.isAcceptOrderOnTuesdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.acceptOrderOnTuesdayEnd" blur.call="validator.validateAcceptOrderTuesdayScheduleEnd()"
-											 is-valid.bind="!validator.isAcceptOrderOnTuesdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3  mt-2">
-											<input type="checkbox" class="custom-control-input" value="2" checked.bind="rule.acceptOrderOnWednesday" change.trigger="acceptOrderOnWednesdayChanged()">
-											<span class="ml-1 mt-1">Quarta-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.acceptOrderOnWednesday">
-											<time-input time-value.bind="rule.acceptOrderOnWednesdayStart" blur.call="validator.validateAcceptOrderWednesdayScheduleStart()"
-											 is-valid.bind="!validator.isAcceptOrderOnWednesdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.acceptOrderOnWednesdayEnd" blur.call="validator.validateAcceptOrderWednesdayScheduleEnd()"
-											 is-valid.bind="!validator.isAcceptOrderOnWednesdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="3" checked.bind="rule.acceptOrderOnThursday" change.trigger="acceptOrderOnThursdayChanged()">
-											<span class="ml-1 mt-1">Quinta-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.acceptOrderOnThursday">
-											<time-input time-value.bind="rule.acceptOrderOnThursdayStart" blur.call="validator.validateAcceptOrderThursdayScheduleStart()"
-											 is-valid.bind="!validator.isAcceptOrderOnThursdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.acceptOrderOnThursdayEnd" blur.call="validator.validateAcceptOrderThursdayScheduleEnd()"
-											 is-valid.bind="!validator.isAcceptOrderOnThursdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="4" checked.bind="rule.acceptOrderOnFriday" change.trigger="acceptOrderOnFridayChanged()">
-											<span class="ml-1 mt-1">Sexta-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.acceptOrderOnFriday">
-											<time-input time-value.bind="rule.acceptOrderOnFridayStart" blur.call="validator.validateAcceptOrderFridayScheduleStart()"
-											 is-valid.bind="!validator.isAcceptOrderOnFridayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.acceptOrderOnFridayEnd" blur.call="validator.validateAcceptOrderFridayScheduleEnd()" is-valid.bind="!validator.isAcceptOrderOnFridayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="5" checked.bind="rule.acceptOrderOnSaturday" change.trigger="acceptOrderOnSaturdayChanged()">
-											<span class="ml-1 mt-1">Sábado</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.acceptOrderOnSaturday">
-											<time-input time-value.bind="rule.acceptOrderOnSaturdayStart" blur.call="validator.validateAcceptOrderSaturdayScheduleStart()"
-											 is-valid.bind="!validator.isAcceptOrderOnSaturdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.acceptOrderOnSaturdayEnd" blur.call="validator.validateAcceptOrderSaturdayScheduleEnd()"
-											 is-valid.bind="!validator.isAcceptOrderOnSaturdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.acceptOrderOnSunday" change.trigger="acceptOrderOnSundayChanged()">
-											<span class="ml-1 mt-1">Domingo</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.acceptOrderOnSunday">
-											<time-input time-value.bind="rule.acceptOrderOnSundayStart" blur.call="validator.validateAcceptOrderSundayScheduleStart()"
-											 is-valid.bind="!validator.isAcceptOrderOnSundayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.acceptOrderOnSundayEnd" blur.call="validator.validateAcceptOrderSundayScheduleEnd()" is-valid.bind="!validator.isAcceptOrderOnSundayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-								</div>
-							</div>
-							<br />
-							<br />
-						</div>
-						<div class="col-md-12 mt-5">
-							<h2 class="ml-2">
-								<i class="fa fa-truck" aria-hidden="true"></i>
-								Entrega
-							</h2>
-							<div class="row mt-5">
-								<div class="form-check form-check-inline ml-5 col-md-8">
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="7" checked.bind="rule.deliveryOrderOnHolidays">
-											<span class="ml-1 mt-1">Entrega em feriados</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3  mt-2">
-											<input type="checkbox" class="custom-control-input" value="0" checked.bind="rule.deliveryOnMonday" change.trigger="deliveryOnMondayChanged()">
-											<span class="ml-1 mt-1">Segunda-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.deliveryOnMonday">
-											<time-input time-value.bind="rule.deliveryOnMondayStart" blur.call="validator.validateDeliveryMondayScheduleStart()" is-valid.bind="!validator.isDeliveryOnMondayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect" if.bind="rule.deliveryOnMonday">as</label>
-											<time-input time-value.bind="rule.deliveryOnMondayEnd" blur.call="validator.validateDeliveryMondayScheduleEnd()" is-valid.bind="!validator.isDeliveryOnMondayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3  mt-2">
-											<input type="checkbox" class="custom-control-input" value="1" checked.bind="rule.deliveryOnTuesday" change.trigger="deliveryOnTuesdayChanged()">
-											<span class="ml-1 mt-1">Terça-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.deliveryOnTuesday">
-											<time-input time-value.bind="rule.deliveryOnTuesdayStart" blur.call="validator.validateDeliveryTuesdayScheduleStart()" is-valid.bind="!validator.isDeliveryOnTuesdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.deliveryOnTuesdayEnd" blur.call="validator.validateDeliveryTuesdayScheduleEnd()" is-valid.bind="!validator.isDeliveryOnTuesdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3  mt-2">
-											<input type="checkbox" class="custom-control-input" value="2" checked.bind="rule.deliveryOnWednesday" change.trigger="deliveryOnWednesdayChanged()">
-											<span class="ml-1 mt-1">Quarta-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.deliveryOnWednesday">
-											<time-input time-value.bind="rule.deliveryOnWednesdayStart" blur.call="validator.validateDeliveryWednesdayScheduleStart()"
-											 is-valid.bind="!validator.isDeliveryOnWednesdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.deliveryOnWednesdayEnd" blur.call="validator.validateDeliveryWednesdayScheduleEnd()" is-valid.bind="!validator.isDeliveryOnWednesdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="3" checked.bind="rule.deliveryOnThursday" change.trigger="deliveryOnThursdayChanged()">
-											<span class="ml-1 mt-1">Quinta-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.deliveryOnThursday">
-											<time-input time-value.bind="rule.deliveryOnThursdayStart" blur.call="validator.validateDeliveryThursdayScheduleStart()"
-											 is-valid.bind="!validator.isDeliveryOnThursdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.deliveryOnThursdayEnd" blur.call="validator.validateDeliveryThursdayScheduleEnd()" is-valid.bind="!validator.isDeliveryOnThursdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="4" checked.bind="rule.deliveryOnFriday" change.trigger="deliveryOnFridayChanged()">
-											<span class="ml-1 mt-1">Sexta-feira</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.deliveryOnFriday">
-											<time-input time-value.bind="rule.deliveryOnFridayStart" blur.call="validator.validateDeliveryFridayScheduleStart()" is-valid.bind="!validator.isDeliveryOnFridayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.deliveryOnFridayEnd" blur.call="validator.validateDeliveryFridayScheduleEnd()" is-valid.bind="!validator.isDeliveryOnFridayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="5" checked.bind="rule.deliveryOnSaturday" change.trigger="deliveryOnSaturdayChanged()">
-											<span class="ml-1 mt-1">Sábado</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.deliveryOnSaturday">
-											<time-input time-value.bind="rule.deliveryOnSaturdayStart" blur.call="validator.validateDeliverySaturdayScheduleStart()"
-											 is-valid.bind="!validator.isDeliveryOnSaturdayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.deliveryOnSaturdayEnd" blur.call="validator.validateDeliverySaturdayScheduleEnd()" is-valid.bind="!validator.isDeliveryOnSaturdayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-									<div class="input-group">
-										<label class="custom-control custom-checkbox col-md-3 mt-2">
-											<input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.deliveryOnSunday" change.trigger="deliveryOnSundayChanged()">
-											<span class="ml-1 mt-1">Domingo</span>
-											<span class="custom-control-indicator"></span>
-										</label>
-										<div class="input-group" if.bind="rule.deliveryOnSunday">
-											<time-input time-value.bind="rule.deliveryOnSundayStart" blur.call="validator.validateDeliverySundayScheduleStart()" is-valid.bind="!validator.isDeliveryOnSundayStartInvalid"></time-input>
-											<label class="mr-sm-2 ml-2 mt-3" for="inlineFormCustomSelect">as</label>
-											<time-input time-value.bind="rule.deliveryOnSundayEnd" blur.call="validator.validateDeliverySundayScheduleEnd()" is-valid.bind="!validator.isDeliveryOnSundayEndInvalid"></time-input>
-										</div>
-									</div>
-									<br />
-									<br />
-								</div>
-							</div>
-							<br />
-							<br />
-						</div>
-						<div class="col-md-12 mt-5">
-							<h2>
-								<i class="fa fa-bell" aria-hidden="true"></i>
-								Alertas
-							</h2>
-							<div class="form-inline mt-2">
-								<div class="col-md-3"></div>
-								<div class="">
-									<label class="custom-control custom-checkbox ml-2 float-left">
-										<input type="checkbox" class="custom-control-input" value="6" change.delegate="sendNotificationToNewClientChanged()" checked.bind="rule.sendNotificationToNewClient">
-										<span class="custom-control-indicator"></span>
-										<span class="ml-1 mt-1">Receber notificação de um novo cliente por e-mail</span>
-									</label>
-								</div>
-							</div>
-							<br />
-							<div class="form-inline">
-								<div class="col-md-3 mt-3"></div>
-								<div class="col-md-6 mt-3" if.bind="rule.sendNotificationToNewClient">
-									<div class="input-group">
-										<input type="email" class="form-control ${validator.isReceiverNewClientInvalid && emailsNewClient.length == 0  ? 'border-danger' : '' }"
-										 autocomplete="chrome-off" value.bind="emailNewClient" change.delegate="validator.validateReceiverNewClient(emailNewClient)"
-										/>
-										<span class="col-md-1">
-											<button type="button" class="btn btn-primary" click.trigger="addEmailNewClient()">
-												<span class="gradient">Adicionar</span>
-											</button>
-										</span>
-									</div>
-									<div class="input-group mt-5" if.bind="emailsNewClient.length > 0">
-										<p class=" text-center mx-auto">
-											<i class="fa fa-envelope" aria-hidden="true"></i>
-											E-mails cadastrados
-										</p>
-									</div>
-									<div class="input-group mt-1" repeat.for="email of emailsNewClient">
-										<input type="email" class="form-control ${validator.sendNotificationToNewClient  ? 'border-danger' : '' }  " autocomplete="chrome-off"
-										 id="${emailsNewOrder[$index]}" data-validation="email" value.two-way="emailsNewClient[$index]" change.delegate="receiverNewClientChanged(emailsNewClient[$index])"
-										/>
-										<span class="col-md-1">
-											<button type="button" class="btn btn-danger" click.trigger="removeEmailNewClient(email)">
-												<span class="gradient">Remover</span>
-											</button>
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="mt-3">
-								<br />
-								<div class="form-inline">
+						<div role="tabpanel" class="tab-pane fade" id="alertas">
+
+							<div class="mt-5">
+								<h2>
+									<i class="fa fa-bell" aria-hidden="true"></i>
+									Alertas
+								</h2>
+								<div class="form-inline mt-2">
 									<div class="col-md-3"></div>
 									<div class="">
 										<label class="custom-control custom-checkbox ml-2 float-left">
-											<input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.sendNotificationToNewOrder">
+											<input type="checkbox" class="custom-control-input" value="6" change.delegate="sendNotificationToNewClientChanged()" checked.bind="rule.sendNotificationToNewClient">
 											<span class="custom-control-indicator"></span>
-											<span class="ml-1 mt-1">Receber notificação de um novo pedido por e-mail</span>
+											<span class="ml-1 mt-1">Receber notificação de um novo cliente por e-mail</span>
 										</label>
 									</div>
 								</div>
 								<br />
 								<div class="form-inline">
-									<div class="col-md-3"></div>
-									<div class="col-md-6" if.bind="rule.sendNotificationToNewOrder">
+									<div class="col-md-3 mt-3"></div>
+									<div class="col-md-6 mt-3" if.bind="rule.sendNotificationToNewClient">
 										<div class="input-group">
-											<input type="email" class="form-control ${validator.isReceiverNewOrderInvalid && emailsNewOrder.length == 0  ? 'border-danger' : '' }  "
-											 autocomplete="chrome-off" value.bind="emailNewOrder" change.delegate="validator.validateReceiverNewOrder(emailNewOrder)"
+											<input type="email" class="form-control ${validator.isReceiverNewClientInvalid && emailsNewClient.length == 0  ? 'border-danger' : '' }"
+											 autocomplete="chrome-off" value.bind="emailNewClient" change.delegate="validator.validateReceiverNewClient(emailNewClient)"
 											/>
 											<span class="col-md-1">
-												<button type="button" class="btn btn-primary" click.trigger="addEmailNewOrder()">
-													Adicionar
+												<button type="button" class="btn btn-primary" click.trigger="addEmailNewClient()">
+													<span class="gradient">Adicionar</span>
 												</button>
 											</span>
 										</div>
-										<div class="input-group mt-5" if.bind="emailsNewOrder.length > 0">
+										<div class="input-group mt-5" if.bind="emailsNewClient.length > 0">
 											<p class=" text-center mx-auto">
 												<i class="fa fa-envelope" aria-hidden="true"></i>
 												E-mails cadastrados
 											</p>
 										</div>
-										<div class="input-group mt-1" repeat.for="receiverNewOrder of emailsNewOrder">
-											<input type="email" class="form-control" autocomplete="chrome-off" data-validation="email" id="${emailsNewOrder[$index]}"
-											 value.two-way="emailsNewOrder[$index]" />
+										<div class="input-group mt-1" repeat.for="email of emailsNewClient">
+											<input type="email" class="form-control ${validator.sendNotificationToNewClient  ? 'border-danger' : '' }  " autocomplete="chrome-off"
+											 id="${emailsNewOrder[$index]}" data-validation="email" value.two-way="emailsNewClient[$index]" change.delegate="receiverNewClientChanged(emailsNewClient[$index])"
+											/>
 											<span class="col-md-1">
-												<button type="button" class="btn btn-danger" click.trigger="removeEmailNewOrder(receiverNewOrder)">
+												<button type="button" class="btn btn-danger" click.trigger="removeEmailNewClient(email)">
 													<span class="gradient">Remover</span>
 												</button>
 											</span>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-md-12 mt-5">
-							<div class="row mt-5">
-								<button type="button" class="btn btn-primary mx-auto" click.trigger="save()" if.bind="! isLoading">
-									<span class="gradient">Salvar</span>
-								</button>
-								<div class="fa-2x text-center mx-auto" if.bind="isLoading">
-									<i class="fa fa-refresh fa-spin"></i>
+								<div class="mt-3">
+									<br />
+									<div class="form-inline">
+										<div class="col-md-3"></div>
+										<div class="">
+											<label class="custom-control custom-checkbox ml-2 float-left">
+												<input type="checkbox" class="custom-control-input" value="6" checked.bind="rule.sendNotificationToNewOrder">
+												<span class="custom-control-indicator"></span>
+												<span class="ml-1 mt-1">Receber notificação de um novo pedido por e-mail</span>
+											</label>
+										</div>
+									</div>
+									<br />
+									<div class="form-inline">
+										<div class="col-md-3"></div>
+										<div class="col-md-6" if.bind="rule.sendNotificationToNewOrder">
+											<div class="input-group">
+												<input type="email" class="form-control ${validator.isReceiverNewOrderInvalid && emailsNewOrder.length == 0  ? 'border-danger' : '' }  "
+												 autocomplete="chrome-off" value.bind="emailNewOrder" change.delegate="validator.validateReceiverNewOrder(emailNewOrder)"
+												/>
+												<span class="col-md-1">
+													<button type="button" class="btn btn-primary" click.trigger="addEmailNewOrder()">
+														Adicionar
+													</button>
+												</span>
+											</div>
+											<div class="input-group mt-5" if.bind="emailsNewOrder.length > 0">
+												<p class=" text-center mx-auto">
+													<i class="fa fa-envelope" aria-hidden="true"></i>
+													E-mails cadastrados
+												</p>
+											</div>
+											<div class="input-group mt-1" repeat.for="receiverNewOrder of emailsNewOrder">
+												<input type="email" class="form-control" autocomplete="chrome-off" data-validation="email" id="${emailsNewOrder[$index]}"
+												 value.two-way="emailsNewOrder[$index]" />
+												<span class="col-md-1">
+													<button type="button" class="btn btn-danger" click.trigger="removeEmailNewOrder(receiverNewOrder)">
+														<span class="gradient">Remover</span>
+													</button>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row mt-5">
+									<button type="button" class="btn btn-primary mx-auto" click.delegate="saveAlertas()" if.bind="! isLoading">
+										<span class="gradient">Salvar</span>
+									</button>
+									<div class="fa-2x text-center mx-auto" if.bind="isLoading">
+										<i class="fa fa-refresh fa-spin"></i>
+									</div>
 								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </template>

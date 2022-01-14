@@ -7,36 +7,45 @@ import { FoodServiceSupplier } from '../../../domain/foodServiceSupplier';
 import { ControllerValidateResult, validateTrigger, ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { FormValidationRenderer } from '../../formValidationRenderer';
 import { NotificationService } from '../../../services/notificationService';
+import { MarketRuleItemRepository } from '../../../repositories/marketRuleItemRepository';
+import { IdentityService } from '../../../services/identityService';
+import { MarketRuleItem } from '../../../domain/marketRuleItem';
 
 @autoinject
-export class AprovacaoCliente{
+export class AprovacaoCliente {
 
-    isLoading                       : boolean;
-    priceLists                      : PriceList[];
-    selectedPriceList               : PriceList;
-    paymentTerm                     : number;
-    fsSupplier                      : FoodServiceSupplier;
-    validationController            : ValidationController;
+    isLoading: boolean;
+    priceLists: PriceList[];
+    selectedPriceList: PriceList;
+    paymentTerm: number;
+    fsSupplier: FoodServiceSupplier;
+    validationController: ValidationController;
 
-    constructor(		
-		private controller                  : DialogController, 
-        private validationControllerFactory : ValidationControllerFactory,
-        private notification                : NotificationService,
-        private priceListRepository         : PriceListRepository) { 
+    ruleItems: MarketRuleItem[] = [];
+    selectedRuleItem: MarketRuleItem;
 
-            this.isLoading = true; 
+    constructor(
+        private controller: DialogController,
+        private identityService: IdentityService,
+        private validationControllerFactory: ValidationControllerFactory,
+        private notification: NotificationService,
+        private priceListRepository: PriceListRepository,
+        private marketRuleItemRepository: MarketRuleItemRepository
+    ) {
 
-             // Validation.
-            this.validationController = this.validationControllerFactory.createForCurrentScope();
-            this.validationController.addRenderer(new FormValidationRenderer());
-            this.validationController.validateTrigger = validateTrigger.blur;
-    } 
+        this.isLoading = true;
 
-    activate(params){  
+        // Validation.
+        this.validationController = this.validationControllerFactory.createForCurrentScope();
+        this.validationController.addRenderer(new FormValidationRenderer());
+        this.validationController.validateTrigger = validateTrigger.blur;
+    }
 
-        if(params.FoodServiceSupplier != null){
+    activate(params) {
 
-            this.fsSupplier = params.FoodServiceSupplier; 
+        if (params.FoodServiceSupplier != null) {
+
+            this.fsSupplier = params.FoodServiceSupplier;
             this.validationController.addObject(this.fsSupplier);
             this.paymentTerm = this.fsSupplier.paymentTerm;
         }
@@ -44,57 +53,74 @@ export class AprovacaoCliente{
         ValidationRules
             .ensure((fsSupplier: FoodServiceSupplier) => fsSupplier.paymentTerm)
             .displayName('Prazo de pagamento')
-            .required()  
+            .required()
             .on(this.fsSupplier);
     }
 
-    loadData(){
+    loadData() {
+        var identity = this.identityService.getIdentity();
 
-        this.priceListRepository
+        var loadPriceListPromise = this.priceListRepository
             .getAll()
             .then(x => {
                 this.priceLists = x;
-                this.isLoading = false;
 
-                if(this.fsSupplier.priceListId != null && this.fsSupplier.priceListId != ''){
-                    this.selectedPriceList = this.priceLists.filter( p => p.id == this.fsSupplier.priceListId)[0];
+                if (this.fsSupplier.priceListId != null && this.fsSupplier.priceListId != '') {
+                    this.selectedPriceList = this.priceLists.filter(p => p.id == this.fsSupplier.priceListId)[0];
                 }
-                else if(this.priceLists.length > 0){
+                else if (this.priceLists.length > 0) {
                     this.selectedPriceList = this.priceLists[0];
                 }
+            });
+
+        var loadRuleItemsPromise = this.marketRuleItemRepository
+            .getRuleItems(identity.id)
+            .then(ruleItems => {
+                this.ruleItems = ruleItems;
+
+                if (this.fsSupplier.marketRuleItemId) {
+                    this.selectedRuleItem = this.ruleItems.filter(x => x.id === this.fsSupplier.marketRuleItemId)[0];
+                }
+                else {
+                    this.selectedRuleItem = null;
+                }
+            });
+
+        Promise.all([loadPriceListPromise, loadRuleItemsPromise])
+            .then(() => {
+                this.isLoading = false;
             })
             .catch(e => {
                 this.isLoading = false;
-            })
+            });
     }
-    
-    attached() : void{ 
-        
-		this.loadData();  
-    } 
 
-    save(){
+    attached(): void {
+
+        this.loadData();
+    }
+
+    save() {
         this.validationController
-        .validate()
-        .then((result: ControllerValidateResult) => {
-        
-            if (result.valid) {
+            .validate()
+            .then((result: ControllerValidateResult) => {
 
-
-                if(this.selectedPriceList != null && ( <any> this.selectedPriceList) != ''){
-                    this.controller.ok({ 
-                        priceList : this.selectedPriceList,
-                        paymentTerm : this.fsSupplier.paymentTerm
-                    });
+                if (result.valid) {
+                    if (this.selectedPriceList != null && (<any>this.selectedPriceList) != '' && this.selectedRuleItem) {
+                        this.controller.ok({
+                            priceList: this.selectedPriceList,
+                            paymentTerm: this.fsSupplier.paymentTerm,
+                            ruleItem: this.selectedRuleItem
+                        });
+                    }
                 }
-            }
-            else {
-                this.notification.error('Erros de validação foram encontrados');
-            }
-        });
+                else {
+                    this.notification.error('Erros de validação foram encontrados');
+                }
+            });
     }
 
-    cancel(){
+    cancel() {
         this.fsSupplier.paymentTerm = this.paymentTerm;
         this.controller.cancel();
     }
