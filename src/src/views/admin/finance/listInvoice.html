@@ -1,255 +1,276 @@
-<template>         
+<template>
     <require from="../../components/attributes/moneyMask"></require>
     <require from="../../components/valueConverters/moneyValueConverter"></require>
     <require from="../../components/valueConverters/dateFormatValueConverter"></require>
-    <require from="../../components/valueConverters/phoneWithDDDValueConverter"></require> 
+    <require from="../../components/valueConverters/phoneWithDDDValueConverter"></require>
     <require from="../../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
-	<require from="../../components/valueConverters/cnpjValueConverter"></require>
-	<require from="../../components/valueConverters/cepValueConverter"></require>
-	<require from="../../components/valueConverters/inscricaoEstadualValueConverter"></require>
+    <require from="../../components/valueConverters/cnpjValueConverter"></require>
+    <require from="../../components/valueConverters/cepValueConverter"></require>
+    <require from="../../components/valueConverters/inscricaoEstadualValueConverter"></require>
     <require from="../../components/attributes/cnpjMask"></require>
     <require from="../../components/attributes/cepMask"></require>
     <require from="../../components/attributes/inscricaoEstadualMask"></require>
     <require from="../../components/attributes/timeMask"></require>
     <require from="../../components/valueConverters/timeValueConverter"></require>
-    
 
-        <div class="row mb-5 task-manager au-animate"  >
+
+    <div class="row mb-5 task-manager au-animate">
         <div class="col-lg-12">
-          <div class="card">    
-             <div class="card-header">          
-                Faturas
-             </div> 
-             <div class="card-body"> 
-                 <div if.bind="! isEditing">
-                    <div class="row mt-2">
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label class="control-label">Data de referência</label> 
-                                <select class="form-control "    value.bind="selectedControl" change.delegate="changeControl()">
-                                    <option  repeat.for="control of controls" model.bind="control">${control.dateLabel}</option>
-                                </select>                                 
+            <div class="card">
+                <div class="card-header">
+                    Faturas
+                </div>
+                <div class="card-body">
+                    <div if.bind="! isEditing">
+                        <div class="row mt-2">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="control-label">Data de referência</label>
+                                    <select class="form-control " value.bind="selectedControlDate" change.delegate="changeControl()">
+                                        <option repeat.for="control of controlDates" model.bind="control">${control.dateLabel}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mt-4" if.bind="selectedControl.canGenerateInvoices">
+                                <button type="button" if.bind="! isLoading" class="btn btn-primary waves-effect waves-light" click.trigger="generateInvoices()">Gerar Faturamento</button>
+                            </div>
+                            <div class="col-1">
+                                <div class="fa-2x" show.bind="isLoading">
+                                    <i class="fa fa-refresh fa-spin" style="margin-top:30px"></i>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 mt-4" if.bind="selectedControl.canGenerateInvoices">
-                            <button type="button"  if.bind="! isLoading" class="btn btn-primary waves-effect waves-light"  click.trigger="generateInvoices()">Gerar Faturamento</button>
-							<div class="fa-2x" if.bind="isLoading" >
-								<i class="fa fa-refresh fa-spin"></i>
-							</div> 
-                        </div>
-                    </div>
-                    <div class="row mt-2">
+                        <div class="row mt-2">
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="control-label">Valor a receber</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"  value.bind="totalValue | money" money />
+                                    <input type="text" class="form-control disabled" disabled.bind="true" value.bind="totalValue | money" money />
                                 </div>
                             </div>
-                            <div class="col-lg-4"> 
-                                    <label class="control-label">Valor recebido</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"   value.bind="totalValuePaid | money" money />
+                            <div class="col-lg-4">
+                                <label class="control-label">Valor recebido</label>
+                                <input type="text" class="form-control disabled" disabled.bind="true" value.bind="totalValuePaid | money" money />
                             </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="control-label">Filtro</label>
+                                    <input type="text" class="form-control " value.bind="filter" placeholder="Pesquise por Nome/ Contato" change.trigger="search()"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+                                    <select class="form-control " value.bind="selectedStatus" change.delegate="search()">
+                                        <option value=""></option>
+                                        <option value="0">Gerado</option>
+                                        <option value="1">Pago</option>
+                                        <option value="2">Inadimplente</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fornecedor</th>
+                                    <th>Vencimento</th>
+                                    <th class="text-center">Qtde de Pedidos</th>
+                                    <th class="text-center">Total dos Pedidos</th>
+                                    <th class="text-center">Valor da Fatura</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="x of filteredInvoices">
+                                    <td>${x.supplier.name}</td>
+                                    <td>${x.maturity | dateFormat}</td>
+                                    <td class="text-center">${x.orders.length}</td>
+                                    <td class="text-center">${x.totalValue | money}</td>
+                                    <td class="text-center">${x.valueToPay | money}</td>
+                                    <td>
+                                        <span class="badge badge-primary" if.bind="x.status == 0">Gerado</span>
+                                        <span class="badge badge-success" if.bind="x.status == 1">Pago</span>
+                                        <span class="badge badge-danger" if.bind="x.status == 2">Inadimplente</span>
+                                    </td>
+                                    <td if.bind="! x.isEditing">
+                                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="edit(x)">Detalhes</button>
+                                        <button type="button" class="btn btn-success btn-sm waves-effect waves-light" if.bind="x.status != 1" click.trigger="editStatus(x, 1)">Efetuar baixa</button>
+                                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" if.bind="x.status != 2" click.trigger="editStatus(x, 2)">Pendenciar</button>
+                                    </td>
+                                    <td if.bind="x.isEditing">
+                                        <div class="fa-3x  mx-auto" if.bind="isLoading">
+                                            <i class="fa fa-refresh fa-spin"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label class="control-label">Filtro</label> 
-                                <input type="text" class="form-control "    value.bind="filter"  placeholder="Pesquise por Nome/ Contato"  change.trigger="search()"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label class="control-label">Status</label> 
-                                <select class="form-control "    value.bind="selectedStatus" change.delegate="search()">
-                                    <option  value=""></option>
-                                    <option  value="0">Gerado</option>
-                                    <option  value="1">Pago</option>
-                                    <option  value="2">Inadimplente</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>   
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Fornecedor</th>
-                                <th>Vencimento</th>
-                                <th class="text-center">Qtde de Pedidos</th>
-                                <th class="text-center">Total dos Pedidos</th>
-                                <th class="text-center">Valor da Fatura</th> 
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr repeat.for="x of filteredInvoices">
-                                <td>${x.supplier.name}</td>
-                                <td>${x.maturity | dateFormat}</td>
-                                <td class="text-center">${x.orders.length}</td>
-                                <td class="text-center">${x.totalValue | money}</td>
-                                <td class="text-center">${x.valueToPay | money}</td>
-                                <td>  
-                                    <span class="badge badge-primary" if.bind="x.status == 0">Gerado</span>
-                                    <span class="badge badge-success" if.bind="x.status == 1">Pago</span>                     
-                                    <span class="badge badge-danger" if.bind="x.status == 2">Inadimplente</span>
-                                </td>
-                                <td if.bind="! x.isEditing">
-                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"  click.trigger="edit(x)">Detalhes</button>
-                                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light" if.bind="x.status != 1" click.trigger="editStatus(x, 1)">Efetuar baixa</button>
-                                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" if.bind="x.status != 2"  click.trigger="editStatus(x, 2)">Pendenciar</button>
-                                </td>
-                                <td if.bind="x.isEditing">
-                                    <div class="fa-3x  mx-auto" if.bind="isLoading" >
-                                        <i class="fa fa-refresh fa-spin"></i>
-                                    </div> 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>                
-                </div> 
-                <div if.bind="isEditing">                                                                                                                                                               
+                    <div if.bind="isEditing">
                         <h4>Dados do fornecedor</h4>
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Razão Social</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"   value.bind="selectedInvoice.supplier.name"  />
+                                    <input type="text" class="form-control disabled" disabled.bind="true" value.bind="selectedInvoice.supplier.name" />
                                 </div>
-                            </div>  
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Nome Fantasia<span class="text-danger  ml-1 bold">*</span></label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"   value.bind="selectedInvoice.supplier.fantasyName"  />
+                                    <label class="control-label">Nome Fantasia
+                                        <span class="text-danger  ml-1 bold">*</span>
+                                    </label>
+                                    <input type="text" class="form-control disabled" disabled.bind="true" value.bind="selectedInvoice.supplier.fantasyName" />
                                 </div>
-                            </div>  
-                        </div>  
+                            </div>
+                        </div>
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">CNPJ</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"  value.bind="selectedInvoice.supplier.cnpj | cnpj"  cnpj />
+                                    <input type="text" class="form-control disabled" disabled.bind="true" value.bind="selectedInvoice.supplier.cnpj | cnpj" cnpj
+                                    />
                                 </div>
-                            </div>  
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Inscrição Estadual</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"  inscricaoEstadual  value.bind="selectedInvoice.supplier.inscricaoEstadual | inscricaoEstadual" />
+                                    <input type="text" class="form-control disabled" disabled.bind="true" inscricaoEstadual value.bind="selectedInvoice.supplier.inscricaoEstadual | inscricaoEstadual"
+                                    />
                                 </div>
-                            </div>  
-                        </div>                                                                                                                                                         
-                        <h4 class="mt-4">Contato</h4>    
+                            </div>
+                        </div>
+                        <h4 class="mt-4">Contato</h4>
                         <div class="tab-pane">
-                           <div class="row">
-                              <div class="col-md-6">
-                                 <div class="form-group">
-                                    <label class="control-label">Nome</label>
-                                    <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" disabled.bind="! edit" value.bind="selectedInvoice.supplier.contact.name"  change.delegate="validator.contactValidator.validateName()" />
-                                 </div>
-                                 <div class="form-group">
-                                    <label class="control-label">Telefone Comercial </label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true" phone-with-ddd value.bind="selectedInvoice.supplier.contact.commercialPhone | phoneWithDDD" disabled.bind="! edit"  placeholder="(01) 1234-5678"/>
-                                 </div>
-                                 <div class="form-group">
-                                    <label class="control-label">E-mail</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"  value.bind="selectedInvoice.supplier.contact.email" change.delegate="validator.contactValidator.validateEmail()" />
-                                 </div>
-                              </div>
-                              <div class="col-md-6">
-                                 <div class="form-group">
-                                    <label class="control-label">Telefone</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"  phone-with-ddd value.bind="selectedInvoice.supplier.contact.phone | phoneWithDDD"  change.delegate="validator.contactValidator.validatePhone()"  />
-                                 </div>
-                                 <div class="form-group">
-                                    <label class="control-label">Telefone Celular</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"  cell-phone-with-ddd value.bind="selectedInvoice.supplier.contact.personalPhone | cellPhoneWithDDD" disabled.bind="! edit" placeholder="(01) 01234-5678"/>
-                                 </div>
-                              </div>
-                           </div>
-                        </div> 
-                        <h4 class="mt-4">Dados da Fatura</h4>   
-                        <div class="tab-pane">
-                           <div class="row">
-                              <div class="col-md-3">
-                                 <div class="form-group">
-                                    <label class="control-label">Valor Total dos pedidos</label>
-                                    <input type="text" class="form-control "  value.bind="selectedInvoice.totalValue | money" money change.delegate="calculateInvoicePrice()"/>
-                                 </div>
-                                 <div class="form-group">
-                                    <label class="control-label">Data de vencimento</label>
-                                    <input type="text" class="form-control"  value.bind="selectedInvoice.maturity | dateFormat" date />
-                                 </div>
-                              </div>
-                              <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Percentual de cobrança (%)</label>
-                                    <input type="text" class="form-control " value.bind="selectedInvoice.fee | money"  money change.delegate="calculateInvoicePrice()"/>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Nome</label>
+                                        <input type="text" class="form-control  ${validator.contactValidator.isNameInvalid  ? 'border-danger' : '' }" disabled.bind="! edit"
+                                            value.bind="selectedInvoice.supplier.contact.name" change.delegate="validator.contactValidator.validateName()"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Telefone Comercial </label>
+                                        <input type="text" class="form-control disabled" disabled.bind="true" phone-with-ddd value.bind="selectedInvoice.supplier.contact.commercialPhone | phoneWithDDD"
+                                            disabled.bind="! edit" placeholder="(01) 1234-5678" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">E-mail</label>
+                                        <input type="text" class="form-control disabled" disabled.bind="true" value.bind="selectedInvoice.supplier.contact.email"
+                                            change.delegate="validator.contactValidator.validateEmail()" />
+                                    </div>
                                 </div>
-                                 <div class="form-group">
-                                    <label class="control-label">Gerado em</label>
-                                    <input type="text" class="form-control disabled" disabled.bind="true"   value.bind="selectedControl.createdOn | dateFormat" date />
-                                 </div>
-                              </div>
-                              <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                       <label class="control-label">Valor da fatura</label>
-                                       <input type="text" class="form-control disabled" disabled.bind="true"  value.bind="selectedInvoice.valueToPay | money"  money/>
+                                        <label class="control-label">Telefone</label>
+                                        <input type="text" class="form-control disabled" disabled.bind="true" phone-with-ddd value.bind="selectedInvoice.supplier.contact.phone | phoneWithDDD"
+                                            change.delegate="validator.contactValidator.validatePhone()" />
                                     </div>
-                              </div>
-                              <div class="col-md-3 mt-4">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary btn-sm btn-danger waves-effect waves-light"  click.trigger="cancelEditInvoicePrice()"><span class="gradient">Cancelar</span></button>
+                                        <label class="control-label">Telefone Celular</label>
+                                        <input type="text" class="form-control disabled" disabled.bind="true" cell-phone-with-ddd value.bind="selectedInvoice.supplier.contact.personalPhone | cellPhoneWithDDD"
+                                            disabled.bind="! edit" placeholder="(01) 01234-5678" />
                                     </div>
-                              </div>
-                           </div>
-                        </div>   
-                        <h4 class="mt-4">Pedidos</h4>  
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="mt-4">Dados da Fatura</h4>
+                        <div class="tab-pane">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Total dos pedidos</label>
+                                        <input type="text" class="form-control " value.bind="selectedInvoice.totalValue | money" money change.delegate="calculateInvoicePrice()"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Data de vencimento</label>
+                                        <input type="text" class="form-control" value.bind="selectedInvoice.maturity | dateFormat" date />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Percentual de cobrança (%)</label>
+                                        <input type="text" class="form-control " value.bind="selectedInvoice.fee | money" money change.delegate="calculateInvoicePrice()"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Gerado em</label>
+                                        <input type="text" class="form-control disabled" disabled.bind="true" value.bind="selectedControl.createdOn | dateFormat"
+                                            date />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor da fatura</label>
+                                        <input type="text" class="form-control disabled" disabled.bind="true" value.bind="selectedInvoice.valueToPay | money" money/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mt-4">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary btn-sm btn-danger waves-effect waves-light" click.trigger="cancelEditInvoicePrice()">
+                                            <span class="gradient">Cancelar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="mt-4">Pedidos</h4>
                         <div class="row mt-2">
-                                <table class="table  table-hover table-responsive">
-                                   <thead>
-                                      <tr>
-                                         <th class="text-center">Código</th>
-                                         <th class="text-center">Status</th>
-                                         <th class="text-center">Data do Pedido</th>
-                                         <th class="text-center">Food Service</th> 
-                                         <th class="text-center">Entrega</th>
-                                         <th class="text-center">Quantidade de Produtos</th>
-                                         <th class="text-center">Total</th>
-                                      </tr>
-                                   </thead>
-                                   <tbody>
-                                      <tr repeat.for="order of selectedInvoice.orders">
-                                         <td class="text-center">${order.code}</td>
-                                         <td class="text-center"> 
-                                            <span class="badge badge-danger" if.bind="order.status == 0">Novo pedido</span>    
-                                            <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>  
+                            <table class="table  table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Código</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Data do Pedido</th>
+                                        <th class="text-center">Food Service</th>
+                                        <th class="text-center">Entrega</th>
+                                        <th class="text-center">Quantidade de Produtos</th>
+                                        <th class="text-center">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr repeat.for="order of selectedInvoice.orders">
+                                        <td class="text-center">${order.code}</td>
+                                        <td class="text-center">
+                                            <span class="badge badge-danger" if.bind="order.status == 0">Novo pedido</span>
+                                            <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>
                                             <span class="badge badge-primary" if.bind="order.status == 2">Entregue</span>
                                             <span class="badge badge-default" if.bind="order.status == 3">Rejeitado</span>
-                                         </td>
-                                         <td class="text-center">${order.createdOn | dateFormat}</td>
-                                         <td >${order.foodService.name}</td> 
-                                         <td class="text-center">
-                                            <span if.bind="order.deliveryScheduleStart != null">das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time} </span>
-                                         </td>
-                                         <td class="text-center">${order.items.length}</td>
-                                         <td class="text-center">${order.total | money}</td>                                         
-                                      </tr>
-                                   </tbody>
-                                </table>
-                        </div>    
-                </div> 
-                <div class="row mt-5 mb-5">
-                    <div class="mx-auto" if.bind="isEditing && ! isLoading">
-                        <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light" if.bind="edit"   click.trigger="saveInvoice()"><span class="gradient">Salvar</span></button>
-                        <button type="button" class="btn btn-success waves-effect waves-light"   if.bind="selectedInvoice.status != 1" click.trigger="editStatus(selectedInvoice, 1)">Efetuar baixa</button>
-                        <button type="button" class="btn btn-danger waves-effect waves-light"    if.bind="selectedInvoice.status != 2"  click.trigger="editStatus(selectedInvoice, 2)">Pendenciar</button>
-                        <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light"       click.trigger="cancelEdit()">Voltar</button>   
-                    </div> 
-                <div class="fa-3x  mx-auto" if.bind="isEditing && isLoading" >
-                       <i class="fa fa-refresh fa-spin"></i>
-                </div> 
+                                        </td>
+                                        <td class="text-center">${order.createdOn | dateFormat}</td>
+                                        <td>${order.foodService.name}</td>
+                                        <td class="text-center">
+                                            <span if.bind="order.deliveryScheduleStart != null">das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time}
+                                            </span>
+                                        </td>
+                                        <td class="text-center">${order.items.length}</td>
+                                        <td class="text-center">${order.total | money}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-5 mb-5">
+                        <div class="mx-auto" if.bind="isEditing && ! isLoading">
+                            <button type="button" class="btn btn-primary btn-gradient waves-effect waves-light" if.bind="edit" click.trigger="saveInvoice()">
+                                <span class="gradient">Salvar</span>
+                            </button>
+                            <button type="button" class="btn btn-success waves-effect waves-light" if.bind="selectedInvoice.status != 1" click.trigger="editStatus(selectedInvoice, 1)">Efetuar baixa</button>
+                            <button type="button" class="btn btn-danger waves-effect waves-light" if.bind="selectedInvoice.status != 2" click.trigger="editStatus(selectedInvoice, 2)">Pendenciar</button>
+                            <button type="button" class="btn btn-secondary ml-2 waves-effect waves-light" click.trigger="cancelEdit()">Voltar</button>
+                        </div>
+                        <div class="fa-3x  mx-auto" if.bind="isEditing && isLoading">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
                 </div>
-             </div>
-          </div>
-       </div>
+            </div>
+        </div>
     </div>
- </template>
+</template>
