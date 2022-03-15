@@ -1,291 +1,294 @@
 <template>
-        <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
-        <require from="../components/attributes/moneyMask"></require>
-        <require from="../components/attributes/datepicker"></require>
-        <require from="../components/valueConverters/dateFormatValueConverter"></require>
-        <require from="../components/valueConverters/moneyValueConverter"></require>
-    
-        <div class="row mb-5 au-animate">
-            <div class="col-md-12">
-                <div class="row">   
-                   <div class="col-md-6 col-lg-6 col-xl-3 mb-5"  if.bind="orders.length > 0">
-                      <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
-                         <div class="card-body p-4">
+    <require from="jquery-datetimepicker/jquery.datetimepicker.min.css"></require>
+    <require from="../components/attributes/moneyMask"></require>
+    <require from="../components/attributes/datepicker"></require>
+    <require from="../components/valueConverters/dateFormatValueConverter"></require>
+    <require from="../components/valueConverters/moneyValueConverter"></require>
+
+    <div class="row mb-5 au-animate">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-xl-3 mb-5" if.bind="orders.length > 0">
+                    <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
+                        <div class="card-body p-4">
                             <div class="tile-left">
-                               <i class="batch-icon batch-icon-star batch-icon-xxl"></i>
+                                <i class="batch-icon batch-icon-star batch-icon-xxl"></i>
                             </div>
                             <div class="tile-right">
-                               <div class="tile-number">
-                                  <i class="fa fa-refresh fa-spin" if.bind="isLoading"></i>
-                                  <span  if.bind="! isLoading">${orders.length}</span>
-                               </div>
-                               <div class="tile-description">Pedidos recebidos</div>
+                                <div class="tile-number">
+                                    <i class="fa fa-refresh fa-spin" if.bind="isLoading"></i>
+                                    <span if.bind="! isLoading">${orders.length}</span>
+                                </div>
+                                <div class="tile-description">Pedidos recebidos</div>
                             </div>
-                         </div>
-                      </div>
-                   </div>
-                   <div class="col-md-6 col-lg-6 col-xl-3 mb-5"  if.bind="fsCreated != null  && period == 0">
-                     <div class="card card-tile card-xs bg-primary  bg-gradient text-center">
-                        <div class="card-body p-4">
-                           <div class="tile-left">
-                              <i class="batch-icon batch-icon-user-alt batch-icon-xxl"></i>
-                           </div>
-                           <div class="tile-right">
-                              <div class="tile-number">
-                                 <i class="fa fa-refresh fa-spin" if.bind="isLoadingNewFoodServices"></i>
-                                 <span  if.bind="! isLoadingNewFoodServices">${fsCreated.length}</span>                                            
-                              </div>
-                              <div class="tile-description">Novos Food Services</div>
-                           </div>
                         </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-xl-3 mb-5"  if.bind="suppliersCreated != null  && period == 0">
-                    <div class="card card-tile card-xs bg-secondary  bg-gradient text-center">
-                       <div class="card-body p-4">
-                          <div class="tile-left">
-                             <i class="batch-icon batch-icon-user-alt batch-icon-xxl"></i>
-                          </div>
-                          <div class="tile-right">
-                             <div class="tile-number">
-                                <i class="fa fa-refresh fa-spin" if.bind="isLoadingNewSuppliers"></i>
-                                <span  if.bind="! isLoadingNewSuppliers">${suppliersCreated.length}</span>                                            
-                             </div>
-                             <div class="tile-description">Novos Fornecedores</div>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-                </div> 
-                <div class="row mb-5" >
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="card-header">
-                                Exportação de pedidos 
-                            </div>  
-                            <div class="card-body">
-                                <div class="row pb-12">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label active">Informe a data inicial</label>
-                                            <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="startDate | dateFormat" datepicker >
-                                        
-                                            <label class="control-label active">Informe a data final</label>                             
-                                            <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="endDate | dateFormat " datepicker >
-
-                                            
-                                            <label class="control-label active">Informe o tipo de visão</label>                             
-                                            <select class="form-control "    value.bind="period">                                             
-                                                <option  value="0">Diário</option>
-                                                <option  value="1">Mensal</option>
-                                                <option  value="2">Anual</option>
-                                             </select>
-                                        </div>  
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <button type="button" class="btn btn-success mx-auto waves-effect waves-light" click.trigger="exportOrders()">Exportar</button>
-                                    <button type="button" class="btn btn-success mx-auto waves-effect waves-light" click.trigger="updateDashboards()">Atualizar Dashboard</button>
-                                </div>        
-                            </div>
-                        </div>      
-                    </div>
-                    <div class="col-md-6" if.bind="marketOrders != null || isLoadingMarketsChart">
-                       <div class="card card-md">
-                          <div class="card-header">
-                             Principais Mercados
-                          </div>
-                          <div class="card-body text-center">
-                             <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingMarketsChart">
-                             <i class="fa fa-refresh fa-spin"></i>
-                             </span>
-                             <div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59">
-                                <canvas id="marketsChart"></canvas>
-                             </div>
-                          </div>
-                       </div>
                     </div>
                 </div>
-                <div class="row mb-5" if.bind="period == 0 ">
-                  <div class="col-md-6" if.bind="fsCreated != null">
-                     <div class="card card-md" style="height: 100%;">
+                <div class="col-md-6 col-lg-6 col-xl-3 mb-5" if.bind="fsCreated != null  && period == 0">
+                    <div class="card card-tile card-xs bg-primary  bg-gradient text-center">
+                        <div class="card-body p-4">
+                            <div class="tile-left">
+                                <i class="batch-icon batch-icon-user-alt batch-icon-xxl"></i>
+                            </div>
+                            <div class="tile-right">
+                                <div class="tile-number">
+                                    <i class="fa fa-refresh fa-spin" if.bind="isLoadingNewFoodServices"></i>
+                                    <span if.bind="! isLoadingNewFoodServices">${fsCreated.length}</span>
+                                </div>
+                                <div class="tile-description">Novos Food Services</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3 mb-5" if.bind="suppliersCreated != null  && period == 0">
+                    <div class="card card-tile card-xs bg-secondary  bg-gradient text-center">
+                        <div class="card-body p-4">
+                            <div class="tile-left">
+                                <i class="batch-icon batch-icon-user-alt batch-icon-xxl"></i>
+                            </div>
+                            <div class="tile-right">
+                                <div class="tile-number">
+                                    <i class="fa fa-refresh fa-spin" if.bind="isLoadingNewSuppliers"></i>
+                                    <span if.bind="! isLoadingNewSuppliers">${suppliersCreated.length}</span>
+                                </div>
+                                <div class="tile-description">Novos Fornecedores</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div class="card ">
                         <div class="card-header">
-                           Novos FoodServices
+                            Exportação de pedidos
                         </div>
-                        <div class="card-body text-center ">
-                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
-                              <i class="fa fa-refresh fa-spin"></i>
-                           </span>  
-                           <table class="table table-hover" if.bind="! isLoadingNewFoodServices">
-                              <thead>
-                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Data de criação</th>
-                                    <th class="text-right">Qtde de Produtos</th>
-                                    <th class="text-right">Qtde de Pedidos</th>
-                                    <th class="text-center">1º pedido</th>   
-                                    <th class="text-center">Último pedido</th>   
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr repeat.for="x of fsCreated">
-                                    <td class="text-left">${x.name}</td>
-                                    <td class="text-center">${x.createdOn | dateFormat}</td>
-                                    <td class="text-right">${x.qtdeProdutos}</td>
-                                    <td class="text-right">${x.numberOfOrders}</td>
-                                    <td class="text-center">${x.firstOrderDate | dateFormat}</td> 
-                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td> 
-                                 </tr>
-                              </tbody>
-                           </table>
+                        <div class="card-body">
+                            <div class="row pb-12">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label active">Informe a data inicial</label>
+                                        <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="startDate | dateFormat"
+                                            datepicker>
+
+                                        <label class="control-label active">Informe a data final</label>
+                                        <input type="text" class="form-control text-right" autocomplete="off" placeholder="00/00/0000" value.bind="endDate | dateFormat "
+                                            datepicker>
+
+
+                                        <label class="control-label active">Informe o tipo de visão</label>
+                                        <select class="form-control " value.bind="period">
+                                            <option value="0">Diário</option>
+                                            <option value="1">Mensal</option>
+                                            <option value="2">Anual</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="btn btn-success mx-auto waves-effect waves-light" click.trigger="exportOrders()">Exportar</button>
+                                <button type="button" class="btn btn-success mx-auto waves-effect waves-light" click.trigger="updateDashboards()">Atualizar Dashboard</button>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6" if.bind="suppliersCreated != null"> 
-                     <div class="card card-md" style="height: 100%;">
+                    </div>
+                </div>
+                <div class="col-md-6" if.bind="marketOrders != null || isLoadingMarketsChart">
+                    <div class="card card-md">
                         <div class="card-header">
-                           Novos Fornecedores
-                        </div>
-                        <div class="card-body text-center ">
-                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingNewSuppliers">
-                              <i class="fa fa-refresh fa-spin"></i>
-                           </span>  
-                           <table class="table table-hover" if.bind="! isLoadingNewSuppliers">
-                              <thead>
-                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Data de criação</th>
-                                    <th class="text-right">Qtde de Produtos</th>
-                                    <th class="text-right">Qtde de Pedidos</th>
-                                    <th class="text-center">1º pedido</th>   
-                                    <th class="text-center">Último pedido</th>   
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr repeat.for="x of suppliersCreated">
-                                    <td class="text-left">${x.name}</td>
-                                    <td class="text-center">${x.createdOn | dateFormat}</td>
-                                    <td class="text-right">${x.qtdeProdutos}</td>
-                                    <td class="text-right">${x.numberOfOrders}</td>
-                                    <td class="text-center">${x.firstOrderDate | dateFormat}</td>
-                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td>
-                                    <td class="text-right">${x.totalOrders | money}</td> 
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-                <div class="row mb-5">
-                  <div class="col-md-6" if.bind="fsOrders != null">
-                     <div class="card card-md" style="height: 100%;">
-                        <div class="card-header">
-                           Resumo de Vendas - Food Services
-                        </div>
-                        <div class="card-body text-center ">
-                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingFoodServiceOrders">
-                              <i class="fa fa-refresh fa-spin"></i>
-                           </span>  
-                           <table class="table table-hover" if.bind="! isLoadingFoodServiceOrders">
-                              <thead>
-                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Data de criação</th>
-                                    <th class="text-right">Quantidade de Pedidos</th>
-                                    <th class="text-center">Data do último pedido</th>                                    
-                                    <th>Valor total</th>
-                                    <th>Status</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr repeat.for="x of fsOrders">
-                                    <td class="text-left">${x.name}</td>
-                                    <td class="text-center">${x.createdOn | dateFormat}</td>
-                                    <td class="text-right">${x.numberOfOrders}</td>
-                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td> 
-                                    <td class="text-right">${x.totalOrders | money}</td>
-                                    <td>  
-                                       <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
-                                       <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
-                                       <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>                     
-                                   </td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6" if.bind="supplierOrders != null">
-                     <div class="card card-md" style="height: 100%;">
-                        <div class="card-header">
-                           Resumo de Vendas - Fornecedores
-                        </div>
-                        <div class="card-body text-center ">
-                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingSupplierOrders">
-                              <i class="fa fa-refresh fa-spin"></i>
-                           </span>  
-                           <table class="table table-hover" if.bind="! isLoadingFoodServiceOrders">
-                              <thead>
-                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Data de criação</th>
-                                    <th class="text-right">Quantidade de Pedidos</th>
-                                    <th class="text-center">Data do último pedido</th>                                    
-                                    <th>Valor total</th>
-                                    <th>Status</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr repeat.for="x of supplierOrders">
-                                    <td class="text-left">${x.name}</td>
-                                    <td class="text-center">${x.createdOn | dateFormat}</td>
-                                    <td class="text-right">${x.numberOfOrders}</td>
-                                    <td class="text-center">${x.lastOrderDate | dateFormat}</td> 
-                                    <td class="text-right">${x.totalOrders | money}</td>
-                                    <td>  
-                                       <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
-                                       <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
-                                       <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>                     
-                                   </td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-                <div class="row mb-5 ${ordersAnalytics.items.length > 0 ? '' :  'invisible' } ">
-                  <div class="col-md-6">
-                     <div class="card card-md" style="height: 100%;">
-                        <div class="card-header">
-                           Qtde de Pedidos - Evolução
+                            Principais Mercados
                         </div>
                         <div class="card-body text-center">
-                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
-                              <i class="fa fa-refresh fa-spin"></i>
-                           </span>
-                           <div class="card-chart">
-                              <canvas id="qtdePedidosChart"></canvas>
-                           </div>
+                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingMarketsChart">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                            <div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31"
+                                data-chart-color-5="#f43a59">
+                                <canvas id="marketsChart"></canvas>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6">
-                     <div class="card card-md" style="height: 100%;">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5" if.bind="period == 0 ">
+                <div class="col-md-6" if.bind="fsCreated != null">
+                    <div class="card card-md" style="height: 100%;">
                         <div class="card-header">
-                           Volume de Pedidos - Evolução
+                            Novos FoodServices
+                        </div>
+                        <div class="card-body text-center ">
+                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                            <table class="table table-hover" if.bind="! isLoadingNewFoodServices">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Data de criação</th>
+                                        <th class="text-right">Qtde de Produtos</th>
+                                        <th class="text-right">Qtde de Pedidos</th>
+                                        <th class="text-center">1º pedido</th>
+                                        <th class="text-center">Último pedido</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr repeat.for="x of fsCreated">
+                                        <td class="text-left">${x.name}</td>
+                                        <td class="text-center">${x.createdOn | dateFormat}</td>
+                                        <td class="text-right">${x.qtdeProdutos}</td>
+                                        <td class="text-right">${x.numberOfOrders}</td>
+                                        <td class="text-center">${x.firstOrderDate | dateFormat}</td>
+                                        <td class="text-center">${x.lastOrderDate | dateFormat}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" if.bind="suppliersCreated != null">
+                    <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                            Novos Fornecedores
+                        </div>
+                        <div class="card-body text-center ">
+                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingNewSuppliers">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                            <table class="table table-hover" if.bind="! isLoadingNewSuppliers">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Data de criação</th>
+                                        <th class="text-right">Qtde de Produtos</th>
+                                        <th class="text-right">Qtde de Pedidos</th>
+                                        <th class="text-center">1º pedido</th>
+                                        <th class="text-center">Último pedido</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr repeat.for="x of suppliersCreated">
+                                        <td class="text-left">${x.name}</td>
+                                        <td class="text-center">${x.createdOn | dateFormat}</td>
+                                        <td class="text-right">${x.qtdeProdutos}</td>
+                                        <td class="text-right">${x.numberOfOrders}</td>
+                                        <td class="text-center">${x.firstOrderDate | dateFormat}</td>
+                                        <td class="text-center">${x.lastOrderDate | dateFormat}</td>
+                                        <td class="text-right">${x.totalOrders | money}</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-6" if.bind="fsOrders != null">
+                    <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                            Resumo de Vendas - Food Services
+                        </div>
+                        <div class="card-body text-center ">
+                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingFoodServiceOrders">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                            <table class="table table-hover" if.bind="! isLoadingFoodServiceOrders">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Data de criação</th>
+                                        <th class="text-right">Quantidade de Pedidos</th>
+                                        <th class="text-center">Data do último pedido</th>
+                                        <th>Valor total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr repeat.for="x of fsOrders">
+                                        <td class="text-left">${x.name}</td>
+                                        <td class="text-center">${x.createdOn | dateFormat}</td>
+                                        <td class="text-right">${x.numberOfOrders}</td>
+                                        <td class="text-center">${x.lastOrderDate | dateFormat}</td>
+                                        <td class="text-right">${x.totalOrders | money}</td>
+                                        <td>
+                                            <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
+                                            <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
+                                            <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" if.bind="supplierOrders != null">
+                    <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                            Resumo de Vendas - Fornecedores
+                        </div>
+                        <div class="card-body text-center ">
+                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoadingSupplierOrders">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                            <table class="table table-hover" if.bind="! isLoadingFoodServiceOrders">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Data de criação</th>
+                                        <th class="text-right">Quantidade de Pedidos</th>
+                                        <th class="text-center">Data do último pedido</th>
+                                        <th>Valor total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr repeat.for="x of supplierOrders">
+                                        <td class="text-left">${x.name}</td>
+                                        <td class="text-center">${x.createdOn | dateFormat}</td>
+                                        <td class="text-right">${x.numberOfOrders}</td>
+                                        <td class="text-center">${x.lastOrderDate | dateFormat}</td>
+                                        <td class="text-right">${x.totalOrders | money}</td>
+                                        <td>
+                                            <span class="badge badge-success" if.bind="x.status == 0">Ativo</span>
+                                            <span class="badge badge-danger" if.bind="x.status == 1">Inativo</span>
+                                            <span class="badge badge-warning" if.bind="x.status == 2">Aguardando liberação</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5 ${ordersAnalytics.items.length > 0 ? '' :  'invisible' } ">
+                <div class="col-md-6">
+                    <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                            Qtde de Pedidos - Evolução
                         </div>
                         <div class="card-body text-center">
-                           <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
-                              <i class="fa fa-refresh fa-spin"></i>
-                           </span>
-                           <div class="card-chart">
-                              <canvas id="financeiroPedidosChart"></canvas>
-                           </div>
+                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                            <div class="card-chart">
+                                <canvas id="qtdePedidosChart"></canvas>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div> 
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-md" style="height: 100%;">
+                        <div class="card-header">
+                            Volume de Pedidos - Evolução
+                        </div>
+                        <div class="card-body text-center">
+                            <span class="fa-5x" style="position: absolute; top: 20%;left: 50%;" if.bind="isLoading">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                            <div class="card-chart">
+                                <canvas id="financeiroPedidosChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-</template>        
+    </div>
+</template>

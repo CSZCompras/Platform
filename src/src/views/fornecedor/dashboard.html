@@ -3,24 +3,24 @@
   <require from="../components/valueConverters/moneyValueConverter"></require>
   <require from="../components/valueConverters/dateFormatValueConverter"></require>
   <div class="row mb-5 au-animate">
-     <div class="col-md-12" if.bind="identity.registerStatus == 0">
-        
+    <div class="col-md-12" if.bind="identity.registerStatus == 0">
+
       <div class="col-md-12" if.bind="identity.registerStatus == 0">
-         <div class="card">
-             <div class="card-body"> 
-                 <div class="col-md-7 order-md-2 signin-right-column px-5 ">
-                     <a class="signin-logo d-sm-none d-md-block">
-                         <img class="ml-5" src="assets/img/logo2T.png" style="cursor:default" width="150" height="92" alt="Econocompras">
-                     </a>
-                     <h1 class="display-6">Econocompras</h1>
-                     <p class="lead mb-5">
-                         Olá, seja bem-vindo
-                     </p>
-                     <p>
-                     </p>
-                 </div>
-             </div>
-         </div> 
+        <div class="card">
+          <div class="card-body">
+            <div class="col-md-7 order-md-2 signin-right-column px-5 ">
+              <a class="signin-logo d-sm-none d-md-block" style="cursor:default">
+                <img class="ml-1" src="assets/img/logo2T.png" width="150" height="150" alt="Econocompras">
+              </a>
+              <h1 class="display-6">Econocompras</h1>
+              <p class="lead mb-5">
+                Olá, seja bem-vindo
+              </p>
+              <p>
+              </p>
+            </div>
+          </div>
+        </div>
         <!-- <div class="row">
            <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
               <div class="card card-tile card-xs bg-primary bg-gradient text-center">
@@ -203,17 +203,17 @@
                 </div>
               </div>
               </div> -->
+      </div>
+    </div>
+    <div class="col-md-12" if.bind="identity.registerStatus != 0">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="text-center">Estamos quase la!</h2>
+          <h5 class="mt-4 text-large text-center">
+            Finalize seu cadastro no menu ao lado para ter acesso a todas as funcionalidades
+          </h5>
         </div>
-     </div>
-     <div class="col-md-12" if.bind="identity.registerStatus != 0">
-         <div class="card">
-             <div class="card-body">
-                  <h2 class="text-center">Estamos quase la!</h2>        
-                  <h5 class="mt-4 text-large text-center">
-                     Finalize seu cadastro no menu ao lado para ter acesso a todas as funcionalidades
-                  </h5>
-             </div>
-         </div>
-     </div>
+      </div>
+    </div>
   </div>
 </template>

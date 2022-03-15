@@ -1,284 +1,303 @@
 <template>
-            <require from="../components/attributes/moneyMask"></require>
-            <require from="../components/valueConverters/moneyValueConverter"></require>
-            <require from="../components/attributes/timeMask"></require>
-            <require from="../components/valueConverters/timeValueConverter"></require>
-            <require from="../components/valueConverters/dateFormatValueConverter"></require>
-            <require from="../components/attributes/cnpjMask"></require>
-            <require from="../components/attributes/cepMask"></require>
-            <require from="../components/attributes/phoneWithDDDMask"></require>
-            <require from="../components/attributes/cellPhoneWithDDDMask"></require>
-            <require from="../components/valueConverters/cnpjValueConverter"></require>
-            <require from="../components/valueConverters/cepValueConverter"></require>
-            <require from="../components/valueConverters/phoneWithDDDValueConverter"></require>
-            <require from="../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
-            
-            <div class="row mb-5 au-animate">
+      <require from="../components/attributes/moneyMask"></require>
+      <require from="../components/valueConverters/moneyValueConverter"></require>
+      <require from="../components/attributes/timeMask"></require>
+      <require from="../components/valueConverters/timeValueConverter"></require>
+      <require from="../components/valueConverters/dateFormatValueConverter"></require>
+      <require from="../components/attributes/cnpjMask"></require>
+      <require from="../components/attributes/cepMask"></require>
+      <require from="../components/attributes/phoneWithDDDMask"></require>
+      <require from="../components/attributes/cellPhoneWithDDDMask"></require>
+      <require from="../components/valueConverters/cnpjValueConverter"></require>
+      <require from="../components/valueConverters/cepValueConverter"></require>
+      <require from="../components/valueConverters/phoneWithDDDValueConverter"></require>
+      <require from="../components/valueConverters/cellPhoneWithDDDValueConverter"></require>
+
+      <div class="row mb-5 au-animate">
             <div class="col-lg-12">
-               <div class="card">
-                  <div class="card-header">
-                     <span if.bind="! showdDetails">Meus Pedidos </span>                     
-                     <span if.bind="showdDetails">Pedido nº ${selectedOrder.code}</span>
-                  </div>
-                  <div class="card-body">
-                     <div class="row" >
-                        <div class="col-md-12" if.bind="showdDetails"> 
-                           <div class="mt-1"> 
-                                    <h5 class="mb-0">                                   
-                                       ${selectedOrder.supplier.name} 
-                                       <span class="badge badge-danger float-right" if.bind="selectedOrder.status == 0">Aguardando aprovação</span>    
-                                       <span class="badge badge-warning float-right" if.bind="selectedOrder.status == 1">Aprovado</span>  
-                                       <span class="badge badge-primary float-right" if.bind="selectedOrder.status == 2">Entregue</span>
-                                       <span class="badge badge-default float-right" if.bind="selectedOrder.status == 3">Rejeitado</span>
-                                       <br />                                
-                                       <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryDate != null">Data da Entrega: ${selectedOrder.deliveryDate | dateFormat}</span>    
-                                       <br />
-                                       <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryScheduleStart != null">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time} as ${selectedOrder.deliveryScheduleEnd | time} </span>    
-                                       <br />
-                                       <span class="badge badge-danger float-left" if.bind="selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' ">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span>
-                                    </h5> 
-                                 <div>							 
-                                    <div class="card-header ml-0" role="tab" id="headingTwo">
-                                       <h4>Dados do Fornecedor</h4>
-                                    </div>								
-                                    <div>
-                                       <div class="card-body">
-                                          <h6 class="mt-2 mb-5"><i class="fa fa-tag mr-2"></i>Cadastro</h6>
-                                          <div class="row">
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6 ">Razão Social</label>
-                                                   <label class="control-label col-md-6 ">${selectedOrder.supplier.name}</label>
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">CNPJ</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.cnpj | cnpj}</label>
-                                                </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Nome Fantasia</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.fantasyName}</label> 
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Inscrição Estadual</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.stateRegistration.name}</label> 
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <h6 class="mt-5 mb-5"> <i class="fa fa-envelope-o mr-2"></i> Endereço</h6>
-                                          <div class="row">
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">CEP</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.address.cep | cep}</label> 
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="row">
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Logradouro</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.address.logradouro}</label> 
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Bairro</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.address.neighborhood}</label> 
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Estado</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.address.state}</label> 
-                                                </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Número</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.address.number}</label> 
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Cidade</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.address.city}</label> 
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Complemento</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.address.complement}</label>  
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <h6 class="mt-5 mb-5"><i class="batch-icon batch-icon-users mr-2"></i>Contato</h6>
-                                          <div class="row">
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Nome</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.contact.name}</label>  
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Telefone Comercial </label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.contact.commercialPhone | phoneWithDDD}</label>   
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">E-mail</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.contact.email}</label>  
-                                                </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Telefone</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.contact.phone | phoneWithDDD}</label> 
-                                                </div>
-                                                <div class="form-group">
-                                                   <label class="control-label col-md-6">Telefone Celular</label>
-                                                   <label class="control-label col-md-6">${selectedOrder.supplier.contact.personalPhone | phoneWithDDD}</label> 
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>                              
-                                    <div class="card-header ml-0" role="tab" id="headingTwo">
-                                       <h4>Dados do pedido</h4>
-                                    </div>
-                                    <div> 
-                                       <table class="table  table-hover table-responsive">
-                                          <thead>
-                                             <tr>
-                                                <th>Nome do Produto</th>
-                                                <th>Marca</th>
-                                                <th>Descrição</th>
-                                                <th>Categoria</th>
-                                                <th>UM</th>
-                                                <th class="text-center">Quantidade</th>
-                                                <th class="text-center">Preço unitário</th>
-                                                <th class="text-center">Total</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                             <tr repeat.for="item of selectedOrder.items">
-                                                <td>${item.product.base.name}</td> 
-                                                <td>${item.product.brand.name}</td>
-                                                <td>${item.product.description}</td>
-                                                <td>${item.product.base.category.name}</td>
-                                                <td>
-                                                   ${item.product.unit.name}
-                                                   <span if.bind="item.product.unitInternal != null"> com ${item.product.multiplier} ${item.product.unitInternal.name}(s)</span>
-                                                </td>
-                                                <td class="text-center">${item.quantity | money}</td>
-                                                <td class="text-center">
-                                                   ${item.price | money}
-                                                   <br />
-                                                   <span if.bind="item.priceByUnit != null && item.product.unitInternal != null">(${item.priceByUnit | money} / ${item.product.unitInternal.name})</span>
-                                                </td>
-                                                <td class="text-center">${item.total | money}</td>
-                                             </tr>
-                                             <tr>
-                                                <td colspan="7" class="text-right">
-                                                   <strong>Total:</strong>
-                                                </td>
-                                                <td class="text-center">
-                                                   <strong>${selectedOrder.total  | money}</strong>
-                                                </td>
-                                             </tr>
-                                          </tbody>
-                                       </table>
-                                    </div> 
-                                    <div class="mt-5" if.bind="selectedOrder.observation != null && selectedOrder.observation.length > 0">
-                                       <h4>Observações</h4>                                      
-                                       <div class="form-group mx-auto">      
-                                           <textarea class="form-control disabled" disabled value.bind="selectedOrder.observation" disable rows="2" ></textarea>
-                                       </div>
-                                    </div>
-                                 </div> 
-                           </div>
-                           <div class="text-center mt-3"> 
-                              <button type="button" class="btn btn-secondary   waves-effect waves-light" click.trigger="showdDetails = false">
-                                 <i class="fa fa-undo mr-2" aria-hidden="true"></i>Voltar
-                              </button>
-                              <button type="button" class="btn btn-success waves-effect waves-light" click.trigger="exportOrder(selectedOrder)">
-                                 <i class="fa fa-file-excel-o  mr-2"></i> 
-                                 Exportar
-                              </button>
-                           </div>
+                  <div class="card">
+                        <div class="card-header">
+                              <span if.bind="! showdDetails">Meus Pedidos </span>
+                              <span if.bind="showdDetails">Pedido nº ${selectedOrder.code}</span>
                         </div>
-                        <div class="col-md-12"   if.bind="! showdDetails"> 
-                              <div class="form-row align-items-center">
-                                 <div class="col-lg-3">
-                                    <label for="input-task-title" class="active">Dados do pedido</label>
-                                    <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="Codigo / Cliente / Contato / Valor"  change.trigger="search()"   value.bind="filter"  />
-                                 </div>
-                                 <div class="col-lg-3 ml-5">
-                                    <label for="input-task-title" class="active">Status</label>
-                                    <select class="form-control"  value.bind="selectedStatus" change.delegate="load()">
-                                       <option  value="0" selected>Novo pedido</option>
-                                       <option  value="1">Aceito</option>
-                                       <option  value="2">Entregue</option>
-                                       <option  value="3">Rejeitado</option>
-                                    </select>
-                                 </div>
-                                 <div class="col-lg-3 ml-4 mt-3">
-                                    <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light"><span class="gradient">Pesquisar</span></button>
-                                 </div>
-                              </div> 
-                           <div>
-                              <table class="table  table-hover table-responsive mt-5">
-                                 <thead>
-                                    <tr>
-                                       <th class="text-center">Código</th>
-                                       <th class="text-center">Status</th>
-                                       <th>Data do Pedido</th>
-                                       <th class="text-center">Observação</th>
-                                       <th class="text-center">Data de entrega</th>
-                                       <th class="text-center">Horário de entrega</th>
-                                       <th class="text-center">Data de pgto</th>
-                                       <th class="text-center">Fornecedor</th> 
-                                       <th class="text-center">Total</th>
-                                       <th></th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    <tr repeat.for="order of filteredOrders">
-                                       <td class="text-center">${order.code}</td>
-                                       <td class="text-center"> 
-                                          <span class="badge badge-success" if.bind="order.status == 0">Novo pedido</span>    
-                                          <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>  
-                                          <span class="badge badge-primary" if.bind="order.status == 2">Entregue</span> 
-                                          <span class="badge badge-default" if.bind="order.status == 3">Rejeitado</span>  
-                                       </td>
-                                       <td>${order.createdOn | dateFormat}</td>
-                                       <td class="text-center">
-                                          <span class="badge badge-danger" if.bind="order.status == 1 && order.isBilled == false">Aguardando faturamento</span>
-                                       </td>
-                                       <td class="text-center">${order.deliveryDate | dateFormat}</td>
-                                       <td class="text-center">
-                                          <span if.bind="order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null">
-                                             das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time}
-                                          </span>
-                                       </td>
-                                       <td>${order.paymentDate | dateFormat}</td>
-                                       <td class="text-center">${order.supplier.name}</td> 
-                                       <td class="text-right">${order.total | money}</td>
-                                       <td  class="text-right">
-                                          <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="selectOrder(order)">
-                                                Ver detalhes 
-                                          </button>
-                                          <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="exportOrder(order)">
-                                             <i class="fa fa-file-excel-o  mr-2"></i> 
-                                             Exportar
-                                          </button>
-                                          <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="deliverOrder(order)" if.bind="order.status == 1">
-                                                Efetuar baixa
-                                                <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
-                                          </button>
-                                          <button type="button"  class="btn btn-success btn-sm waves-effect waves-light" click.trigger="quoteAgain(order)" if.bind="order.status == 3">
-                                             Cotar novamente
-                                             <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
-                                          </button>  
-                                       </td>
-                                    </tr>
-                                 </tbody>
-                              </table>
-                           </div>
+                        <div class="card-body">
+                              <div class="row">
+                                    <div class="col-md-12" if.bind="showdDetails">
+                                          <div class="mt-1">
+                                                <h5 class="mb-0">
+                                                      ${selectedOrder.supplier.name}
+                                                      <span class="badge badge-danger float-right" if.bind="selectedOrder.status == 0">Aguardando aprovação</span>
+                                                      <span class="badge badge-warning float-right" if.bind="selectedOrder.status == 1">Aprovado</span>
+                                                      <span class="badge badge-primary float-right" if.bind="selectedOrder.status == 2">Entregue</span>
+                                                      <span class="badge badge-default float-right" if.bind="selectedOrder.status == 3">Rejeitado</span>
+                                                      <br />
+                                                      <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryDate != null">Data da Entrega: ${selectedOrder.deliveryDate | dateFormat}</span>
+                                                      <br />
+                                                      <span class="badge badge-warning float-right" if.bind="selectedOrder.deliveryScheduleStart != null">Horário de Entrega: das ${selectedOrder.deliveryScheduleStart | time}
+                                                            as ${selectedOrder.deliveryScheduleEnd | time} </span>
+                                                      <br />
+                                                      <span class="badge badge-danger float-left" if.bind="selectedOrder.reasonToReject && selectedOrder.reasonToReject != '' ">Motivo da Rejeição: ${selectedOrder.reasonToReject}</span>
+                                                </h5>
+                                                <div>
+                                                      <div class="card-header ml-0" role="tab" id="headingTwo">
+                                                            <h4>Dados do Fornecedor</h4>
+                                                      </div>
+                                                      <div>
+                                                            <div class="card-body">
+                                                                  <h6 class="mt-2 mb-5">
+                                                                        <i class="fa fa-tag mr-2"></i>Cadastro</h6>
+                                                                  <div class="row">
+                                                                        <div class="col-md-6">
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6 ">Razão Social</label>
+                                                                                    <label class="control-label col-md-6 ">${selectedOrder.supplier.name}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">CNPJ</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.cnpj | cnpj}</label>
+                                                                              </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Nome Fantasia</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.fantasyName}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Inscrição Estadual</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.stateRegistration.name}</label>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                                  <h6 class="mt-5 mb-5">
+                                                                        <i class="fa fa-envelope-o mr-2"></i> Endereço</h6>
+                                                                  <div class="row">
+                                                                        <div class="col-md-6">
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">CEP</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.address.cep
+                                                                                          | cep}</label>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                                  <div class="row">
+                                                                        <div class="col-md-6">
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Logradouro</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.address.logradouro}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Bairro</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.address.neighborhood}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Estado</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.address.state}</label>
+                                                                              </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Número</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.address.number}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Cidade</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.address.city}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Complemento</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.address.complement}</label>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                                  <h6 class="mt-5 mb-5">
+                                                                        <i class="batch-icon batch-icon-users mr-2"></i>Contato</h6>
+                                                                  <div class="row">
+                                                                        <div class="col-md-6">
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Nome</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.contact.name}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Telefone Comercial </label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.contact.commercialPhone
+                                                                                          | phoneWithDDD}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">E-mail</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.contact.email}</label>
+                                                                              </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Telefone</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.contact.phone
+                                                                                          | phoneWithDDD}</label>
+                                                                              </div>
+                                                                              <div class="form-group">
+                                                                                    <label class="control-label col-md-6">Telefone Celular</label>
+                                                                                    <label class="control-label col-md-6">${selectedOrder.supplier.contact.personalPhone
+                                                                                          | phoneWithDDD}</label>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="card-header ml-0" role="tab" id="headingTwo">
+                                                            <h4>Dados do pedido</h4>
+                                                      </div>
+                                                      <div>
+                                                            <table class="table  table-hover table-responsive">
+                                                                  <thead>
+                                                                        <tr>
+                                                                              <th>Nome do Produto</th>
+                                                                              <th>Marca</th>
+                                                                              <th>Descrição</th>
+                                                                              <th>Categoria</th>
+                                                                              <th>UM</th>
+                                                                              <th class="text-center">Quantidade</th>
+                                                                              <th class="text-center">Preço unitário</th>
+                                                                              <th class="text-center">Total</th>
+                                                                        </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                        <tr repeat.for="item of selectedOrder.items">
+                                                                              <td>${item.product.base.name}</td>
+                                                                              <td>${item.product.brand.name}</td>
+                                                                              <td>${item.product.description}</td>
+                                                                              <td>${item.product.base.category.name}</td>
+                                                                              <td>
+                                                                                    ${item.product.unit.name}
+                                                                                    <span if.bind="item.product.unitInternal != null"> com ${item.product.multiplier} ${item.product.unitInternal.name}(s)</span>
+                                                                              </td>
+                                                                              <td class="text-center">${item.quantity | money}</td>
+                                                                              <td class="text-center">
+                                                                                    ${item.price | money}
+                                                                                    <br />
+                                                                                    <span if.bind="item.priceByUnit != null && item.product.unitInternal != null">(${item.priceByUnit | money} / ${item.product.unitInternal.name})</span>
+                                                                              </td>
+                                                                              <td class="text-center">${item.total | money}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                              <td colspan="7" class="text-right">
+                                                                                    <strong>Total:</strong>
+                                                                              </td>
+                                                                              <td class="text-center">
+                                                                                    <strong>${selectedOrder.total | money}</strong>
+                                                                              </td>
+                                                                        </tr>
+                                                                  </tbody>
+                                                            </table>
+                                                      </div>
+                                                      <div class="mt-5" if.bind="selectedOrder.observation != null && selectedOrder.observation.length > 0">
+                                                            <h4>Observações</h4>
+                                                            <div class="form-group mx-auto">
+                                                                  <textarea class="form-control disabled" disabled value.bind="selectedOrder.observation" disable rows="2"></textarea>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div class="text-center mt-3">
+                                                <button type="button" class="btn btn-secondary   waves-effect waves-light" click.trigger="showdDetails = false">
+                                                      <i class="fa fa-undo mr-2" aria-hidden="true"></i>Voltar
+                                                </button>
+                                                <button type="button" class="btn btn-success waves-effect waves-light" click.trigger="exportOrder(selectedOrder)">
+                                                      <i class="fa fa-file-excel-o  mr-2"></i>
+                                                      Exportar
+                                                </button>
+                                                <button type="button" class="btn btn-success waves-effect waves-light" click.trigger="exportOrderToPdf(selectedOrder)">
+                                                      <i class="fa fa-file-pdf-o  mr-2"></i>
+                                                      Exportar PDF
+                                                </button>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-12" if.bind="! showdDetails">
+                                          <div class="form-row align-items-center">
+                                                <div class="col-lg-3">
+                                                      <label for="input-task-title" class="active">Dados do pedido</label>
+                                                      <input type="text" class="form-control input-task-title" id="input-task-title" placeholder="Codigo / Cliente / Contato / Valor"
+                                                            change.trigger="search()" value.bind="filter" />
+                                                </div>
+                                                <div class="col-lg-3 ml-5">
+                                                      <label for="input-task-title" class="active">Status</label>
+                                                      <select class="form-control" value.bind="selectedStatus" change.delegate="load()">
+                                                            <option value="0" selected>Novo pedido</option>
+                                                            <option value="1">Aceito</option>
+                                                            <option value="2">Entregue</option>
+                                                            <option value="3">Rejeitado</option>
+                                                      </select>
+                                                </div>
+                                                <div class="col-lg-3 ml-4 mt-3">
+                                                      <button type="button" class="btn btn-primary btn-gradient assign-task waves-effect waves-light">
+                                                            <span class="gradient">Pesquisar</span>
+                                                      </button>
+                                                </div>
+                                          </div>
+                                          <div>
+                                                <table class="table  table-hover table-responsive mt-5">
+                                                      <thead>
+                                                            <tr>
+                                                                  <th class="text-center">Código</th>
+                                                                  <th class="text-center">Status</th>
+                                                                  <th>Data do Pedido</th>
+                                                                  <th class="text-center">Observação</th>
+                                                                  <th class="text-center">Data de entrega</th>
+                                                                  <th class="text-center">Horário de entrega</th>
+                                                                  <th class="text-center">Data de pgto</th>
+                                                                  <th class="text-center">Fornecedor</th>
+                                                                  <th class="text-center">Total</th>
+                                                                  <th></th>
+                                                            </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                            <tr repeat.for="order of filteredOrders">
+                                                                  <td class="text-center">${order.code}</td>
+                                                                  <td class="text-center">
+                                                                        <span class="badge badge-success" if.bind="order.status == 0">Novo pedido</span>
+                                                                        <span class="badge badge-warning" if.bind="order.status == 1">Aceito</span>
+                                                                        <span class="badge badge-primary" if.bind="order.status == 2">Entregue</span>
+                                                                        <span class="badge badge-default" if.bind="order.status == 3">Rejeitado</span>
+                                                                  </td>
+                                                                  <td>${order.createdOn | dateFormat}</td>
+                                                                  <td class="text-center">
+                                                                        <span class="badge badge-danger" if.bind="order.status == 1 && order.isBilled == false">Aguardando faturamento</span>
+                                                                  </td>
+                                                                  <td class="text-center">${order.deliveryDate | dateFormat}</td>
+                                                                  <td class="text-center">
+                                                                        <span if.bind="order.deliveryScheduleStart != null && order.deliveryScheduleEnd != null">
+                                                                              das ${order.deliveryScheduleStart | time} as ${order.deliveryScheduleEnd | time}
+                                                                        </span>
+                                                                  </td>
+                                                                  <td>${order.paymentDate | dateFormat}</td>
+                                                                  <td class="text-center">${order.supplier.name}</td>
+                                                                  <td class="text-right">${order.total | money}</td>
+                                                                  <td class="text-right">
+                                                                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" click.trigger="selectOrder(order)">
+                                                                              Ver detalhes
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="exportOrder(order)">
+                                                                              <i class="fa fa-file-excel-o  mr-2"></i>
+                                                                              Exportar
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="exportOrderToPdf(order)">
+                                                                              <i class="fa fa-file-pdf-o  mr-2"></i>
+                                                                              Exportar PDF
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="deliverOrder(order)" if.bind="order.status == 1">
+                                                                              Efetuar baixa
+                                                                              <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-success btn-sm waves-effect waves-light" click.trigger="quoteAgain(order)" if.bind="order.status == 3">
+                                                                              Cotar novamente
+                                                                              <i class="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                                                                        </button>
+                                                                  </td>
+                                                            </tr>
+                                                      </tbody>
+                                                </table>
+                                          </div>
+                                    </div>
+                              </div>
                         </div>
-                     </div>
                   </div>
-               </div>
             </div>
-         </template>
+</template>
