@@ -52,6 +52,15 @@ made together with the corresponding change on the other repo, in the same effor
 Rationale: the two repos are developed independently with no compiler to catch drift between
 them; the only thing that catches it is discipline.
 
+### VII. Automated Tests Guard Every Behavior Change
+A change to view-model logic, a bug fix, or a fix to a reported defect MUST ship with an automated
+test under `test/` (Karma + Jasmine) that fails without the change and passes with it. A change
+with no reasonable unit-test seam MUST say so explicitly in the PR description and name why,
+rather than silently shipping untested.
+Rationale: the `isLoading`-dangling bug (Principle IV) and the `isDefaultPriceList` assumption
+(Principle V) both shipped and reached production undetected; a regression test for each is the
+only thing that prevents the same mistake from recurring the next time that screen is touched.
+
 ## Build & Environment
 
 Environment values (`apiAddress`, `debug`, `testing`) are generated from
@@ -81,4 +90,4 @@ versioning: MAJOR for removing or redefining a principle, MINOR for adding one o
 expanding guidance, PATCH for wording/clarity fixes. `LAST_AMENDED_DATE` MUST be updated on every
 change; `RATIFICATION_DATE` never changes once set.
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
+**Version**: 1.1.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
